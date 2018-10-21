@@ -13,12 +13,12 @@ module.exports = async client => {
     await m.edit(`Rebooted! It took ${roundNumber(((Date.now() - m.createdTimestamp) / 1000), 2)} seconds`);
     fs.unlink('./reboot.json', ()=>{});
   } catch(O_o) {}
-  const activityMessages = [`Help for ${client.guilds.size} total servers`, `Help for ${client.guilds.reduce((a, b) => a + b.memberCount, 0).toLocaleString()} users`, `Help for ${client.channels.size.toLocaleString()} total channels`, `Type !help for a list of commands`];
+  const activityMessages = [`Help for ${client.guilds.reduce((a, b) => a + b.memberCount, 0).toLocaleString()} users`, `Help for ${client.channels.size.toLocaleString()} total channels`, `Type !help for a list of commands`];
   client.user.setActivity(activityMessages[1], {type: 0});
+  let i = random(activityMessages.length-1);
   setInterval(() => {
-    let i = random(activityMessages.length-1);
     client.user.setActivity(activityMessages[i], {type: 0});
     i++;
     if (i == activityMessages.length) i = 0;
-  }, 1000)
+  }, 120000)
 }

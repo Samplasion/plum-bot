@@ -1,4 +1,4 @@
-const { CommandoClient } = require("discord.js-commando")
+const { CommandoClient, SQLiteProvider } = require("discord.js-commando")
 const sqlite = require('sqlite')
 const path = require("path")
 const fs = require("fs")
@@ -36,6 +36,10 @@ client.registry
     ])
     .registerDefaultCommands()
     .registerCommandsIn(path.join(__dirname, 'commands'));
+
+sqlite.open(path.join(__dirname, "settings.sqlite3")).then((db) => {
+    client.setProvider(new SQLiteProvider(db));
+});
 
 fs.readdir('./events/', (err, files) => {
   if (err) console.error(err);
