@@ -37,4 +37,16 @@ client.registry
     .registerDefaultCommands()
     .registerCommandsIn(path.join(__dirname, 'commands'));
 
+fs.readdir('./events/', (err, files) => {
+  if (err) console.error(err);
+  console.log(`Loading a total of ${files.length} events.`);
+  files.forEach(file => {
+    const eventName = file.split(".")[0];
+    const event = require(`./events/${file}`);
+    client.on(eventName, event.bind(null, client));
+    delete require.cache[require.resolve(`./events/${file}`)];
+    client.emit("eventLoaded", eventName)
+  });
+});
+
 client.login(process.env.TOKEN)
