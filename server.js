@@ -7,14 +7,11 @@ const fs = require("fs")
 const http = require('http');
 const express = require('express');
 const app = express();
-/*app.get("/", (request, response) => {
+app.get("/", (request, response) => {
   console.log(Date.now() + " Ping Received");
   response.sendStatus(200);
 });
 // app.listen(process.env.PORT);*/
-app.get("/", (request, response) => {
-  console.log("Pinged")
-});
 setInterval(() => {
   http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
 }, 280000);
