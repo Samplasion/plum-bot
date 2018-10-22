@@ -43,6 +43,6 @@ module.exports = class RandTextCommand extends Command {
     }
 
     const random = randomtext();
-    message.channel.send(random)
+    message.channel.send(require("discord.js").Util.escapeMarkdown(random).substr(0, 2000))
   }
 };
