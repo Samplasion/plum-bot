@@ -10,10 +10,20 @@ module.exports = class RandTextCommand extends Command {
       memberName: 'perms',
       description: 'Lets you see your permission level.',
       examples: ['perms'],
+      args: [
+        {
+          key: "user",
+          type: "member",
+          prompt: "who do you want to see the permissions of?",
+          default: ""
+        }
+      ]
     });
   }
 
-  run(message) {
-    return message.reply(this.client.permissions(message.member))
+  run(message, { user }) {
+    // If pinged user, that. Otherwise message member
+    let member = user ? user : message.member
+    return message.reply(`${this.client.permissions(member)}`)
   }
 };

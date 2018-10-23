@@ -54,10 +54,10 @@ const perms = require("./perms.js")
 client.permissionLevels = []
 perms.forEach(perm => client.permissionLevels.push(new perm(client)))
 client.permissions = (member) => {
-  var p = 0
+  var p = client.permissionLevels[0]
   try {
   client.permissionLevels.forEach(perm => {
-    if (perm.validate(member)) p = perm.level
+    if (perm.validate(member)) p = perm
   })
   } catch (e) {console.error(e)}
   return p
