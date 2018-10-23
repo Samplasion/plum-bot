@@ -53,5 +53,9 @@ fs.readdir('./events/', (err, files) => {
 const perms = require("./perms.js")
 client.permissionLevels = []
 perms.forEach(perm => client.permissionLevels.push(new perm(client)))
+client.permissions = (member) => {
+  let p = 0
+  clie
+}
 
 client.login(process.env.TOKEN)
