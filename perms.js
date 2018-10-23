@@ -5,8 +5,8 @@ class PermissionZero extends Permission {
     super(client, 0, "Bot", "Insert useful description for bots...")
   }
   
-  validate(msg) {
-    return msg.author.bot
+  validate(member) {
+    return member.user.bot
   }
 }
 
@@ -15,8 +15,8 @@ class PermissionOne extends Permission {
     super(client, 1, "User", "Insert useful description for users...")
   }
   
-  validate(msg) {
-    if (msg.author.bot) return false
+  validate(member) {
+    if (member.user.bot) return false
     return true
   }
 }
@@ -26,8 +26,8 @@ class PermissionTwo extends Permission {
     super(client, 2, "Server moderator", "Insert useful description for server moderators...")
   }
   
-  validate(msg) {
-    if (msg.author.bot) return false
+  validate(member) {
+    if (member.user.bot) return false
     return true
   }
 }

@@ -6,7 +6,7 @@ class Permission {
     this.description = desc
   }
   
-  validate(msg) {
+  validate(member) {
     return true
   }
 }

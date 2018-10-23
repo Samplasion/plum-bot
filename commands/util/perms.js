@@ -14,6 +14,6 @@ module.exports = class RandTextCommand extends Command {
   }
 
   run(message) {
-    return message.reply(message.member.permissionLevel)
+    return message.reply(this.client.permissions(message.member))
   }
 };

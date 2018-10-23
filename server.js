@@ -54,8 +54,13 @@ const perms = require("./perms.js")
 client.permissionLevels = []
 perms.forEach(perm => client.permissionLevels.push(new perm(client)))
 client.permissions = (member) => {
-  let p = 0
-  clie
+  var p = 0
+  try {
+  client.permissionLevels.forEach(perm => {
+    if (perm.validate(member)) p = perm.level
+  })
+  } catch (e) {console.error(e)}
+  return p
 }
 
 client.login(process.env.TOKEN)
