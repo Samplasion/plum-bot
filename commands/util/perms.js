@@ -24,8 +24,9 @@ module.exports = class RandTextCommand extends Command {
   run(message, { user }) {
     // If pinged user, that. Otherwise message member
     let member = user ? user : message.member
+    let you = user ? true : false
     let perm = this.client.permissions(member)
-    message.reply(`your permission level is: 
+    message.reply(`${you ? "your" : member.displayName+"'s" } permission level is: 
 
 __**${perm.name}**__ [${perm.level}]
 _${perm.description}_`)
