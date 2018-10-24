@@ -2,6 +2,7 @@ const { CommandoClient, SQLiteProvider } = require("discord.js-commando")
 const sqlite = require('sqlite')
 const path = require("path")
 const fs = require("fs")
+const Enmap = require("enmap")
 
 // ======== REQUIRED
 const http = require('http');
@@ -61,6 +62,35 @@ client.permissions = (member) => {
   })
   } catch (e) {console.error(e)}
   return p
+}
+
+client.defaultSettings = {
+  owners: [],
+  admins: [],
+  mods: [],
+  types: {
+    owners: "array|role",
+    admins: "array|role",
+    mods: "array|role",
+  }
+}
+
+client.settings = new Enmap({ name: "settings" })
+client.settings.getGuildSettings = (guild) => {
+  const def = client.defaultSettings;
+  if (!guild) return def;
+  const returns = {};
+  const overrides = client.settings.get(guild.id) || {};
+  for (const key in def) {
+    if (key == "types") returns[key] = def[key] // replace the types, just to be sure it's up-to-date
+    else returns[key] = overrides[key] || def[key]; // For every key that's not there, use the default one
+  }
+  client.settings.set(guild.id, returns)
+  return returns;
+};
+client.settings.getSet = (guild, path = null) => {
+  client.settings.getGuildSettings(guild)
+  return path ? client.settings.get(guild, path) : client.settings.get(guild)
 }
 
 client.login(process.env.TOKEN)
