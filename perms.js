@@ -57,4 +57,15 @@ class PermissionFour extends Permission {
   }
 }
 
-module.exports = [ PermissionZero, PermissionOne, PermissionTwo, PermissionThree, PermissionFour ]
+class PermissionTen extends Permission {
+  constructor(client) {
+    super(client, 10, "Bot owner", "Insert useful description for bot owners...")
+  }
+  
+  validate(member) {
+    if (member.user.bot) return false
+    return this.client.isOwner(member.user)
+  }
+}
+
+module.exports = [ PermissionZero, PermissionOne, PermissionTwo, PermissionThree, PermissionFour, PermissionTen ]
