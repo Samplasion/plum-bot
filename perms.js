@@ -28,7 +28,20 @@ class PermissionTwo extends Permission {
   
   validate(member) {
     if (member.user.bot) return false
-    return true
+    let mRole = this.client.settings.get(member.guild.id, "mods")
+    return (mRole || []).some(role => member.roles.has(role))
+  }
+}
+
+class PermissionThree extends Permission {
+  constructor(client) {
+    super(client, 2, "Server moderator", "Insert useful description for server moderators...")
+  }
+  
+  validate(member) {
+    if (member.user.bot) return false
+    let mRole = this.client.settings.get(member.guild.id, "mods")
+    return (mRole || []).some(role => member.roles.has(role))
   }
 }
 

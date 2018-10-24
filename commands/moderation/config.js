@@ -191,10 +191,10 @@ module.exports = class ConfigCommand extends Command {
     items = items.map(item => this.handleTypes(subType, item, message))
     var response = await this.client.utils.awaitReply(message, `Do you want to replace the list, or simply add an item to it? [replace/add]`);
 
-    if (["replace"].includes(response)) {
+    if (["replace"].includes(response.toLowerCase())) {
       this.client.settings.set(key, items, path, true)
-      message.channel.send(`Guild configuration item \`${path}\` has been changed to:\n\`${this.client.settings.get(key, path)}\``);
-    } else if (["add"].includes(response)) {
+      message.channel.send(`Guild configuration item \`${path}\` has been changed to:\n\`"${this.client.settings.get(key, path).join("\", \"")}"\``);
+    } else if (["add"].includes(response.toLowerCase())) {
       items.forEach(i => this.client.settings.push(key, i, path, true)) // true is if there should be duplicate elements
       message.channel.send(`Guild configuration item \`${path}\` has been changed to:\n\`"${this.client.settings.get(key, path).join("\", \"")}"\``);
     }

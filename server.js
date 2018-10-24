@@ -56,11 +56,9 @@ client.permissionLevels = []
 perms.forEach(perm => client.permissionLevels.push(new perm(client)))
 client.permissions = (member) => {
   var p = client.permissionLevels[0]
-  try {
   client.permissionLevels.forEach(perm => {
     if (perm.validate(member)) p = perm
   })
-  } catch (e) {console.error(e)}
   return p
 }
 
@@ -92,5 +90,8 @@ client.settings.getSet = (guild, path = null) => {
   client.settings.getGuildSettings(guild)
   return path ? client.settings.get(guild, path) : client.settings.get(guild)
 }
+
+var { Utilities } = require("./classes/Utilities");
+client.utils = new Utilities(client)
 
 client.login(process.env.TOKEN)

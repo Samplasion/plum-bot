@@ -15,7 +15,8 @@
     "discord.js": "^11.4.2",
     "sqlite": "^3.0.0",
     "enmap": "^4.3.3",
-    "better-sqlite-pool": "^0.1.2"
+    "better-sqlite-pool": "^0.1.2",
+    "list-array": "^2.5.2"
   },
   "engines": {
     "node": "8.x"
