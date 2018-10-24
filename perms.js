@@ -35,14 +35,26 @@ class PermissionTwo extends Permission {
 
 class PermissionThree extends Permission {
   constructor(client) {
-    super(client, 2, "Server moderator", "Insert useful description for server moderators...")
+    super(client, 3, "Server admin", "Insert useful description for server admins...")
   }
   
   validate(member) {
     if (member.user.bot) return false
-    let mRole = this.client.settings.get(member.guild.id, "mods")
+    let mRole = this.client.settings.get(member.guild.id, "admins")
     return (mRole || []).some(role => member.roles.has(role))
   }
 }
 
-module.exports = [ PermissionZero, PermissionOne, PermissionTwo ]
+class PermissionFour extends Permission {
+  constructor(client) {
+    super(client, 4, "Server owner", "Insert useful description for server owners...")
+  }
+  
+  validate(member) {
+    if (member.user.bot) return false
+    let mRole = this.client.settings.get(member.guild.id, "owners")
+    return ((mRole || []).some(role => member.roles.has(role)) || member.guild.ownerId == member.user.id)
+  }
+}
+
+module.exports = [ PermissionZero, PermissionOne, PermissionTwo, PermissionThree, PermissionFour ]
