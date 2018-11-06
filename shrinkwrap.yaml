@@ -285,7 +285,6 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-qBFcVeSnAv5NFQq9OHKCKn4J/Jg=
-      tarball: 'http://registry.npmjs.org/chalk/-/chalk-1.1.3.tgz'
   /chalk/2.4.1:
     dependencies:
       ansi-styles: 3.2.1
@@ -741,7 +740,6 @@ packages:
       node: '>=0.12'
     resolution:
       integrity: sha512-bSn6gvGxKt+b7+6TKEv1ZycHleA7aHhRHyAqJyp5pbUFuYYNIzpZnQDk7AsYckyWdEnTeAnay0aCy2aV6iTk9A==
-      tarball: 'http://registry.npmjs.org/external-editor/-/external-editor-2.2.0.tgz'
   /extsprintf/1.3.0:
     dev: false
     engines:
@@ -856,7 +854,6 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha1-jpQ9E1jcN1VQVOy+LtsFqhdO3hQ=
-      tarball: 'http://registry.npmjs.org/get-stream/-/get-stream-3.0.0.tgz'
   /getpass/0.1.7:
     dependencies:
       assert-plus: 1.0.0
@@ -916,7 +913,6 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha1-JAzQV4WpoY5WHcG0S0HHY+8ejbA=
-      tarball: 'http://registry.npmjs.org/got/-/got-6.7.1.tgz'
   /graceful-fs/4.1.11:
     dev: false
     engines:
@@ -1086,7 +1082,6 @@ packages:
       node: '>=6.0.0'
     resolution:
       integrity: sha512-E9BmnJbAKLPGonz0HeWHtbKf+EeSP93paWO3ZYoUpq/aowXvYGjjCSuashhXPpzbArIjBbji39THkxTz9ZeEUQ==
-      tarball: 'http://registry.npmjs.org/inquirer/-/inquirer-5.2.0.tgz'
   /integer/1.0.7:
     dependencies:
       bindings: 1.3.0
@@ -1112,7 +1107,6 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-VAVy0096wxGfj3bDDLwbHgN6/74=
-      tarball: 'http://registry.npmjs.org/is-builtin-module/-/is-builtin-module-1.0.0.tgz'
   /is-ci/1.2.1:
     dependencies:
       ci-info: 1.6.0
@@ -1155,7 +1149,6 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-PkcprB9f3gJc19g6iW2rn09n2w8=
-      tarball: 'http://registry.npmjs.org/is-obj/-/is-obj-1.0.1.tgz'
   /is-observable/1.1.0:
     dependencies:
       symbol-observable: 1.2.0
@@ -1525,12 +1518,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-hX/Kv8M5fSYluCKCYuhqp6ARsF0=
-      tarball: 'http://registry.npmjs.org/minimist/-/minimist-0.0.8.tgz'
   /minimist/1.2.0:
     dev: false
     resolution:
       integrity: sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ=
-      tarball: 'http://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz'
   /minipass/2.3.4:
     dependencies:
       safe-buffer: 5.1.2
@@ -1551,7 +1542,6 @@ packages:
     hasBin: true
     resolution:
       integrity: sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
-      tarball: 'http://registry.npmjs.org/mkdirp/-/mkdirp-0.5.1.tgz'
   /ms/2.0.0:
     dev: false
     resolution:
@@ -1564,7 +1554,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-bAdJv7fBLhWC+/Bls0Oza+mvTaNQtP+1RyhhhvD95pgUJz6XM5IzgmxOkItJ9tkoCiplvAnXI1tNmmUD/eScyA==
-      tarball: 'http://registry.npmjs.org/nan/-/nan-2.10.0.tgz'
   /needle/2.2.4:
     dependencies:
       debug: 2.6.9
@@ -1711,7 +1700,6 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-ofeDj4MUxRbwXs78vEzP4EtO14k=
-      tarball: 'http://registry.npmjs.org/onetime/-/onetime-1.1.0.tgz'
   /onetime/2.0.1:
     dependencies:
       mimic-fn: 1.2.0
@@ -1851,7 +1839,6 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-7RQaasBDqEnqWISY59yosVMw6Qw=
-      tarball: 'http://registry.npmjs.org/pify/-/pify-2.3.0.tgz'
   /pify/3.0.0:
     dev: false
     engines:
@@ -1983,7 +1970,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-tQtKA9WIAhBF3+VLAseyMqZeBjW0AHJoxOtYqSUZNJxauErmLbVm2FW1y+J/YA9dUrAC39ITejlZWhVIwawkKw==
-      tarball: 'http://registry.npmjs.org/readable-stream/-/readable-stream-2.3.6.tgz'
   /redent/2.0.0:
     dependencies:
       indent-string: 3.2.0
@@ -2194,7 +2180,6 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-7b+JA/ZvfOL46v1s7tZeJkyDGzU=
-      tarball: 'http://registry.npmjs.org/slice-ansi/-/slice-ansi-0.0.4.tgz'
   /snekfetch/3.6.4:
     deprecated: use node-fetch instead
     dev: false
@@ -2308,7 +2293,6 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-ajhfuIU9lS1f8F0Oiq+UJ43GPc8=
-      tarball: 'http://registry.npmjs.org/strip-ansi/-/strip-ansi-3.0.1.tgz'
   /strip-ansi/4.0.0:
     dependencies:
       ansi-regex: 3.0.0
@@ -2411,7 +2395,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=
-      tarball: 'http://registry.npmjs.org/through/-/through-2.3.8.tgz'
   /timed-out/4.0.1:
     dev: false
     engines:
@@ -2591,7 +2574,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-ZGh/8kF9rrRNffkLFV4AzhvooEclrOH0xaugmqGsIfFgOE/pIz4fMc4Ef+5HSQqTEug2S9JZIWDR47duDSLfaA==
-      tarball: 'http://registry.npmjs.org/ws/-/ws-4.1.0.tgz'
   /xdg-basedir/3.0.0:
     dev: false
     engines:
