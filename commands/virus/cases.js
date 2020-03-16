@@ -1,14 +1,15 @@
 const { Command } = require('discord.js-commando');
 const { oneLine } = require('common-tags');
 const fetch = require('node-fetch');
+const cheerio = require('cheerio')
 
 module.exports = class RandTextCommand extends Command {
   constructor(client) {
     super(client, {
-      name: 'random',
-      aliases: ['randtext', 'randstring', 'randomtext', 'passwordgenerator', 'randgen'],
-      group: 'fun',
-      memberName: 'random',
+      name: 'cases',
+      aliases: ['stats', 'cases'],
+      group: 'virus',
+      memberName: 'cases',
       description: 'Generates a random string according to the length you specify.',
       details: oneLine`
         Do you need some random letters? Do you just like making nonsense?
@@ -34,10 +35,12 @@ module.exports = class RandTextCommand extends Command {
   }
 
   async run(message, args) {
-    fetch('https://www.worldometers.info/coronavirus/')
-      .then(res => res.text())
-      .then(body => console.log(body));
+    var body = await fetch('https://www.worldometers.info/coronavirus/')
+      .then(res => res.text());
+    const $ = cheerio.load(body);
     
-    message.channel.send("")
+    console.log($(".maincounter-number span").first().text());
+    
+    message.channel.send($(".maincounter-number span").first().text())
   }
 };

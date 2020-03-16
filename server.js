@@ -30,7 +30,7 @@ client.registry
     .registerDefaultGroups()
     .registerGroups([
         ["moderation", "Moderation"],
-        ["fun", "Fun"]
+        ["virus", "COVID-19 Stats"]
     ])
     .registerDefaultCommands()
     .registerCommandsIn(path.join(__dirname, 'commands'));
