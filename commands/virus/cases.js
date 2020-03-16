@@ -51,10 +51,10 @@ module.exports = class RandTextCommand extends Command {
     message.channel.send(`**___Coronavirus Stats___**
 
 **Total cases**: ${cases}cases, of which:
-  - ${inf} are currently infected.
-  - ${closed} either recovered or were killed; particularly:
+  • ${inf} are currently infected.
+  • ${closed} either recovered or were killed; particularly:
      - ${deaths} people were killed by the virus.
-     -${recoveries} people recovered from it.
+     - ${recoveries} people recovered from it.
 `)
   }
 };
