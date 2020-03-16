@@ -39,8 +39,22 @@ module.exports = class RandTextCommand extends Command {
       .then(res => res.text());
     const $ = cheerio.load(body);
     
-    console.log($(".maincounter-number span").first().text());
+    var tot = $(".maincounter-number span");
+    var cases = tot.first().text();
+    var deaths = tot.eq(1).text();
+    var recoveries = tot.eq(2).text();
     
-    message.channel.send($(".maincounter-number span").first().text())
+    var cases_tot = $(".number-table-main");
+    var inf = cases_tot.eq(0).text();
+    var closed = cases_tot.eq(1).text();
+    
+    message.channel.send(`**___Coronavirus Stats___**
+
+**Total cases**: ${cases}cases, of which:
+  - ${inf} are currently infected.
+  - ${closed} either recovered or were killed; particularly:
+     - ${deaths} people were killed by the virus.
+     -${recoveries} people recovered from it.
+`)
   }
 };
