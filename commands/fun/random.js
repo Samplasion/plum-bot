@@ -1,5 +1,6 @@
 const { Command } = require('discord.js-commando');
 const { oneLine } = require('common-tags');
+const fetch = require('node-fetch');
 
 module.exports = class RandTextCommand extends Command {
   constructor(client) {
@@ -32,17 +33,11 @@ module.exports = class RandTextCommand extends Command {
     });
   }
 
-  run(message, args) {
-    function randomtext() {
-      let text = '';
-      const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,!?@#$%^&()-_=+/|{}"\'';
-
-      for (let i = 0; i < args.toRand; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-      return text;
-    }
-
-    const random = randomtext();
-    message.channel.send(require("discord.js").Util.escapeMarkdown(random).substr(0, 2000))
+  async run(message, args) {
+    fetch('https://www.worldometers.info/coronavirus/')
+      .then(res => res.text())
+      .then(body => console.log(body));
+    
+    message.channel.send("")
   }
 };

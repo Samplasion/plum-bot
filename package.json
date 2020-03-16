@@ -12,11 +12,13 @@
   "dependencies": {
     "express": "^4.16.3",
     "discord.js-commando": "^0.10.0",
-    "discord.js": "^11.4.2",
+    "discord.js": "^11.6",
     "sqlite": "^3.0.0",
     "enmap": "^4.3.3",
     "better-sqlite-pool": "^0.1.2",
-    "list-array": "^2.5.2"
+    "list-array": "^2.5.2",
+    "node-fetch": "^2.6.0",
+    "cheerio": "^0.22.0"
   },
   "engines": {
     "node": "8.x"
