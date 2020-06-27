@@ -24,6 +24,11 @@ module.exports = async client => {
   setInterval(() => {
     client.user.setActivity(activityMessages[i], {type: 0});
     i++;
-    if (i == activityMessages.length) i = 0;
-  }, 120000)
+    i %= activityMessages.length;
+  }, 120000);
+  
+  // Re-setup reminders
+  Array.from(client.reminders.values()).forEach(reminder => {
+    console.log("REMINDER", reminder);
+  })
 }
