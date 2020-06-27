@@ -113,6 +113,16 @@ client.global = new Enmap({ name: "global" });
 var Utilities = require("./classes/Utilities");
 client.utils = new Utilities(client)
 
-client.login(process.env.TOKEN)
+client.login(process.env.TOKEN);
+
+// LOGGERS
+process
+  .on('unhandledRejection', (reason, p) => {
+    console.error(reason, 'Unhandled Rejection at Promise', p);
+  })
+  .on('uncaughtException', err => {
+    console.error(err, 'Uncaught Exception thrown');
+    process.exit(1);
+  });
 
 module.exports = client;
