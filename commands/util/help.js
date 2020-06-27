@@ -107,8 +107,9 @@ module.exports = class HelpCommand extends Command {
       embed.setDescription(command.description 
                           + (command.details ? "\n\n" + command.details : ""));
       
+      if ([""].some(el => command[el]))
       if (command.examples.length) {
-        embed.addField();
+        embed.addField("Examples", command.examples.map(ex => ` - ${ex}`).join("\n"));
       }
     } else {
       embed.setTitle("List of all commands");
