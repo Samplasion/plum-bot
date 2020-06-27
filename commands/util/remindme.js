@@ -46,13 +46,9 @@ To enter a duration, type \`in <duration>\` after the reminder.`);
     msg.say(`Alright! I'll remind you ${reminder}in ${this.client.utils.oxford(prettyDuration)}.`);
     
     setTimeout(() => {
-      this.remindUser(msg.author, {
+      this.client.utils.remindUser(msg.author, {
         text: reminder.trim()
       });
     }, duration);
-  }
-  
-  remindUser(user, reminder) {
-    return user.send(`:bulb: You asked me to remind you ${reminder.text}.`);
   }
 };

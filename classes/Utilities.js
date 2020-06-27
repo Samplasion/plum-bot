@@ -150,6 +150,10 @@ class Utilities {
       leaveMessage: "string"
     }
   }
+  
+  remindUser(user, reminder) {
+    return user.send(`:bulb: You asked me to remind you ${reminder.text}.`);
+  }
 }
 
 module.exports = Utilities

@@ -89,9 +89,15 @@ client.settings.getSet = (guild, path = null) => {
 
 client.reminders = new Enmap({ name: "settings" });
 client.reminders.add = (user, reminder) => {
-  if (!client.reminders.has(user.id))
-    client.reminders.set(user.id, []);
-  client.reminders.set();
+  var old = client.reminders.has(user.id) ? client.reminders.get(user.id) : [];
+  old.push(reminder);
+  client.reminders.set(user.id, old);
+}
+client.reminders.reset = (user) => {
+  client.reminders.set(user.id, []);
+}
+client.reminders.list = (user) => {
+  client.reminders.get(user.id);
 }
 
 var Utilities = require("./classes/Utilities");
