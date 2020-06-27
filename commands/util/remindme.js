@@ -1,11 +1,10 @@
 const { Command } = require('discord.js-commando');
-const { oneLine } = require('common-tags');
 
 module.exports = class RandTextCommand extends Command {
   constructor(client) {
     super(client, {
-      name: 'remindme',
-      aliases: ['remind'],
+      name: 'perms',
+      aliases: ['myperms', 'permissions', 'my permissions'],
       group: 'util',
       memberName: 'perms',
       description: 'Lets you see your permission level.',
