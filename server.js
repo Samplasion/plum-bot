@@ -112,3 +112,5 @@ var Utilities = require("./classes/Utilities");
 client.utils = new Utilities(client)
 
 client.login(process.env.TOKEN)
+
+module.exports = client;

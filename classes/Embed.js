@@ -1,6 +1,6 @@
-const { RichEmbed } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 
-module.exports = class PlumEmbed extends RichEmbed {
+module.exports = class PlumEmbed extends MessageEmbed {
   constructor(...args) {
     super(...args);
     this.setFooter("");
@@ -8,6 +8,6 @@ module.exports = class PlumEmbed extends RichEmbed {
   }
   
   setFooter(name) {
-    return super.setFooter((name ? name + " • " : "") + `Plum is made by Samplasion`);
+    return super.setFooter((name ? name + " • " : "") + `Plum is made by Samplasion#0325`);
   }
 }

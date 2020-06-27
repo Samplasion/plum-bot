@@ -10,20 +10,20 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.16.3",
-    "discord.js-commando": "^0.10.0",
-    "discord.js": "^11.6",
-    "sqlite": "^3.0.0",
-    "enmap": "^4.3.3",
     "better-sqlite-pool": "^0.1.2",
+    "cheerio": "^0.22.0",
+    "discord.js": "^12",
+    "discord.js-commando": "github:discordjs/Commando",
+    "enmap": "^4.3.3",
+    "express": "^4.16.3",
     "list-array": "^2.5.2",
     "node-fetch": "^2.6.0",
-    "cheerio": "^0.22.0",
     "parse-duration": "^0.4.3",
-    "parse-ms": "^2.0.0"
+    "parse-ms": "^2.0.0",
+    "sqlite": "^3.0.0"
   },
   "engines": {
-    "node": "8.x"
+    "node": "10.x"
   },
   "repository": {
     "url": "https://glitch.com/edit/#!/hello-express"

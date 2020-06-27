@@ -94,7 +94,7 @@ module.exports = class HelpCommand extends Command {
       `, { split: true }));
 			return messages;
 		}*/
-    let prefix = msg.guild ? msg.guild.commandPrefix : "pl.";
+    let prefix = msg.guild ? msg.guild.commandPrefix : this.client.commandPrefix;
     let embed = new PlumEmbed()
       .setAuthor(this.client.user.username, this.client.user.avatarURL)
       .setFooter(`The prefix for this server is: ${prefix}`);
@@ -108,7 +108,6 @@ module.exports = class HelpCommand extends Command {
       embed.setTitle("List of all commands");
       
       groups.filter(grp => grp.commands.some(cmd => !cmd.hidden && cmd.isUsable(msg))).forEach(grp => {
-        console.log(grp);
         let fieldText = [];
         
         for (let [id, cmd] of grp.commands.entries()) {
