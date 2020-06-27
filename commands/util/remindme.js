@@ -1,4 +1,5 @@
 const { Command } = require('discord.js-commando');
+const { oneLine } = require('common-tags');
 const parse = require('parse-duration');
 
 module.exports = class ReminderCommand extends Command {
@@ -21,9 +22,20 @@ module.exports = class ReminderCommand extends Command {
     });
   }
 
-  run(message, { text }) {
-    var duration = parse(text.split("in")[1]);
-    if (!duration)
+  run(msg, { text }) {
+    let reminder = text.split("in");
+    if (reminder.length < 2) 
+      return this.client.util.errorMsg(oneLine`You didn't enter a duration.
+To enter a duration, type \`in <duration>\` after the reminder.`);
+    
+    let duration = parse(reminder.pop());
+    if (!duration || duration < 5000 || duration > 604800000) // 1 week
       return this.client.util.errorMsg(`You entered an invalid duration`);
+    
+    reminder = reminder.join("in");
+    if (!reminder.length) 
+      return this.client.util.errorMsg(`You have to enter something to remind you of.`);
+    
+    msg.say(duration);
   }
 };

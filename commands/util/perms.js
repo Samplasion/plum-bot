@@ -1,5 +1,4 @@
 const { Command } = require('discord.js-commando');
-const { oneLine } = require('common-tags');
 
 module.exports = class RandTextCommand extends Command {
   constructor(client) {
