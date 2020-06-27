@@ -87,10 +87,15 @@ client.settings.getSet = (guild, path = null) => {
   return path ? client.settings.get(guild, path) : client.settings.get(guild)
 }
 
-client.reminders = new Enmap({ name: "settings" });
+client.reminders = new Enmap({ name: "reminders" });
 client.reminders.add = (user, reminder) => {
   var old = client.reminders.has(user.id) ? client.reminders.get(user.id) : [];
   old.push(reminder);
+  client.reminders.set(user.id, old);
+}
+client.reminders.flush = (user) => {
+  var old = client.reminders.has(user.id) ? client.reminders.get(user.id) : [];
+  old = old.filter(r => r.date > Date.now());
   client.reminders.set(user.id, old);
 }
 client.reminders.reset = (user) => {

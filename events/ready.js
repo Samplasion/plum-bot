@@ -28,7 +28,12 @@ module.exports = async client => {
   }, 120000);
   
   // Re-setup reminders
-  Array.from(client.reminders.values()).forEach(reminder => {
-    console.log("REMINDER", reminder);
+  Array.from(client.reminders.values()).forEach(user => {
+    console.log("REMINDER-USER", user);
+    user.forEach(reminder => {
+      setTimeout(() => {
+        client.utils.remindUser(client.users.get(reminder.userID), reminder);
+      }, reminder.date - Date.now())
+    })
   })
 }
