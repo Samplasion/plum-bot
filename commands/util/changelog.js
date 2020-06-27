@@ -1,4 +1,5 @@
 const Command = require('../../classes/Command');
+const Embed = require("../../classes/Embed");
 
 module.exports = class EvalCommand extends Command {
 	constructor(client) {
@@ -36,14 +37,15 @@ module.exports = class EvalCommand extends Command {
     
     let changelogChannel = await this.client.channels.fetch(this.client.global.get("changelog-channel"));
     
-    console.log(changelogChannel);
-    
     if (!changelogChannel || !changelogChannel.send)
       return this.client.utils.sendErrMsg(msg, "The changelog channel isn't an actual channel. " 
                                          + "Set a valid one before changelogging stuff.");
     
+    let embed = new Embed(this.client)
+      .setTitle(`What's new in version ${version}`)
+      .setDescription(log)
+      .setFullFooter("");
     
-    
-    changelogChannel.send();
+    changelogChannel.send(embed);
 	}
 };

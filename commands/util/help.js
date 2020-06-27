@@ -36,8 +36,7 @@ module.exports = class HelpCommand extends Command {
     let command = args.command && this.client.registry.findCommands(args.command, false, msg)[0];
     
     if (command) {
-      let embed = new PlumEmbed()
-        .setAuthor(this.client.user.username, this.client.user.avatarURL())
+      let embed = new PlumEmbed(this.client)
         .setFooter(`The prefix for this server is: ${prefix}`);
       
       embed.setTitle(`Help for command: ${command.name}`);
@@ -73,7 +72,7 @@ module.exports = class HelpCommand extends Command {
         }
         
         embeds.push(
-          new PlumEmbed()
+          new PlumEmbed(this.client)
             .setTitle("List of all commands")
             .setDescription(`Page ${embeds.length + 1}`)
             .addField(grp.name, fieldText.join("\n")));
