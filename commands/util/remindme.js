@@ -1,4 +1,4 @@
-const { Command } = require('discord.js-commando');
+const Command = require('../../classes/Command');
 const { oneLine } = require('common-tags');
 const parse = require('parse-duration');
 const prettyms = require('parse-ms');

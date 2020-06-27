@@ -82,7 +82,7 @@ module.exports = class HelpCommand extends Command {
       embeds.forEach(embed => {
         embed
           .setDescription(`${embed.description} of ${embeds.length}`)
-          .setFooter(`This menu will expire in 2 minutes.`);
+          .setFooter(`This menu will expire in 2 minutes`);
       });
       
       const R = [
@@ -105,7 +105,10 @@ module.exports = class HelpCommand extends Command {
       collector.on('collect', async (reaction, user) => {
         await reaction.users.remove(msg.author.id);
         
-        R.filter(r => r[0] == reaction.emoji.name)[0][1](collector);
+        var matching = R.filter(r => r[0] == reaction.emoji.name);
+        if (!matching.length) return;
+        
+        matching[0][1](collector);
         if (index < 0) index = embeds.length-1;
         index %= embeds.length;
         
@@ -113,6 +116,7 @@ module.exports = class HelpCommand extends Command {
       });
 
       collector.on('end', async (collected, reason) => {
+        msg.reactions.cache.forEach(r => r.remove());
         let m;
         if (reason === "manual") {
           m = await msg.channel.send("Interactive menu ended successfully.");

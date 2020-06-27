@@ -1,4 +1,4 @@
-const { Command } = require('discord.js-commando');
+const Command = require('../../classes/Command');
 const { RichEmbed } = require("discord.js");
 const { inspect } = require("util");
 
