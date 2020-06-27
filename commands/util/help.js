@@ -139,14 +139,19 @@ module.exports = class HelpCommand extends Command {
         embeds.push(
           new PlumEmbed()
             .setTitle("List of all commands")
+            .setDescription(`Page ${embeds.length + 1}`)
             .setFooter(`The prefix for this server is: ${prefix}`)
             .addField(grp.name, fieldText.join("\n")));
-      })
+      });
+      
+      embeds.forEach(embed => {
+        embed.setDescription(`${embed.description} of ${embeds.length}`);
+      });
       
       const R = [
-        ["🔙", (collector) => index--],
-        ["🛑", (collector) => index--],
-        ["➡️", (collector) => index++]
+        ["⬅️", (collector) => index--],
+        ["🛑", (collector) => collector.stop()],
+        ["➡️", (collector) => index++],
       ];
       
       let message = await msg.channel.send(embeds[0]);
@@ -160,8 +165,13 @@ module.exports = class HelpCommand extends Command {
       
       const collector = message.createReactionCollector(filter, { time: 60000 });
 
-      collector.on('collect', (reaction, user) => {
-        console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
+      collector.on('collect', async (reaction, user) => {
+        await message.reactions.resolve(reaction.emoji.id).users.remove(msg.author.id);
+        
+        R.filter(r => r[0] == reaction.emoji.name)[0][1](collector);
+        if (index < 0) index = embeds.length-1;
+        index %= embeds.length;
+        
         message.edit(embeds[index]);
       });
 
