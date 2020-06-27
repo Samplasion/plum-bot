@@ -18,10 +18,10 @@ setInterval(() => {
 }, 280000);
 
 const client = new CommandoClient({
-  commandPrefix: "!",
+  commandPrefix: "pl.",
   unknownCommandResponse: false,
-  owner: ["307980990587076608", "280399026749440000"],
-  invite: "https://discord.gg/UgdQhV5",
+  owner: ["280399026749440000"],
+  invite: "https://discord.gg/",
   disableEveryone: true,
 })
 
@@ -29,8 +29,7 @@ client.registry
     .registerDefaultTypes()
     .registerDefaultGroups()
     .registerGroups([
-        ["moderation", "Moderation"],
-        ["virus", "COVID-19 Stats"]
+        ["moderation", "Moderation"]
     ])
     .registerDefaultCommands()
     .registerCommandsIn(path.join(__dirname, 'commands'));

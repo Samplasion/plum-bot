@@ -59,7 +59,7 @@ class PermissionFour extends Permission {
 
 class PermissionTen extends Permission {
   constructor(client) {
-    super(client, 10, "Bot owner", "Insert useful description for bot owners...")
+    super(client, 10, "Bot owner", "The bot owner, or Developer, is whoever made the bot.")
   }
   
   validate(member) {
