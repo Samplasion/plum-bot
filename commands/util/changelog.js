@@ -4,6 +4,7 @@ module.exports = class EvalCommand extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'changelog',
+      aliases: ["log"],
 			group: 'util',
 			memberName: 'changelog',
 			description: 'Logs a new change to the #changelog channel in the support server.',
@@ -29,7 +30,20 @@ module.exports = class EvalCommand extends Command {
 		});
 	}
 
-	async run(msg, { valog }) {
-    msg.say("Well, shit.\n" + log);
+	async run(msg, { version, log }) {
+    if (!this.client.global.has("changelog-channel"))
+      return this.client.utils.sendErrMsg(msg, "There is no changelog channel. Set one before changelogging stuff.");
+    
+    let changelogChannel = await this.client.channels.fetch(this.client.global.get("changelog-channel"));
+    
+    console.log(changelogChannel);
+    
+    if (!changelogChannel || !changelogChannel.send)
+      return this.client.utils.sendErrMsg(msg, "The changelog channel isn't an actual channel. " 
+                                         + "Set a valid one before changelogging stuff.");
+    
+    
+    
+    changelogChannel.send();
 	}
 };

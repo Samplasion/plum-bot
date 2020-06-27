@@ -108,6 +108,8 @@ client.reminders.list = (user) => {
   client.reminders.get(user.id);
 }
 
+client.global = new Enmap({ name: "global" });
+
 var Utilities = require("./classes/Utilities");
 client.utils = new Utilities(client)
 
