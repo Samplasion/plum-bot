@@ -20,10 +20,11 @@
     "node-fetch": "^2.6.0",
     "parse-duration": "^0.4.3",
     "parse-ms": "^2.0.0",
-    "sqlite": "^3.0.0"
+    "sqlite": "^3.0.0",
+    "array-flat-polyfill": "^1.0.1"
   },
   "engines": {
-    "node": "10.x"
+    "node": "12.x"
   },
   "repository": {
     "url": "https://glitch.com/edit/#!/hello-express"

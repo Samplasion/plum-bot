@@ -1,7 +1,9 @@
 dependencies:
+  array-flat-polyfill: 1.0.1
   better-sqlite-pool: 0.1.2
   cheerio: 0.22.0
   discord.js: 12.2.0
+  discord.js-commando: github.com/discordjs/Commando/bdbd84e2a978322f3af12c21e729eb7b7cd4a3dc
   enmap: 4.3.3
   express: 4.16.3
   list-array: 2.5.2
@@ -139,6 +141,12 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-3wEKoSh+Fku9pvlyOwqWoexBh6E=
+  /array-flat-polyfill/1.0.1:
+    dev: false
+    engines:
+      node: '>=6.0.0'
+    resolution:
+      integrity: sha512-hfJmKupmQN0lwi0xG6FQ5U8Rd97RnIERplymOv/qpq8AoNKPPAnxJadjFA23FNWm88wykh9HmpLJUUwUtNU/iw==
   /array-flatten/1.1.1:
     dev: false
     resolution:
@@ -429,6 +437,12 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==
+  /common-tags/1.8.0:
+    dev: false
+    engines:
+      node: '>=4.0.0'
+    resolution:
+      integrity: sha512-6P6g0uetGpW/sdyUy/iQQCbFF0kWVMSIVSyYz7Zgjcgh8mgw8PQzDNZeyZ5DQ2gM7LBoZPHmnjz8rUthkBG5tw==
   /concat-map/0.0.1:
     dev: false
     resolution:
@@ -2239,6 +2253,12 @@ packages:
       node: '>= 4'
     resolution:
       integrity: sha512-NAqBSrijGLZdM0WZNsInLJpkJokL72XYjUpnB0iwsRgxh7dB6COrHnTBNwN0E+lHDAJzu7kLAkDeY08z2/A0hg==
+  /require-all/3.0.0:
+    dev: false
+    engines:
+      node: '>= 0.8'
+    resolution:
+      integrity: sha1-Rz1JcEvjEBFc4ST3c4Ox69hnExI=
   /restore-cursor/1.0.1:
     dependencies:
       exit-hook: 1.1.1
@@ -2819,13 +2839,32 @@ packages:
     dev: false
     resolution:
       integrity: sha512-VCIyR1wJoEBZUqk5PA+oOBF6ypbwh5aNB3I50guxAL/quggdfs4TtNHQrSazFA3fYZ+tEqfs0zIGlv0c/rgjbQ==
+  github.com/discordjs/Commando/bdbd84e2a978322f3af12c21e729eb7b7cd4a3dc:
+    dependencies:
+      common-tags: 1.8.0
+      require-all: 3.0.0
+    dev: false
+    engines:
+      node: '>=8.6.0'
+    name: discord.js-commando
+    peerDependencies:
+      '@types/better-sqlite3': ^5.0.0
+      better-sqlite3: ^5.0.0
+      discord.js: ^12.0.0
+      sqlite: ^3.0.0
+    resolution:
+      registry: 'https://registry.npmjs.org/'
+      tarball: 'https://codeload.github.com/discordjs/Commando/tar.gz/bdbd84e2a978322f3af12c21e729eb7b7cd4a3dc'
+    version: 0.11.0-dev
 registry: 'https://registry.npmjs.org/'
 shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
 specifiers:
+  array-flat-polyfill: ^1.0.1
   better-sqlite-pool: ^0.1.2
   cheerio: ^0.22.0
   discord.js: ^12
+  discord.js-commando: 'github:discordjs/Commando'
   enmap: ^4.3.3
   express: ^4.16.3
   list-array: ^2.5.2

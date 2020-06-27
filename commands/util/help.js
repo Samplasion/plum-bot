@@ -1,4 +1,4 @@
-const { Command } = require('discord.js-commando');
+const Command = require('../../classes/Command');
 const PlumEmbed = require("../../classes/Embed");
 const { oneLine, stripIndents } = require('common-tags');
 const { inspect } = require("util");
