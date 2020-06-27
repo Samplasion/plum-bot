@@ -28,6 +28,7 @@ module.exports = async client => {
   }, 120000);
   
   // Re-setup reminders
+  client.reminders.flush();
   Array.from(client.reminders.values()).forEach(user => {
     console.log("REMINDER-USER", user);
     user.forEach(reminder => {

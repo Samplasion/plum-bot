@@ -93,10 +93,11 @@ client.reminders.add = (user, reminder) => {
   old.push(reminder);
   client.reminders.set(user.id, old);
 }
-client.reminders.flush = (user) => {
-  var old = client.reminders.has(user.id) ? client.reminders.get(user.id) : [];
-  old = old.filter(r => r.date > Date.now());
-  client.reminders.set(user.id, old);
+client.reminders.flush = () => {
+  for (let [key, old] of client.reminders.entries()) {
+    old = old.filter(r => r.date > Date.now());
+    client.reminders.set(key, old);
+  }
 }
 client.reminders.reset = (user) => {
   client.reminders.set(user.id, []);

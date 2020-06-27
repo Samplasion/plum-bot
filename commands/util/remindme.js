@@ -48,7 +48,7 @@ To enter a duration, type \`in <duration>\` after the reminder.`);
     let remObj = {
       text: reminder.trim(),
       date: Date.now() + duration,
-      id: msg.author.userID
+      userID: msg.author.id
     };
     
     this.client.reminders.add(msg.author, remObj)
