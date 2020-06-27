@@ -125,19 +125,16 @@ module.exports = class HelpCommand extends Command {
     
       return msg.say(embed);
     } else {
-      await message.react('🍎');
-			await message.react('🍊');
-			await message.react('🍇');
+      await msg.react('🍎');
+			await msg.react('🍊');
+			await msg.react('🍇');
       
       let embeds = [];
+      let index = 0;
       
       const filter = (reaction, user) => {
         return ['🍎', '🍊', '🍇'].some(emoji => reaction.emoji.name === emoji) && user.id === msg.author.id;
       };
-      
-      embed.setTitle("List of all commands");
-      
-      let embeds = [];
       
       groups.filter(grp => grp.commands.some(cmd => !cmd.hidden && cmd.isUsable(msg))).forEach(grp => {
         let fieldText = [];
@@ -146,22 +143,24 @@ module.exports = class HelpCommand extends Command {
           fieldText.push(`• ${prefix}**${cmd.name}**: ${cmd.description}`);
         }
         
-        embeds.push({
-          name: grp.name, 
-          text: fieldText.join("\n")
-        });
-        const collector = message.createReactionCollector(filter, { time: 15000 });
-
-        collector.on('collect', (reaction, user) => {
-          console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
-        });
-
-        collector.on('end', collected => {
-          console.log(`Collected ${collected.size} items`);
-        });
+        embeds.push(
+          new PlumEmbed()
+            .setTitle("List of all commands")
+            .setFooter(`The prefix for this server is: ${prefix}`)
+            .addField(grp.name, fieldText.join("\n")));
       })
       
-      embed.addField();
+      msg.say(embeds[0]);
+      
+      const collector = msg.createReactionCollector(filter, { time: 60000 });
+
+      collector.on('collect', (reaction, user) => {
+        console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
+      });
+
+      collector.on('end', collected => {
+        console.log(`Collected ${collected.size} items`);
+      });
     }
 	}
 };
