@@ -99,6 +99,26 @@ module.exports = class HelpCommand extends Command {
       .setAuthor(this.client.user.username, this.client.user.avatarURL)
       .setFooter(`The prefix for this server is: ${prefix}`);
     
+    let groups = this.client.registry.groups;
+    let command = args.command && this.client.registry.findCommands(args.command, false, msg);
+    
+    if (command) {
+      
+    } else {
+      embed.setTitle("List of all commands");
+      
+      groups.filter(grp => grp.commands.some(cmd => !cmd.hidden && cmd.isUsable(msg))).forEach(grp => {
+        console.log(grp);
+        let fieldText = [];
+        
+        for (let [id, cmd] of grp.commands.entries()) {
+          fieldText.push(`• ${prefix}**${cmd.name}**: ${cmd.description}`);
+        }
+        
+        embed.addField(grp.name, fieldText.join("\n"));
+      })
+    }
+    
     return msg.say(embed);
 	}
 };

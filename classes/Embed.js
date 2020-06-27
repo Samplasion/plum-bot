@@ -4,9 +4,10 @@ module.exports = class PlumEmbed extends RichEmbed {
   constructor(...args) {
     super(...args);
     this.setFooter("");
+    this.setColor(0xC44040);
   }
   
   setFooter(name) {
-    super.setFooter((name ? name + " - " : "") + `${this.client.user.username} - made by Samplasion`);
+    return super.setFooter((name ? name + " • " : "") + `Plum is made by Samplasion`);
   }
 }

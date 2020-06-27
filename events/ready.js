@@ -30,7 +30,6 @@ module.exports = async client => {
   // Re-setup reminders
   client.reminders.flush();
   Array.from(client.reminders.values()).forEach(user => {
-    console.log("REMINDER-USER", user);
     user.forEach(reminder => {
       setTimeout(() => {
         client.utils.remindUser(client.users.get(reminder.userID), reminder);
