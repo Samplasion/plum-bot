@@ -1,197 +1,109 @@
 const { Command } = require('discord.js-commando');
-const { RichEmbed } = require("discord.js");
+const PlumEmbed = require("../../classes/Embed");
+const { oneLine, stripIndents } = require('common-tags');
 const { inspect } = require("util");
 
-class CommandsCommand extends Command {
-  constructor(client) {
-      super(client, {
-          name: 'help',
-          aliases: ["halp"],
-          group: 'Bot Utilities',
-          memberName: 'help',
-          description: 'Changes the client configuration for the server',
-          examples: ["conf set welcomeMessage Welcome, {{user}}, to this server!"],
-          guildOnly: true,
-          args: [
-            {
-              key: "commandName",
-              label: "command",
-              type: "string",
-              default: null,
-            },
-          ],
-          minPerm: 3
-      });
-  }
+module.exports = class HelpCommand extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'help',
+			group: 'util',
+			memberName: 'help',
+			aliases: ['commands'],
+			description: 'Displays a list of available commands, or detailed information for a specified command.',
+			details: oneLine`
+				The command may be part of a command name or a whole command name.
+				If it isn't specified, all available commands will be listed.
+			`,
+			examples: ['help', 'help prefix'],
+			guarded: true,
 
-	async run(msg, { commandName }) {
-		let embed = this.client.util.embed()
-
-		let description;
-		let command;
-
-		let categories = Array.from(this.client.commandHandler.categories.entries());
-		let cats = categories.map(arr => arr[1]).sort((c1, c2) => c1.id.localeCompare(c2.id));
-
-		let cmds = cats.map(cat => Array.from(cat.entries()).map(c => c[1])).flat();
-
-		if (this.isGood(commandName)) {
-			let commandExists = this.client.commandHandler.aliases.get(commandName);
-			if (this.isGood(commandExists)) {
-				command = this.client.commandHandler.modules.get(commandExists);
-				if (command.description) {
-					description = command.description
-					if (command.description.content)
-						description = command.description.content;
+			args: [
+				{
+					key: 'command',
+					prompt: 'Which command would you like to view the help for?',
+					type: 'string',
+					default: ''
 				}
+			]
+		});
+	}
 
-				if (command.aliases && command.aliases.filter && command.aliases.filter(al => al !== command.id).length)
-					embed.addField(("Aliases"), command.aliases.filter(al => al !== command.id).map(alias => `\`${alias}\``).join(", "))
+	async run(msg, args) {
+    /*
+		const groups = this.client.registry.groups;
+		const commands = this.client.registry.findCommands(args.command, false, msg);
+		const showAll = args.command && args.command.toLowerCase() === 'all';
+		if(args.command && !showAll) {
+			if(commands.length === 1) {
+				let help = stripIndents`
+					${oneLine`
+						__Command **${commands[0].name}**:__ ${commands[0].description}
+						${commands[0].guildOnly ? ' (Usable only in servers)' : ''}
+						${commands[0].nsfw ? ' (NSFW)' : ''}
+					`}
+					**Format:** ${msg.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : ''}`)}
+				`;
+				if(commands[0].aliases.length > 0) help += `\n**Aliases:** ${commands[0].aliases.join(', ')}`;
+				help += `\n${oneLine`
+					**Group:** ${commands[0].group.name}
+					(\`${commands[0].groupID}:${commands[0].memberName}\`)
+				`}`;
+				if(commands[0].details) help += `\n**Details:** ${commands[0].details}`;
+				if(commands[0].examples) help += `\n**Examples:**\n${commands[0].examples.join('\n')}`;
 
-				if (command.category)
-					embed.addInline(("Category"), (command.category.id))
-
-				let usage;
-				if (command.description && command.description.usage)	usage = command.description.usage;
-				if (command.usage)										usage = command.usage;
-
-				if (usage)
-					embed.addField(("Usage"), `\`${usage}\``)
-
-				if (this.isGood(command.args)) {
-					for (var arg of command.args) {
-						if (!arg.description) {
-							switch (arg.id) {
-								case 'IP':
-									arg.description = "This is the server's IP address.";
-									break;
-								case 'images':
-									arg.description = 'These are the images for the command. This can be either attachments, user mentions, user IDs, user names, links or if the channel has an image posted beforehand within the past 50 messages: none. If you use multiple links and/or attachments, you can even layer the image.';
-									break;
-							}
-						}
-					}
-
-					embed.addField("Command Arguments", command.args.map(arg => `**${arg.id}** - ${arg.description}`).join("\n"))
+				const messages = [];
+				try {
+					messages.push(await msg.direct(help));
+					if(msg.channel.type !== 'dm') messages.push(await msg.reply('Sent you a DM with information.'));
+				} catch(err) {
+					messages.push(await msg.reply('Unable to send you the help DM. You probably have DMs disabled.'));
 				}
-
-				let commandPermissions = [];
-				if (this.isGood(command.userPermissions)) {
-					if (typeof command.userPermissions == 'function')
-						commandPermissions.push("Special Case");
-					else
-						command.userPermissions.forEach(perm => commandPermissions.push('`' + perm + '`'))
-				}
-
-				switch (command.channel) {
-					case 'guild':
-						commandPermissions.push(('Server Only'));
-						break;
-					case 'dm':
-						commandPermissions.push(('Direct Messages Only'));
-						break;
-				}
-
-				if (command.ownerOnly)
-					commandPermissions.push(('Owner only'));
-
-				if (this.isGood(commandPermissions))
-					embed.addInline('Restrictions', commandPermissions.join(' | '));
-
-				let examples;
-				if (command.description && command.description.examples)	examples = command.description.examples;
-				if (command.examples)										examples = command.examples;
-
-				if (examples)
-					embed.addField(("Examples"), (typeof examples == 'string' ? `\`${examples}\`` : examples.map(example => "`" + example + "`").join("\n")))
-
-				return msg.channel.send(command.id + (description ? ': ' + (description.join ? description.map(d => (d)).join(" - ") : (description)) : ''), {embed});
-			}
-
-			let category = this.client.commandHandler.categories.get(titleCase(global.translate.backwards(msg.author.lang, commandName)))
-			if (!this.isGood(category))
-				category = this.client.commandHandler.categories.get(titleCase(commandName))
-
-			if (!this.isGood(category))
-				return msg.util.send(("Invalid command/category name. Please try again"));
-
-			let commands = cmds && cmds.filter ? cmds.filter(c => c instanceof Command).filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id)) : cmds;
-			let makeFields = commands.length < 20;
-
-			description = "";
-
-			let commandList = [];
-			commands.forEach(command => {
-				description = "";
-
-				if (!makeFields) {
-					description += `**${command.id}**`;
-
-					if (command.description) {
-						description += ': ';
-
-						if (command.description.content)
-							description += (command.description.content.join ? command.description.content.map(d => (d)).join("\n") : (command.description.content));
-						else {
-							description += (command.description.join ? command.description.map(d => (d)).join("\n") : command.description);
-						}
-					}
-
-					commandList.push(description)
-				} else {
-					if (command.description) {
-						if (command.description.content)
-							description += (command.description.content.join ? command.description.content.map(d => (d)).join("\n") : (command.description.content));
-						else
-							description += (command.description.join ? command.description.map(d => (d)).join("\n") : (command.description));
-					}
-
-					embed.addField(command.id, description || (command.description.content ? command.description.content : command.description) || 'No description available')
-				}
-			});
-
-			if (commands.length > 0) {
-				if (!makeFields)
-					embed.setDescription(commandList.join('\n'))
-
-				embed.setFooter(("Total Commands in this category: {0}", commands.length));
-
-				if (category.has('color'))
-					embed.setColor(category.get('color'))
-
-				return msg.channel.send(("Category listing: {0}", (category.id)), embed);
+				return messages;
+			} else if(commands.length > 15) {
+				return msg.say('Multiple commands found. Please be more specific.');
+			} else if(commands.length > 1) {
+				return msg.say(disambiguation(commands, 'commands'));
+			} else {
+				return msg.say(
+					`Unable to identify command. Use ${msg.usage(
+						null, msg.channel.type === 'dm' ? null : undefined, msg.channel.type === 'dm' ? null : undefined
+					)} to view the list of all commands.`
+				);
 			}
 		} else {
-			// General command listing
-			// {id: <name>, aliases: [<name>, <name>...], description: <desc>, category.id: <category>}
-			let text = "<:Yamamura:633898611125649418> | " + ("{0}'s Command Listing", this.client.user.username) + "\n\n"
-
-					 + ("Type a command or category name for information on that item") + "\n"
-					 + ("To run a command in {0}, use `{1}command` or `{2} command`. For example, `{1}invite` or `{2} invite`.", msg.guild ? msg.guild.name : "this DM box", this.handler.prefix(msg), `@${this.client.user.username}#${this.client.user.discriminator}`)
-
-					 + (this.client.website ? ("\n\n" + ("A full list of commands can be viewed on our website: {0}", `${this.client.website.URL}/commands`)) : '')
-
-			cats.forEach(category => {
-				let catCmds = cmds.filter(c => c instanceof Command).filter(c => c.category.id == category).sort((a, b) => a.id.localeCompare(b.id));
-				if (catCmds.length > 0) embed.addInline(`${(category.id)} [${catCmds.length}]`, category.has('description') ? (category.get('description')) : ('No description available.'));
-			});
-
-			embed.setFooter(("Total Commands: {0}", cmds.length));
-
-			return msg.util.send(text, embed);
-		}
+			const messages = [];
+      messages.push(await msg.say(stripIndents`
+        ${oneLine`
+          To run a command in ${msg.guild ? msg.guild.name : 'any server'},
+          use ${Command.usage('command', msg.guild ? msg.guild.commandPrefix : null, this.client.user)}.
+          For example, ${Command.usage('prefix', msg.guild ? msg.guild.commandPrefix : null, this.client.user)}.
+        `}
+        To run a command in this DM, simply use ${Command.usage('command', null, null)} with no prefix.
+        Use ${this.usage('<command>', null, null)} to view detailed information about a specific command.
+        Use ${this.usage('all', null, null)} to view a list of *all* commands, not just available ones.
+        __**${showAll ? 'All commands' : `Available commands in ${msg.guild || 'this DM'}`}**__
+        ${groups.filter(grp => grp.commands.some(cmd => !cmd.hidden && (showAll || cmd.isUsable(msg))))
+          .map(grp => stripIndents`
+            __${grp.name}__
+            ${grp.commands.filter(cmd => !cmd.hidden && (showAll || cmd.isUsable(msg)))
+              .map(cmd => `**${cmd.name}:** ${cmd.description}${cmd.nsfw ? ' (NSFW)' : ''}`).join('\n')
+            }
+          `).join('\n\n')
+        }
+      `, { split: true }));
+			return messages;
+		}*/
+    let prefix = msg.guild ? msg.guild.commandPrefix : "pl.";
+    let embed = new PlumEmbed()
+      .setAuthor(this.client.user.username, this.client.user.avatarURL)
+      .setFooter(`The prefix for this server is: ${prefix}`);
+    
+    return msg.say(embed);
 	}
 };
 
-function isEmpty(value) { //Function to check if value is really empty or not
-	return (value == null || value.length === 0);
-}
-
-function titleCase(str) {
-	str = str.toLowerCase().split(' ');
-	let final = [];
-	for (let word of str) {
-		final.push(word.charAt(0).toUpperCase() + word.slice(1));
-	}
-	return final.join(' ')
+function disambiguation(items, label, property = 'name') {
+	const itemList = items.map(item => `"${(property ? item[property] : item).replace(/ /g, '\xa0')}"`).join(',   ');
+	return `Multiple ${label} found, please be more specific: ${itemList}`;
 }

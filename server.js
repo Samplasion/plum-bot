@@ -31,7 +31,9 @@ client.registry
     .registerGroups([
         ["moderation", "Moderation"]
     ])
-    .registerDefaultCommands()
+    .registerDefaultCommands({
+      help: false
+    })
     .registerCommandsIn(path.join(__dirname, 'commands'));
 
 sqlite.open(path.join(__dirname, "settings.sqlite3")).then((db) => {
