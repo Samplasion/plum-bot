@@ -3,6 +3,8 @@ const sqlite = require('sqlite')
 const path = require("path")
 const fs = require("fs")
 const Enmap = require("enmap")
+const CommandError = require("./classes/CommandError");
+const Embed = require("./classes/Embed");
 
 // ======== REQUIRED
 const http = require('http');
@@ -121,6 +123,19 @@ process
     console.error(reason, 'Unhandled Rejection at Promise', p);
   })
   .on('uncaughtException', err => {
+    console.log(err instanceof CommandError, err.name)
+    if (err instanceof CommandError) {
+      let embed = new Embed(client)
+        .setTitle("Uncaught exception in code")
+        .setColor("RED")
+        .setDescription(`${"```js"}${err.toString()}${"```"}`)
+        .addFields(
+          ["Message", err.msg.cleanContent],
+          ["Author", err.msg.author.tag]
+        )
+      client.channels.cache.get("689149132375457886").send(embed);
+      process.exit(1);
+    }
     console.error(err, 'Uncaught Exception thrown');
     process.exit(1);
   });
