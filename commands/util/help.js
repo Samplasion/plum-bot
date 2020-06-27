@@ -125,16 +125,9 @@ module.exports = class HelpCommand extends Command {
     
       return msg.say(embed);
     } else {
-      await msg.react('🍎');
-			await msg.react('🍊');
-			await msg.react('🍇');
       
       let embeds = [];
       let index = 0;
-      
-      const filter = (reaction, user) => {
-        return ['🍎', '🍊', '🍇'].some(emoji => reaction.emoji.name === emoji) && user.id === msg.author.id;
-      };
       
       groups.filter(grp => grp.commands.some(cmd => !cmd.hidden && cmd.isUsable(msg))).forEach(grp => {
         let fieldText = [];
@@ -150,12 +143,26 @@ module.exports = class HelpCommand extends Command {
             .addField(grp.name, fieldText.join("\n")));
       })
       
-      msg.say(embeds[0]);
+      const R = [
+        ["🔙", (collector) => index--],
+        ["🛑", (collector) => index--],
+        ["➡️", (collector) => index++]
+      ];
       
-      const collector = msg.createReactionCollector(filter, { time: 60000 });
+      let message = await msg.channel.send(embeds[0]);
+      for (let [react, cb] of R) {
+        await message.react(react);
+      }
+      
+      const filter = (reaction, user) => {
+        return R.map(r => r[0]).some(emoji => reaction.emoji.name === emoji) && user.id === msg.author.id;
+      };
+      
+      const collector = message.createReactionCollector(filter, { time: 60000 });
 
       collector.on('collect', (reaction, user) => {
         console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
+        message.edit(embeds[index]);
       });
 
       collector.on('end', collected => {
