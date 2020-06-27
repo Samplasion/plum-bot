@@ -29,8 +29,6 @@ module.exports = class ReminderCommand extends Command {
       return this.client.utils.sendErrMsg(msg, oneLine`You didn't enter a duration.
 To enter a duration, type \`in <duration>\` after the reminder.`);
     
-    console.log(reminder);
-    
     let duration = parse(reminder.pop());
     if (!duration || duration < 5000 || duration > 604800000) // 1 week
       return this.client.utils.sendErrMsg(msg, `You entered an invalid duration.`);
@@ -49,7 +47,7 @@ To enter a duration, type \`in <duration>\` after the reminder.`);
     
     setTimeout(() => {
       this.remindUser(msg.author, {
-        text: reminder
+        text: reminder.trim()
       });
     }, duration);
   }
