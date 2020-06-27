@@ -107,7 +107,7 @@ module.exports = class HelpCommand extends Command {
       embed.setDescription(command.description 
                           + (command.details ? "\n\n" + command.details : ""));
       
-      if ([""].some(el => command[el]))
+      if (["guildOnly", "ownerOnly", "nsfw"].some(el => command[el]))
       if (command.examples.length) {
         embed.addField("Examples", command.examples.map(ex => ` - ${ex}`).join("\n"));
       }
