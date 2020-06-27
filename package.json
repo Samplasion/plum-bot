@@ -19,7 +19,8 @@
     "list-array": "^2.5.2",
     "node-fetch": "^2.6.0",
     "cheerio": "^0.22.0",
-    "parse-duration": "^0.4.3"
+    "parse-duration": "^0.4.3",
+    "parse-ms": "^2.0.0"
   },
   "engines": {
     "node": "8.x"

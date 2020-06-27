@@ -1,6 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { oneLine } = require('common-tags');
 const parse = require('parse-duration');
+const prettyms = require('parse-ms');
 
 module.exports = class ReminderCommand extends Command {
   constructor(client) {
@@ -36,6 +37,12 @@ To enter a duration, type \`in <duration>\` after the reminder.`);
     if (!reminder.length) 
       return this.client.util.errorMsg(`You have to enter something to remind you of.`);
     
-    msg.say(duration);
+    let prettyDuration = [];
+    var rawObj = prettyms(duration);
+    for (let prop of ["days", "hours", "minutes", "seconds", "milliseconds"]) {
+      if (rawObj[prop]) prettyDuration
+    }
+    
+    msg.say(`Alright! I'll remind you ${reminder} in ${duration}`);
   }
 };

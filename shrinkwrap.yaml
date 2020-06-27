@@ -8,6 +8,7 @@ dependencies:
   list-array: 2.5.2
   node-fetch: 2.6.0
   parse-duration: 0.4.4
+  parse-ms: 2.1.0
   sqlite: 3.0.0
 packages:
   /@samverschueren/stream-to-observable/0.3.0:
@@ -1962,6 +1963,12 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha1-vjX1Qlvh9/bHRxhPmKeIy5lHfuA=
+  /parse-ms/2.1.0:
+    dev: false
+    engines:
+      node: '>=6'
+    resolution:
+      integrity: sha512-kHt7kzLoS9VBZfUsiKjv43mr91ea+U05EyKkEtqp7vNbHxmaVuEqN7XxeEVnGrMtYOAxGrDElSi96K7EgO1zCA==
   /parseurl/1.3.2:
     dev: false
     engines:
@@ -2799,4 +2806,5 @@ specifiers:
   list-array: ^2.5.2
   node-fetch: ^2.6.0
   parse-duration: ^0.4.3
+  parse-ms: ^2.0.0
   sqlite: ^3.0.0
