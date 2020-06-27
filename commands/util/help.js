@@ -107,8 +107,18 @@ module.exports = class HelpCommand extends Command {
       embed.setDescription(command.description 
                           + (command.details ? "\n\n" + command.details : ""));
       
-      if (["guildOnly", "ownerOnly", "nsfw"].some(el => command[el]))
-      if (command.examples.length) {
+      if (["guildOnly", "ownerOnly", "nsfw"].some(el => command[el])) {
+        let lims = [];
+        if (command.guildOnly)
+          lims.push("Guild only");
+        if (command.ownerOnly)
+          lims.push("Bot owner only");
+        if (command.nsfw)
+          lims.push("NSFW channels only");
+        
+        embed.addField("Limitations", lims.map(lim => ` - ${lim}`).join("\n"));
+      }
+      if (command.examples && command.examples.length) {
         embed.addField("Examples", command.examples.map(ex => ` - ${ex}`).join("\n"));
       }
     } else {
