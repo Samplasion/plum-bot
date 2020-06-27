@@ -20,7 +20,7 @@ module.exports = class EvalCommand extends Command {
 
   async run(msg) {
     try {
-      let rebootMessage = await msg.send("I'm rebooting...");
+      let rebootMessage = await msg.channel.send("I'm rebooting...");
       await write(
         "./reboot.json",
         JSON.stringify({ id: rebootMessage.id, channel: msg.channel.id })
