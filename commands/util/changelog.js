@@ -41,11 +41,18 @@ module.exports = class EvalCommand extends Command {
       return this.client.utils.sendErrMsg(msg, "The changelog channel isn't an actual channel. " 
                                          + "Set a valid one before changelogging stuff.");
     
-    let embed = new Embed(this.client)
-      .setTitle(`What's new in version ${version}`)
-      .setDescription(log)
-      .setFullFooter("");
-    
-    changelogChannel.send(embed);
+    try {
+      let embed = new Embed(this.client)
+        .setTitle(`What's new in version ${version}`)
+        .setDescription(log)
+        .setFullFooter("");
+
+      changelogChannel.send(embed.shit());
+
+      this.client.utils.sendOkMsg(msg, "The changelog was sent! Don't forget to bump the version number in `package.json`!");
+    } catch (e) {
+      this.client.utils.sendErrMsg(msg, "The changelog wasn't sent! Check the error logs to know why.");
+      throw e;
+    }
 	}
 };
