@@ -24,25 +24,37 @@ module.exports = class ReminderCommand extends Command {
   }
 
   run(msg, { text }) {
-    let reminder = text.split("in");
+    let reminder = text.split(/\bin\b/g);
     if (reminder.length < 2) 
-      return this.client.util.errorMsg(oneLine`You didn't enter a duration.
+      return this.client.utils.sendErrMsg(msg, oneLine`You didn't enter a duration.
 To enter a duration, type \`in <duration>\` after the reminder.`);
+    
+    console.log(reminder);
     
     let duration = parse(reminder.pop());
     if (!duration || duration < 5000 || duration > 604800000) // 1 week
-      return this.client.util.errorMsg(`You entered an invalid duration`);
+      return this.client.utils.sendErrMsg(msg, `You entered an invalid duration.`);
     
     reminder = reminder.join("in");
     if (!reminder.length) 
-      return this.client.util.errorMsg(`You have to enter something to remind you of.`);
+      return this.client.utils.sendErrMsg(msg, `You have to enter something to remind you of.`);
     
     let prettyDuration = [];
     var rawObj = prettyms(duration);
     for (let prop of ["days", "hours", "minutes", "seconds", "milliseconds"]) {
-      if (rawObj[prop]) prettyDuration
+      if (rawObj[prop]) prettyDuration.push(`${rawObj[prop]} ${prop}`);
     }
     
-    msg.say(`Alright! I'll remind you ${reminder} in ${duration}`);
+    msg.say(`Alright! I'll remind you ${reminder}in ${this.client.utils.oxford(prettyDuration)}.`);
+    
+    setTimeout(() => {
+      this.remindUser(msg.author, {
+        text: reminder
+      });
+    }, duration);
+  }
+  
+  remindUser(user, reminder) {
+    return user.send(`:bulb: You asked me to remind you ${reminder.text}.`);
   }
 };
