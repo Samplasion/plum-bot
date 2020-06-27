@@ -1,33 +1,29 @@
 const { Command } = require('discord.js-commando');
+const parse = require('parse-duration');
 
 module.exports = class RandTextCommand extends Command {
   constructor(client) {
     super(client, {
-      name: 'perms',
-      aliases: ['myperms', 'permissions', 'my permissions'],
+      name: 'remindme',
+      aliases: ['remind'],
       group: 'util',
-      memberName: 'perms',
+      memberName: 'remindme',
       description: 'Lets you see your permission level.',
       examples: ['perms'],
       args: [
         {
-          key: "user",
-          type: "member",
-          prompt: "who do you want to see the permissions of?",
+          key: "text",
+          type: "string",
+          prompt: "what do you want me to remind you of, and when?",
           default: ""
         }
       ]
     });
   }
 
-  run(message, { user }) {
-    // If pinged user, that. Otherwise message member
-    let member = user || message.member
-    let you = !user
-    let perm = this.client.permissions(member)
-    message.say(`${you ? "Your" : member.displayName+"'s" } permission level is: 
-
-__**${perm.name}**__ [${perm.level}]
-_${perm.description}_`)
+  run(message, { text }) {
+    var duration = getSeconds(text);
+    if (!duration)
+      return this.client.util.errorMsg("You entered an invalid duration");
   }
 };
