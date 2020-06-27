@@ -96,14 +96,20 @@ module.exports = class HelpCommand extends Command {
 		}*/
     let prefix = msg.guild ? msg.guild.commandPrefix : this.client.commandPrefix;
     let embed = new PlumEmbed()
-      .setAuthor(this.client.user.username, this.client.user.avatarURL)
+      .setAuthor(this.client.user.username, this.client.user.avatarURL())
       .setFooter(`The prefix for this server is: ${prefix}`);
     
     let groups = this.client.registry.groups;
-    let command = args.command && this.client.registry.findCommands(args.command, false, msg);
+    let command = args.command && this.client.registry.findCommands(args.command, false, msg)[0];
     
     if (command) {
+      embed.setTitle(`Help for command: ${command.name}`);
+      embed.setDescription(command.description 
+                          + (command.details ? "\n\n" + command.details : ""));
       
+      if (command.examples.length) {
+        embed.addField();
+      }
     } else {
       embed.setTitle("List of all commands");
       

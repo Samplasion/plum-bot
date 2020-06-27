@@ -1,0 +1,16 @@
+{
+  "//": "ThigsBc BaY",
+  "install": {
+    "include": [
+      "^package\\.json$",
+      "^\\.env$"
+    ]
+  },
+  "restart": {
+    "include": [
+      "^.trigger-rebuild$"
+    ],
+    "exclude": ["^.ejs"]
+  },
+  "throttle": 100
+}
