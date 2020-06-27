@@ -95,14 +95,15 @@ module.exports = class HelpCommand extends Command {
 			return messages;
 		}*/
     let prefix = msg.guild ? msg.guild.commandPrefix : this.client.commandPrefix;
-    let embed = new PlumEmbed()
-      .setAuthor(this.client.user.username, this.client.user.avatarURL())
-      .setFooter(`The prefix for this server is: ${prefix}`);
     
     let groups = this.client.registry.groups;
     let command = args.command && this.client.registry.findCommands(args.command, false, msg)[0];
     
     if (command) {
+      let embed = new PlumEmbed()
+        .setAuthor(this.client.user.username, this.client.user.avatarURL())
+        .setFooter(`The prefix for this server is: ${prefix}`);
+      
       embed.setTitle(`Help for command: ${command.name}`);
       embed.setDescription(command.description 
                           + (command.details ? "\n\n" + command.details : ""));
@@ -121,8 +122,22 @@ module.exports = class HelpCommand extends Command {
       if (command.examples && command.examples.length) {
         embed.addField("Examples", command.examples.map(ex => ` - ${ex}`).join("\n"));
       }
+    
+      return msg.say(embed);
     } else {
+      await message.react('🍎');
+			await message.react('🍊');
+			await message.react('🍇');
+      
+      let embeds = [];
+      
+      const filter = (reaction, user) => {
+        return ['🍎', '🍊', '🍇'].some(emoji => reaction.emoji.name === emoji) && user.id === msg.author.id;
+      };
+      
       embed.setTitle("List of all commands");
+      
+      let embeds = [];
       
       groups.filter(grp => grp.commands.some(cmd => !cmd.hidden && cmd.isUsable(msg))).forEach(grp => {
         let fieldText = [];
@@ -131,11 +146,23 @@ module.exports = class HelpCommand extends Command {
           fieldText.push(`• ${prefix}**${cmd.name}**: ${cmd.description}`);
         }
         
-        embed.addField(grp.name, fieldText.join("\n"));
+        embeds.push({
+          name: grp.name, 
+          text: fieldText.join("\n")
+        });
+        const collector = message.createReactionCollector(filter, { time: 15000 });
+
+        collector.on('collect', (reaction, user) => {
+          console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
+        });
+
+        collector.on('end', collected => {
+          console.log(`Collected ${collected.size} items`);
+        });
       })
+      
+      embed.addField();
     }
-    
-    return msg.say(embed);
 	}
 };
 
