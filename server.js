@@ -65,11 +65,8 @@ client.defaultSettings = {
   owners: [],
   admins: [],
   mods: [],
-  types: {
-    owners: "array|role",
-    admins: "array|role",
-    mods: "array|role",
-  }
+  welcomeMessage: "",
+  leaveMessage: ""
 }
 
 client.settings = new Enmap({ name: "settings" })
@@ -90,7 +87,7 @@ client.settings.getSet = (guild, path = null) => {
   return path ? client.settings.get(guild, path) : client.settings.get(guild)
 }
 
-var { Utilities } = require("./classes/Utilities");
+var Utilities = require("./classes/Utilities");
 client.utils = new Utilities(client)
 
 client.login(process.env.TOKEN)

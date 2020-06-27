@@ -124,9 +124,16 @@ class Utilities {
   trim(str, lgt) {
     return str.replace(new RegExp(`/^(.{${lgt-1}}[^\s]*).*/`), "$1") + (lgt < str.length ? '…' : '')
   }
-
+  
+  get types() {
+    return {
+      owners: "array|role",
+      admins: "array|role",
+      mods: "array|role",
+      welcomeMessage: "string",
+      leaveMessage: "string"
+    }
+  }
 }
 
-module.exports = {
-  Utilities
-}
+module.exports = Utilities
