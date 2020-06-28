@@ -9,7 +9,7 @@ module.exports = class PlumEmbed extends MessageEmbed {
   }
   
   setFooter(name) {
-    return super.setFooter((name ? name + " • " : "") + `Plum is made by Samplasion#0325`);
+    return this.setFullFooter((name ? name + " • " : "") + `Plum is made by Samplasion#0325`);
   }
   
   setFullFooter(name) {

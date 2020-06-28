@@ -12,7 +12,7 @@ module.exports = class RoleType {
 		if (matches)
 			return matches[1];
 
-		let name = msg.guild.roles.filter(r => r.id != r.guild.id).find(c => {
+		let name = msg.guild.roles.cache.filter(r => r.id != r.guild.id).find(c => {
 			// console.log(require("util").inspect(c, {depth: 0}), c.name, c.type);
 			return c.name.toLowerCase() == val.toLowerCase();
 		});
@@ -22,7 +22,7 @@ module.exports = class RoleType {
 	}
 	
 	static deserialize(client, msg, val) {
-		return val ? msg.guild.roles.get(val) : this.nullValue;
+		return val ? msg.guild.roles.cache.get(val) : this.nullValue;
 	}
 
 	static render(client, msg, val) {
@@ -33,7 +33,7 @@ module.exports = class RoleType {
 	static validate(client, msg, val) {
 		try {
 			let isID = /(?:<@&)?(\d{17,19})>?/.test(val);
-			let isName = !!msg.guild.roles.filter(r => r.id != r.guild.id).find(c => c.name.toLowerCase() == val.toLowerCase());
+			let isName = !!msg.guild.roles.cache.filter(r => r.id != r.guild.id).find(c => c.name.toLowerCase() == val.toLowerCase());
 			return isName || isID;
 		} catch (e) {
 			console.error(e);

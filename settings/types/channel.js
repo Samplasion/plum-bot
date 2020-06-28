@@ -12,7 +12,7 @@ module.exports = class ChannelType {
 		if (matches)
 			return matches[1];
 
-		let name = msg.guild.channels.find(c => {
+		let name = msg.guild.channels.cache.find(c => {
 			// console.log(require("util").inspect(c, {depth: 0}), c.name, c.type);
 			return c.name ? c.name.toLowerCase() : "" == val.toLowerCase() && c.type == "text";
 		});
@@ -22,7 +22,7 @@ module.exports = class ChannelType {
 	}
 	
 	static deserialize(client, msg, val) {
-		return val ? msg.guild.channels.get(val) : this.nullValue;
+		return val ? msg.guild.channels.cache.get(val) : this.nullValue;
 	}
 
 	static render(client, msg, val) {
@@ -34,11 +34,11 @@ module.exports = class ChannelType {
 		let channelIDregex = /(?:<#)?(\d{17,19})>?/;
 		if (channelIDregex.test(val)) {
 			let channelID = val.match(channelIDregex)[1];
-			if (msg.guild.channels.has(channelID))
+			if (msg.guild.channels.cache.has(channelID))
 				return true;
 		}
 
-		let isName = msg.guild.channels.find(c => c.name ? c.name.toLowerCase() : "" == val.toLowerCase() && c.type == "text");
+		let isName = msg.guild.channels.cache.find(c => c.name ? c.name.toLowerCase() : "" == val.toLowerCase() && c.type == "text");
 		if (isName)
 			return true;
 

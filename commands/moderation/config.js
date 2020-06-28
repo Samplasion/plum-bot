@@ -65,7 +65,7 @@ module.exports = class ConfigCommand extends Command {
 
           let v = data[k];
           let type = findType(k);
-          console.log(k, v, type ? type.id : type);
+          // console.log(k, v, type ? type.id : type);
 
           let embedValue;
 
@@ -86,20 +86,6 @@ module.exports = class ConfigCommand extends Command {
         }
 
         return msg.channel.send(embed);
-        break;
-      case "get":
-        if (!key) return msg.channel.send("You didn't specify a key!");
-
-        let type = findType(settingProps[key]);
-        let deserializedValue = type.render(this.client, msg, data[key]);
-
-        return msg.channel.send(
-          deserializedValue == type.nullValue ||
-            deserializedValue == undefined ||
-            (deserializedValue == [] || deserializedValue[0] == undefined)
-            ? "This value is empty"
-            : deserializedValue
-        );
         break;
       case "set":
         if (!key) return msg.channel.send("You didn't specify a key!");
@@ -129,7 +115,21 @@ module.exports = class ConfigCommand extends Command {
           msg.guild.config.set(key, newValue);
         } else msg.guild.config.set(key, t.nullValue);
 
-        return msg.channel.send(import("util").inspect(data[key]), { code: "js" });
+        // return msg.channel.send(require("util").inspect(data[key]), { code: "js" });
+        // break;
+      case "get":
+        if (!key) return msg.channel.send("You didn't specify a key!");
+
+        let type = findType(settingProps[key]);
+        let deserializedValue = type.render(this.client, msg, data[key]);
+
+        return msg.channel.send(
+          deserializedValue == type.nullValue ||
+            deserializedValue == undefined ||
+            (deserializedValue == [] || deserializedValue[0] == undefined)
+            ? "This value is empty"
+            : deserializedValue
+        );
         break;
       case "clear":
       case "reset":
@@ -207,7 +207,7 @@ module.exports = class ConfigCommand extends Command {
 			msg.guild.config.set(key, arr.concat(data[key]));
 
 			// await this.client.db.serverconfig.update(data);
-			msg.channel.send(import("util").inspect(data[key]), {code: 'js'});
+			msg.channel.send(require("util").inspect(data[key]), {code: 'js'});
 		} else {
 			msg.channel.send("The action must be one of [add, clear]!");
 		}

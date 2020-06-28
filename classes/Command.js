@@ -13,13 +13,14 @@ module.exports = class PlumCommand extends Command {
         .setColor("RED")
         .setDescription(`${"```js"}\n${error.ogError.stack}${"```"}`)
         .addFields(
-          { name: "Message", value: error.msg.cleanContent, inline: true },
+          { name: "Message", value: error.msg.content, inline: true },
           { name: "Author", value: error.msg.author.tag, inline: true },
           { name: "Error ID", value: error.msg.id },
         );
       this.client.channels.cache.get("689149132375457886").send(embed);
     }
     
-    message.channel.send()
+    this.client.utils.sendErrMsg(message, `There was an error. The developers have already received the report, though you can speed the `
+                         + `fix if you send them this Error ID: \`${error.msg.id}\``);
 	}
 }
