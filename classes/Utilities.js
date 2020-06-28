@@ -154,6 +154,12 @@ class Utilities {
   remindUser(user, reminder) {
     return user.send(`:bulb: You asked me to remind you ${reminder.text}.`);
   }
+  
+  buildMessageURL(...args) {
+    var baseUrl = "https://discordapp.com/channels", final = baseUrl
+    args.forEach(arg => final += `/${arg.id}`)
+    return final
+  }
 }
 
 module.exports = Utilities
