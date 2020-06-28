@@ -7,7 +7,7 @@ function random(a, b = 0) {
 }
 
 module.exports = async client => {
-  console.log(`[Start] ${new Date().toLocaleString()}`);
+  console.log(`[START] ${new Date().toLocaleString()}`);
   
   // Edit message to say "Took N seconds"
   try {
@@ -21,10 +21,10 @@ module.exports = async client => {
   const activityMessages = [`Help for ${client.guilds.cache.reduce((a, b) => a + b.memberCount, 0).toLocaleString()} users`, `Help for ${client.channels.cache.size.toLocaleString()} total channels`, `Type pl.help for a list of commands`];
   let i = random(activityMessages.length-1);
   client.user.setActivity(activityMessages[i], {type: 0});
-  console.log("[LOG] Set status message:", activityMessages[i]);
+  console.log("  [LOG] Set status message:", activityMessages[i]);
   setInterval(() => {
     client.user.setActivity(activityMessages[i], {type: 0});
-    console.log("[LOG] Set status message:", activityMessages[i]);
+    console.log("  [LOG] Set status message:", activityMessages[i]);
     i++;
     i %= activityMessages.length;
   }, 120000);

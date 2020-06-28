@@ -11,7 +11,7 @@ const http = require('http');
 const express = require('express');
 const app = express();
 app.get("/", (request, response) => {
-  console.log(`[PING] ${new Date()}`);
+  console.log(` [PING] ${new Date().toLocaleString()}`);
   response.sendStatus(200);
 });
 app.listen(process.env.PORT);
