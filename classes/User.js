@@ -1,9 +1,9 @@
-const discordJS = require('discord.js');
+const { Structures } = require('discord.js');
 const { findType } = require('../settings/index.js');
 const databaseModule = require('../utils/database.js');
 
 // This extends Discord's native Guild class with our own methods and properties
-module.exports = discordJS.Structures.extend("User", User => class extends User {
+module.exports = Structures.extend("User", User => class extends User {
 	constructor(...args) {
 		super(...args);
 		this.DBinit();
@@ -33,17 +33,19 @@ module.exports = discordJS.Structures.extend("User", User => class extends User 
 			},
 			get list() {
 				let data = databaseModule.serverconfig.findOne({ userID: user.id }) || this.setDefaultSettings();
-				return data;
+				return data.reminders;
 			},
-			add: (reminder, update=true) => {
+			add: (reminder) => {
 				let currentsettings = reminders.findOne({ userID: user.id });
 				currentsettings.reminders.push(reminder);
+        
+        console.log(currentsettings);
 
-				if (update)
-					return reminders.update(currentsettings);
+				return reminders.update(currentsettings);
 			},
       flush: () => {
-        let currentsettings = reminders.findOne({ userID: user.id }).filter(rem => {
+        let currentsettings = reminders.findOne({ userID: user.id })
+        currentsettings.reminders = currentsettings.reminders.filter(rem => {
           return rem.date > Date.now();
         });
         return reminders.update(currentsettings);

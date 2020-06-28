@@ -21,6 +21,7 @@ setInterval(() => {
 http.get(`http://glitch-proxy.now.sh/plum-bot/`);
 
 require("./classes/Guild.js");
+require("./classes/User.js");
 
 const client = new CommandoClient({
   commandPrefix: "pl.",

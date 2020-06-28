@@ -32,7 +32,7 @@ module.exports = async client => {
   // Re-setup reminders
   client.users.cache.forEach(user => {
     if (user.bot) return;
-    console.log(user);
+    console.log(user.reminders.list);
     user.reminders.list.forEach(reminder => {
       setTimeout(() => {
         client.utils.remindUser(user, reminder);

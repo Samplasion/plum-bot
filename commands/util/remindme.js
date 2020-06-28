@@ -64,7 +64,7 @@ To enter a duration, type \`in <duration>\` after the reminder.`
       userID: msg.author.id
     };
 
-    msg.author.reminders.add(msg.author, remObj);
+    msg.author.reminders.add(remObj);
 
     setTimeout(() => {
       this.client.utils.remindUser(msg.author, remObj);
