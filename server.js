@@ -16,7 +16,7 @@ app.get("/", (request, response) => {
 });
 app.listen(process.env.PORT);
 setInterval(() => {
-  http.get(`http://plum-bot.glitch.me/`);
+  http.get(`http://glitch-proxy.now.sh/plum-bot/`);
 }, 200000);
 http.get(`http://glitch-proxy.now.sh/plum-bot/`);
 
