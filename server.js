@@ -70,17 +70,10 @@ client.permissions = (member) => {
   return p
 }
 
-client.defaultSettings = {
-  owners: [],
-  admins: [],
-  mods: [],
-  welcomeMessage: "",
-  leaveMessage: ""
-}
-
 client.db = require('./utils/database.js');
 
 client.settings = new Enmap({ name: "settings" })
+/*
 client.settings.getGuildSettings = (guild) => {
   const def = client.defaultSettings;
   if (!guild) return def;
@@ -97,6 +90,7 @@ client.settings.getSet = (guild, path = null) => {
   client.settings.getGuildSettings(guild)
   return path ? client.settings.get(guild, path) : client.settings.get(guild)
 }
+*/
 
 client.reminders = new Enmap({ name: "reminders" });
 client.reminders.add = (user, reminder) => {

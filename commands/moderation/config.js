@@ -62,6 +62,8 @@ module.exports = class ConfigCommand extends Command {
 
         for (let k in data) {
           if (["meta", "$loki", "guildID"].includes(k)) continue;
+          
+          console.log(k);
 
           let v = data[k];
           let type = findType(k);
@@ -74,7 +76,7 @@ module.exports = class ConfigCommand extends Command {
             if (
               deserializedValue == type.nullValue ||
               deserializedValue == undefined ||
-              (deserializedValue == [] || deserializedValue[0] == undefined)
+              (deserializedValue == [] && deserializedValue[0] == undefined)
             )
               embedValue = "This value is empty";
             else embedValue = deserializedValue;
@@ -113,33 +115,17 @@ module.exports = class ConfigCommand extends Command {
           msg.guild.config.set(key, newValue);
         } else msg.guild.config.set(key, t.nullValue);
 
-        let embedValue;
-
-          try {
-            let deserializedValue = t.render(this.client, msg, data[key]);
-            if (
-              deserializedValue == t.nullValue ||
-              deserializedValue == undefined ||
-              (deserializedValue == [] || deserializedValue[0] == undefined)
-            )
-              embedValue = "This value is empty";
-            else embedValue = deserializedValue;
-          } catch (e) {
-            console.error(e);
-            embedValue = "This field has an error";
-          }
-        
-        let embed_ = new PlumEmbed(this.client)
-          .setTitle(this.getTitles()[key])
-          .setDescription(embedValue);
+        let embed_ = this.renderEmbed(msg, t, key);
         
         return msg.channel.send(embed_);
         
         break;
       case "get":
         if (!key) return msg.channel.send("You didn't specify a key!");
+        
+        console.log(settingProps, key);
 
-        let type = findType(settingProps[key]);
+        let type = findType(key);
         let deserializedValue = type.render(this.client, msg, data[key]);
 
         return msg.channel.send(
@@ -191,6 +177,32 @@ module.exports = class ConfigCommand extends Command {
         break;
     }
   }
+  
+  renderEmbed(msg, t, key) {
+    let embedValue;
+
+    try {
+      let deserializedValue = t.render(
+        this.client,
+        msg,
+        msg.guild.config.data[key]
+      );
+      if (
+        deserializedValue == t.nullValue ||
+        deserializedValue == undefined ||
+        (deserializedValue == [] && deserializedValue[0] == undefined)
+      )
+        embedValue = "This value is empty";
+      else embedValue = deserializedValue;
+    } catch (e) {
+      console.error(e);
+      embedValue = "This field has an error";
+    }
+
+    return new PlumEmbed(this.client)
+      .setTitle(this.getTitles()[key])
+      .setDescription(embedValue);
+  }
 
   async setArray(msg, data, key, value, recursionDepth = 0) {
 		let t = findType(key);
@@ -223,10 +235,11 @@ module.exports = class ConfigCommand extends Command {
 			}
 
 			// console.log(arr);
-			msg.guild.config.set(key, arr.concat(data[key]));
+			msg.guild.config.set(key, data[key].concat(arr));
 
 			// await this.client.db.serverconfig.update(data);
-			msg.channel.send(require("util").inspect(data[key]), {code: 'js'});
+      msg.channel.send(msg, findType(key), key);
+			msg.channel.send(require("util").inspect(msg.guild.config.data[key]), {code: 'js'});
 		} else {
 			msg.channel.send("The action must be one of [add, clear]!");
 		}
