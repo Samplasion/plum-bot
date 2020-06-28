@@ -5,7 +5,6 @@ module.exports = class EvalCommand extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'setup',
-      aliases: ["config"],
 			group: 'util',
 			memberName: 'changelog',
 			description: 'Logs a new change to the #changelog channel in the support server.',

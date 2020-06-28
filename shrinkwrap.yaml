@@ -7,6 +7,7 @@ dependencies:
   enmap: 4.3.3
   express: 4.16.3
   list-array: 2.5.2
+  lokijs: 1.5.8
   node-fetch: 2.6.0
   parse-duration: 0.4.4
   parse-ms: 2.1.0
@@ -1567,6 +1568,10 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-GZKfZMQJPS0ucHWh2tivWcKWuNE=
+  /lokijs/1.5.8:
+    dev: false
+    resolution:
+      integrity: sha512-D8E3TBrY35o1ELnonp2MF8b3wKu2tVNl2TqRjvS+95oPMMe7OoIAxNY1qr+5BEZwnWn2V4ErAjVt000DonM+FA==
   /loud-rejection/1.6.0:
     dependencies:
       currently-unhandled: 0.4.1
@@ -2868,6 +2873,7 @@ specifiers:
   enmap: ^4.3.3
   express: ^4.16.3
   list-array: ^2.5.2
+  lokijs: ^1.5.8
   node-fetch: ^2.6.0
   parse-duration: ^0.4.3
   parse-ms: ^2.0.0

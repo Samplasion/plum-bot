@@ -21,7 +21,8 @@
     "parse-duration": "^0.4.3",
     "parse-ms": "^2.0.0",
     "sqlite": "^3.0.0",
-    "array-flat-polyfill": "^1.0.1"
+    "array-flat-polyfill": "^1.0.1",
+    "lokijs": "^1.5.8"
   },
   "engines": {
     "node": "11.x"
