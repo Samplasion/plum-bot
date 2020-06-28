@@ -19,7 +19,7 @@ module.exports = class PlumCommand extends Command {
         );
       this.client.channels.cache.get("689149132375457886").send(embed);
     }
-    
+    console.error(error.ogError);
     this.client.utils.sendErrMsg(message, `There was an error. The developers have already received the report, though you can speed the `
                          + `fix if you send them this Error ID: \`${error.msg.id}\``);
 	}

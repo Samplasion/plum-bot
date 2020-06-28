@@ -106,17 +106,36 @@ module.exports = class ConfigCommand extends Command {
             
           );
         if (!t.validate(this.client, msg, value))
-          return msg.channel.send(
-            `The input \`${value}\` is not valid for the type \`${t.id}\`.`
-          );
+          return msg.channel.send(`The input \`${value}\` is not valid for the type \`${t.id}\`.`);
 
         if (value != "null") {
           let newValue = t.serialize(this.client, msg, value);
           msg.guild.config.set(key, newValue);
         } else msg.guild.config.set(key, t.nullValue);
 
-        // return msg.channel.send(require("util").inspect(data[key]), { code: "js" });
-        // break;
+        let embedValue;
+
+          try {
+            let deserializedValue = t.render(this.client, msg, data[key]);
+            if (
+              deserializedValue == t.nullValue ||
+              deserializedValue == undefined ||
+              (deserializedValue == [] || deserializedValue[0] == undefined)
+            )
+              embedValue = "This value is empty";
+            else embedValue = deserializedValue;
+          } catch (e) {
+            console.error(e);
+            embedValue = "This field has an error";
+          }
+        
+        let embed_ = new PlumEmbed(this.client)
+          .setTitle(this.getTitles()[key])
+          .setDescription(embedValue);
+        
+        return msg.channel.send(embed_);
+        
+        break;
       case "get":
         if (!key) return msg.channel.send("You didn't specify a key!");
 
