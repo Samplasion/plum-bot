@@ -18,7 +18,7 @@ app.listen(process.env.PORT);
 setInterval(() => {
   http.get(`http://plum-bot.glitch.me/`);
 }, 200000);
-http.get(`http://plum-bot.glitch.me/`);
+http.get(`http://de.hideproxy.me/go.php?u=IoFDyEvpcPQbfSN37leNbBEfRS%2BUqTg%3D&b=4&f=norefer`);
 
 require("./classes/Guild.js");
 

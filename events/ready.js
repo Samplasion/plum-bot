@@ -33,7 +33,7 @@ module.exports = async client => {
   Array.from(client.reminders.values()).forEach(user => {
     user.forEach(reminder => {
       setTimeout(() => {
-        client.utils.remindUser(client.users.get(reminder.userID), reminder);
+        client.utils.remindUser(client.users.cache.get(reminder.userID), reminder);
       }, reminder.date - Date.now());
     });
   });
