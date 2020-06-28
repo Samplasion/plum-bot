@@ -14,8 +14,6 @@ module.exports = class EvalCommand extends Command {
 
       args: []
     });
-
-    this.lastResult = null;
   }
 
   async run(msg) {
