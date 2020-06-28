@@ -6,7 +6,7 @@ module.exports = class EvalCommand extends Command {
 		super(client, {
 			name: 'setup',
 			group: 'util',
-			memberName: 'changelog',
+			memberName: 'setup',
 			description: 'Logs a new change to the #changelog channel in the support server.',
 			details: 'Only the bot owner(s) may use this command.',
 			ownerOnly: true,

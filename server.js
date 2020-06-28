@@ -19,6 +19,8 @@ setInterval(() => {
   http.get(`http://plum-bot.glitch.me/`);
 }, 200000);
 
+require("./classes/Guild.js");
+
 const client = new CommandoClient({
   commandPrefix: "pl.",
   unknownCommandResponse: false,
@@ -72,8 +74,6 @@ client.defaultSettings = {
   welcomeMessage: "",
   leaveMessage: ""
 }
-
-require("./struct/Guild.js");
 
 client.db = require('./utils/database.js');
 

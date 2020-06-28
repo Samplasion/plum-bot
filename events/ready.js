@@ -28,12 +28,12 @@ module.exports = async client => {
   }, 120000);
   
   // Re-setup reminders
-  client.reminders.flush();
   Array.from(client.reminders.values()).forEach(user => {
     user.forEach(reminder => {
       setTimeout(() => {
         client.utils.remindUser(client.users.get(reminder.userID), reminder);
-      }, reminder.date - Date.now())
-    })
-  })
+      }, reminder.date - Date.now());
+    });
+  });
+  client.reminders.flush();
 }

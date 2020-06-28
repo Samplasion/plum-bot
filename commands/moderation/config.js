@@ -38,7 +38,6 @@ module.exports = class ConfigCommand extends Command {
       ],
       minPerm: 3
     });
-    this.actions = ["view", "set", "clear", "reset", "add", "get"];
   }
 
   getTitles() {

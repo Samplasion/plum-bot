@@ -1,10 +1,10 @@
 const discordJS = require('discord.js');
 const { findType } = require('../settings/index.js');
 const databaseModule = require('../utils/database.js');
-const serverconfig = databaseModule.serverconfig;
+const { serverconfig } = databaseModule;
 
 // This extends Discord's native Guild class with our own methods and properties
-export default discordJS.Structures.extend("Guild", Guild => class extends Guild {
+module.exports = discordJS.Structures.extend("Guild", Guild => class extends Guild {
 	constructor(...args) {
 		super(...args);
 		this.DBinit();
@@ -45,7 +45,9 @@ export default discordJS.Structures.extend("Guild", Guild => class extends Guild
 				return serverconfig.insert(defaultSettings);
 			},
 			get data() {
+        console.log(databaseModule)
 				let data = serverconfig.findOne({ guildID: guild.id }) || this.setDefaultSettings();
+        console.log(data);
 				return data;
 			},
 			set: (key, newValue, update=true) => {
