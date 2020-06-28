@@ -1,260 +1,242 @@
-const Command = require('../../classes/Command');
+const Command = require("../../classes/Command");
 const { RichEmbed } = require("discord.js");
 const { inspect } = require("util");
+const { findType, settingProps } = require('../../settings/index.js');
 
 module.exports = class ConfigCommand extends Command {
-    constructor(client) {
-        super(client, {
-            name: 'config',
-            aliases: ["conf", "settings", "sets"],
-            group: 'moderation',
-            memberName: 'config',
-            description: 'Changes the client configuration for the server',
-            examples: ["conf set welcomeMessage Welcome, {{user}}, to this server!"],
-            guildOnly: true,
-            args: [
-              {
-                key: "action",
-                label: "action flag",
-                prompt: "what action do you want to follow?",
-                type: "string",
-                default: "view",
-                oneOf: ['view', 'set', "clear", "get"],
-              },
-              {
-                key: "key",
-                label: "property",
-                prompt: "what key do you want to edit?",
-                type: "string",
-                default: ""
-              },
-              {
-                key: "value",
-                prompt: "what should the value be?",
-                type: "string",
-                default: ""
-              },
-            ],
-            minPerm: 3
-        });
-      this.actions = ['view', 'set', "clear", "reset", "add", "get"]
-    }
-  
+  constructor(client) {
+    super(client, {
+      name: "config",
+      aliases: ["conf", "settings", "sets"],
+      group: "moderation",
+      memberName: "config",
+      description: "Changes the client configuration for the server",
+      examples: ["conf set welcomeMessage Welcome, {{user}}, to this server!"],
+      guildOnly: true,
+      args: [
+        {
+          key: "action",
+          label: "action flag",
+          prompt: "what action do you want to follow?",
+          type: "string",
+          default: "view",
+          oneOf: ["view", "set", "clear", "get"]
+        },
+        {
+          key: "key",
+          label: "property",
+          prompt: "what key do you want to edit?",
+          type: "string",
+          default: ""
+        },
+        {
+          key: "value",
+          prompt: "what should the value be?",
+          type: "string",
+          default: ""
+        }
+      ],
+      minPerm: 3
+    });
+    this.actions = ["view", "set", "clear", "reset", "add", "get"];
+  }
+
   getTitles() {
-		return {
-			logchan: "Log channel",
-			welcomechan: "Welcome channel",
-			welcomemessage: "Welcome messages",
-			leavemessage: __("Leave message"),
-			prefix: __("Prefix"),
-			makerboard: __("MakerBoard URL"),
-			starboardchannel: __("Starboard channel"),
-			levelup: __("Level UP"),
-			levelupmsgs: __("Level UP messages"),
-			mutedrole: __("Muted role"),
+    return {
+      logchan: "Log channel",
+      welcomechan: "Welcome channel",
+      welcomemessage: "Welcome messages",
+      leavemessage: "Leave message",
+      prefix: "Prefix",
+      makerboard: "MakerBoard URL",
+      starboardchannel: "Starboard channel",
+      levelup: "Level UP",
+      levelupmsgs: "Level UP messages",
+      mutedrole: "Muted role"
+    };
+  }
+
+  async run(msg, { action, key, value }) {
+		let data = msg.guild.config.data;
+
+    switch (action) {
+      case "view":
+        let titles = this.getTitles();
+        let embed = this.client.util
+          .embed()
+          .setTitle(`Server configuration for ${msg.guild.name}`)
+          .setDescription(`You can use \`${this.handler.prefix(msg)}config set <key> null\` to set a value to an empty state.`)
+
+        for (let k in data) {
+          if (["meta", "$loki", "guildID"].includes(k)) continue;
+
+          let v = data[k];
+          let type = findType(k);
+          console.log(k, v, type ? type.id : type);
+
+          let embedValue;
+
+          try {
+            let deserializedValue = type.render(this.client, msg, v);
+            if (
+              deserializedValue == type.nullValue ||
+              deserializedValue == undefined ||
+              (deserializedValue == [] || deserializedValue[0] == undefined)
+            )
+              embedValue = "This value is empty";
+            else embedValue = deserializedValue;
+          } catch (e) {
+            embedValue = "This field has an error";
+          }
+
+          embed.addField(titles[k] + " [`" + k + "`]", embedValue);
+        }
+
+        return msg.util.send(embed);
+        break;
+      case "get":
+        if (!key) return msg.util.send("You didn't specify a key!");
+
+        let type = findType(settingProps[key]);
+        let deserializedValue = type.render(this.client, msg, data[key]);
+
+        return msg.util.send(
+          deserializedValue == type.nullValue ||
+            deserializedValue == undefined ||
+            (deserializedValue == [] || deserializedValue[0] == undefined)
+            ? "This value is empty"
+            : deserializedValue
+        );
+        break;
+      case "set":
+        if (!key) return msg.util.send("You didn't specify a key!");
+        if (!settingProps[key])
+          return msg.util.send(`The key \`${key}\` does not exist.`);
+        if (settingProps[key].extendable)
+          return await this.setArray(msg, data, key, value);
+
+        if (!value) return msg.util.send("You didn't specify a value!");
+        let t = findType(key);
+
+        if (!t)
+          return msg.util.send(
+            
+              `An error occurred: There's no type with ID \`${data[key].type}\`.\nAlert the bot owners to let them fix this error`
+            
+          );
+        if (!t.validate(this.client, msg, value))
+          return msg.util.send(
+            `The input \`${value}\` is not valid for the type \`${t.id}\`.`
+          );
+
+        if (value != "null") {
+          let newValue = t.serialize(this.client, msg, value);
+          msg.guild.config.set(key, newValue);
+        } else msg.guild.config.set(key, t.nullValue);
+
+        return msg.util.send(import("util").inspect(data[key]), { code: "js" });
+        break;
+      case "clear":
+      case "reset":
+        let resp = await this.awaitReply(
+          msg,
+          
+            "Are you ___**100%**___ sure you want to reset the configuration? [Y/N]"
+          ,
+          30000
+        );
+
+        if (resp && typeof resp == "string" && resp.toLowerCase() == "y") {
+          console.log(
+            msg.author.tag +
+              " accepted to clear " +
+              msg.guild.name +
+              "'s settings"
+          );
+          try {
+            await msg.guild.config.setDefaultSettings(false, false);
+            return msg.util.reply(
+              "I have successfully cleared the configuration"
+            );
+          } catch (e) {
+            console.error(e);
+            console.log(msg.guild.config.data);
+            return msg.util.send(
+              
+                `There has been an error while clearing the configuration. Please report this bug to the ${this.client.user.username} Developers`
+              
+            );
+          }
+        }
+        return msg.util.reply("action cancelled");
+        break;
+      default:
+        return msg.util.send(
+          "The action must be one of [view, get, set, clear]!"
+        );
+        break;
+    }
+  }
+
+  async setArray(msg, data, key, value, recursionDepth = 0) {
+		const __ = (k, ...v) => global.translate(msg.author.lang, k, ...v);
+		let t = findType(key);
+
+		let action = await this.awaitReply(msg, __("What do you want to do with the values? [`add` a value/`clear` the values]"), 30000);
+
+		if (!action)
+			return msg.util.reply(__("action cancelled"));
+
+		action = action.toLowerCase();
+		if (action == "clear") {
+			let resp = await this.awaitReply(msg, __("Are you ___**100%**___ sure you want to reset the array? [Y/N]"), 30000);
+
+			if (resp && typeof resp == "string" && resp.toLowerCase() == "y") {
+				msg.guild.config.set(key, []);
+
+				return msg.util.reply(__("I have successfully cleared the array"));
+			}
+
+			return msg.util.reply(__("action cancelled"));
+		} else if (action == "add") {
+			let resp = ""
+			let arr = [];
+			while (typeof resp == "string" && resp.toLowerCase() != "stop") {
+				if (resp) {
+					let actualValue = findType(key).serialize(this.client, msg, resp);
+					arr.push(actualValue);
+				}
+				resp = await this.awaitReply(msg, __("Enter the value you want to add, or type `stop` (or wait 30 seconds) to stop"), 30000);
+			}
+
+			// console.log(arr);
+			msg.guild.config.set(key, arr.concat(data[key]));
+
+			// await this.client.db.serverconfig.update(data);
+			msg.util.send(import("util").inspect(data[key]), {code: 'js'});
+		} else {
+			msg.util.send(__("The action must be one of [{0}]!", "add, clear"));
 		}
+
+		/* if (recursionDepth < 5) {
+			let otheract = await this.awaitReply(msg, __("Do something else? [`y`/`n`]"), 30000);
+
+			if (otheract && typeof otheract == "string" && otheract.toLowerCase() == "y") {
+				return this.setArray(msg, data, key, value, ++recursionDepth);
+			} else {
+				return msg.util.reply(__("action cancelled"));
+			}
+		} */
 	}
 
-    async run(message, { action, prop, value }) {
-      this.client.settings.getGuildSettings(message.guild)
-      const guildConf = this.client.settings.ensure(message.guild.id, this.client.defaultSettings);
-      var key = prop;
-      switch (action) {
-        case "view":
-          //let configProps = Object.keys(guildConf).map(prop => {
-          //  return `${prop}  :  ${guildConf[prop]}\n`;
-          //});
-          // return message.channel.send(`The following are the server's current configuration:
-          // \`\`\`js\n${configProps}\n\`\`\``);
-          return message.channel.send(inspect(guildConf, {depth: 1, compact: false}), {code: "js"});
-          break;
-        case "add":
-          if (!this.client.isOwner(message.author)) return message.reply("due to the nature of this action, it is restricted to the owner. Contact Samplasion#7901 if you **absolutely** need to add a key.");
-          const types = ["bool", "string", "int", "uint", "nullablestring", "array"];
-          var response = await this.client.utils.awaitReply(message, `What would the type be? [${types.join("/")}]`);
-          
-          if (types.includes(response.toLowerCase())) {
-            var type = response;
-            if (!key) return message.reply("Please specify a key to add");
-            if (guildConf[key]) return message.reply("This key already exists in the settings");
-
-            // One the settings is modified, we write it back to the collection
-            var res = value;
-            switch (type) {
-              case "bool":
-                res = this.booleanize(res)
-                break;
-              case "string":
-                res = res;
-                break;
-              case "nullablestring":
-                res = this.nullify(res)
-                break;
-              case "int":
-                res = parseInt(res)
-                break;
-              case "uint":
-                res = Math.abs(parseInt(res));
-                break;
-              case "array":
-                return this.handleArray(message, prop, res, guildConf.types[key]);
-              case "role":
-                res = this.handleRole(message, res)
-                break
-              case "channel":
-                res = this.handleChannel(message, res)
-                break
-            }
-            this.client.settings.set(message.guild.id, res, prop);
-            this.client.settings.set(message.guild.id, type, "types."+prop);
-            message.reply(`guild configuration item ${prop} has been added with value \`${value}\` and type ${type}`);
-          } else return message.reply(`\`type\` must be one of (${types.join(", ")})`);
-          break;
-        case "set":
-          // We can check that the key exists to avoid having multiple useless, 
-          // unused keys in the config:
-          if(!this.client.settings.has(message.guild.id, prop)) {
-            return message.reply("this key is not in the configuration.");
-          }
-          
-          if(key.includes("types"))
-            return message.reply("if you don't wanna mess with the configs and have to reset them, you better not touch the `types` key.");
-
-          var type = guildConf.types[key].split("|")[0];
-          var res = value;
-          
-          switch (type) {
-            case "bool":
-              if (!["true", "false", true, false].includes(value)) return message.reply(`${prop} must be one of (true, false)`);
-              res = this.booleanize(res)
-              break;
-            case "string":
-              res = res
-              break;
-            case "nullablestring":
-              res = this.nullify(res)
-              break;
-            case "int":
-              res = parseInt(res)
-              break;
-            case "uint":
-              res = Math.abs(parseInt(res));
-              break;
-            case "array":
-              return this.handleArray(message, prop, res, guildConf.types[key]);
-            case "role":
-              res = this.handleRole(message, res)
-              break
-            case "channel":
-              res = this.handleChannel(message, res)
-              break
-          }
-            
-          this.client.settings.set(message.guild.id, res, prop);
-
-          // We can confirm everything's done to the client.
-          message.channel.send(`Guild configuration item \`${prop}\` has been changed to:\n\`${res}\``);
-          break;
-        case "clear":
-        case "reset":
-          // Throw the 'are you sure?' text at them.
-          var response = await this.client.utils.awaitReply(message, `Are you sure you want to permanently clear/reset the configs? This **CANNOT** be undone. [yes/no]`);
-
-          // If they respond with y or yes, continue.
-          if (["y", "yes", "sure", "yep"].includes(response)) {
-
-            // We delete the `key` here.
-            // guildConf.delete();
-            this.client.settings.set(message.guild.id, this.client.defaultSettings);
-            message.reply(`The configs were successfully cleared.`);
-          } else
-          // If they respond with n or no, we inform them that the action has been cancelled.
-          if (["n", "no", "cancel"].includes(response)) {
-            message.reply("Action cancelled.");
-          }
-          break;
-        case "get":
-          if (!key) return message.reply("Please specify a key to view");
-          if (!guildConf[key]) return message.reply("This key does not exist in the settings");
-          var value = guildConf[key];
-          message.reply(`The value of ${key} is currently ${value}`);
-          break;
-        default:
-          return message.reply("unknown action, must be one of ("+this.actions.join(", ")+")")
-      }
-    }
-  
-    booleanize(str) {
-      switch (str) {
-        case "false":
-          return false;
-        case "true":
-          return true;
-      }
-      return true;
-    } 
-  
-  nullify(str) {
-    if (str == "null") return null
-    return str
-  }
-  
-  async handleArray(message, path, value, itsType) {
-    var key = message.guild.id
-    var items = value.split("|")
-    const subType = itsType.split("|")[1]
-    items = items.map(item => this.handleTypes(subType, item, message))
-    var response = await this.client.utils.awaitReply(message, `Do you want to replace the list, or simply add an item to it? [replace/add]`);
-
-    if (["replace"].includes(response.toLowerCase())) {
-      this.client.settings.set(key, items, path, true)
-      message.channel.send(`Guild configuration item \`${path}\` has been changed to:\n\`"${this.client.settings.get(key, path).join("\", \"")}"\``);
-    } else if (["add"].includes(response.toLowerCase())) {
-      items.forEach(i => this.client.settings.push(key, i, path, true)) // true is if there should be duplicate elements
-      message.channel.send(`Guild configuration item \`${path}\` has been changed to:\n\`"${this.client.settings.get(key, path).join("\", \"")}"\``);
-    }
-    
-  }
-  
-  handleRole(message, val) {
-    var key = message.guild.id
-    var value = val.trim()
-    var items = this.client.utils.isId(value.replace("<@&", "").replace(">", "")) ? value.replace("<@&", "").replace(">", "") : message.guild.roles.find(it => it.name == value || it.name.includes(value)).id
-    
-    return items.toString()
-  }
-  
-  handleChannel(message, val) {
-    var key = message.guild.id
-    var value = val.trim()
-    var items = this.client.utils.isId(value.replace("<#", "").replace(">", "")) ? value.replace("<#", "").replace(">", "") : message.guild.channels.find(it => it.name == value || it.name.includes(value)).id
-    
-    return items.toString()
-  }
-  
-  handleTypes(type, re, message) {
-    var res = re
-    switch (type) {
-            case "bool":
-              res = this.booleanize(res)
-              break;
-            case "string":
-              res = res
-              break;
-            case "nullablestring":
-              res = this.nullify(res)
-              break;
-            case "int":
-              res = parseInt(res)
-              break;
-            case "uint":
-              res = Math.abs(parseInt(res));
-              break;
-            case "role":
-              res = this.handleRole(message, res)
-            case "channel":
-              res = this.handleChannel(message, res)
-          }
-    return res
-  }
+	async awaitReply(msg, question, limit = 60000) {
+		const filter = m => m.author.id == msg.author.id;
+		await msg.channel.send(question);
+		try {
+			const collected = await msg.channel.awaitMessages(filter, { max: 1, time: limit, errors: ["time"] });
+			return collected.first().content;
+		} catch (e) {
+			return false;
+		}
+	};
 };
