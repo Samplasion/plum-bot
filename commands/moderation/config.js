@@ -47,11 +47,6 @@ module.exports = class ConfigCommand extends Command {
       welcomechan: "Welcome channel",
       welcomemessage: "Welcome messages",
       leavemessage: "Leave message",
-      prefix: "Prefix",
-      makerboard: "MakerBoard URL",
-      starboardchannel: "Starboard channel",
-      levelup: "Level UP",
-      levelupmsgs: "Level UP messages",
       mutedrole: "Muted role"
     };
   }

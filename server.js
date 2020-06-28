@@ -73,6 +73,10 @@ client.defaultSettings = {
   leaveMessage: ""
 }
 
+require("./struct/Guild.js");
+
+client.db = require('./utils/database.js');
+
 client.settings = new Enmap({ name: "settings" })
 client.settings.getGuildSettings = (guild) => {
   const def = client.defaultSettings;
