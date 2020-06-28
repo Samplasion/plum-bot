@@ -1,4 +1,4 @@
-const { Command } = require('./../../classes/Command.js');
+const Command = require('./../../classes/Command.js');
 const { oneLine } = require('common-tags');
 const Game = require('hangman-game-engine');
 function random(a, b = 0) {

@@ -35,7 +35,8 @@ client.registry
     .registerDefaultTypes()
     .registerDefaultGroups()
     .registerGroups([
-        ["moderation", "Moderation"]
+        ["moderation", "Moderation"],
+        ["fun", "Fun"],
     ])
     .registerDefaultCommands({
       help: false
