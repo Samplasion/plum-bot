@@ -1,16 +1,16 @@
-const discordJS = require('discord.js');
+const { Structures } = require('discord.js');
 const { findType } = require('../settings/index.js');
-const databaseModule = require('../utils/database.js');
+const db = require('../utils/database.js');
 
 // This extends Discord's native Guild class with our own methods and properties
-module.exports = discordJS.Structures.extend("Guild", Guild => class extends Guild {
+module.exports = Structures.extend("Guild", Guild => class extends Guild {
 	constructor(...args) {
 		super(...args);
 		this.DBinit();
 	}
 
 	DBinit() {
-    const { serverconfig } = databaseModule;
+    const serverconfig = this.client.settings;
 		let guild = this;
 		this.config = {
 			setDefaultSettings: (blank = false, scan = true) => {
@@ -30,34 +30,46 @@ module.exports = discordJS.Structures.extend("Guild", Guild => class extends Gui
 					mutedrole: mutedrole ? mutedrole.id : '',
 				};
 
-				let currentsettings = serverconfig.findOne({guildID: guild.id});
+				let currentsettings = serverconfig.get(guild.id);
 				if (currentsettings) {
 					for (var key in defaultSettings) {
 						currentsettings[key] = defaultSettings[key];
 					}
 
-					return serverconfig.update(currentsettings);
+					return serverconfig.set(guild.id, currentsettings);
 				}
 
-				return serverconfig.insert(defaultSettings);
+				return serverconfig.set(guild.id, defaultSettings);
 			},
 			get data() {
-				let data = databaseModule.serverconfig.findOne({ guildID: guild.id }) || this.setDefaultSettings();
+				let data = serverconfig.get(guild.id) || this.setDefaultSettings();
 				return data;
 			},
 			set: (key, newValue, update=true) => {
-				let currentsettings = serverconfig.findOne({guildID: guild.id});
+				let currentsettings = serverconfig.get(guild.id);
 				currentsettings[key] = newValue;
 
 				if (update)
-					return serverconfig.update(currentsettings);
+					return serverconfig.set(guild.id, currentsettings);
 			},
 			render: (key) => {
-				let data = serverconfig.findOne({ guildID: guild.id }) || this.setDefaultSettings();
+				let data = serverconfig.get(guild.id) || this.setDefaultSettings();
 				let value = data[key];
 
 				return findType(key).deserialize(guild.client, { guild }, value);
-			}
+			},
+      fix: () => {
+        const def = this.setDefaultSettings();
+        if (!guild) return def;
+        const returns = {};
+        const overrides = this.client.settings.get(guild.id) || {};
+        for (const key in def) {
+          if (key == "types") returns[key] = def[key] // replace the types, just to be sure it's up-to-date
+          else returns[key] = overrides[key] || def[key]; // For every key that's not there, use the default one
+        }
+        this.client.settings.set(guild.id, returns)
+        return returns;
+      }
 		}
 	}
 })

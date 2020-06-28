@@ -8,6 +8,10 @@ module.exports = class PlumEmbed extends MessageEmbed {
     this.setAuthor(client.user.username, client.user.avatarURL());
   }
   
+  addInline(name, body) {
+    return this.addField(name, body, true);
+  }
+  
   setFooter(name) {
     return this.setFullFooter((name ? name + " • " : "") + `Plum is made by Samplasion#0325`);
   }
