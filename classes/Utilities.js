@@ -76,11 +76,11 @@ class Utilities {
 
     if (fieldArray) {
       fields.forEach(([title, desc, inline]) => {
-        logged.addField(title, desc, inline ? true : false)
+        logged.addField(title, desc, !!inline)
       })
     }
 
-    owners.forEach(owner => this.client.users.get(owner).send(logged))
+    owners.forEach(owner => this.client.users.cache.get(owner).send(logged))
   }
 
   async awaitReply(msg, question, limit = 60000) {
@@ -156,9 +156,9 @@ class Utilities {
   }
   
   buildMessageURL(...args) {
-    var baseUrl = "https://discordapp.com/channels", final = baseUrl
-    args.forEach(arg => final += `/${arg.id}`)
-    return final
+    var url = "https://discordapp.com/channels";
+    args.forEach(arg => url += `/${arg.id}`);
+    return url;
   }
 }
 
