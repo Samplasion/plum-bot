@@ -18,6 +18,7 @@ app.listen(process.env.PORT);
 setInterval(() => {
   http.get(`http://plum-bot.glitch.me/`);
 }, 200000);
+http.get(`http://plum-bot.glitch.me/`);
 
 require("./classes/Guild.js");
 
