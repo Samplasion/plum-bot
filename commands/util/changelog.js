@@ -49,8 +49,7 @@ module.exports = class ChangelogCommand extends Command {
         "The changelog channel isn't an actual channel. " +
           "Set a valid one before changelogging stuff."
       );
-
-    try {
+    
       let embed = new Embed(this.client)
         .setTitle(`What's new in version ${version}`)
         .setDescription(log)
@@ -62,12 +61,5 @@ module.exports = class ChangelogCommand extends Command {
         msg,
         "The changelog was sent! Don't forget to bump the version number in `package.json`!"
       );
-    } catch (e) {
-      this.client.utils.sendErrMsg(
-        msg,
-        "The changelog wasn't sent! Check the error logs to know why."
-      );
-      throw e;
-    }
   }
 };

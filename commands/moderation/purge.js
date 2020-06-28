@@ -19,7 +19,8 @@ module.exports = class PurgeCommand extends Command {
           prompt: "how many messages do you want me to purge?",
           validate: text => parseInt(text) > 0 && parseInt(text) <= 100,
         }
-      ]
+      ],
+      permLevel: 2,
 		});
 	}
 

@@ -10,7 +10,7 @@ module.exports = class PlumCommand extends Command {
   }
   
   hasPermission(msg) {
-    return (msg.guild ? this.client.permissions(msg.member).level : this.client.isOwner(msg.author ? 10 : 1)) >= this.permLevel
+    return (msg.guild ? this.client.permissions(msg.member).level : (this.client.isOwner(msg.author) ? 10 : 1)) >= this.permLevel
   }
   
   get [Symbol.toStringTag]() {
