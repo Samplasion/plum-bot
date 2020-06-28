@@ -58,7 +58,7 @@ module.exports = class ConfigCommand extends Command {
         let titles = this.getTitles();
         let embed = new PlumEmbed(this.client)
           .setTitle(`Server configuration for ${msg.guild.name}`)
-          .setDescription(`You can use \`${this}config set <key> null\` to set a value to an empty state.`)
+          .setDescription(`You can use \`${msg.guild ? msg.guild.commandPrefix : this.client.commandPrefix}config set <key> null\` to set a value to an empty state.`)
 
         for (let k in data) {
           if (["meta", "$loki", "guildID"].includes(k)) continue;
@@ -85,15 +85,15 @@ module.exports = class ConfigCommand extends Command {
           embed.addField(titles[k] + " [`" + k + "`]", embedValue);
         }
 
-        return msg.util.send(embed);
+        return msg.channel.send(embed);
         break;
       case "get":
-        if (!key) return msg.util.send("You didn't specify a key!");
+        if (!key) return msg.channel.send("You didn't specify a key!");
 
         let type = findType(settingProps[key]);
         let deserializedValue = type.render(this.client, msg, data[key]);
 
-        return msg.util.send(
+        return msg.channel.send(
           deserializedValue == type.nullValue ||
             deserializedValue == undefined ||
             (deserializedValue == [] || deserializedValue[0] == undefined)
@@ -102,23 +102,23 @@ module.exports = class ConfigCommand extends Command {
         );
         break;
       case "set":
-        if (!key) return msg.util.send("You didn't specify a key!");
+        if (!key) return msg.channel.send("You didn't specify a key!");
         if (!settingProps[key])
-          return msg.util.send(`The key \`${key}\` does not exist.`);
+          return msg.channel.send(`The key \`${key}\` does not exist.`);
         if (settingProps[key].extendable)
           return await this.setArray(msg, data, key, value);
 
-        if (!value) return msg.util.send("You didn't specify a value!");
+        if (!value) return msg.channel.send("You didn't specify a value!");
         let t = findType(key);
 
         if (!t)
-          return msg.util.send(
+          return msg.channel.send(
             
               `An error occurred: There's no type with ID \`${data[key].type}\`.\nAlert the bot owners to let them fix this error`
             
           );
         if (!t.validate(this.client, msg, value))
-          return msg.util.send(
+          return msg.channel.send(
             `The input \`${value}\` is not valid for the type \`${t.id}\`.`
           );
 
@@ -127,7 +127,7 @@ module.exports = class ConfigCommand extends Command {
           msg.guild.config.set(key, newValue);
         } else msg.guild.config.set(key, t.nullValue);
 
-        return msg.util.send(import("util").inspect(data[key]), { code: "js" });
+        return msg.channel.send(import("util").inspect(data[key]), { code: "js" });
         break;
       case "clear":
       case "reset":
@@ -148,23 +148,23 @@ module.exports = class ConfigCommand extends Command {
           );
           try {
             await msg.guild.config.setDefaultSettings(false, false);
-            return msg.util.reply(
+            return msg.reply(
               "I have successfully cleared the configuration"
             );
           } catch (e) {
             console.error(e);
             console.log(msg.guild.config.data);
-            return msg.util.send(
+            return msg.channel.send(
               
                 `There has been an error while clearing the configuration. Please report this bug to the ${this.client.user.username} Developers`
               
             );
           }
         }
-        return msg.util.reply("action cancelled");
+        return msg.reply("action cancelled");
         break;
       default:
-        return msg.util.send(
+        return msg.channel.send(
           "The action must be one of [view, get, set, clear]!"
         );
         break;
@@ -172,25 +172,24 @@ module.exports = class ConfigCommand extends Command {
   }
 
   async setArray(msg, data, key, value, recursionDepth = 0) {
-		const __ = (k, ...v) => global.translate(msg.author.lang, k, ...v);
 		let t = findType(key);
 
-		let action = await this.awaitReply(msg, __("What do you want to do with the values? [`add` a value/`clear` the values]"), 30000);
+		let action = await this.awaitReply(msg, "What do you want to do with the values? [`add` a value/`clear` the values]", 30000);
 
 		if (!action)
-			return msg.util.reply(__("action cancelled"));
+			return msg.reply("action cancelled");
 
 		action = action.toLowerCase();
 		if (action == "clear") {
-			let resp = await this.awaitReply(msg, __("Are you ___**100%**___ sure you want to reset the array? [Y/N]"), 30000);
+			let resp = await this.awaitReply(msg, "Are you ___**100%**___ sure you want to reset the array? [Y/N]", 30000);
 
 			if (resp && typeof resp == "string" && resp.toLowerCase() == "y") {
 				msg.guild.config.set(key, []);
 
-				return msg.util.reply(__("I have successfully cleared the array"));
+				return msg.reply("I have successfully cleared the array");
 			}
 
-			return msg.util.reply(__("action cancelled"));
+			return msg.reply("action cancelled");
 		} else if (action == "add") {
 			let resp = ""
 			let arr = [];
@@ -199,16 +198,16 @@ module.exports = class ConfigCommand extends Command {
 					let actualValue = findType(key).serialize(this.client, msg, resp);
 					arr.push(actualValue);
 				}
-				resp = await this.awaitReply(msg, __("Enter the value you want to add, or type `stop` (or wait 30 seconds) to stop"), 30000);
+				resp = await this.awaitReply(msg, "Enter the value you want to add, or type `stop` (or wait 30 seconds) to stop", 30000);
 			}
 
 			// console.log(arr);
 			msg.guild.config.set(key, arr.concat(data[key]));
 
 			// await this.client.db.serverconfig.update(data);
-			msg.util.send(import("util").inspect(data[key]), {code: 'js'});
+			msg.channel.send(import("util").inspect(data[key]), {code: 'js'});
 		} else {
-			msg.util.send(__("The action must be one of [{0}]!", "add, clear"));
+			msg.channel.send("The action must be one of [add, clear]!");
 		}
 
 		/* if (recursionDepth < 5) {
@@ -217,7 +216,7 @@ module.exports = class ConfigCommand extends Command {
 			if (otheract && typeof otheract == "string" && otheract.toLowerCase() == "y") {
 				return this.setArray(msg, data, key, value, ++recursionDepth);
 			} else {
-				return msg.util.reply(__("action cancelled"));
+				return msg.reply(__("action cancelled"));
 			}
 		} */
 	}
