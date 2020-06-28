@@ -1,5 +1,5 @@
 const Command = require("../../classes/Command");
-const { RichEmbed } = require("discord.js");
+const PlumEmbed = require("../../classes/Embed");
 const { inspect } = require("util");
 const { findType, settingProps } = require('../../settings/index.js');
 
@@ -56,10 +56,9 @@ module.exports = class ConfigCommand extends Command {
     switch (action) {
       case "view":
         let titles = this.getTitles();
-        let embed = this.client.util
-          .embed()
+        let embed = new PlumEmbed(this.client)
           .setTitle(`Server configuration for ${msg.guild.name}`)
-          .setDescription(`You can use \`${this.handler.prefix(msg)}config set <key> null\` to set a value to an empty state.`)
+          .setDescription(`You can use \`${this}config set <key> null\` to set a value to an empty state.`)
 
         for (let k in data) {
           if (["meta", "$loki", "guildID"].includes(k)) continue;
