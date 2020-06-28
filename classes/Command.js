@@ -3,6 +3,20 @@ const CommandError = require("./CommandError");
 const Embed = require("./Embed");
 
 module.exports = class PlumCommand extends Command {
+  constructor(client, options) {
+    super(client, options)
+    
+    this.permLevel = options.permLevel || 1
+  }
+  
+  hasPermission(msg) {
+    return (msg.guild ? this.client.permissions(msg.member).level : this.client.isOwner(msg.author ? 10 : 1)) >= this.permLevel
+  }
+  
+  get [Symbol.toStringTag]() {
+    return "Command"
+  }
+  
   onError(err, message, args, fromPattern, result) { // eslint-disable-line no-unused-vars
 		// super.onError(err, message, args, fromPattern, result);
     let error = new CommandError(err, message);

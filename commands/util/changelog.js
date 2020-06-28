@@ -1,7 +1,7 @@
 const Command = require("../../classes/Command");
 const Embed = require("../../classes/Embed");
 
-module.exports = class EvalCommand extends Command {
+module.exports = class ChangelogCommand extends Command {
   constructor(client) {
     super(client, {
       name: "changelog",
@@ -56,7 +56,7 @@ module.exports = class EvalCommand extends Command {
         .setDescription(log)
         .setFullFooter("");
 
-      changelogChannel.send(embed.shit());
+      changelogChannel.send(embed);
 
       this.client.utils.sendOkMsg(
         msg,

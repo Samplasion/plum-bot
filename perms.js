@@ -2,7 +2,7 @@ const Permission = require("./classes/Permission.js")
 
 class PermissionZero extends Permission {
   constructor(client) {
-    super(client, 0, "Bot", "Insert useful description for bots...")
+    super(client, 0, "Bot", "Bots are pieces of code that do stuff when triggered.")
   }
   
   validate(member) {
@@ -12,7 +12,7 @@ class PermissionZero extends Permission {
 
 class PermissionOne extends Permission {
   constructor(client) {
-    super(client, 1, "User", "Insert useful description for users...")
+    super(client, 1, "User", "Everyone is a user (except bots).")
   }
   
   validate(member) {
@@ -23,7 +23,7 @@ class PermissionOne extends Permission {
 
 class PermissionTwo extends Permission {
   constructor(client) {
-    super(client, 2, "Server moderator", "Insert useful description for server moderators...")
+    super(client, 2, "Server moderator", "Server admins are the owner's helpers in moderating the server.")
   }
   
   validate(member) {
@@ -35,7 +35,7 @@ class PermissionTwo extends Permission {
 
 class PermissionThree extends Permission {
   constructor(client) {
-    super(client, 3, "Server admin", "Insert useful description for server admins...")
+    super(client, 3, "Server admin", "Server admins are the owner's helpers in moderating and managing the server.")
   }
   
   validate(member) {
@@ -47,7 +47,7 @@ class PermissionThree extends Permission {
 
 class PermissionFour extends Permission {
   constructor(client) {
-    super(client, 4, "Server owner", "Insert useful description for server owners...")
+    super(client, 4, "Server owner", "The server owner is the person who created the server, or inherited the privilege from them.")
   }
   
   validate(member) {

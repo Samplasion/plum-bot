@@ -239,7 +239,7 @@ module.exports = class ConfigCommand extends Command {
 
 			// await this.client.db.serverconfig.update(data);
       msg.channel.send(msg, findType(key), key);
-			msg.channel.send(require("util").inspect(msg.guild.config.data[key]), {code: 'js'});
+			// msg.channel.send(require("util").inspect(msg.guild.config.data[key]), {code: 'js'});
 		} else {
 			msg.channel.send("The action must be one of [add, clear]!");
 		}
