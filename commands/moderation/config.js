@@ -19,10 +19,10 @@ module.exports = class ConfigCommand extends Command {
                 prompt: "what action do you want to follow?",
                 type: "string",
                 default: "view",
-                // oneOf: ['view', 'set', "clear", "reset", "add"],
+                oneOf: ['view', 'set', "clear", "get"],
               },
               {
-                key: "prop",
+                key: "key",
                 label: "property",
                 prompt: "what key do you want to edit?",
                 type: "string",
@@ -39,6 +39,21 @@ module.exports = class ConfigCommand extends Command {
         });
       this.actions = ['view', 'set', "clear", "reset", "add", "get"]
     }
+  
+  getTitles() {
+		return {
+			logchan: "Log channel",
+			welcomechan: "Welcome channel",
+			welcomemessage: "Welcome messages",
+			leavemessage: __("Leave message"),
+			prefix: __("Prefix"),
+			makerboard: __("MakerBoard URL"),
+			starboardchannel: __("Starboard channel"),
+			levelup: __("Level UP"),
+			levelupmsgs: __("Level UP messages"),
+			mutedrole: __("Muted role"),
+		}
+	}
 
     async run(message, { action, prop, value }) {
       this.client.settings.getGuildSettings(message.guild)
