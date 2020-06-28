@@ -31,22 +31,16 @@ module.exports = discordJS.Structures.extend("User", User => class extends User 
 
 				return reminders.insert(defaultSettings);
 			},
-			get data() {
+			get list() {
 				let data = databaseModule.serverconfig.findOne({ userID: user.id }) || this.setDefaultSettings();
 				return data;
 			},
-			set: (key, reminder, update=true) => {
-				let currentsettings = reminders.findOne({guildID: guild.id});
-				currentsettings[key].reminders.push() = newValue;
+			add: (reminder, update=true) => {
+				let currentsettings = reminders.findOne({ userID: user.id });
+				currentsettings.reminders.push(reminder);
 
 				if (update)
-					return serverconfig.update(currentsettings);
-			},
-			render: (key) => {
-				let data = serverconfig.findOne({ guildID: guild.id }) || this.setDefaultSettings();
-				let value = data[key];
-
-				return findType(key).deserialize(guild.client, { guild }, value);
+					return reminders.update(currentsettings);
 			}
 		}
 	}

@@ -12,7 +12,7 @@ module.exports = async client => {
   // Edit message to say "Took N seconds"
   try {
     const { id: rebootMsgID , channel: rebootMsgChan } = JSON.parse(fs.readFileSync('./reboot.json', 'utf8'));
-    const m = await client.channels.get(rebootMsgChan).fetchMessage(rebootMsgID);
+    const m = await client.channels.cache.get(rebootMsgChan).messages.cache.get(rebootMsgID);
     await m.edit(`Rebooted! It took ${((Date.now() - m.createdTimestamp) / 1000).toFixed(1)} seconds`);
     fs.unlink('./reboot.json', ()=>{});
   } catch(O_o) {}
