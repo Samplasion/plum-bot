@@ -41,7 +41,13 @@ module.exports = discordJS.Structures.extend("User", User => class extends User 
 
 				if (update)
 					return reminders.update(currentsettings);
-			}
+			},
+      flush: () => {
+        let currentsettings = reminders.findOne({ userID: user.id }).filter(rem => {
+          return rem.date > Date.now();
+        });
+        return reminders.update(currentsettings);
+      }
 		}
 	}
 })

@@ -30,12 +30,16 @@ module.exports = async client => {
   }, 120000);
   
   // Re-setup reminders
-  Array.from(client.reminders.values()).forEach(user => {
-    user.forEach(reminder => {
+  client.users.cache.forEach(user => {
+    if (user.bot) return;
+    console.log(user);
+    user.reminders.list.forEach(reminder => {
       setTimeout(() => {
-        client.utils.remindUser(client.users.cache.get(reminder.userID), reminder);
+        client.utils.remindUser(user, reminder);
       }, reminder.date - Date.now());
     });
+    
+    // Flushing reminders *after* triggering current ones so that the bot can catch up
+    user.reminders.flush();
   });
-  client.reminders.flush();
 }

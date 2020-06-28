@@ -16,8 +16,7 @@ module.exports = class ReminderCommand extends Command {
         {
           key: "text",
           type: "string",
-          prompt: "what do you want me to remind you of, and when?",
-          default: ""
+          prompt: "what do you want me to remind you of, and when?"
         }
       ]
     });
@@ -65,7 +64,7 @@ To enter a duration, type \`in <duration>\` after the reminder.`
       userID: msg.author.id
     };
 
-    this.client.reminders.add(msg.author, remObj);
+    msg.author.reminders.add(msg.author, remObj);
 
     setTimeout(() => {
       this.client.utils.remindUser(msg.author, remObj);
