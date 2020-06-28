@@ -30,6 +30,17 @@ module.exports = async client => {
   }, 120000);
   
   // Re-setup reminders
+  Array.from(client.reminders.values()).forEach(user => {
+    user.forEach(reminder => {
+      setTimeout(() => {
+        client.utils.remindUser(client.users.cache.get(reminder.userID), reminder);
+      }, reminder.date - Date.now());
+    });
+  });
+  // Flushing reminders *after* triggering current ones so that the bot can catch up
+  client.reminders.flush();
+  
+  /*
   client.users.cache.forEach(user => {
     if (user.bot) return;
     console.log(user.reminders.list);
@@ -39,7 +50,7 @@ module.exports = async client => {
       }, reminder.date - Date.now());
     });
     
-    // Flushing reminders *after* triggering current ones so that the bot can catch up
     user.reminders.flush();
   });
+  */
 }

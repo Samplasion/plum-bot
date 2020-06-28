@@ -32,17 +32,17 @@ module.exports = Structures.extend("User", User => class extends User {
 				return reminders.insert(defaultSettings);
 			},
 			get list() {
-				let data = databaseModule.serverconfig.findOne({ userID: user.id }) || this.setDefaultSettings();
+				let data = reminders.findOne({ userID: user.id }) || this.setDefaultSettings();
+        // console.log(data, reminders.data, user.id);
 				return data.reminders;
 			},
 			add: (reminder) => {
-        console.log(user.id, reminders.data);
 				let currentsettings = reminders.findOne({ userID: user.id });
 				currentsettings.reminders.push(reminder);
         
-        console.log(currentsettings);
+        // console.log(currentsettings);
 
-				return reminders.update(currentsettings);
+				/*console.log(*/reminders.update(currentsettings)//);
 			},
       flush: () => {
         let currentsettings = reminders.findOne({ userID: user.id })
