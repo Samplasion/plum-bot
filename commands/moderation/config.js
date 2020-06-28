@@ -110,6 +110,8 @@ module.exports = class ConfigCommand extends Command {
 
         if (!value) return msg.channel.send("You didn't specify a value!");
         let t = findType(key);
+        
+        console.log("TYPE", t, key, value)
 
         if (!t)
           return msg.channel.send(

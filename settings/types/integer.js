@@ -1,4 +1,4 @@
-export default class IntType {
+module.exports = class IntType {
 	static get nullValue() {
 		return null;
 	}

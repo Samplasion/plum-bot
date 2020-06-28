@@ -1,4 +1,4 @@
-export default class ChannelType {
+module.exports = class ChannelType {
 	static get nullValue() {
 		return null;
 	}

@@ -11,10 +11,13 @@ for (var propertyFileName of propertyFileNames) {
 	settingProps[propertyFileName.split('.').slice(0, -1).join('.')] = require(join(dirname, 'properties', propertyFileName))
 }
 
-let typesFileNames = readdirSync(join(dirname, 'properties'))
+let typesFileNames = readdirSync(join(dirname, 'types'))
 for (var typeFileName of typesFileNames) {
-	types.push(require(join(dirname, 'properties', typeFileName)));
+	types.push(require(join(dirname, 'types', typeFileName)));
 }
+
+console.log("TYPES", types);
+console.log("SETTINGPROPS", settingProps);
 
 let findType = (key) => types.filter(type => type.id == settingProps[key].type)[0];
 let getKey = (client, msg, key) => {

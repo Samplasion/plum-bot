@@ -1,4 +1,4 @@
-export default class CommandType {
+module.exports = class CommandType {
 	static get nullValue() {
 		return "";
 	}
