@@ -36,6 +36,7 @@ module.exports = Structures.extend("User", User => class extends User {
 				return data.reminders;
 			},
 			add: (reminder) => {
+        console.log(user.id, reminders.data);
 				let currentsettings = reminders.findOne({ userID: user.id });
 				currentsettings.reminders.push(reminder);
         
