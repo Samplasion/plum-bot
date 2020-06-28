@@ -48,7 +48,7 @@ sqlite.open(path.join(__dirname, "settings.sqlite3")).then((db) => {
 
 fs.readdir('./events/', (err, files) => {
   if (err) console.error(err);
-  console.log(`Loading a total of ${files.length} events.`);
+  console.log(` [LOAD] Loading a total of ${files.length} events.`);
   files.forEach(file => {
     const eventName = file.split(".")[0];
     const event = require(`./events/${file}`);
