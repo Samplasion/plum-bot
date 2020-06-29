@@ -47,7 +47,7 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
       check: () => {
         let data = this.data;
         let curLevel = data.level;
-        new level = 
+        let newLevel = Math.floor(Math.sqrt(data.points))
       },
 			award() {
 				let curPoints = this.data.points;
