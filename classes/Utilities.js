@@ -1,6 +1,7 @@
 const Commando = require("discord.js-commando");
 const { oneLine } = require('common-tags')
     , PlumEmbed = require('./Embed')
+    , CommandError = require("./CommandError")
     , List = require("list-array")
 
 class Utilities {
@@ -172,11 +173,37 @@ class Utilities {
 class Errors {
   constructor(utilities) {
     this.utils = utilities;
-    this.errorID = "";
+    this.errorID = "727102902690250752";
   }
   
-  async unhandledRejection() {
-    await 
+  async unhandledRejection(err) {
+    let embed = new PlumEmbed(this.utils.client)
+        .setTitle("Unhandled Promise rejection in code")
+        .setColor("RED")
+        .setDescription(`${"```js"}\n${err.stack}${"```"}`)
+    
+    if (err instanceof CommandError) {
+      embed.addFields(
+          ["Message", err.msg.cleanContent],
+          ["Author", err.msg.author.tag]
+      )
+    } 
+    
+    this.utils.client.channels.cache.get(this.errorID).send(embed);
+  }
+    
+  async uncaughtException(err) {
+    let embed = new PlumEmbed(this.utils.client)
+    .setTitle("Uncaught exception in code")
+    .setColor("RED")
+    .setDescription(`${"```js"}${err.toString()}${"```"}`)
+    if (err instanceof CommandError) {
+      embed.addFields(
+        ["Message", err.msg.cleanContent],
+        ["Author", err.msg.author.tag]
+      )
+    }
+    this.utils.client.channels.cache.get(this.errorID).send(embed);
   }
 }
 

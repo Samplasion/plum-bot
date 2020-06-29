@@ -125,24 +125,12 @@ client.login(process.env.TOKEN);
 process
   .on('unhandledRejection', (err, p) => {
     console.error(err);
-    let embed = new Embed(client)
-        .setTitle("Unhandled Promise rejection in code")
-        .setColor("RED")
-        .setDescription(`${"```js"}\n${err.stack}${"```"}`)
-    
-    if (err instanceof CommandError) {
-      embed.addFields(
-          ["Message", err.msg.cleanContent],
-          ["Author", err.msg.author.tag]
-      )
-    } 
-    
-    client.channels.cache.get("727102902690250752").send(embed);
+    client.utils.errors.unhandledRejection(err);
     // console.error(err, 'Unhandled Rejection at Promise', p);
   })
   .on('uncaughtException', err => {
     console.error(err);
-    
+    client.utils.errors.uncaughtException(err);
     process.exit(1);
   });
 
