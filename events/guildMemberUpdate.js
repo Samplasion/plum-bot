@@ -14,7 +14,7 @@ module.exports = (client, oldMember, newMember) => {
   }
   Object.keys(d).forEach(k => {
     let r = k
-    if (["lastMessageID", "joinedTimestamp", "lastMessageChannelID"].some(t => r == t)) return;
+    if (["lastMessageID", "joinedTimestamp", "lastMessageChannelID", "_roles"].some(t => r == t)) return;
     if (r == "nickname") r = "displayName";
     {
       e.addInline("Old " + Case.lower(k), oldMember[r] || "None")
