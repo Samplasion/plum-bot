@@ -61,7 +61,7 @@ class Utilities {
   // t      = Embed title
   // v      = Embed description
   // fieldArray = Embed fields (eg. [["Title1", "Value1"], ["Title2", "Value2", true]] )
-  log(t, v, fieldArray) {
+  fastEmbed(t, v, fieldArray) {
     // List (because of the forEach below)
     if (fieldArray) var fields = List.fromArray(fieldArray)
 
@@ -82,6 +82,12 @@ class Utilities {
     return logged;
     
     // owners.forEach(owner => this.client.users.cache.get(owner).send(logged))
+  }
+  
+  async log(...args) {
+    var channel = await this.client.channels.fetch("727104956263432213");
+    let embed = this.fastEmbed(...args);
+    return channel.send(embed);
   }
 
   async awaitReply(msg, question, limit = 60000) {
