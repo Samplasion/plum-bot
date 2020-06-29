@@ -1,6 +1,6 @@
 const Commando = require("discord.js-commando");
 const { oneLine } = require('common-tags')
-    , RichEmbed = require('discord.js')
+    , PlumEmbed = require('./Embed')
     , List = require("list-array")
 
 class Utilities {
@@ -35,8 +35,7 @@ class Utilities {
   }
 
   embed() {
-    return new RichEmbed()
-      .setColor(0x008080)
+    return new PlumEmbed(this.client)
   }
 
   plural(num, item) {

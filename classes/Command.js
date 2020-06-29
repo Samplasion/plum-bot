@@ -6,7 +6,8 @@ module.exports = class PlumCommand extends Command {
   constructor(client, options) {
     super(client, options)
     
-    this.permLevel = options.permLevel || 1
+    this.permLevel = options.permLevel || 1;
+    if (this.ownerOnly) this.permLevel = 10;
   }
   
   hasPermission(msg) {
@@ -31,7 +32,7 @@ module.exports = class PlumCommand extends Command {
           { name: "Author", value: error.msg.author.tag, inline: true },
           { name: "Error ID", value: error.msg.id },
         );
-      this.client.channels.cache.get("689149132375457886").send(embed);
+      this.client.channels.cache.get("727102902690250752").send(embed);
     }
     console.error(error.ogError);
     this.client.utils.sendErrMsg(message, `There was an error. The developers have already received the report, though you can speed the `

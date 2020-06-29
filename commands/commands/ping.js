@@ -1,11 +1,11 @@
 const { oneLine } = require('common-tags');
-const { Command } = require('./../../classes/Command.js');
+const Command = require('./../../classes/Command.js');
 
 module.exports = class PingCommand extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'ping',
-			group: 'util',
+			group: 'commands',
 			memberName: 'ping',
 			description: "It... like... pings. And then pongs. And it's not ping pong!",
 			throttling: {
@@ -16,14 +16,13 @@ module.exports = class PingCommand extends Command {
 	}
 
 	async run(msg) {
-    const pingMsg = await msg.reply(':ping_pong: Ping...');
+    const pingMsg = await msg.say(':ping_pong: Pinging...');
     let pingembed = this.client.utils.embed()
       .setTitle("Ping!")
       .setDescription(":ping_pong: Pong!")
-//    .setColor("#15f153")
       .addInline("Ping time", (new Date().getTime() - pingMsg.createdTimestamp + " ms"))
       .addInline("Heartbeat", `${Math.round(this.client.ping)} ms`)
 
-    pingMsg.edit(pingembed);
+    pingMsg.edit("", pingembed);
 	}
 };

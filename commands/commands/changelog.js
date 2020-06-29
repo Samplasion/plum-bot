@@ -6,11 +6,11 @@ module.exports = class ChangelogCommand extends Command {
     super(client, {
       name: "changelog",
       aliases: ["log"],
-      group: "util",
+      group: "commands",
       memberName: "changelog",
       description:
         "Logs a new change to the #changelog channel in the support server.",
-      details: "Only the bot owner(s) may use this command.",
+      details: "Further improvements™ to overall system stability™ and other minor™ adjustments™ have been made to enhance™ the user experience™",
       ownerOnly: true,
 
       args: [

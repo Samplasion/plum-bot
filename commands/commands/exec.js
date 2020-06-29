@@ -6,12 +6,12 @@ module.exports = class EvalCommand extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'exec',
-			group: 'util',
+			group: 'commands',
 			memberName: 'exec',
 			description: 'Executes bash scripts.',
 			details: 'Only the bot owner(s) may use this command.',
 			ownerOnly: true,
-
+      
 			args: [
 				{
 					key: 'script',

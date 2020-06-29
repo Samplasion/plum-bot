@@ -35,13 +35,15 @@ client.registry
     .registerDefaultTypes()
     .registerDefaultGroups()
     .registerGroups([
+        ["commands", "Botkeeping Utilities"],
         ["moderation", "Moderation"],
         ["fun", "Fun"],
     ])
-    .registerDefaultCommands({
-      help: false,
-      ping: false
-    })
+    //.registerDefaultCommands({
+    //  help: false,
+    //  ping: false,
+    //  reload: false
+    //})
     .registerCommandsIn(path.join(__dirname, 'commands'));
 
 sqlite.open(path.join(__dirname, "settings.sqlite3")).then((db) => {
@@ -135,7 +137,7 @@ process
       )
     } 
     
-    client.channels.cache.get("689149132375457886").send(embed);
+    client.channels.cache.get("727102902690250752").send(embed);
     // console.error(err, 'Unhandled Rejection at Promise', p);
   })
   .on('uncaughtException', err => {
@@ -150,7 +152,7 @@ process
           ["Author", err.msg.author.tag]
         )
     }
-    client.channels.cache.get("689149132375457886").send(embed);
+    client.channels.cache.get("727102902690250752").send(embed);
     process.exit(1);
   });
 
