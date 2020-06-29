@@ -47,9 +47,17 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
       check: () => {
         let data = this.data;
         let curLevel = data.level;
-        let newLevel = Math.floor(Math.sqrt(data.points))
+        let newLevel = Math.floor(0.1 * Math.sqrt(data.points));
+        
+        if (newLevel > curLevel)
+          client.points.set(`${user.id}-${guild.id}`, newLevel, "level");
       },
-			award() {
+			award(points = 1) {
+				let curPoints = this.data.points;
+        client.points.math(`${user.id}-${guild.id}`, "+", points, "points");
+        return this.check();
+			},
+			detract(points = 1) {
 				let curPoints = this.data.points;
         client.points.set(`${user.id}-${guild.id}`);
 			},
