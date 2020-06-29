@@ -9,7 +9,7 @@ module.exports = class PurgeCommand extends Command {
 			memberName: 'purge',
 			description: 'Purges a flooded channel.',
 			details: '(Get it? Flooded... purge... no?)',
-
+      guildOnly: true,
 			args: [
         {
           type: "integer",
@@ -28,8 +28,10 @@ module.exports = class PurgeCommand extends Command {
     await msg.delete();
     
     let msgs = await msg.channel.messages.fetch({ limit: amount });
-    msg.channel.bulkDelete(msgs);
+    await msg.channel.bulkDelete(msgs);
     
-    this.client.utils.sendOkMsg(msg, `${amount} message${amount == 1 ? "" : "s"} were successfully purged.`);
+    let okmsg = await this.client.utils.sendOkMsg(msg, `${amount} message${amount == 1 ? " was" : "s were"} successfully purged.`);
+    setTimeout(() => okmsg.delete(), 5000);
+    return okmsg;
   }
 }
