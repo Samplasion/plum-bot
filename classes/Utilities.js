@@ -172,6 +172,7 @@ class Utilities {
 class Errors {
   constructor(utilities) {
     this.utils = utilities;
+    this.errorID = "";
   }
   
   async unhandledRejection() {

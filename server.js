@@ -142,17 +142,7 @@ process
   })
   .on('uncaughtException', err => {
     console.error(err);
-    let embed = new Embed(client)
-      .setTitle("Uncaught exception in code")
-      .setColor("RED")
-      .setDescription(`${"```js"}${err.toString()}${"```"}`)
-    if (err instanceof CommandError) {
-        embed.addFields(
-          ["Message", err.msg.cleanContent],
-          ["Author", err.msg.author.tag]
-        )
-    }
-    client.channels.cache.get("727102902690250752").send(embed);
+    
     process.exit(1);
   });
 
