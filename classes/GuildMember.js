@@ -14,6 +14,17 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
 		let guild = this.guild;
     let client = this.client;
 		this.points = {
+      get data() {
+        return client.points.get(`${user.id}-${guild.id}`) || this.setDefault();
+      },
+      ensure: () => {
+        client.points.ensure(`${user.id}-${guild.id}`, {
+          userID: user.id,
+          guildID: guild.id,
+          points: 0,
+          level: 1
+        })
+      },
 			setDefault: () => {
 
 				let defaultSettings = {
@@ -30,12 +41,17 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
 					}
 				}
 
-				return client.points.set(`${user.id}-${guild.id}`, currentSettings || defaultSettings);
+				client.points.set(`${user.id}-${guild.id}`, currentSettings || defaultSettings);
+        return currentSettings || defaultSettings;
 			},
-			get list() {
-				let data = reminders.findOne({ userID: user.id }) || this.setDefaultSettings();
-        // console.log(data, reminders.data, user.id);
-				return data.reminders;
+      check: () => {
+        let data = this.data;
+        let curLevel = data.level;
+        new level = 
+      },
+			award() {
+				let curPoints = this.data.points;
+        client.points.set(`${user.id}-${guild.id}`);
 			},
 			add: (reminder) => {
 				let currentsettings = reminders.findOne({ userID: user.id });

@@ -36,17 +36,19 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 						currentsettings[key] = defaultSettings[key];
 					}
 
-					return serverconfig.set(guild.id, currentsettings);
+					serverconfig.set(guild.id, currentsettings);
+          return currentsettings;
 				}
 
-				return serverconfig.set(guild.id, defaultSettings);
+				serverconfig.set(guild.id, defaultSettings);
+        return defaultSettings;
 			},
 			get data() {
 				let data = serverconfig.get(guild.id) || this.setDefaultSettings();
 				return data;
 			},
 			set: (key, newValue) => {
-				let currentsettings = serverconfig.get(guild.id);
+				let currentsettings = serverconfig.get(guild.id) || this.setDefaultSettings();
 				currentsettings[key] = newValue;
 
 				return serverconfig.set(guild.id, currentsettings);
