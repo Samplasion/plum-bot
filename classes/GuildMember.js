@@ -51,6 +51,8 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
         
         if (newLevel > curLevel)
           client.points.set(`${user.id}-${guild.id}`, newLevel, "level");
+        
+        return newLevel > curLevel;
       },
 			award(points = 1) {
 				let curPoints = this.data.points;
@@ -59,23 +61,9 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
 			},
 			detract(points = 1) {
 				let curPoints = this.data.points;
-        client.points.set(`${user.id}-${guild.id}`);
+        client.points.math(`${user.id}-${guild.id}`, "-", points, "points");
+        return this.check();
 			},
-			add: (reminder) => {
-				let currentsettings = reminders.findOne({ userID: user.id });
-				currentsettings.reminders.push(reminder);
-        
-        // console.log(currentsettings);
-
-				/*console.log(*/reminders.update(currentsettings)//);
-			},
-      flush: () => {
-        let currentsettings = reminders.findOne({ userID: user.id })
-        currentsettings.reminders = currentsettings.reminders.filter(rem => {
-          return rem.date > Date.now();
-        });
-        return reminders.update(currentsettings);
-      }
 		}
 	}
 })

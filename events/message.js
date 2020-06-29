@@ -13,5 +13,8 @@ module.exports = async (client, message) => {
           .join("\n")
       );
     }
+  } else {
+    if (message.guild)
+      message.member.points.award();
   }
 }
