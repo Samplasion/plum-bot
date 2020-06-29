@@ -138,13 +138,13 @@ process
     // console.error(err, 'Unhandled Rejection at Promise', p);
   })
   .on('uncaughtException', err => {
-    console.log(err instanceof CommandError, err.name)
+    console.log(err
+    let embed = new Embed(client)
+      .setTitle("Uncaught exception in code")
+      .setColor("RED")
+      .setDescription(`${"```js"}${err.toString()}${"```"}`)
     if (err instanceof CommandError) {
-      let embed = new Embed(client)
-        .setTitle("Uncaught exception in code")
-        .setColor("RED")
-        .setDescription(`${"```js"}${err.toString()}${"```"}`)
-        .addFields(
+        embed.addFields(
           ["Message", err.msg.cleanContent],
           ["Author", err.msg.author.tag]
         )
