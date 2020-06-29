@@ -79,7 +79,9 @@ class Utilities {
       })
     }
 
-    owners.forEach(owner => this.client.users.cache.get(owner).send(logged))
+    return logged;
+    
+    // owners.forEach(owner => this.client.users.cache.get(owner).send(logged))
   }
 
   async awaitReply(msg, question, limit = 60000) {

@@ -16,9 +16,6 @@ for (var typeFileName of typesFileNames) {
 	types.push(require(join(dirname, 'types', typeFileName)));
 }
 
-console.log("TYPES", types);
-console.log("SETTINGPROPS", settingProps);
-
 let findType = (key) => types.filter(type => type.id == settingProps[key].type)[0];
 let getKey = (client, msg, key) => {
 	let data = databaseModule.serverconfig.findOne({guildID: msg.guild.id});
