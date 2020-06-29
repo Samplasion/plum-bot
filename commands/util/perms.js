@@ -23,11 +23,8 @@ module.exports = class RandTextCommand extends Command {
   run(message, { user }) {
     // If pinged user, that. Otherwise message member
     let member = user || message.member
-    let you = !user
     let perm = this.client.permissions(member)
-    message.say(`${you ? "Your" : member.displayName+"'s" } permission level is: 
-
-__**${perm.name}**__ [${perm.level}]
-_${perm.description}_`)
+    message.channel.send(this.client.utils.fastEmbed("Permission level", `**${perm.name}** [${perm.level}]\n${perm.description}`)
+      .setAuthor(member.displayName, member.user.displayAvatarURL()))
   }
 };

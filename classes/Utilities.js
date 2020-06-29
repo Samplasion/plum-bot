@@ -143,7 +143,7 @@ class Utilities {
     } else if (arr.length > 2) {
       //joins all with commas, but last one gets ", and" (oxford comma!)
       //example: "bob, joe, and sam"
-      outStr = arr.slice(0, -1).join(', ') + ', and ' + arr.slice(-1);
+      outStr = arr.slice(0, -1).join(', ') + ' and ' + arr.slice(-1);
     }
     return outStr;
   }
@@ -166,6 +166,16 @@ class Utilities {
     var url = "https://discordapp.com/channels";
     args.forEach(arg => url += `/${arg.id}`);
     return url;
+  }
+}
+
+class Errors {
+  constructor(utilities) {
+    this.utils = utilities;
+  }
+  
+  async unhandledRejection() {
+    await 
   }
 }
 
