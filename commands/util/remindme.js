@@ -48,8 +48,8 @@ To enter a duration, type \`in <duration>\` after the reminder.`
 
     let prettyDuration = [];
     var rawObj = prettyms(duration);
-    for (let prop of ["days", "hours", "minutes", "seconds", "milliseconds"]) {
-      if (rawObj[prop]) prettyDuration.push(`${rawObj[prop]} ${prop}`);
+    for (let prop of ["days", "hours", "minutes", "seconds"]) {
+      if (rawObj[prop]) prettyDuration.push(this.client.utils.plural(rawObj[prop], prop.substr(0, prop.length-1)));
     }
 
     msg.say(
@@ -62,7 +62,7 @@ To enter a duration, type \`in <duration>\` after the reminder.`
       text: reminder.trim(),
       date: Date.now() + duration,
       userID: msg.author.id,
-      id: (msg.authors.reminders.list[msg.authors.reminders.list.length-1].id || 0) + 1
+      id: (((msg.author.reminders.list || [])[msg.author.reminders.list.length-1] || {id:0}).id || 0) + 1
     };
 
     msg.author.reminders.add(remObj);

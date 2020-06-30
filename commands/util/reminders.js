@@ -21,18 +21,18 @@ module.exports = class ReminderCommand extends Command {
       .setTitle("Your reminders")
     let desc = [];
     
-    for (let rem in msg.author.reminders.list) {
+    for (let rem of msg.author.reminders.list) {
       let prettyDuration = [];
       var rawObj = prettyms(rem.date - Date.now());
-      for (let prop of ["days", "hours", "minutes", "seconds", "milliseconds"]) {
-        if (rawObj[prop]) prettyDuration.push(this.client.util.plural(rawObj[prop], prop.substr(-1)));
+      for (let prop of ["days", "hours", "minutes", "seconds"]) {
+        if (rawObj[prop]) prettyDuration.push(this.client.utils.plural(rawObj[prop], prop.substr(0, prop.length-1)));
       }
       prettyDuration = this.client.utils.oxford(prettyDuration);
       
-      desc.push(`• ${rem.id} Reminder **${rem.text}** in ${prettyDuration}`);
+      desc.push(`• ${rem.id}. **${rem.text}** in ${prettyDuration}`);
     }
     
-    if (!desc.length) desc.push(`You have no reminders set. Add one with ``)
+    if (!desc.length) desc.push(`You have no reminders set. Add one with \`${msg.prefix}remindme to do something in 5 minutes\``)
     
     msg.channel.send(embed.setDescription(desc.join("\n")));
   }

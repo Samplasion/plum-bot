@@ -6,24 +6,22 @@ const databaseModule = require('../utils/database.js');
 module.exports = Structures.extend("User", User => class extends User {
 	constructor(...args) {
 		super(...args);
-		this.DBinit();
-	}
-
-	DBinit() {
-    const { reminders } = databaseModule;
-		let user = this;
-		this.reminders = {
+    
+    let client = this.client;
+    let user = this;
+    
+    this.reminders = {
 			get list() {
-				return this.client.reminders.list(this);
+				return client.reminders.list(user);
 			},
 			add: (reminder) => {
-				return this.client.reminders.add(this, reminder);
+				return client.reminders.add(user, reminder);
 			},
       flush: () => {
-        return this.client.reminders.flush(this);
+        return client.reminders.flush(user);
       },
       clear: () => {
-        return this.client.reminders.clear(this);
+        return client.reminders.clear(user);
       }
 		}
 	}
