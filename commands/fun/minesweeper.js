@@ -58,9 +58,10 @@ module.exports = class HangmanCommand extends Command {
     let   key = `${msg.guild.id}${msg.author.id}`;
     
     if (!!guess && !regex.test(guess))
-      return this.client.util.sendErrMsg(msg, "The guess (or board size) isn't in an appropriate format. Check the help page for more info.");
+      return this.client.utils.sendErrMsg(msg, "The guess (or board size) isn't in an appropriate format. Check the help page for more info.");
     
-    let data = regex.exec(guess) || [];
+    console.log(guess, guess.match(regex));
+    let data = regex.exec(guess);
     
     var printBoard = function (board) {
       var i,
@@ -103,7 +104,7 @@ module.exports = class HangmanCommand extends Command {
           }
         } else if (cell.state === CellStateEnum.OPEN) {
           if (cell.isMine) {
-            strRow += getCellString('*');
+            strRow += getCellString('Q');
           } else {
             strRow += getCellString(cell.numAdjacentMines);
           }
@@ -117,10 +118,29 @@ module.exports = class HangmanCommand extends Command {
     var getCellString = function (content) {
       return '[' + content + ']';
     };
+    
+    let self = this;
+    // Returns whether the game should end
+    function checkGame(key, board) {
+      let state = board.state();
+      
+      if (state == BoardStateEnum.LOST) {
+        msg.channel.send("Oh no! You lost!");
+        delete self.games[key];
+        return true;
+      } else if (state == BoardStateEnum.WON) {
+        msg.channel.send("You won!");
+        delete self.games[key];
+        return true;
+      } else return false;
+    }
 
+    console.log(data);
+    
     if (this.games[key]) {
-      if (data[1] && data[2]) {
+      if (data != null) {
         let [, x, y, symbol] = data;
+        console.log(x, y, parseInt(x), parseInt(y));
         if (symbol) {
           this.games[key].cycleCellFlag(parseInt(x), parseInt(y));
         } else {
@@ -128,12 +148,15 @@ module.exports = class HangmanCommand extends Command {
         }
       }
       
+      if (checkGame(key, this.games[key]))
+        return;
+      
       printBoard(this.games[key]);
     } else {
       var mineArray = minesweeper.generateMineArray({
-        rows: data[1] || 5,
-        cols: data[2] || 5,
-        mines: Math.floor(Math.sqrt(parseInt(data[1] || 5) * parseInt(data[2] || 5)))
+        rows: data == null ? 5 : data[1],
+        cols: data == null ? 5 : data[2],
+        mines: Math.floor(Math.sqrt(parseInt(data == null ? 5 : data[1]) * parseInt(data == null ? 5 : data[2])))
       });
 
       var board = new Board(mineArray);
