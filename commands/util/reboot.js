@@ -24,6 +24,8 @@ module.exports = class EvalCommand extends Command {
         JSON.stringify({ id: rebootMessage.id, channel: msg.channel.id })
       );
     } catch {}
+    
+    await this.client.utils.rebootLog(msg);
 
     process.exit();
   }

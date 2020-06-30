@@ -88,7 +88,7 @@ class Utilities {
   // t      = Embed title
   // v      = Embed description
   // fieldArray = Embed fields (eg. [["Title1", "Value1"], ["Title2", "Value2", true]] )
-  fastEmbed(t, v, fieldArray) {
+  fastEmbed(t, v, fieldArray, marking = true) {
     // List (because of the forEach below)
     if (fieldArray) var fields = List.fromArray(fieldArray)
 
@@ -99,6 +99,12 @@ class Utilities {
     var logged = this.embed()
       .setTitle(t)
       .setDescription(v)
+    
+    if (!marking) {
+      logged
+        .setFullFooter("")
+        .setAuthor("", "")
+    }
 
     if (fieldArray) {
       fields.forEach(([title, desc, inline]) => {
@@ -112,8 +118,16 @@ class Utilities {
   }
   
   async rebootLog(msg) {
-    var channel = await this.client.channels.fetch("727506075665956968");
-    let embed = this.fastEmbed(this.emojis.info + " Reboot");
+    var channel = await this.client.channels.fetch("727506096989929533");
+    let e = this.emojis;
+    let embed = this.fastEmbed(
+      e.reboot + " Reboot",
+      "",
+      [
+        [`${e.user} Initiated by`, `${msg.author.tag} [${msg.author.id}]`]
+      ],
+      false
+    );
     return channel.send(embed);
   }
   
@@ -216,8 +230,8 @@ class Errors {
     
     if (err instanceof CommandError) {
       embed.addFields(
-          ["Message", err.msg.cleanContent],
-          ["Author", err.msg.author.tag]
+          [this.utils.emojis.message + "Message", err.msg.cleanContent],
+          [this.utils.emojis.user + "Author", err.msg.author.tag]
       )
     } 
     
@@ -231,8 +245,8 @@ class Errors {
     .setDescription(`${"```js"}${err.toString()}${"```"}`)
     if (err instanceof CommandError) {
       embed.addFields(
-        ["Message", err.msg.cleanContent],
-        ["Author", err.msg.author.tag]
+        [this.utils.emojis.message + "Message", err.msg.cleanContent],
+        [this.utils.emojis.user + "Author", err.msg.author.tag]
       )
     }
     this.utils.client.channels.cache.get(this.errorID).send(embed);
