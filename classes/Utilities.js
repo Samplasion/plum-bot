@@ -107,9 +107,13 @@ class Utilities {
     }
 
     if (fieldArray) {
-      fields.forEach(([title, desc, inline]) => {
-        logged.addField(title, desc, !!inline)
-      })
+      console.log(fields);
+      logged.addFields(
+        ...(fields.map(([name, value, inline]) => ({name, value, inline})))
+      )
+      // fields.forEach(([title, desc, inline]) => {
+      //   logged.addField(title, desc, !!inline)
+      // })
     }
 
     return logged;

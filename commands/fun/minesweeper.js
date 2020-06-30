@@ -63,14 +63,16 @@ module.exports = class HangmanCommand extends Command {
     console.log(guess, guess.match(regex));
     let data = regex.exec(guess);
     
+    let self = this;
+    
     var printBoard = function (board) {
       var i,
-          strColHead = ' ',
+          strColHead = '   ',
           grid = board.grid();
 
       // print a header that shows the column numbers 
       for (i = 0; i < board.numCols(); i++) {
-        strColHead += ' ' + i + ' ';
+        strColHead += '' + i + ' ';
       }
       let head = strColHead;
       let body = [];
@@ -80,7 +82,16 @@ module.exports = class HangmanCommand extends Command {
         body.push(printRow(grid[i], i));
       }
       
-      msg.channel.send(`\`\`\`${head}\n${body.join("\n")}\`\`\``)
+      let e = self.client.utils.fastEmbed(
+        "Minesweeper Game",
+        `\`\`\`${head}\n${body.join("\n")}\`\`\``,
+        [
+          ["Board size", board._numCols + "x" + board._numRows, true],
+          ["Mines", board._numMines, true],
+        ]
+      );
+      
+      msg.channel.send(e)
     };
 
     var printRow = function (rowArray, rowNum) {
@@ -89,24 +100,36 @@ module.exports = class HangmanCommand extends Command {
           strRow = '';
 
       // Start the row with the row number
-      strRow += rowNum !== undefined ? '' + rowNum + '' : '';
+      strRow += rowNum !== undefined ? '' + rowNum + ' ' : ' ';
+      
+      let numbers = [
+        "0️⃣",
+        "1️⃣",
+        "2️⃣",
+        "3️⃣",
+        "4️⃣",
+        "5️⃣",
+        "6️⃣",
+        "7️⃣",
+        "8️⃣"
+      ]
 
       // Add each cell in the row to the string we will print
       for (i=0; i<rowArray.length; i++) {
         cell = rowArray[i];
         if (cell.state === CellStateEnum.CLOSED) {
           if (cell.flag === CellFlagEnum.NONE) {
-            strRow += getCellString(' ');
+            strRow += getCellString('◻️');
           } else if (cell.flag === CellFlagEnum.EXCLAMATION) {
-            strRow += getCellString('!');
+            strRow += getCellString('❗️');
           } else if (cell.flag === CellFlagEnum.QUESTION) {
-            strRow += getCellString('?');
+            strRow += getCellString('❓');
           }
         } else if (cell.state === CellStateEnum.OPEN) {
           if (cell.isMine) {
-            strRow += getCellString('Q');
+            strRow += getCellString('💣');
           } else {
-            strRow += getCellString(cell.numAdjacentMines);
+            strRow += getCellString(numbers[cell.numAdjacentMines]);
           }
         }
       }
@@ -116,10 +139,9 @@ module.exports = class HangmanCommand extends Command {
     };
 
     var getCellString = function (content) {
-      return '[' + content + ']';
+      return '' + content + '';
     };
     
-    let self = this;
     // Returns whether the game should end
     function checkGame(key, board) {
       let state = board.state();
@@ -127,8 +149,10 @@ module.exports = class HangmanCommand extends Command {
       switch (state) {
         case BoardStateEnum.LOST:
         case BoardStateEnum.WON:
-          msg.channel.send(state == BoardStateEnum.LOST ? "Oh no, you lost..." : "Yeah, you won!");
-          delete self.games[key];
+          msg.channel.send(state == BoardStateEnum.LOST ? "Oh no, you lost..." : "Yeah, you won!").then(() => {
+            printBoard(board);
+            delete self.games[key];
+          });
           return true;
           
         default:
@@ -157,7 +181,7 @@ module.exports = class HangmanCommand extends Command {
       var mineArray = minesweeper.generateMineArray({
         rows: data == null ? 5 : data[1],
         cols: data == null ? 5 : data[2],
-        mines: Math.floor(Math.sqrt(parseInt(data == null ? 5 : data[1]) * parseInt(data == null ? 5 : data[2])))
+        mines: Math.min(Math.floor(Math.sqrt(parseInt(data == null ? 5 : data[1]) * parseInt(data == null ? 5 : data[2]))), 10)
       });
 
       var board = new Board(mineArray);
