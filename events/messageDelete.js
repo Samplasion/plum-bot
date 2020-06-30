@@ -7,6 +7,7 @@ module.exports = async (client, message) => {
   let user = ""
   let av = ""
   if (entry.extra.channel.id === message.channel.id
+      && entry.target
       && (entry.target.id === message.author.id)
       && (entry.createdTimestamp > (Date.now() - 5000))
       && (entry.extra.count >= 1)) {
