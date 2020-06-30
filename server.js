@@ -80,6 +80,7 @@ client.permissions.get = number => {
 
 client.db = require('./utils/database.js');
 
+client.points = new Enmap({ name: "points" })
 client.settings = new Enmap({ name: "settings" })
 /*
 client.settings.getGuildSettings = (guild) => {

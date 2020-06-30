@@ -18,15 +18,17 @@ module.exports = async (client, command, promise/* <Message> */, message/* <pref
   else cmdArgs = Object.values(args)
   var botMsg = await promise || null
   var guild = message.guild
-  if (!message.guild) guild = { name: "Direct Messages", id: client.user.id }
+  if (!message.guild) guild = { name: "Direct Messages", id: client.user.id };
+  
+  let e = client.utils.emojis;
   let embed = client.utils.log(
-    "Command run",
+    e.info + " Command run",
     message.cleanContent, 
     [
-      [":bust_in_silhouette: Author", `${message.author.tag} [${message.author.id}]`],
-      [":globe_with_meridians: Server", `${message.guild.name} [${message.guild.id}]`],
-      [":file_folder: Channel", `#${message.channel.name} [${message.channel.id}] (<#${message.channel.id}>)`],
-      [":1234: Message ID", `${message.id}`, true]
+      [`${e.user} Author`, `${message.author.tag} [${message.author.id}]`],
+      [`${e.server} Server`, `${message.guild.name} [${message.guild.id}]`],
+      [`${e.channel} Channel`, `#${message.channel.name} [${message.channel.id}] (<#${message.channel.id}>)`],
+      [`${e.numbers} Message ID`, `${message.id}`, true]
     ]
   );
   console.log(`  [CMD] ${message.command.name}(${cmdArgs.join(", ")}) [${botMsg ? roundNumber((botMsg.createdAt - message.createdAt), 2) : "No "}ms] ${message.author.username}[${message.author.id}] ${message.channel.name}[${message.channel.id}] ${guild.name}[${guild.id}]`)
