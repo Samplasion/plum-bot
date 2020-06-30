@@ -37,9 +37,11 @@ module.exports = class HangmanCommand extends Command {
       memberName: 'minesweeper',
       description: 'Play some "Minesweeper" with a bot!',
       details: oneLine`The format for the argument is the following:
-        \`NUMBER DELIMITER NUMBER SYMBOL?\`, where:` + stripIndent`
-        NUMBER is, quite obviously, any number
-        `,
+        \`NUMBER DELIMITER NUMBER SYMBOL?\`, where:` + stripIndent`\n
+        NUMBER is, quite obviously, any number;
+        DELIMITER is one of the following symbols: \`.*x-_|&\`; and
+        SYMBOL is optional and can be either \`?\` or \`!\`.
+        There can be an arbitrary amount of space between each "token" of the format.`,
       examples: ['hman', "hman g"],
       args: [{
         key: 'guess',
@@ -118,8 +120,14 @@ module.exports = class HangmanCommand extends Command {
 
     if (this.games[key]) {
       if (data.length) {
-        
+        let [, x, y, symbol] = data;
+        if (symbol) {
+          this.games[key].cycleCellFlag(parseInt(x), parseInt(y));
+        } else {
+          this.games[key].openCell(parseInt(x), parseInt(y));
+        }
       }
+      
       printBoard(this.games[key]);
     } else {
       var mineArray = minesweeper.generateMineArray({
