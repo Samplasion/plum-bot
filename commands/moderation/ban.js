@@ -1,4 +1,4 @@
-const { Command } = require('./../../classes/Command.js');
+const   Command   = require('./../../classes/Command.js');
 const { oneLine } = require('common-tags');
 
 module.exports = class BanCommand extends Command {
@@ -32,7 +32,7 @@ This permanently bans users.`,
     });
   }
 
-  run(msg, { user, reason }) {
+  async run(msg, { user, reason }) {
     if (msg.guild.members.has(user)) {
 			user = msg.guild.members.get(user.id);
 
@@ -48,16 +48,17 @@ This permanently bans users.`,
 			if (this.client.permissions(user).level >= 3 && msg.guild.ownerId !== msg.member.id)
 				return msg.reply("You need to be the server owner in order to ban Administrators")
 		}
-    await msg.guild.ban(user.user ? user.user.id : user.id, reason)
-    msg.channel.send(`${user.user ? user.user.tag : user.tag} was banned`)
+    await msg.guild.ban(user.user ? user.user.id : user.id, reason);
+    msg.channel.send(`${user.user ? user.user.tag : user.tag} was banned`);
+    let em = this.client.utils.emojis;
     let e = this.client.utils.embed()
       .setTitle("User Banned")
-      .setAuthor(msg.member.displayName, msg.author.displayAvatarURL)
-      .setThumbnail(user.user ? user.user.displayAvatarURL : user.displayAvatarURL)
+      .setAuthor(msg.member.displayName, msg.author.displayAvatarURL())
+      .setThumbnail(user.user ? user.user.displayAvatarURL() : user.displayAvatarURL())
       .setColor(0xC61919)
-      .addField(" User", `**${user.user ? user.user.tag : user.tag}** [${user.user ? user.user.id : user.id}]`)
+      .addField(em.user + " User", `**${user.user ? user.user.tag : user.tag}** [${user.user ? user.user.id : user.id}]`)
       .addField("👷 Moderator", `**${msg.author.tag}** [${msg.author.id}]`)
-      .addField("📝 Reason", `${reason}`)
-    msg.guild.log(e);
+      .addField(em.message + "📝 Reason", `${reason}`)
+    return msg.guild.log(e);
   }
 };

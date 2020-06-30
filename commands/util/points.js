@@ -9,6 +9,7 @@ module.exports = class RandTextCommand extends Command {
       memberName: 'points',
       description: 'Lets you see how many points you have.',
       examples: ['perms'],
+      guildOnly: true,
       args: [
         {
           key: "user",
@@ -23,6 +24,9 @@ module.exports = class RandTextCommand extends Command {
   run(message, { user }) {
     // If pinged user, that. Otherwise message member
     let member = user || message.member
-    return message.channel.send(`${member.id == user.id ? "You've" : member.displayName + "'s"} got ${member.points.data.points} points and are at level ${member.points.data.level}`);
+    return message.channel.send(
+      this.client.utils.fastEmbed("Points", `${member.points.data.points} points`, [["Level", member.points.data.level]])
+        .setAuthor(member.displayName, member.user.displayAvatarURL())
+    );
   }
 };
