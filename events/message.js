@@ -14,7 +14,19 @@ module.exports = async (client, message) => {
       );
     }
   } else {
-    if (message.guild)
+    if (message.guild) {
       message.member.points.award();
+      
+      if (message.member.points.check()) {
+        let embed = client.utils.embed()
+          .setAuthor(message.member.displayName, message.author.displayAvatarURL())
+          .setColor(message.member.highestRole.color)
+          .setTitle("Congratulations!")
+          .setDescription("You've leveled UP!")
+          .addField("New Level", message.member.points.data.level)
+          .setThumbnail(message.author.displayAvatarURL);
+        let msg = await message.channel.send(embed)
+      }
+    }
   }
 }
