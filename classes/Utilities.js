@@ -106,8 +106,14 @@ class Utilities {
     // owners.forEach(owner => this.client.users.cache.get(owner).send(logged))
   }
   
+  async rebootLog(msg) {
+    var channel = await this.client.channels.fetch("727506075665956968");
+    let embed = this.fastEmbed(...args);
+    return channel.send(embed);
+  }
+  
   async log(...args) {
-    var channel = await this.client.channels.fetch("727104956263432213");
+    var channel = await this.client.channels.fetch("727506075665956968");
     let embed = this.fastEmbed(...args);
     return channel.send(embed);
   }
@@ -194,7 +200,7 @@ class Utilities {
 class Errors {
   constructor(utilities) {
     this.utils = utilities;
-    this.errorID = "727102902690250752";
+    this.errorID = "727506120402403329";
   }
   
   async unhandledRejection(err) {
