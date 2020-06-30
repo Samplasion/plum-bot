@@ -48,7 +48,28 @@ module.exports = class HangmanCommand extends Command {
   }
   
   run(msg, { guess }) {
+    let regex = /(\d+)\s*(?:\.|\*|x|-|\||_|&)\s*(\d+)\s*(\?|!)?/gm;
+    let   key = `${msg.guild.id}${msg.author.id}`;
+    
+    if (!regex.test(guess))
+      return this.client.util.sendErrMsg(msg, "The guess (or board size) isn't in an appropriate format. Check the help page for more info.");
+    
+    let data = regex.exec(guess);
 
+    if (this.games[key]) {
+      
+    } else {
+      var mineArray = minesweeper.generateMineArray({
+        rows: 5,
+        cols: 5,
+        mines: 5
+      });
+
+      var board = new Board(mineArray);
+
+      this.games[key] = board;
+    }
+    
     var printBoard = function (board) {
       var i,
           strColHead = '   ',
@@ -58,7 +79,8 @@ module.exports = class HangmanCommand extends Command {
       for (i = 0; i < board.numCols(); i++) {
         strColHead += '   ' + i + '   ';
       }
-      console.log(strColHead);
+      let head = strColHead;
+      let body = [];
 
       // print all the rows on the board
       for (i = 0; i < board.numRows(); i++) {
@@ -95,7 +117,7 @@ module.exports = class HangmanCommand extends Command {
       }
 
       // Print this row to the console
-      return console.log(strRow);
+      return strRow;
     };
 
     var getCellString = function (content) {
@@ -109,7 +131,9 @@ module.exports = class HangmanCommand extends Command {
     });
 
     var board = new Board(mineArray);
-
+    
+    this.games[key] = board;
+    
     printBoard(board);
   }
 
