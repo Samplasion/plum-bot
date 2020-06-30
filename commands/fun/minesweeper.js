@@ -1,5 +1,5 @@
 const Command = require('./../../classes/Command.js');
-const { oneLine } = require('common-tags');
+const { oneLine, stripIndent } = require('common-tags');
 const List = require('list-array');
 const Embed = require('../../classes/Embed');
 const minesweeper = require('minesweeper');
@@ -36,6 +36,10 @@ module.exports = class HangmanCommand extends Command {
       aliases: ["ms"],
       memberName: 'minesweeper',
       description: 'Play some "Minesweeper" with a bot!',
+      details: oneLine`The format for the argument is the following:
+        \`NUMBER DELIMITER NUMBER SYMBOL?\`, where:` + stripIndent`
+        NUMBER is, quite obviously, any number
+        `,
       examples: ['hman', "hman g"],
       args: [{
         key: 'guess',
@@ -113,6 +117,9 @@ module.exports = class HangmanCommand extends Command {
     };
 
     if (this.games[key]) {
+      if (data.length) {
+        
+      }
       printBoard(this.games[key]);
     } else {
       var mineArray = minesweeper.generateMineArray({
