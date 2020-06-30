@@ -124,15 +124,16 @@ module.exports = class HangmanCommand extends Command {
     function checkGame(key, board) {
       let state = board.state();
       
-      if (state == BoardStateEnum.LOST) {
-        msg.channel.send("Oh no! You lost!");
-        delete self.games[key];
-        return true;
-      } else if (state == BoardStateEnum.WON) {
-        msg.channel.send("You won!");
-        delete self.games[key];
-        return true;
-      } else return false;
+      switch (state) {
+        case BoardStateEnum.LOST:
+        case BoardStateEnum.WON:
+          msg.channel.send(state == BoardStateEnum.LOST ? "Oh no, you lost..." : "Yeah, you won!");
+          delete self.games[key];
+          return true;
+          
+        default:
+          return false;
+      }
     }
 
     console.log(data);
