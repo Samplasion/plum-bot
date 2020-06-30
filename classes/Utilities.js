@@ -108,7 +108,7 @@ class Utilities {
   
   async rebootLog(msg) {
     var channel = await this.client.channels.fetch("727506075665956968");
-    let embed = this.fastEmbed(...args);
+    let embed = this.fastEmbed(this.emojis.info + " Reboot");
     return channel.send(embed);
   }
   
