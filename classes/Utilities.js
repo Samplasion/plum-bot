@@ -47,8 +47,13 @@ class Utilities {
       ok: "✅",
       error: "⛔",
       numbers: "🔢",
+      alias: "🆔",
       lock: "🔒",
       paper: "📃",
+      off: "📴",
+      reboot: "🔄",
+      restart: "🔄", // ALIAS
+      message: "📝",
     }
   }
 

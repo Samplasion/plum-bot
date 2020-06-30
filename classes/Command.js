@@ -29,16 +29,17 @@ module.exports = class PlumCommand extends Command {
     let error = new CommandError(err, message);
     console.log(error instanceof CommandError, error.name)
     if (error instanceof CommandError) {
+      let e = this.client.emojis;
       let embed = new Embed(this.client)
         .setTitle("Uncaught exception in code")
         .setColor("RED")
         .setDescription(`${"```js"}\n${error.ogError.stack}${"```"}`)
         .addFields(
-          { name: "Message", value: error.msg.content, inline: true },
-          { name: "Author", value: error.msg.author.tag, inline: true },
-          { name: "Error ID", value: error.msg.id },
+          { name: e.message + " Message",  value: error.msg.content,    inline: true },
+          { name: e.user    + " Author",   value: error.msg.author.tag, inline: true },
+          { name: e.id      + " Error ID", value: error.msg.id                       },
         );
-      this.client.channels.cache.get("727102902690250752").send(embed);
+      this.client.channels.cache.get(this.client.utils.errors.errorID).send(embed);
     }
     console.error(error.ogError);
     this.client.utils.sendErrMsg(message, `There was an error. The developers have already received the report, though you can speed the `

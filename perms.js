@@ -28,7 +28,7 @@ class PermissionTwo extends Permission {
   
   validate(member) {
     if (member.user.bot) return false
-    let mRole = this.client.settings.get(member.guild.id, "mods")
+    let mRole = member.guild.config.data.mods;
     return (mRole || []).some(role => member.roles.has(role))
   }
 }
@@ -40,7 +40,7 @@ class PermissionThree extends Permission {
   
   validate(member) {
     if (member.user.bot) return false
-    let mRole = this.client.settings.get(member.guild.id, "admins")
+    let mRole = member.guild.config.data.admins;
     return (mRole || []).some(role => member.roles.has(role))
   }
 }
@@ -52,7 +52,7 @@ class PermissionFour extends Permission {
   
   validate(member) {
     if (member.user.bot) return false
-    let mRole = this.client.settings.get(member.guild.id, "owners")
+    let mRole = member.guild.config.owners;
     return ((mRole || []).some(role => member.roles.has(role)) || member.guild.ownerId == member.user.id)
   }
 }
