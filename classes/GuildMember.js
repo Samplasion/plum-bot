@@ -50,10 +50,13 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
         let curLevel = data.level;
         let newLevel = Math.floor(0.1 * Math.sqrt(data.points));
         
-        if (newLevel > curLevel)
-          client.points.set(`${user.id}-${guild.id}`, newLevel, "level");
+        client.points.set(`${user.id}-${guild.id}`, newLevel, "level");
         
-        return newLevel > curLevel;
+        if (newLevel > curLevel) {
+          return true
+        }
+        
+        return false;
       },
 			award(points = 1) {
 				let curPoints = this.data.points;

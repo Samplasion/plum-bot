@@ -15,12 +15,11 @@ module.exports = async (client, message) => {
     }
   } else {
     if (message.guild) {
-      message.member.points.award();
-      
-      if (message.member.points.check()) {
+      let lvlup = message.member.points.award();
+      if (lvlup) {
         let embed = client.utils.embed()
           .setAuthor(message.member.displayName, message.author.displayAvatarURL())
-          .setColor(message.member.highestRole.color)
+          .setColor(message.member.displayHexColor)
           .setTitle("Congratulations!")
           .setDescription("You've leveled UP!")
           .addField("New Level", message.member.points.data.level)
