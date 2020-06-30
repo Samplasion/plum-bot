@@ -25,10 +25,10 @@ module.exports = class EvalCommand extends Command {
 		this.lastResult = null;
 	}
   
-  hasPermission(msg) {
-    if (!this.client.isOwner(msg.author)) return 'only the bot owner(s) may use this command.';
-    return true;
-  }
+  // hasPermission(msg) {
+    // if (!this.client.isOwner(msg.author)) return 'only the bot owner(s) may use this command.';
+    // return true;
+  // }
 
 	async run(message, { script }) {
 		let msg = message,

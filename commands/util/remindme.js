@@ -53,7 +53,7 @@ To enter a duration, type \`in <duration>\` after the reminder.`
     }
 
     msg.say(
-      `Alright! I'll remind you ${reminder}in ${this.client.utils.oxford(
+      `Alright! I'll remind you ${reminder.trim()} in ${this.client.utils.oxford(
         prettyDuration
       )}.`
     );
@@ -64,11 +64,11 @@ To enter a duration, type \`in <duration>\` after the reminder.`
       userID: msg.author.id
     };
 
-    this.client.reminders.add(msg.author, remObj);
+    msg.author.reminders.add(remObj);
 
     setTimeout(() => {
       this.client.utils.remindUser(msg.author, remObj);
-      this.client.reminders.flush();
+      msg.author.reminders.flush();
     }, duration);
   }
 };

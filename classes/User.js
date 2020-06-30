@@ -13,43 +13,17 @@ module.exports = Structures.extend("User", User => class extends User {
     const { reminders } = databaseModule;
 		let user = this;
 		this.reminders = {
-			setDefaultSettings: (blank = false, scan = true) => {
-
-				let defaultSettings = {
-					userID: user.id,
-          reminders: []
-				};
-
-				let currentsettings = reminders.findOne({ userID: user.id });
-				if (currentsettings) {
-					for (var key in defaultSettings) {
-						currentsettings[key] = defaultSettings[key];
-					}
-
-					return reminders.update(currentsettings);
-				}
-
-				return reminders.insert(defaultSettings);
-			},
 			get list() {
-				let data = reminders.findOne({ userID: user.id }) || this.setDefaultSettings();
-        // console.log(data, reminders.data, user.id);
-				return data.reminders;
+				return this.client.reminders.list(this);
 			},
 			add: (reminder) => {
-				let currentsettings = reminders.findOne({ userID: user.id });
-				currentsettings.reminders.push(reminder);
-        
-        // console.log(currentsettings);
-
-				/*console.log(*/reminders.update(currentsettings)//);
+				return this.client.reminders.add(this, reminder);
 			},
       flush: () => {
-        let currentsettings = reminders.findOne({ userID: user.id })
-        currentsettings.reminders = currentsettings.reminders.filter(rem => {
-          return rem.date > Date.now();
-        });
-        return reminders.update(currentsettings);
+        return this.client.reminders.flush(this);
+      },
+      clear: () => {
+        return this.client.reminders.clear(this);
       }
 		}
 	}

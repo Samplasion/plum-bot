@@ -7,6 +7,8 @@ const { oneLine } = require('common-tags')
 class Utilities {
   constructor(client) {
     this.client = client
+    
+    this.errors = new Errors(this);
 
     this.sendOkMsg = (msg, txt) => {
       return msg.channel.send(`:white_check_mark: | ${txt}`);

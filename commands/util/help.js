@@ -43,17 +43,15 @@ module.exports = class HelpCommand extends Command {
       embed.setDescription(command.description 
                           + (command.details ? "\n\n" + command.details : ""));
       
-      if (["guildOnly", "ownerOnly", "nsfw"].some(el => command[el])) {
-        let lims = [];
-        if (command.guildOnly)
-          lims.push("Guild only");
-        if (command.ownerOnly)
-          lims.push("Bot owner only");
-        if (command.nsfw)
-          lims.push("NSFW channels only");
-        
-        embed.addField("Limitations", lims.map(lim => ` - ${lim}`).join("\n"));
-      }
+      let lims = [];
+      if (command.guildOnly || command.permLevel == 10)
+        lims.push("Guild only");
+      if (command.ownerOnly)
+        lims.push("Bot owner only");
+      if (command.nsfw)
+        lims.push("NSFW channels only");
+
+      embed.addField("Limitations", lims.map(lim => ` - ${lim}`).join("\n"));
       if (command.examples && command.examples.length) {
         embed.addField("Examples", command.examples.map(ex => ` - ${ex}`).join("\n"));
       }
@@ -118,11 +116,11 @@ module.exports = class HelpCommand extends Command {
         msg.reactions.cache.forEach(r => r.remove());
         let m;
         if (reason === "manual") {
-          m = await msg.channel.send("Interactive menu ended successfully.");
+          m = await message.edit("Interactive menu ended successfully.");
         } else {
-          m = await msg.channel.send("Interactive menu ended for inactivity.");
+          m = await message.edit("Interactive menu ended for inactivity.");
         }
-        m.delete({ timeout: 10000 });
+        // m.delete({ timeout: 10000 });
       });
     }
 	}
