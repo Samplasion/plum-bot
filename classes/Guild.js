@@ -73,4 +73,10 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
       }
 		}
 	}
+  
+  async log(...stuff) {
+    let channel = await this.client.channels.fetch(this.config.data.logchan);
+    if (channel && channel.send)
+      return channel.send(...stuff);
+  }
 })

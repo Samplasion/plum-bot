@@ -21,7 +21,8 @@ module.exports = (client, oldMember, newMember) => {
       e.addInline("New " + Case.lower(k), newMember[r] || "None")
     }
   })
-  let l = oldMember.guild.channels.cache
-    .get(client.settings.get(oldMember.guild.id, "logchan"))
-  if (l) l.send(e)
+  // let l = oldMember.guild.channels.cache
+  //   .get(client.settings.get(oldMember.guild.id, "logchan"))
+  // if (l) l.send(e)
+  oldMember.guild.log(e);
 }
