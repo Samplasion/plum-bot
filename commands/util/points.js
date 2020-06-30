@@ -23,6 +23,6 @@ module.exports = class RandTextCommand extends Command {
   run(message, { user }) {
     // If pinged user, that. Otherwise message member
     let member = user || message.member
-    return msg.channel.send(``);
+    return message.channel.send(`${member.id == user.id ? "You've" : member.displayName + "'s"} got ${member.points.data.points} points and are at level ${member.points.data.level}`);
   }
 };
