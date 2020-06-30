@@ -15,6 +15,7 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
     let client = this.client;
 		this.points = {
       get data() {
+        this.ensure();
         return client.points.get(`${user.id}-${guild.id}`) || this.setDefault();
       },
       ensure: () => {
@@ -45,7 +46,7 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
         return currentSettings || defaultSettings;
 			},
       check: () => {
-        let data = this.data;
+        let data = this.points.data;
         let curLevel = data.level;
         let newLevel = Math.floor(0.1 * Math.sqrt(data.points));
         

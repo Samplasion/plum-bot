@@ -17,14 +17,15 @@ module.exports = async (client, message) => {
     av = message.author.displayAvatarURL()
   }
   
+  let em = client.utils.emojis;
   const embed = client.utils.embed()
         // We set the color to a nice yellow here.
         .setColor(15844367)
-        .setTitle("🗑️ A message by " + message.author.tag + " was deleted")
+        .setTitle(em.trash + " A message by " + message.author.tag + " was deleted")
         .setThumbnail(av)
         .setDescription(message.cleanContent) 
-        .addField(":blue_book: Channel", `**#${message.channel.name}** (<#${message.channel.id}>) [${message.channel.id}]`)
-        .addField("🆔 Message ID", message.id)
+        .addField(em.channel + " Channel", `**#${message.channel.name}** (<#${message.channel.id}>) [${message.channel.id}]`)
+        .addField(em.id + " Message ID", message.id)
         .setTimestamp(Date.now() - 5000)
         .setFooter(`What a waste!`)
   

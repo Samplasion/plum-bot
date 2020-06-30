@@ -47,13 +47,14 @@ class Utilities {
       ok: "✅",
       error: "⛔",
       numbers: "🔢",
-      alias: "🆔",
+      id: "🆔",
       lock: "🔒",
       paper: "📃",
       off: "📴",
       reboot: "🔄",
       restart: "🔄", // ALIAS
       message: "📝",
+      trash: "🗑️",
     }
   }
 
