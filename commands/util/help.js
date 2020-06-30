@@ -39,17 +39,17 @@ module.exports = class HelpCommand extends Command {
       let embed = new PlumEmbed(this.client)
         .setFooter(`The prefix for this server is: ${prefix}`);
       
-      embed.setTitle(`Help for command: ${command.name}`);
+      embed.setTitle(`${this.client.utils.emojis.info} Help for command: ${command.name}`);
       embed.setDescription(command.description 
                           + (command.details ? "\n\n" + command.details : ""));
       
       let lims = [];
       if (command.guildOnly || command.permLevel == 10)
-        lims.push("Guild only");
+        lims.push(`${this.client.utils.emojis.server} Guild only`);
       if (command.ownerOnly)
-        lims.push("Bot owner only");
+        lims.push(`${this.client.utils.emojis.user} Bot owner only`);
       if (command.nsfw)
-        lims.push("NSFW channels only");
+        lims.push(`${this.client.utils.emojis.channel} NSFW channels only`);
 
       embed.addField("Limitations", lims.map(lim => ` - ${lim}`).join("\n"));
       if (command.examples && command.examples.length) {
@@ -71,7 +71,7 @@ module.exports = class HelpCommand extends Command {
         
         embeds.push(
           new PlumEmbed(this.client)
-            .setTitle("List of all commands")
+            .setTitle(`${this.client.utils.emojis.info} List of all commands`)
             .setDescription(`Page ${embeds.length + 1}`)
             .addField(grp.name, fieldText.join("\n")));
       });
