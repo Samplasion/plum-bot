@@ -10,8 +10,8 @@ module.exports = class ReminderCommand extends Command {
       aliases: ["remind"],
       group: "util",
       memberName: "remindme",
-      description: "Lets you see your permission level.",
-      examples: ["perms"],
+      description: "Sets a reminder so that you don't forget something _really_ important.",
+      examples: ["remindme to go buy groceries in 30 minutes"],
       args: [
         {
           key: "text",
@@ -61,7 +61,8 @@ To enter a duration, type \`in <duration>\` after the reminder.`
     let remObj = {
       text: reminder.trim(),
       date: Date.now() + duration,
-      userID: msg.author.id
+      userID: msg.author.id,
+      id: (msg.authors.reminders.list[msg.authors.reminders.list.length-1].id || 0) + 1
     };
 
     msg.author.reminders.add(remObj);
