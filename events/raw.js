@@ -6,15 +6,30 @@ module.exports = async (client, packet) => {
           guild   = channel.guild;
     if (channel.messages.cache.has(packet.d.id)) return;
     
-    console.dir(packet.d);
-    
-    let m = new Message(client, packet.d, channel);
-    m.content = "Uncached message";
-    m.author = {
-      id: "",
-      
+    const entry = await guild.fetchAuditLogs({type: 'MESSAGE_DELETE'}).then(audit => audit.entries.first())
+    let user = "", av = ""
+      if (entry.extra.channel.id === channel.id
+        && (entry.createdTimestamp > (Date.now() - 5000))
+        && (entry.extra.count >= 1)) {
+      user = entry.executor.username
+      av = entry.executor.displayAvatarURL()
+    } else { 
+      user = "themselves"
+      av = guild.iconURL()
     }
     
-    client.emit("messageDelete", m);
+    let e = client.utils.emojis;
+    const embed = client.utils.embed()
+        // We set the color to a nice yellow here.
+        .setColor(15844367)
+        .setTitle(e.trash + " A message was deleted")
+        .setThumbnail(av)
+        .setDescription("**__Uncached message__**") 
+        .addField(e.channel + " Channel", `**#${channel.name}** (<#${channel.id}>) [${channel.id}]`)
+        .addField(e.id + " Message ID", packet.d.id)
+        .setTimestamp(Date.now() - 5000)
+        .setFooter(`What a waste!`)
+    
+    guild.log(embed);
   }
 }
