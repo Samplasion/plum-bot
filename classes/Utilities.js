@@ -45,7 +45,10 @@ class Utilities {
       channel: "📑",
       server: "🌐",
       ok: "✅",
-      error: "⛔"
+      error: "⛔",
+      numbers: "🔢",
+      lock: "🔒",
+      paper: "📃",
     }
   }
 

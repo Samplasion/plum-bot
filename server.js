@@ -74,6 +74,9 @@ client.permissions = (member) => {
   })
   return p
 }
+client.permissions.get = number => {
+  return client.permissionLevels.filter(l => l.level == number)[0];
+};
 
 client.db = require('./utils/database.js');
 

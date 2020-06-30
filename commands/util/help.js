@@ -51,9 +51,13 @@ module.exports = class HelpCommand extends Command {
       if (command.nsfw)
         lims.push(`${this.client.utils.emojis.channel} NSFW channels only`);
 
-      if (lims.length) embed.addField("Limitations", lims.map(lim => ` - ${lim}`).join("\n"));
+      if (lims.length) embed.addField(`${this.client.utils.emojis.lock} Limitations`, lims.map(lim => ` - ${lim}`).join("\n"), true);
+      
+      let perm = this.client.permissions.get(command.permLevel);
+      embed.addField(`${this.client.utils.emojis.numbers} Level`, `**${perm.name}** [${perm.level}]`, true)
+      
       if (command.examples && command.examples.length) {
-        embed.addField("Examples", command.examples.map(ex => ` - ${ex}`).join("\n"));
+        embed.addField(`${this.client.utils.emojis.paper} Examples`, command.examples.map(ex => ` - ${ex}`).join("\n"));
       }
     
       return msg.say(embed);
