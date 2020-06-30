@@ -12,7 +12,7 @@ module.exports = class EvalCommand extends Command {
 			memberName: 'eval',
 			description: 'Executes JavaScript code.',
 			details: 'Only the bot owner(s) may use this command.',
-      permLevel: 1,
+      permLevel: 10,
 			args: [
 				{
 					key: 'script',

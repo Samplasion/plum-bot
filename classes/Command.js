@@ -11,7 +11,12 @@ module.exports = class PlumCommand extends Command {
   }
   
   hasPermission(msg) {
-    return (msg.guild ? this.client.permissions(msg.member).level : (this.client.isOwner(msg.author) ? 10 : 1)) >= this.permLevel
+    let hasPerm = (msg.guild ? this.client.permissions(msg.member).level : (this.client.isOwner(msg.author) ? 10 : 1)) >= this.permLevel;
+    let perm = msg.guild 
+        ? this.client.permissions(msg.member)
+        : this.client.permissionLevels.filter(i => i.level == (this.client.isOwner(msg.author) ? 10 : 1))[0]
+    if (!hasPerm) return `you don't have the permission to run this command. The minumim permission is: **${perm.name}** [${perm.level}]`;
+    return hasPerm;
   }
   
   get [Symbol.toStringTag]() {
