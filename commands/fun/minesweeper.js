@@ -119,7 +119,7 @@ module.exports = class HangmanCommand extends Command {
     };
 
     if (this.games[key]) {
-      if (data.length) {
+      if (data[1] && data[2]) {
         let [, x, y, symbol] = data;
         if (symbol) {
           this.games[key].cycleCellFlag(parseInt(x), parseInt(y));
