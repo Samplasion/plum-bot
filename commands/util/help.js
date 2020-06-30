@@ -83,9 +83,9 @@ module.exports = class HelpCommand extends Command {
       });
       
       const R = [
-        ["⬅️", (collector) => index--],
-        ["🛑", (collector) => collector.stop("manual")],
-        ["➡️", (collector) => index++],
+        [this.client.utils.emojis.prev, (collector) => index--],
+        [this.client.utils.emojis.stop, (collector) => collector.stop("manual")],
+        [this.client.utils.emojis.next, (collector) => index++],
       ];
       
       let message = await msg.channel.send(embeds[0]);

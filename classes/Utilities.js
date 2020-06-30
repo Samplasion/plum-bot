@@ -11,7 +11,7 @@ class Utilities {
     this.errors = new Errors(this);
 
     this.sendOkMsg = (msg, txt) => {
-      return msg.channel.send(`:white_check_mark: | ${txt}`);
+      return msg.channel.send(`${this.emojis.ok} | ${txt}`);
     }
 
     this.sendErrMsg = (msg, txt) => {
@@ -32,9 +32,25 @@ class Utilities {
     this.getSettings = this.getGuildSettings
     client.settings.ensureSets = (guild) => client.settings.set(guild.id, this.getGuildSettings(guild));
 	}
+  
+  get emojis() {
+    return {
+      prev: "⬅️",
+      stop: "⏹️",
+      next: "➡️",
+      info: "ℹ️",
+      category: "📂",
+      user: "👤",
+      users: "👥",
+      channel: "📑",
+      server: "🌐",
+      ok: "✅",
+      error: "⛔"
+    }
+  }
 
   getErrStr(txt) {
-    return `:negative_squared_cross_mark: | ${txt}`
+    return `${this.emojis.error} | ${txt}`
   }
 
   embed() {
