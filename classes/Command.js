@@ -8,6 +8,7 @@ module.exports = class PlumCommand extends Command {
     
     this.permLevel = options.permLevel || 1;
     if (this.ownerOnly) this.permLevel = 10;
+    if (this.permLevel == 10) this.ownerOnly = true;
   }
   
   hasPermission(msg) {

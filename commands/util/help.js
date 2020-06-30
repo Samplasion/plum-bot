@@ -44,14 +44,14 @@ module.exports = class HelpCommand extends Command {
                           + (command.details ? "\n\n" + command.details : ""));
       
       let lims = [];
-      if (command.guildOnly || command.permLevel == 10)
+      if (command.guildOnly)
         lims.push(`${this.client.utils.emojis.server} Guild only`);
-      if (command.ownerOnly)
+      if (command.ownerOnly || command.permLevel == 10)
         lims.push(`${this.client.utils.emojis.user} Bot owner only`);
       if (command.nsfw)
         lims.push(`${this.client.utils.emojis.channel} NSFW channels only`);
 
-      embed.addField("Limitations", lims.map(lim => ` - ${lim}`).join("\n"));
+      if (lims.length) embed.addField("Limitations", lims.map(lim => ` - ${lim}`).join("\n"));
       if (command.examples && command.examples.length) {
         embed.addField("Examples", command.examples.map(ex => ` - ${ex}`).join("\n"));
       }

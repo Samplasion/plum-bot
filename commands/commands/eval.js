@@ -1,5 +1,5 @@
 const util = require('util');
-const { Attachment } = require('discord.js');
+const { MessageAttachment: Attachment } = require('discord.js');
 const Command = require('./../../classes/Command.js');
 const safeEval = require('safe-eval')
 
