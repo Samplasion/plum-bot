@@ -5,7 +5,7 @@ module.exports = class VoteCommand extends Command {
     constructor(client) {
         super(client, {
             name: 'vote',
-            group: 'polls',
+            group: 'util',
             memberName: 'vote',
             description: "Starts a yes/no/don't care vote.",
             details: "Note that :shrug: is \"Don't care\"",
