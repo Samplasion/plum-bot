@@ -15,18 +15,30 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 		this.config = {
 			setDefaultSettings: (blank = false, scan = true) => {
 				let channels = guild.channels;
+				let roles = guild.roles.cache;
 
-				let logchannel = scan ? channels.cache.find(channel => channel.name === "discord-logs") : null;
+				let logchannel = scan ? channels.cache.find(channel => channel.name === "modlogs") : null;
 				let welcomechannel = scan ? channels.cache.find(channel => channel.name === "general") : null;
 				let starboardchannel = scan ? channels.cache.find(channel => channel.name === "starboard") : null;
-				let mutedrole = scan ? guild.roles.cache.find(role => role.name === "Muted") : null;
+
+				let mutedrole = scan ? roles.find(role => role.name === "Muted") : null;
+				let owners = [guild.owner.id];
+				let admins = scan ? roles.find(role => role.name === "Admin") : [];
+				let mods = scan ? roles.find(role => role.name === "Moderator") : [];
 
 				let defaultSettings = {
 					guildID: guild.id,
+
+					owners,
+					mods,
+					admins,
+
 					logchan: logchannel ? logchannel.id : '',
+
 					welcomechan: welcomechannel ? welcomechannel.id : '',
 					welcomemessage: !blank ? ["Welcome {{user}} to {{server}}! Enjoy your stay"] : [],
 					leavemessage: !blank ? ["Goodbye {{user}}! You'll be missed"] : [],
+					
 					mutedrole: mutedrole ? mutedrole.id : '',
 				};
 
@@ -65,8 +77,8 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 				const returns = {};
 				const overrides = this.client.settings.get(guild.id) || {};
 				for (const key in def) {
-				if (key == "types") returns[key] = def[key] // replace the types, just to be sure it's up-to-date
-				else returns[key] = overrides[key] || def[key]; // For every key that's not there, use the default one
+					if (key == "types") returns[key] = def[key] // replace the types, just to be sure it's up-to-date
+					else returns[key] = overrides[key] || def[key]; // For every key that's not there, use the default one
 				}
 				this.client.settings.set(guild.id, returns)
 				return returns;

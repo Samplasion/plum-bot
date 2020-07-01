@@ -1,2 +1,2 @@
 module.exports.type = "role";
-module.exports.extendable = true;
+module.exports.extendable = false;
