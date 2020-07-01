@@ -65,7 +65,17 @@ module.exports = class HangmanCommand extends Command {
     
     let self = this;
     
-    var printBoard = function (board) {
+    function switchMark(board, x, y, sym) {
+      let ensym = CellFlagEnum.NONE;
+      if (sym === "!")
+        ensym = CellFlagEnum.EXCLAMATION;
+      if (sym === "?")
+        ensym = CellFlagEnum.QUESTION;
+      
+      let flag = board.grid()[x][y]
+    }
+    
+    let printBoard = function (board) {
       var i,
           strColHead = '   ',
           grid = board.grid();
@@ -94,7 +104,7 @@ module.exports = class HangmanCommand extends Command {
       msg.channel.send(e)
     };
 
-    var printRow = function (rowArray, rowNum) {
+    let printRow = function (rowArray, rowNum) {
       var i,
           cell,
           strRow = '';
@@ -138,7 +148,7 @@ module.exports = class HangmanCommand extends Command {
       return strRow;
     };
 
-    var getCellString = function (content) {
+    let getCellString = function (content) {
       return '' + content + '';
     };
     
