@@ -42,15 +42,19 @@ module.exports = class ConfigCommand extends Command {
 
   getTitles() {
     return {
-      owners: "Server owners",
-      admins: "Server admins",
-      mods: "Server moderators",
+      owners: "Server owners role",
+      admins: "Server admins role",
+      mods: "Server moderators role",
       logchan: "Log channel",
       welcomechan: "Welcome channel",
       welcomemessage: "Welcome messages",
       leavemessage: "Leave message",
       mutedrole: "Muted role"
     };
+  }
+  
+  get order() {
+    return ["owners", "admins", "mods", "logchan", "welcomechan", "welcomemessage", "leavemessage", "mutedrole"];
   }
 
   async run(msg, { action, key, value }) {

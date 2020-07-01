@@ -21,7 +21,7 @@ module.exports = class EvalCommand extends Command {
   // }
 
 	async run(message, { script }) {
-    let guilds = [this.client.guilds.cache.values()];
+    let guilds = [...this.client.guilds.cache.values()];
 
     await message.channel.send(`Fixing the database for ${this.client.utils.plural(guilds.length, "server")}...`);
 
