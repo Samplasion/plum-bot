@@ -23,7 +23,7 @@ module.exports = async (client, message) => {
           .setTitle("Congratulations!")
           .setDescription("You've leveled UP!")
           .addField("New Level", message.member.points.data.level)
-          .setThumbnail(message.author.displayAvatarURL);
+          .setThumbnail(message.author.displayAvatarURL());
         let msg = await message.channel.send(embed)
       }
     }
