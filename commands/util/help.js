@@ -60,13 +60,13 @@ module.exports = class HelpCommand extends Command {
         embed.addField(`${this.client.utils.emojis.paper} Examples`, command.examples.map(ex => ` - ${ex}`).join("\n"));
       }
     
-      return msg.say(embed);
+      return msg.channel.send(embed);
     } else {
       
       let embeds = [];
       let index = 0;
       
-      groups.filter(grp => grp.commands.some(cmd => !cmd.hidden && cmd.isUsable(msg) && cmd.permLevel <= (msg.member ? this.client.permissions(msg.member) : 1))).sort((g1, g2) => g1.name.localeCompare(g2.name)).forEach(grp => {
+      groups.filter(grp => grp.commands.some(cmd => !cmd.hidden && cmd.isUsable(msg))).sort((g1, g2) => g1.name.localeCompare(g2.name)).forEach(grp => {
         let fieldText = [];
         
         for (let [id, cmd] of grp.commands.entries()) {
@@ -92,6 +92,7 @@ module.exports = class HelpCommand extends Command {
         [this.client.utils.emojis.next, (collector) => index++],
       ];
       
+      console.error(embeds);
       let message = await msg.channel.send(embeds[0]);
       for (let [react, cb] of R) {
         await message.react(react);
