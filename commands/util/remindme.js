@@ -62,7 +62,7 @@ To enter a duration, type \`in <duration>\` after the reminder.`
       text: reminder.trim(),
       date: Date.now() + duration,
       userID: msg.author.id,
-      id: (((msg.author.reminders.list || [])[msg.author.reminders.list.length-1] || {id:0}).id || 0) + 1
+      id: (((msg.author.reminders.list || [])[(msg.author.reminders.list || [""]).length-1] || {id:0}).id || 0) + 1
     };
 
     msg.author.reminders.add(remObj);
