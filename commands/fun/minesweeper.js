@@ -139,9 +139,9 @@ module.exports = class HangmanCommand extends Command {
           if (cell.flag === CellFlagEnum.NONE) {
             strRow += getCellString('⬜');
           } else if (cell.flag === CellFlagEnum.EXCLAMATION) {
-            strRow += getCellString('❗️');
+            strRow += getCellString('🚩');
           } else if (cell.flag === CellFlagEnum.QUESTION) {
-            strRow += getCellString('❓');
+            strRow += getCellString('❓\u200b');
           }
         } else if (cell.state === CellStateEnum.OPEN) {
           if (cell.isMine) {
@@ -198,8 +198,8 @@ module.exports = class HangmanCommand extends Command {
       printBoard(this.games[key]);
     } else {
       var mineArray = minesweeper.generateMineArray({
-        rows: data == null ? 5 : data[1],
-        cols: data == null ? 5 : data[2],
+        rows: Math.max(Math.min(data == null ? 5 : data[1], 16), 5),
+        cols: Math.max(Math.min(data == null ? 5 : data[2], 16), 5),
         mines: Math.min(Math.floor(Math.sqrt(parseInt(data == null ? 5 : data[1]) * parseInt(data == null ? 5 : data[2]))), 10)
       });
 
