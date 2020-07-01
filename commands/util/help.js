@@ -66,7 +66,7 @@ module.exports = class HelpCommand extends Command {
       let embeds = [];
       let index = 0;
       
-      groups.filter(grp => grp.commands.some(cmd => !cmd.hidden && cmd.isUsable(msg))).sort((g1, g2) => g1.name.localeCompare(g2.name)).forEach(grp => {
+      groups.filter(grp => grp.commands.some(cmd => !cmd.hidden && cmd.isUsable(msg) && cmd.permLevel <= (msg.member ? this.client.permissions(msg.member) : 1))).sort((g1, g2) => g1.name.localeCompare(g2.name)).forEach(grp => {
         let fieldText = [];
         
         for (let [id, cmd] of grp.commands.entries()) {

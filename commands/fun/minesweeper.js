@@ -66,13 +66,21 @@ module.exports = class HangmanCommand extends Command {
     let self = this;
     
     function switchMark(board, x, y, sym) {
+      let flag = board.grid()[x][y].flag;
+      
       let ensym = CellFlagEnum.NONE;
-      if (sym === "!")
+      if (sym === "!" && flag !== CellFlagEnum.EXCLAMATION)
         ensym = CellFlagEnum.EXCLAMATION;
-      if (sym === "?")
+      if (sym === "?" && flag !== CellFlagEnum.QUESTION)
         ensym = CellFlagEnum.QUESTION;
       
-      let flag = board.grid()[x][y]
+      let i = 0;
+      while (flag % 3 !== ensym) {
+        if (i >= 100) break; // Infinite loop
+        board.cycleCellFlag(x, y);
+        flag = board.grid()[x][y].flag;
+        i++;
+      }
     }
     
     let printBoard = function (board) {
@@ -177,7 +185,8 @@ module.exports = class HangmanCommand extends Command {
         let [, x, y, symbol] = data;
         console.log(x, y, parseInt(x), parseInt(y));
         if (symbol) {
-          this.games[key].cycleCellFlag(parseInt(x), parseInt(y));
+          switchMark(this.games[key], parseInt(x), parseInt(y), symbol.trim());
+          // this.games[key].cycleCellFlag(parseInt(x), parseInt(y));
         } else {
           this.games[key].openCell(parseInt(x), parseInt(y));
         }
