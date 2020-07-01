@@ -49,6 +49,10 @@ module.exports = class LeaderboardCommand extends Command {
         .setTitle("Leaderboard")
         .setDescription("Our top " + top10.length + " of point leaders!")
         //.setColor(0x00AE86);
+      
+      if (!top10.length) {
+        return message.channel.send(embed.setDescription("The leaderboard's empty; it's you chance to rise and shine!"));
+      }
 
 			// console.log(top10);
       var counter = 1;

@@ -30,7 +30,8 @@ const client = new CommandoClient({
   commandPrefix: "pl.",
   unknownCommandResponse: false,
   owner: ["280399026749440000"],
-  invite: "https://discord.gg/",
+  invite: "https://discord.gg/MDtgmEM",
+  fetchAllMembers: true,
   disableEveryone: true,
 })
 

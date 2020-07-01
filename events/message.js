@@ -1,5 +1,14 @@
 module.exports = async (client, message) => {
   if (message.author.bot) return;
+  
+  const prefixMention = new RegExp(`^<@!?${client.user.id}>( |)$`);
+	if (message.content.match(prefixMention) && message.guild) {
+    let e = client.utils.embed()
+      .setTitle("Welcome to " + client.user.username + "!")
+      .setDescription("I hope you'll like this new bot, which I've put hours into making as polished as it can be. Oh, and the prefix is `"+message.guild.commandPrefix+"`")
+    return message.channel.send(e)
+	}
+  
   if (message.command) {
     // assume it's a command
     if (client.global.has("log-channel") && client.channels.resolve(client.global.get("log-channel")) ) {

@@ -43,6 +43,6 @@ module.exports = class PlumCommand extends Command {
     }
     console.error(error.ogError);
     this.client.utils.sendErrMsg(message, `There was an error. The developers have already received the report, though you can speed the `
-                         + `fix if you send them this Error ID: \`${error.msg.id}\``);
+                         + `fix if you send them this Error ID: \`${error.msg.id}\` in this server: ${this.client.options.invite}`);
 	}
 }
