@@ -39,7 +39,7 @@ module.exports = class RandTextCommand extends Command {
 
       for (let i = 0; i < args.toRand; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
 
-      return text;
+      return "```\n"+text+"\n```";
     }
 
     const random = randomtext();

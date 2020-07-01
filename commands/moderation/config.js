@@ -36,7 +36,7 @@ module.exports = class ConfigCommand extends Command {
           default: ""
         }
       ],
-      minPerm: 3
+      permLevel: 3
     });
   }
 

@@ -137,7 +137,7 @@ module.exports = class HangmanCommand extends Command {
         cell = rowArray[i];
         if (cell.state === CellStateEnum.CLOSED) {
           if (cell.flag === CellFlagEnum.NONE) {
-            strRow += getCellString('◻️');
+            strRow += getCellString('⬜');
           } else if (cell.flag === CellFlagEnum.EXCLAMATION) {
             strRow += getCellString('❗️');
           } else if (cell.flag === CellFlagEnum.QUESTION) {

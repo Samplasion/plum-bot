@@ -67,10 +67,11 @@ module.exports = class HelpCommand extends Command {
       let index = 0;
       
       groups.filter(grp => grp.commands.some(cmd => {
-        !cmd.hidden && cmd.isUsable(msg) && (msg.guild ? msg.member : msg.author).level >= cmd.permLevel)).sort((g1, g2) => g1.name.localeCompare(g2.name)).forEach(grp => {
+        return !cmd.hidden && cmd.isUsable(msg) && (msg.guild ? msg.member : msg.author).level.level >= cmd.permLevel
+      })).sort((g1, g2) => g1.name.localeCompare(g2.name)).forEach(grp => {
         let fieldText = [];
         
-        for (let [id, cmd] of grp.commands.entries()) {
+        for (let [id, cmd] of grp.commands.filter(cmd => (msg.guild ? msg.member : msg.author).level.level >= cmd.permLevel).entries()) {
           fieldText.push(`• ${prefix}**${cmd.name}**: ${cmd.description}`);
         }
         
