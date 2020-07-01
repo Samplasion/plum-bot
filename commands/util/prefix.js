@@ -29,13 +29,17 @@ module.exports = class PrefixCommand extends Command {
 	}
 
 	async run(msg, args) {
+
 		// Just output the prefix
 		if(!args.prefix) {
 			const prefix = msg.guild ? msg.guild.commandPrefix : this.client.commandPrefix;
-			return msg.reply(stripIndents`
-				${prefix ? `the command prefix is \`\`${prefix}\`\`.` : 'there is no command prefix.'}
-				To run commands, use ${msg.anyUsage('command')}.
-			`);
+			return msg.channel.send(
+				this.client.utils.embed()
+					.setTitle(this.client.utils.emojis.info + " Prefix")
+					.setDescription(stripIndents`
+						${prefix ? `the command prefix is \`\`${prefix}\`\`.` : 'there is no command prefix.'}
+						To run commands, use ${msg.anyUsage('command')}.`)
+			);
 		}
 
 		// Check the user's permission before changing anything

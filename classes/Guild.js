@@ -59,18 +59,18 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 
 				return findType(key).deserialize(guild.client, { guild }, value);
 			},
-      fix: () => {
-        const def = this.setDefaultSettings();
-        if (!guild) return def;
-        const returns = {};
-        const overrides = this.client.settings.get(guild.id) || {};
-        for (const key in def) {
-          if (key == "types") returns[key] = def[key] // replace the types, just to be sure it's up-to-date
-          else returns[key] = overrides[key] || def[key]; // For every key that's not there, use the default one
-        }
-        this.client.settings.set(guild.id, returns)
-        return returns;
-      }
+			fix: () => {
+				const def = this.setDefaultSettings();
+				if (!guild) return def;
+				const returns = {};
+				const overrides = this.client.settings.get(guild.id) || {};
+				for (const key in def) {
+				if (key == "types") returns[key] = def[key] // replace the types, just to be sure it's up-to-date
+				else returns[key] = overrides[key] || def[key]; // For every key that's not there, use the default one
+				}
+				this.client.settings.set(guild.id, returns)
+				return returns;
+			}
 		}
 	}
   

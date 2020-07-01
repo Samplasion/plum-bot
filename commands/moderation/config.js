@@ -42,6 +42,9 @@ module.exports = class ConfigCommand extends Command {
 
   getTitles() {
     return {
+      owners: "Server owners",
+      admins: "Server admins",
+      mods: "Server moderators",
       logchan: "Log channel",
       welcomechan: "Welcome channel",
       welcomemessage: "Welcome messages",
