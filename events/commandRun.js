@@ -29,7 +29,8 @@ module.exports = async (client, command, promise/* <Message> */, message/* <pref
       [`${e.server} Server`, `${message.guild.name} [${message.guild.id}]`],
       [`${e.channel} Channel`, `#${message.channel.name} [${message.channel.id}] (<#${message.channel.id}>)`],
       [`${e.numbers} Message ID`, `${message.id}`, true]
-    ]
+    ],
+    false, message.guild.iconURL()
   );
   console.log(`  [CMD] ${message.command.name}(${cmdArgs.join(", ")}) [${botMsg ? roundNumber((botMsg.createdAt - message.createdAt), 2) : "No "}ms] ${message.author.username}[${message.author.id}] ${message.channel.name}[${message.channel.id}] ${guild.name}[${guild.id}]`)
 }

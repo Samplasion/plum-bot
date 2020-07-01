@@ -89,7 +89,7 @@ class Utilities {
   // t      = Embed title
   // v      = Embed description
   // fieldArray = Embed fields (eg. [["Title1", "Value1"], ["Title2", "Value2", true]] )
-  fastEmbed(t, v, fieldArray, marking = true) {
+  fastEmbed(t, v, fieldArray, marking = true, icon = "") {
     // List (because of the forEach below)
     if (fieldArray) var fields = List.fromArray(fieldArray)
 
@@ -100,6 +100,7 @@ class Utilities {
     var logged = this.embed()
       .setTitle(t)
       .setDescription(v)
+      .setThumbnail(icon)
     
     if (!marking) {
       logged
