@@ -12,7 +12,7 @@
   "dependencies": {
     "better-sqlite-pool": "^0.1.2",
     "cheerio": "^0.22.0",
-    "discord.js": "^12",
+    "discord.js": "github:discordjs/discord.js",
     "discord.js-commando": "github:discordjs/Commando",
     "enmap": "^4.3.3",
     "express": "^4.16.3",
@@ -20,7 +20,7 @@
     "node-fetch": "^2.6.0",
     "parse-duration": "^0.4.3",
     "parse-ms": "^2.0.0",
-    "sqlite": "^3.0.0",
+    "sqlite": "*",
     "array-flat-polyfill": "^1.0.1",
     "lokijs": "^1.5.8",
     "moment": "^2.22.2",
@@ -32,7 +32,7 @@
     "minesweeper": "^1.0.5"
   },
   "engines": {
-    "node": "11.x"
+    "node": "12.x"
   },
   "repository": {
     "url": "https://glitch.com/edit/#!/hello-express"
