@@ -67,7 +67,7 @@ module.exports = class ConfigCommand extends Command {
           .setTitle(`Server configuration for ${msg.guild.name}`)
           .setDescription(`You can use \`${msg.guild ? msg.guild.commandPrefix : this.client.commandPrefix}config set <key> null\` to set a value to an empty state.`)
 
-        for (let k of Object.keys(data).sort((a, b) => this.order.indexOf(a) - this.order.indexOf(b))) {
+        for (let k in data) {
           if (["meta", "$loki", "guildID"].includes(k)) continue;
           
           console.log(k);

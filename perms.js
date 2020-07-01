@@ -23,7 +23,7 @@ class PermissionOne extends Permission {
 
 class PermissionTwo extends Permission {
   constructor(client) {
-    super(client, 2, "Server moderator", "Server moderators are the owner's helpers in moderating the server.")
+    super(client, 2, "Server moderator", "Server admins are the owner's helpers in moderating the server.")
   }
   
   validate(member) {
