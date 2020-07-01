@@ -49,7 +49,7 @@ module.exports = class VoteCommand extends Command {
         var embed = this.client.utils.embed()
             .setTitle(question)
             .setDescription(desc)
-            .setAuthor(msg.author.username, msg.author.displayAvatarURL)
+            .setAuthor(msg.author.username, msg.author.displayAvatarURL())
             .setColor(0xD53C55) // Green: 0x00AE86
             .setTimestamp();
 
@@ -71,11 +71,11 @@ module.exports = class VoteCommand extends Command {
                 if (time) {
                     setTimeout(() => {
                         // Re-fetch the message and get reaction counts
-                        message.channel.fetchMessage(message.id)
+                        message.channel.messages.fetch(message.id)
                             .then(async  (message) => {
                                 var reactionCountsArray = [];
                                 for (var i = 0; i < reactionArray.length; i++) {
-                                    reactionCountsArray[i] = message.reactions.get(emojiList[i]).count-1;
+                                    reactionCountsArray[i] = message.reactions.cache.get(emojiList[i]).count-1;
                                 }
 
                                 // Find winner(s)
@@ -96,12 +96,12 @@ module.exports = class VoteCommand extends Command {
                                     }
                                 }
                                 embed.addField("**" + this.client.utils.plural(indexMax.length, "Winner") + "**", winnersText);
-                                embed.setFooter(`The vote is now closed! It lasted ${this.client.plural(time, "minute")}`);
+                                embed.setFooter(`The vote is now closed! It lasted ${this.client.utils.plural(time, "minute")}`);
                                 embed.setTimestamp();
                                 message.edit("", embed);
                             });
                     }, time * 60 * 1000);
                 }
-            }).catch(console.error);
+            })
     }
 }
