@@ -1,10 +1,11 @@
 const { CommandoClient, SQLiteProvider } = require("discord.js-commando")
+const { Structures } = require("discord.js")
 const sqlite = require('sqlite')
 const path = require("path")
 const fs = require("fs")
 const Enmap = require("enmap")
 const CommandError = require("./classes/CommandError");
-const Embed = require("./classes/Embed");
+const PlumEmbed = require("./classes/Embed");
 
 // ======== REQUIRED
 const http = require('http');
@@ -24,6 +25,18 @@ require("./classes/Guild.js");
 require("./classes/GuildMember.js");
 require("./classes/Message.js");
 require("./classes/User.js");
+
+Structures.extend("TextChannel", TC => class extends TC {
+  send(...data) {
+    let actual = data;
+    if (data[0] instanceof PlumEmbed)
+      actual = ["", { embed: data[0] }];
+    
+    console.log(...actual);
+    
+    return super.send(...actual);
+  }
+})
 
 const client = new CommandoClient({
   commandPrefix: "pl.",
