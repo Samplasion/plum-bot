@@ -26,18 +26,6 @@ require("./classes/GuildMember.js");
 require("./classes/Message.js");
 require("./classes/User.js");
 
-Structures.extend("TextChannel", TC => class extends TC {
-  send(...data) {
-    let actual = data;
-    if (data[0] instanceof PlumEmbed)
-      actual = ["", { embed: data[0] }];
-    
-    console.log(...actual);
-    
-    return super.send(...actual);
-  }
-})
-
 const client = new CommandoClient({
   commandPrefix: "pl.",
   unknownCommandResponse: false,
