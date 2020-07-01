@@ -25,4 +25,8 @@ module.exports = Structures.extend("User", User => class extends User {
       }
 		}
 	}
+  
+  get level() {
+    return this.client.permissionLevels.filter(i => i.level == (this.client.isOwner(this) ? 10 : 1))[0]
+  }
 })

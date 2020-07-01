@@ -8,6 +8,10 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
 		super(...args);
 		this.DBinit();
 	}
+  
+  get level() {
+    return this.client.permissions(this);
+  }
 
 	DBinit() {
 		let user = this;
