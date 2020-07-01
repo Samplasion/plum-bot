@@ -6,7 +6,7 @@ module.exports = class EvalCommand extends Command {
     super(client, {
       name: "reboot",
       aliases: ["restart"],
-      group: "util",
+      group: "commands",
       memberName: "reboot",
       description: "Reboots the bot.",
       details: "Only the bot owner(s) may use this command.",
