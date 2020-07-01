@@ -42,7 +42,7 @@ module.exports = class HangmanCommand extends Command {
         DELIMITER is one of the following symbols: \`.*x-_|&\`; and
         SYMBOL is optional and can be either \`?\` or \`!\`.
         There can be an arbitrary amount of space between each "token" of the format.`,
-      examples: ['hman', "hman g"],
+      examples: ['minesweeper', "minesweeper 2x3", "minesweeper 4 - 1 !", "minesweeper 3 . 4?"],
       args: [{
         key: 'guess',
         prompt: 'what cell do you wanna click on (or, if the game isn\'t started yet, how big should the grid be)?',
@@ -86,7 +86,7 @@ module.exports = class HangmanCommand extends Command {
         "Minesweeper Game",
         `\`\`\`${head}\n${body.join("\n")}\`\`\``,
         [
-          ["Board size", board._numCols + "x" + board._numRows, true],
+          ["Board size", board._numCols + "×" + board._numRows, true],
           ["Mines", board._numMines, true],
         ]
       );
