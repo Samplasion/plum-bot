@@ -124,7 +124,7 @@ class Utilities {
   }
   
   async rebootLog(msg) {
-    var channel = await this.client.channels.fetch("727506096989929533");
+    var channel = await this.client.channels.fetch("728142000162865182");
     let e = this.emojis;
     let embed = this.fastEmbed(
       e.reboot + " Reboot",
@@ -138,7 +138,7 @@ class Utilities {
   }
   
   async log(...args) {
-    var channel = await this.client.channels.fetch("727506075665956968");
+    var channel = await this.client.channels.fetch("728141940666794014");
     let embed = this.fastEmbed(...args);
     return channel.send(embed);
   }
@@ -225,7 +225,7 @@ class Utilities {
 class Errors {
   constructor(utilities) {
     this.utils = utilities;
-    this.errorID = "727506120402403329";
+    this.errorID = "728142027564515369";
   }
   
   async unhandledRejection(err) {
