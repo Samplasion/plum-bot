@@ -15,6 +15,10 @@ app.get("/", (request, response) => {
   console.log(` [PING] ${new Date().toLocaleString()}`);
   response.sendStatus(200);
 });
+app.get("/vote/blspace", (req, res) => {
+  console.log(req.body);
+  res.status(200)
+})
 app.listen(process.env.PORT);
 setInterval(() => {
   http.get(`http://glitch-proxy.now.sh/plum-bot/`);
