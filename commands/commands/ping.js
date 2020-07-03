@@ -18,10 +18,10 @@ module.exports = class PingCommand extends Command {
 	async run(msg) {
     const pingMsg = await msg.say(':ping_pong: Pinging...');
     let pingembed = this.client.utils.embed()
-      .setTitle("Ping!")
-      .setDescription(":ping_pong: Pong!")
-      .addInline("Ping time", (new Date().getTime() - pingMsg.createdTimestamp + " ms"))
-      .addInline("Heartbeat", `${Math.round(this.client.ping)} ms`)
+      .setTitle("🏓 Ping!")
+      .setDescription("Pong!")
+      .addInline("⏱ Ping time", (new Date().getTime() - pingMsg.createdTimestamp + " ms"))
+      .addInline("💗 Heartbeat", `${Math.round(this.client.ws.ping)} ms`)
 
     pingMsg.edit("", pingembed);
 	}
