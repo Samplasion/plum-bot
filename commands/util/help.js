@@ -62,7 +62,6 @@ module.exports = class HelpCommand extends Command {
     
       return msg.channel.send(embed);
     } else {
-      
       let embeds = [];
       let index = 0;
       
@@ -88,6 +87,18 @@ module.exports = class HelpCommand extends Command {
           .setFooter(`This menu will expire in 2 minutes`);
       });
       
+      if (!embeds.length) {
+        return this.client.utils.sendErrMsg(msg, "You have no usable commands. Contact the owner for more info.");
+      }
+      
+      if (!msg.guild.me.hasPermission("MANAGE_MESSAGES")) {
+        let index = Math.max(0, (parseInt(args.command) == NaN ? 1 : parseInt(args.command)) - 1 % embeds.length);
+        let embed = embeds[index || 0];
+        embed.setDescription(`${embed.description} • Use \`${prefix}help [page]\` to choose another page.`);
+        msg.channel.send(embed);
+        return;
+      }
+      
       const R = [
         [this.client.utils.emojis.prev, (collector) => index--],
         [this.client.utils.emojis.stop, (collector) => collector.stop("manual")],
@@ -107,7 +118,7 @@ module.exports = class HelpCommand extends Command {
       const collector = message.createReactionCollector(filter, { time: 120000 });
 
       collector.on('collect', async (reaction, user) => {
-        await reaction.users.remove(msg.author.id);
+        if (msg.guild.me.hasPermission("MANAGE_MESSAGES")) await reaction.users.remove(msg.author.id);
         
         var matching = R.filter(r => r[0] == reaction.emoji.name);
         if (!matching.length) return;
