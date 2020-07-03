@@ -10,6 +10,7 @@ module.exports = class PurgeCommand extends Command {
 			description: 'Purges a flooded channel.',
 			details: '(Get it? Flooded... purge... no?)',
       guildOnly: true,
+			clientPermissions: ["MANAGE_MESSAGES"],
 			args: [
         {
           type: "integer",
