@@ -36,7 +36,7 @@ module.exports = class HelpCommand extends Command {
     let command = args.command && this.client.registry.findCommands(args.command, false, msg)[0];
     
     if (command) {
-      let embed = new PlumEmbed(this.client)
+      let embed = this.client.utils.embed()
         .setFooter(`The prefix for this server is: ${prefix}`);
       
       embed.setTitle(`${this.client.utils.emojis.info} Help for command: ${command.name}`);
@@ -73,9 +73,9 @@ module.exports = class HelpCommand extends Command {
         for (let [id, cmd] of grp.commands.filter(cmd => (msg.guild ? msg.member : msg.author).level.level >= cmd.permLevel).entries()) {
           fieldText.push(`• ${prefix}**${cmd.name}**: ${cmd.description}`);
         }
-        
+
         embeds.push(
-          new PlumEmbed(this.client)
+          this.client.utils.embed()
             .setTitle(`${this.client.utils.emojis.info} List of all commands`)
             .setDescription(`Page ${embeds.length + 1}`)
             .addField(grp.name, fieldText.join("\n")));

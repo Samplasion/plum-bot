@@ -24,5 +24,5 @@ module.exports = (client, oldMember, newMember) => {
   // let l = oldMember.guild.channels.cache
   //   .get(client.settings.get(oldMember.guild.id, "logchan"))
   // if (l) l.send(e)
-  oldMember.guild.log(e);
+  if (embed.fields.length) oldMember.guild.log(e);
 }

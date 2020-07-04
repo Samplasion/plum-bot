@@ -63,7 +63,7 @@ module.exports = class ConfigCommand extends Command {
     switch (action) {
       case "view":
         let titles = this.getTitles();
-        let embed = new PlumEmbed(this.client)
+        let embed = this.client.utils.embed()
           .setTitle(`Server configuration for ${msg.guild.name}`)
           .setDescription(`You can use \`${msg.guild ? msg.guild.commandPrefix : this.client.commandPrefix}config set <key> null\` to set a value to an empty state.`)
 
@@ -206,7 +206,7 @@ module.exports = class ConfigCommand extends Command {
       embedValue = "This field has an error";
     }
 
-    return new PlumEmbed(this.client)
+    return this.client.utils.embed()
       .setTitle(this.getTitles()[key])
       .setDescription(embedValue);
   }
