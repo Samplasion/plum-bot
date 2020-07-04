@@ -29,7 +29,8 @@
     "deep-object-diff": "^1.1.0",
     "case": "^1.6.3",
     "safe-eval": "^0.4.1",
-    "minesweeper": "^1.0.5"
+    "minesweeper": "^1.0.5",
+    "nodegit": "^0.26.5"
   },
   "engines": {
     "node": "11.x"
