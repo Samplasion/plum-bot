@@ -229,7 +229,7 @@ class Errors {
   }
   
   async unhandledRejection(err) {
-    let embed = new PlumEmbed(this.utils.client)
+    let embed = this.utils.embed()
         .setTitle("Unhandled Promise rejection in code")
         .setColor("RED")
         .setDescription(`${"```js"}\n${err.stack}${"```"}`)
@@ -245,7 +245,7 @@ class Errors {
   }
     
   async uncaughtException(err) {
-    let embed = new PlumEmbed(this.utils.client)
+    let embed = this.utils.embed()
     .setTitle("Uncaught exception in code")
     .setColor("RED")
     .setDescription(`${"```js"}${err.toString()}${"```"}`)
