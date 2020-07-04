@@ -1,6 +1,5 @@
-
 const Command = require('./../../classes/Command.js');
-var Git = require("nodegit");
+const exec = require("util").promisify(require("child_process").exec);
 
 module.exports = class GitCommand extends Command {
 	constructor(client) {
@@ -35,7 +34,6 @@ module.exports = class GitCommand extends Command {
   // }
 
 	async run(message, { argument, args }) {
-    this.git = Git.Repository.open("../../");
     return this[argument](message, args.split(/\s+/g));
   }
   
@@ -44,7 +42,17 @@ module.exports = class GitCommand extends Command {
   }
   
   async push(msg, args) {
+    let message = args.join(" ").replace(/"/g, "\\\"");
     
+    let output = [];
+    
+    exec(`git add .`)
+      .then(output.push)
+      .catch(output.push);
+    exec(`git commit -m "${message}"`);
+    exec(`git push -u origin master`);
+    
+    return msg.channel.send("```" + output.join("\n") + "```");
   }
   
   async latest(msg) {
