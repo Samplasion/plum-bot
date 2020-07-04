@@ -88,6 +88,8 @@ module.exports = class GitCommand extends Command {
   async execMult(commands) {
     let output = [];
     
+    commands.unshift(`git checkout ${process.env.BRANCH}`);
+    
     for (let cmd of commands) {
       try {
         let res = await exec(cmd);
