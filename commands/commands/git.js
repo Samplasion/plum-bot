@@ -1,4 +1,4 @@
-const util = require('util');
+
 const Command = require('./../../classes/Command.js');
 var Git = require("nodegit");
 
@@ -36,7 +36,7 @@ module.exports = class GitCommand extends Command {
 
 	async run(message, { argument, args }) {
     this.git = Git.Repository.open("../../");
-    return this[argument](message, args);
+    return this[argument](message, args.split(/\s+/g));
   }
   
   async pull(msg, args) {
