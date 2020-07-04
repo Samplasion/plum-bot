@@ -65,7 +65,7 @@ module.exports = class GitCommand extends Command {
     let commands = [
       "git add .",
       `git commit -m "${message}"`,
-      `git push -u origin master ${flags.includes("force") ? "--force" : ""}`
+      `git push -u origin ${process.env.BRANCH} ${flags.includes("force") ? "--force" : ""}`
     ];
     
     return this.runAndLog(msg, "Pull result", "", commands);
