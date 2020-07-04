@@ -35,6 +35,7 @@ module.exports = async client => {
       console.log(reminder.userID, reminder.id);
       (client.reminders.raw[reminder.userID] = client.reminders.raw[reminder.userID] || [])[reminder.id] = setTimeout(() => {
         client.utils.remindUser(client.users.cache.get(reminder.userID), reminder);
+        client.users.fetch(reminder.userID).then(u => u.reminders.delete(reminder.id))
       }, reminder.date - Date.now());
     });
   });
