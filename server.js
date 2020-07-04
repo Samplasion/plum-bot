@@ -125,6 +125,7 @@ client.reminders.reset = (user) => {
 client.reminders.list = (user) => {
   return client.reminders.get(user.id);
 }
+client.reminders.raw = {}
 
 client.global = new Enmap({ name: "global" });
 

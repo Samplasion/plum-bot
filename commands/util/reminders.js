@@ -12,11 +12,34 @@ module.exports = class ReminderCommand extends Command {
       memberName: "reminders",
       description: "Lets you see your reminders.",
       examples: ["reminders"],
-      args: []
+      args: [
+        {
+          id: "action",
+          oneOf: ["view", "delete"],
+          type: "string",
+          prompt: "",
+          default: "view"
+        },
+        {
+          id: "args",
+          type: "string",
+          prompt: "",
+          default: ""
+        }
+      ]
     });
   }
 
-  run(msg) {
+  run(msg, { action, args }) {
+
+    if (action == "delete") {
+      if (parseInt(args.trim()) == NaN)
+        return this.client.utils.sendErrMsg(msg, "The argument to `delete` must be an index number.");
+      if (!msg.author.reminders.delete())
+        return this.client.utils.sendErrMsg(msg, `There's no reminder stored with that ID. A typo?`);
+      return this.client.utils.sendOkMsg(msg, `The reminder was successfully deleted.`);
+    }
+
     let embed = this.client.utils.embed()
       .setTitle("Your reminders")
     let desc = [];
