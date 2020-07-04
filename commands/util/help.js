@@ -73,7 +73,7 @@ module.exports = class HelpCommand extends Command {
         for (let [id, cmd] of grp.commands.filter(cmd => (msg.guild ? msg.member : msg.author).level.level >= cmd.permLevel).entries()) {
           fieldText.push(`• ${prefix}**${cmd.name}**: ${cmd.description}`);
         }
-        
+
         embeds.push(
           this.client.utils.embed()
             .setTitle(`${this.client.utils.emojis.info} List of all commands`)
