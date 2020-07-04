@@ -97,7 +97,7 @@ module.exports = class GitCommand extends Command {
       }
     }
     
-    return output.map((out, i) => ({ name: commands[i], out })).filter(({ out }) => out.trim() != "");
+    return output.map((out, i) => ({ name: commands[i], out }));
   }
   
   async runAndLog(msg, name, desc, commands) {
