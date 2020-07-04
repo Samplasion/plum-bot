@@ -16,7 +16,7 @@ module.exports = class GitCommand extends Command {
 					prompt: 'what would you like to do?',
 					type: 'string',
           oneOf: ["pull", "push", "latest"],
-          default: "lastest"
+          default: "latest"
 				},
         {
           key: "args",
@@ -34,7 +34,7 @@ module.exports = class GitCommand extends Command {
   // }
 
 	async run(message, { argument, args }) {
-    return this[argument](message, args.split(/\s+/g));
+    return await this[argument](message, args.split(/\s+/g));
   }
   
   async pull(msg, args) {
@@ -42,7 +42,7 @@ module.exports = class GitCommand extends Command {
   }
   
   async push(msg, args) {
-    let message = args.join(" ").replace(/"/g, "\\\"");
+    let message = args.join(" ").replace(/"/g, "\\\"") || "Commit from command.";
     
     let output = await this.execMult([
       "git add .",
@@ -50,9 +50,31 @@ module.exports = class GitCommand extends Command {
       "git push -u origin master"
     ]);
     
-    console.log(output);
+    return message.channel.send("```" + output.join("\n") + "```");
+  }
+  
+  async latest(msg) {
+    let data = await this.execMult([
+      "git show --oneline -s"
+    ]);
     
-    return msg.channel.send("```" + output.join("\n") + "```");
+    let raw = data[0].split(" ");
+    
+    let commit = "";
+    for (let i = 0; i < 7; i++)
+      commit = raw.shift();
+    
+    raw = raw.join(" ")
+    
+    return msg.channel.send(
+      this.client.utils.fastEmbed(
+        "Bot Commit", 
+        `The bot is at commit \`${commit}\``,
+        [
+          ["Commit message", raw]
+        ]
+      )
+    );
   }
   
   async execMult(commands) {
@@ -68,10 +90,5 @@ module.exports = class GitCommand extends Command {
     }
     
     return output;
-    
-  }
-  
-  async latest(msg) {
-    
   }
 }
