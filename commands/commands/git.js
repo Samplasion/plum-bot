@@ -60,7 +60,7 @@ module.exports = class GitCommand extends Command {
     );
   }
   
-  async push(msg, args) {
+  async push(msg, args, flags) {
     let message = args.join(" ").replace(/"/g, "\\\"") || "Commit from command.";
     
     let commands = [
