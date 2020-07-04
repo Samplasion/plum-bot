@@ -35,7 +35,7 @@ module.exports = class ReminderCommand extends Command {
     if (action == "delete") {
       if (parseInt(args.trim()) == NaN)
         return this.client.utils.sendErrMsg(msg, "The argument to `delete` must be an index number.");
-      if (!msg.author.reminders.delete())
+      if (!msg.author.reminders.delete(parseInt(args.trim())))
         return this.client.utils.sendErrMsg(msg, `There's no reminder stored with that ID. A typo?`);
       return this.client.utils.sendOkMsg(msg, `The reminder was successfully deleted.`);
     }
