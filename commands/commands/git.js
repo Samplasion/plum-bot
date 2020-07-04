@@ -45,7 +45,7 @@ module.exports = class GitCommand extends Command {
     return msg.channel.send(
       this.client.utils.fastEmbed(
         "Pull result", 
-        "```" + output.join("```\n```") + "```"
+        "```" + output.map(o => o.out).join("```\n```") + "```"
       )
     );
   }
@@ -59,7 +59,7 @@ module.exports = class GitCommand extends Command {
       "git push -u origin master"
     ];
     
-    return this.runAndLog(msg, commands);
+    return this.runAndLog(msg, "Pull result", "", commands);
   }
   
   async latest(msg) {
@@ -97,18 +97,18 @@ module.exports = class GitCommand extends Command {
       }
     }
     
-    return output.filter(out => out.trim() != "");
+    return output.map((out, i) => ({ name: commands[i], out })).filter(({ out }) => out.trim() != "");
   }
   
-  async runAndLog(msg, commands) {
+  async runAndLog(msg, name, desc, commands) {
     let output = await this.execMult(commands);
     
     return msg.channel.send(
       this.client.utils.fastEmbed(
-        "Push result", 
-        "",
-        output.map((out, i) => {
-          return [commands[i], out ? "```" + out + "```" : "No output."]
+        name, 
+        desc,
+        output.map(({ name, out }) => {
+          return [name, out ? "```" + out + "```" : "No output."]
         })
       )
     );
