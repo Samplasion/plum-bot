@@ -14,14 +14,14 @@ module.exports = class ReminderCommand extends Command {
       examples: ["reminders"],
       args: [
         {
-          id: "action",
+          key: "action",
           oneOf: ["view", "delete"],
           type: "string",
           prompt: "",
           default: "view"
         },
         {
-          id: "args",
+          key: "args",
           type: "string",
           prompt: "",
           default: ""
