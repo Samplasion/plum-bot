@@ -1,9 +1,8 @@
 const util = require('util');
-const { MessageAttachment: Attachment } = require('discord.js');
 const Command = require('./../../classes/Command.js');
-const safeEval = require('safe-eval')
+var Git = require("nodegit");
 
-module.exports = class EvalCommand extends Command {
+module.exports = class GitCommand extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'git',
@@ -23,6 +22,7 @@ module.exports = class EvalCommand extends Command {
         {
           key: "args",
           type: "string",
+          prompt: "",
           default: "",
         }
 			]
@@ -34,7 +34,20 @@ module.exports = class EvalCommand extends Command {
     // return true;
   // }
 
-	async run(message, { script }) {
+	async run(message, { argument, args }) {
+    this.git = 
+    return this[argument](message, args);
+  }
+  
+  async pull(msg, args) {
+    
+  }
+  
+  async push(msg, args) {
+    
+  }
+  
+  async latest(msg) {
     
   }
 }
