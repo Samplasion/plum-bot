@@ -44,15 +44,31 @@ module.exports = class GitCommand extends Command {
   async push(msg, args) {
     let message = args.join(" ").replace(/"/g, "\\\"");
     
-    let output = [];
+    let output = await this.execMult([
+      "git add .",
+      `git commit -m "${message}"`,
+      "git push -u origin master"
+    ]);
     
-    exec(`git add .`)
-      .then(output.push)
-      .catch(output.push);
-    exec(`git commit -m "${message}"`);
-    exec(`git push -u origin master`);
+    console.log(output);
     
     return msg.channel.send("```" + output.join("\n") + "```");
+  }
+  
+  async execMult(commands) {
+    let output = [];
+    
+    for (let cmd of commands) {
+      try {
+        let res = await exec(cmd);
+        output.push(res.stdout);
+      } catch (err) {
+        output.push(err.stderr);
+      }
+    }
+    
+    return output;
+    
   }
   
   async latest(msg) {
