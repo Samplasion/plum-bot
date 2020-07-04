@@ -33,7 +33,8 @@ module.exports = class RandTextCommand extends Command {
       name += "-";
     }
     let channel = await message.guild.channels.create(`ticket-${name}`, {
-      type: "text"
+      type: "text",
+      parent: category
     });
   }
 };
