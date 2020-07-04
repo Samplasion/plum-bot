@@ -74,6 +74,6 @@ module.exports = class RandTextCommand extends Command {
 
     await message.guild.channels.cache.find(ch => ch.name == name).delete("Ticket channel expired.");
 
-    return this.client.utils.sendOkMsg(message);
+    return this.client.utils.sendOkMsg(message, "The ticket channel was successfully removed.");
   }
 };
