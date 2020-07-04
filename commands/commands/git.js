@@ -35,7 +35,7 @@ module.exports = class GitCommand extends Command {
   // }
 
 	async run(message, { argument, args }) {
-    this.git = 
+    this.git = Git.Repository.open("../../");
     return this[argument](message, args);
   }
   
