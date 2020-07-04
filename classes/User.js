@@ -26,7 +26,8 @@ module.exports = Structures.extend("User", User => class extends User {
       delete: function(index) {
         if (index >= 0 && this.list.map(rem => rem.id).includes(index)) {
           var old = this.list;
-          let id = old.splice(index, 1)[0].id;
+          let spliced = old.splice(index, 1);
+          let id = spliced[0].id;
           clearTimeout(this.client.reminders.raw[user.id][id])
           client.reminders.set(user.id, old);
           return true;
