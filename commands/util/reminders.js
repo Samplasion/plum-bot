@@ -21,6 +21,8 @@ module.exports = class ReminderCommand extends Command {
       .setTitle("Your reminders")
     let desc = [];
     
+    console.log(msg.author.reminders.list);
+    
     for (let rem of msg.author.reminders.list) {
       let prettyDuration = [];
       var rawObj = prettyms(rem.date - Date.now());

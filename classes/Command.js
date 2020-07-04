@@ -29,7 +29,7 @@ module.exports = class PlumCommand extends Command {
     let error = new CommandError(err, message);
     console.log(error instanceof CommandError, error.name)
     if (error instanceof CommandError) {
-      let e = this.client.emojis;
+      let e = this.client.utils.emojis;
       let embed = new Embed(this.client)
         .setTitle("Uncaught exception in code")
         .setColor("RED")

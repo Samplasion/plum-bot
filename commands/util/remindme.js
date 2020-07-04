@@ -28,7 +28,7 @@ module.exports = class ReminderCommand extends Command {
       return this.client.utils.sendErrMsg(
         msg,
         oneLine`You didn't enter a duration.
-To enter a duration, type \`in <duration>\` after the reminder.`
+To enter a duration, type \`in <duration>\` after the reminder, in a new message.`
       );
 
     let duration = parse(reminder.pop());

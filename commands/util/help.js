@@ -94,6 +94,8 @@ module.exports = class HelpCommand extends Command {
       if (!msg.guild.me.hasPermission("MANAGE_MESSAGES")) {
         let index = Math.max(0, (parseInt(args.command) == NaN ? 1 : parseInt(args.command)) - 1 % embeds.length);
         let embed = embeds[index || 0];
+        if (!embed) return this.client.utils.sendErrMsg(msg, `There was an error finding page ${index+1}. Make sure `
+                                                        + `the page is a number between 1 and ${embeds.length}.`);
         embed.setDescription(`${embed.description} • Use \`${prefix}help [page]\` to choose another page.`);
         msg.channel.send(embed);
         return;

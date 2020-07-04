@@ -1,6 +1,9 @@
 const { Message } = require("discord.js");
 
-module.exports = async (client, packet) => {
+module.exports = async (client, packet) => {};
+
+// Commented code
+async (client, packet) => {
   if (["MESSAGE_DELETE"].includes(packet.t)) {
     const channel = await client.channels.fetch(packet.d.channel_id),
           guild   = channel.guild;

@@ -109,7 +109,7 @@ class Utilities {
     }
 
     if (fieldArray) {
-      console.log(fields);
+      // console.log(fields);
       logged.addFields(
         ...(fields.map(([name, value, inline]) => ({name, value, inline})))
       )

@@ -1,4 +1,4 @@
-const { Structures } = require('discord.js');
+const { Structures, Permissions } = require('discord.js');
 const { findType } = require('../settings/index.js');
 const db = require('../utils/database.js');
 
@@ -91,7 +91,7 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
   
   async log(...stuff) {
     let channel = await this.client.channels.fetch(this.config.data.logchan);
-    if (channel && channel.send)
+    if (channel && channel.send && channel.permissionsFor(channel.guild.me).has(Permissions.FLAGS.SEND_MESSAGES))
       return channel.send(...stuff);
   }
 })

@@ -12,7 +12,7 @@ module.exports = Structures.extend("User", User => class extends User {
     
     this.reminders = {
 			get list() {
-				return client.reminders.list(user);
+				return client.reminders.list(user) || [];
 			},
 			add: (reminder) => {
 				return client.reminders.add(user, reminder);

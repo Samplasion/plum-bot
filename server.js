@@ -137,7 +137,7 @@ client.login(process.env.TOKEN);
 process
   .on('unhandledRejection', (err, p) => {
     console.error(err);
-    client.utils.errors.unhandledRejection(err);
+    if (err.message !== "404: Not Found") client.utils.errors.unhandledRejection(err);
     // console.error(err, 'Unhandled Rejection at Promise', p);
   })
   .on('uncaughtException', err => {
