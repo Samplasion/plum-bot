@@ -33,13 +33,23 @@ module.exports = class GitCommand extends Command {
     // return true;
   // }
 
-	async run(message, { argument, args }) {
-    return await this[argument](message, args.split(/\s+/g));
+	async run(message, { argument, args: argstring }) {
+    let args = argstring.split(/\s+/g);
+    let flags = [];
+
+    let i = args.length - 1;
+    while (i >= 0) {
+      if (args[i].startsWith("--force")) {
+        flags.push(args.splice(i, 1).substr(2).toLowerCase());
+      }
+      i--;
+    }
+    return await this[argument](message, args, flags);
   }
   
-  async pull(msg, args) {
+  async pull(msg, args, flags) {
     let output = await this.execMult([
-      "git pull"
+      flags.includes("force") ? "git pull --force" : "git pull"
     ]);
     
     return msg.channel.send(
@@ -56,7 +66,7 @@ module.exports = class GitCommand extends Command {
     let commands = [
       "git add .",
       `git commit -m "${message}"`,
-      "git push -u origin master"
+      `git push -u origin ${process.env.BRANCH} ${flags.includes("force") ? "--force" : ""}`
     ];
     
     return this.runAndLog(msg, "Pull result", "", commands);
