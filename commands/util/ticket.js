@@ -14,11 +14,13 @@ module.exports = class RandTextCommand extends Command {
           type: "string",
           oneOf: ["create", "delete"],
           prompt: "",
+          default: "create"
         },
         {
           key: "args",
           type: "string",
           prompt: "",
+          default: ""
         }
       ]
     });
@@ -58,7 +60,7 @@ module.exports = class RandTextCommand extends Command {
   }
 
   async delete(message, args) {
-    // this.client.utils.sendErrMsg(message, "Not yet implemented");
+    let categoryName = message.guild.config.data.ticketcategory || "Support tickets";
 
     if (parseInt(args.trim()) == NaN)
       return this.client.utils.sendErrMsg(message, "The argument to `delete` must be a number "
