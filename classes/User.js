@@ -29,7 +29,7 @@ module.exports = Structures.extend("User", User => class extends User {
           let spliced = old.splice(this.list.map(rem => rem.id).indexOf(index), 1);
           console.log(spliced);
           let id = spliced[0].id;
-          clearTimeout(this.client.reminders.raw[user.id][id])
+          clearTimeout(client.reminders.raw[user.id][id])
           client.reminders.set(user.id, old);
           return true;
         }
