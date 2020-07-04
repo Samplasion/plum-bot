@@ -67,7 +67,7 @@ module.exports = class GitCommand extends Command {
       "git show --oneline -s"
     ]);
     
-    let raw = data[0].out.split(" ");
+    let raw = data[1].out.split(" ");
     
     let commit = raw.shift();
     // let edited = raw.pop()
