@@ -5,9 +5,9 @@ module.exports = class RandTextCommand extends Command {
     super(client, {
       name: 'ticket',
       group: 'util',
-      memberName: 'perms',
+      memberName: 'ticket',
       description: 'Creates a ticket channel for support.',
-      examples: ['perms'],
+      examples: ['ticket'],
       args: []
     });
   }
