@@ -42,6 +42,7 @@ module.exports = class GitCommand extends Command {
       if (args[i].startsWith("--force")) {
         flags.push(args.splice(i, 1).substr(2).toLowerCase());
       }
+      i--;
     }
     return await this[argument](message, args, flags);
   }
