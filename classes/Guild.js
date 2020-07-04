@@ -40,6 +40,8 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 					leavemessage: !blank ? ["Goodbye {{user}}! You'll be missed"] : [],
 
 					mutedrole: mutedrole ? mutedrole.id : '',
+
+					ticketcategory: blank ? '' : "Support tickets",
 				};
 			},
 			setDefaultSettings: function(blank = false, scan = true) {

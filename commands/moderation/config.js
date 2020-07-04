@@ -49,12 +49,23 @@ module.exports = class ConfigCommand extends Command {
       welcomechan: "Welcome channel",
       welcomemessage: "Welcome messages",
       leavemessage: "Leave message",
-      mutedrole: "Muted role"
+      mutedrole: "Muted role",
+      ticketcategory: "Category for ticket channels"
     };
   }
   
   get order() {
-    return ["owners", "admins", "mods", "logchan", "welcomechan", "welcomemessage", "leavemessage", "mutedrole"];
+      return [
+          'owners',
+          'admins',
+          'mods',
+          'logchan',
+          'welcomechan',
+          'welcomemessage',
+          'leavemessage',
+          'mutedrole',
+          'ticketcategory'
+      ];
   }
 
   async run(msg, { action, key, value }) {
