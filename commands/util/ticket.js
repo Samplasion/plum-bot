@@ -7,7 +7,8 @@ module.exports = class RandTextCommand extends Command {
       group: 'util',
       memberName: 'ticket',
       description: 'Creates a ticket channel for support.',
-      examples: ['ticket'],
+      examples: ['ticket', 'ticket delete 0'],
+      guildOnly: true,
       args: [
         {
           key: "action",
@@ -72,7 +73,12 @@ module.exports = class RandTextCommand extends Command {
     if (!tickets.map(ch => ch.name).includes(name))
       return this.client.utils.sendErrMsg(message, `There's no ticket channel stored with that number. A typo?`);
 
-    await message.guild.channels.cache.find(ch => ch.name == name).delete("Ticket channel expired.");
+    let channel = message.guild.channels.cache.find(ch => ch.name == name);
+
+    if (channel.topic.replace("Created by: ", "") != `<@${message.author.id}>` && this.client.permissions(message.member).level < 2)
+      return this.client.utils.sendErrMsg(message, `The ticket channel doesn't belong to you and you have no rights over it.`);
+
+    await channel.delete("Ticket channel expired.");
 
     return this.client.utils.sendOkMsg(message, "The ticket channel was successfully removed.");
   }
