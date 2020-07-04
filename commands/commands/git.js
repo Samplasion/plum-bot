@@ -27,11 +27,6 @@ module.exports = class GitCommand extends Command {
 			]
 		});
 	}
-  
-  // hasPermission(msg) {
-    // if (!this.client.isOwner(msg.author)) return 'only the bot owner(s) may use this command.';
-    // return true;
-  // }
 
 	async run(message, { argument, args }) {
     return await this[argument](message, args.split(/\s+/g));
