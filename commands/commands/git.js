@@ -38,19 +38,28 @@ module.exports = class GitCommand extends Command {
   }
   
   async pull(msg, args) {
+    let output = await this.execMult([
+      "git pull"
+    ]);
     
+    return msg.channel.send(
+      this.client.utils.fastEmbed(
+        "Pull result", 
+        "```" + output.join("```\n```") + "```"
+      )
+    );
   }
   
   async push(msg, args) {
     let message = args.join(" ").replace(/"/g, "\\\"") || "Commit from command.";
     
-    let output = await this.execMult([
+    let commands = [
       "git add .",
       `git commit -m "${message}"`,
       "git push -u origin master"
-    ]);
+    ];
     
-    return msg.channel.send("```" + output.join("```\n```") + "```");
+    return this.runAndLog(msg, commands);
   }
   
   async latest(msg) {
@@ -88,6 +97,20 @@ module.exports = class GitCommand extends Command {
       }
     }
     
-    return output;
+    return output.filter(out => out.trim() != "");
+  }
+  
+  async runAndLog(msg, commands) {
+    let output = await this.execMult(commands);
+    
+    return msg.channel.send(
+      this.client.utils.fastEmbed(
+        "Push result", 
+        "",
+        output.map((out, i) => {
+          return [commands[i], out ? "```" + out + "```" : "No output."]
+        })
+      )
+    );
   }
 }
