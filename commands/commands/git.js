@@ -40,7 +40,7 @@ module.exports = class GitCommand extends Command {
     let i = args.length - 1;
     while (i >= 0) {
       if (args[i].startsWith("--force")) {
-        flags.push(args.splice(i, 1).substr(2).toLowerCase());
+        flags.push(args.splice(i, 1)[0].substr(2).toLowerCase());
       }
       i--;
     }
