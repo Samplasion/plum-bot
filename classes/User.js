@@ -24,9 +24,6 @@ module.exports = Structures.extend("User", User => class extends User {
         return client.reminders.clear(user);
       },
       delete: function(index) {
-<<<<<<< HEAD
-        if (index > 0 && index < this.list.length)
-=======
         if (index > 0 && index < this.list.length) {
           var old = this.list;
           let id = old.splice(index, 1)[0].id;
@@ -35,7 +32,6 @@ module.exports = Structures.extend("User", User => class extends User {
           return true;
         }
         return false;
->>>>>>> 693a1537a70b7c21f4b3d80adb4a4a2e761200d3
       }
 		}
 	}
