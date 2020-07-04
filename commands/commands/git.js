@@ -27,6 +27,11 @@ module.exports = class GitCommand extends Command {
 			]
 		});
 	}
+  
+  // hasPermission(msg) {
+    // if (!this.client.isOwner(msg.author)) return 'only the bot owner(s) may use this command.';
+    // return true;
+  // }
 
 	async run(message, { argument, args }) {
     return await this[argument](message, args.split(/\s+/g));
@@ -62,7 +67,7 @@ module.exports = class GitCommand extends Command {
       "git show --oneline -s"
     ]);
     
-    let raw = data[0].split(" ");
+    let raw = data[1].out.split(" ");
     
     let commit = raw.shift();
     // let edited = raw.pop()
@@ -82,6 +87,8 @@ module.exports = class GitCommand extends Command {
   
   async execMult(commands) {
     let output = [];
+    
+    commands.unshift(`git checkout ${process.env.BRANCH}`);
     
     for (let cmd of commands) {
       try {
