@@ -50,18 +50,18 @@ module.exports = class GitCommand extends Command {
       "git push -u origin master"
     ]);
     
-    return msg.channel.send("```" + output.join("\n") + "```");
+    return msg.channel.send("```" + output.join("```\n```") + "```");
   }
   
   async latest(msg) {
     let data = await this.execMult([
-      "git log -1 --oneline"
+      "git show --oneline -s"
     ]);
     
     let raw = data[0].split(" ");
     
     let commit = raw.shift();
-    // let edited = raw.pop();
+    // let edited = raw.pop()
     
     raw = raw.join(" ");
     
