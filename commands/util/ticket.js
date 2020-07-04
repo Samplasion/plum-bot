@@ -28,7 +28,7 @@ module.exports = class RandTextCommand extends Command {
     }
 
     // Create a new channel
-    let name = message.guild.channels.cache.filter(ch => ch.parent.name == categoryName).size.toString().padStart(4, "0");
+    let name = message.guild.channels.cache.filter(ch => ch.parent && ch.parent.name == categoryName).size.toString().padStart(4, "0");
     while (message.guild.channels.cache.map(ch => ch.name).includes(name)) {
       name += "-";
     }
