@@ -135,6 +135,19 @@ client.utils = new Utilities(client);
 
 client.version = require("./version");
 
+// Stable release stuff
+if (process.env.BRANCH === "master") {
+  const GBL = require('gblapi.js');
+  client.apis = {};
+  client.apis.glenn = new GBL(client.user.id, process.env.GBLTOKEN, false);
+
+  function updateAPIs() {
+    client.apis.glenn.updateStats(client.guilds.cache.size);
+  }
+  updateAPIs();
+  setInterval(updateAPIs, 15 * 60000);
+}
+
 client.login(process.env.TOKEN);
 
 // LOGGERS
