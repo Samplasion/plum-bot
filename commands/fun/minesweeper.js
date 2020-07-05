@@ -37,7 +37,7 @@ module.exports = class HangmanCommand extends Command {
       memberName: 'minesweeper',
       description: 'Play some "Minesweeper" with a bot!',
       details: oneLine`The format for the argument is the following:
-        \`NUMBER DELIMITER NUMBER SYMBOL?\`, where:` + stripIndent`\n
+        \`NUMBER DELIMITER NUMBER SYMBOL?\`, where:` + "\n" + stripIndent`\n
         NUMBER is, quite obviously, any number;
         DELIMITER is one of the following symbols: \`.*x-_|&\`; and
         SYMBOL is optional and can be either \`?\` or \`!\`.
