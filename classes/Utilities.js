@@ -55,7 +55,8 @@ class Utilities {
       restart: "🔄", // ALIAS
       message: "📝",
       trash: "🗑️",
-      alias: "📑"
+      alias: "📑",
+      moderator: "👷",
     }
   }
 
