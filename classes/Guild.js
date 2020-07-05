@@ -119,6 +119,8 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 		let channels = this.channels.cache
 			.filter(ch => ch.category && ch.category.id == category.id && ch.type == "voice");
 
+		console.log(channels, channels.length);
+
 		if (channels.size > lines.length) {
 			for (let i = 0; i < channels.size - lines.length; i++) {
 				await channels.random().delete();
