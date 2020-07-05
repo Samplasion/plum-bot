@@ -61,7 +61,7 @@ module.exports = class RandTextCommand extends Command {
     ]
     let permissionOverwrites = [
       {
-        id: message.guild.id,
+        id: message.guild.id, // @everyone
         type: "role",
         deny: perms
       },

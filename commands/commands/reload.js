@@ -35,9 +35,10 @@ module.exports = class ReloadCmdCommand extends Command {
 		cmdOrGrp.reload();
 
 		if(isCmd) {
-			await msg.reply(`reloaded the \`${cmdOrGrp.name}\` command.`);
+			await this.client.utils.sendOkMsg(msg, `Reloaded the \`${cmdOrGrp.name}\` command.`);
 		} else {
-			await msg.reply(
+			await this.client.utils.sendOkMsg(
+				msg,
 				`Reloaded all of the commands in the \`${cmdOrGrp.name}\` group.`
 			);
 		}

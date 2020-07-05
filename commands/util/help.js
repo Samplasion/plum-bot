@@ -35,7 +35,7 @@ module.exports = class HelpCommand extends Command {
     let groups = this.client.registry.groups;
     let command = args.command && this.client.registry.findCommands(args.command, false, msg)[0];
     
-    if (command) {
+    if (command && !command.hidden) {
       let embed = this.client.utils.embed()
         .setFooter(`The prefix for this server is: ${prefix}`);
       
@@ -57,8 +57,13 @@ module.exports = class HelpCommand extends Command {
       embed.addField(`${this.client.utils.emojis.numbers} Level`, `**${perm.name}** [${perm.level}]`, true)
       
       if (command.examples && command.examples.length) {
-        embed.addField(`${this.client.utils.emojis.paper} Examples`, command.examples.map(ex => ` - ${ex}`).join("\n"));
+        embed.addField(`${this.client.utils.emojis.paper} Examples`, command.examples.map(ex => ` - ${msg.prefix}${ex}`).join("\n"));
       }
+
+      embed.addField(`${this.client.utils.emojis.message} Usage`, `\`${msg.prefix}${command.name} ${command.format}\``, true);
+      
+      if (command.aliases.length)
+        embed.addField(`${this.client.utils.emojis.alias} Alias${command.aliases.length == 1 ? "" : "es"}`, command.aliases.map(al => ` - ${msg.prefix}**${al}**`).join("\n"), true);
     
       return msg.channel.send(embed);
     } else {
@@ -70,7 +75,7 @@ module.exports = class HelpCommand extends Command {
       })).sort((g1, g2) => g1.name.localeCompare(g2.name)).forEach(grp => {
         let fieldText = [];
         
-        for (let [id, cmd] of grp.commands.filter(cmd => (msg.guild ? msg.member : msg.author).level.level >= cmd.permLevel).entries()) {
+        for (let [id, cmd] of grp.commands.filter(cmd => !cmd.hidden && cmd.isUsable(msg) && (msg.guild ? msg.member : msg.author).level.level >= cmd.permLevel).entries()) {
           fieldText.push(`• ${prefix}**${cmd.name}**: ${cmd.description}`);
         }
 
@@ -83,8 +88,9 @@ module.exports = class HelpCommand extends Command {
       
       embeds.forEach(embed => {
         embed
-          .setDescription(`${embed.description} of ${embeds.length}`)
-          .setFooter(`This menu will expire in 2 minutes`);
+          .setDescription(`${embed.description} of ${embeds.length}`);
+        if (msg.guild.me.hasPermission("MANAGE_MESSAGES"))
+          embed.setFooter(`This menu will expire in 2 minutes`);
       });
       
       if (!embeds.length) {

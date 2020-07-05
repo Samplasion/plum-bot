@@ -42,15 +42,15 @@ module.exports = class KickCommand extends Command {
 				return msg.reply("You need to be the server owner in order to kick Administrators")
 		} else return msg.reply("you can't kick someone who isn't here already")
     await user.kick(reason)
-    msg.channel.send(`${user.user.tag} was kicked`)
+    this.client.utils.sendOkMsg(msg, `${user.user.tag} was kicked`)
     let em = this.client.utils.emojis;
     let e = this.client.utils.embed()
       .setTitle("User Kicked")
       .setThumbnail(user.user.avatarURL())
       .setColor(0xF45C42)
       .addField(em.user + " User", `**${user.user ? user.user.tag : user.tag}** [${user.user ? user.user.id : user.id}]`)
-      .addField("👷 Moderator", `**${msg.author.tag}** [${msg.author.id}]`)
-      .addField(em.message + "📝 Reason", `${reason}`);
+      .addField(`${this.client.utils.emojis.moderator}Moderator`, `**${msg.author.tag}** [${msg.author.id}]`)
+      .addField(em.message + " Reason", `${reason}`);
     
     return msg.guild.log(e);
   }
