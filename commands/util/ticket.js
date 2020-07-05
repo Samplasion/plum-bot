@@ -109,7 +109,7 @@ module.exports = class RandTextCommand extends Command {
 
     let channel = message.guild.channels.cache.find(ch => ch.name == name);
 
-    if (channel.topic.replace("Created by: ", "") != `<@${message.author.id}>` && (this.client.permissions(message.member).level < 2 && !message.members.roles.cache.has(message.guild.config.data.helpers)))
+    if (channel.topic.replace("Created by: ", "") != `<@${message.author.id}>` && (this.client.permissions(message.member).level < 2 && !message.member.roles.cache.has(message.guild.config.data.helpers)))
       return this.client.utils.sendErrMsg(message, `The ticket channel doesn't belong to you and you have no rights over it.`);
 
     try {
