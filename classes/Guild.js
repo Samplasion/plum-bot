@@ -45,6 +45,8 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 					mutedrole: mutedrole ? mutedrole.id : '',
 
 					ticketcategory: blank ? '' : "Support tickets",
+
+					serverinfo: []
 				};
 			},
 			setDefaultSettings: function(blank = false, scan = true) {
