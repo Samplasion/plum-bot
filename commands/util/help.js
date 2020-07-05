@@ -60,7 +60,7 @@ module.exports = class HelpCommand extends Command {
         embed.addField(`${this.client.utils.emojis.paper} Examples`, command.examples.map(ex => ` - ${ex}`).join("\n"));
       }
 
-      embed.addField(`${this.client.utils.emojis.message} Usage`, `\`${msg.prefix}${command.id} ${command.format}\``);
+      embed.addField(`${this.client.utils.emojis.message} Usage`, `\`${msg.prefix}${command.name} ${command.format}\``);
     
       return msg.channel.send(embed);
     } else {
