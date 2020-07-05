@@ -39,6 +39,6 @@ module.exports = class BanCommand extends Command {
         .addField("<:bean:729346829405257731> User", `**${user.user ? user.user.tag : user.tag}** [${user.user ? user.user.id : user.id}]`)
         .addField("👷 Beaner", `**${msg.author.tag}** [${msg.author.id}]`)
         .addField(em.message + " Reason", `${reason}`)
-    return msg.channel.send(`${user.user ? user.user.tag : user.tag} was beaned`, { embed: e });
+    return msg.channel.send(this.client.utils.emojis.ok + ` | ${user.user ? user.user.tag : user.tag} was beaned`, { embed: e });
   }
 };
