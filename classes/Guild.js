@@ -101,6 +101,10 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 			return;
 		
 		let lines = this.config.data.serverinfo || [];
+
+		if (!lines.length)
+			return;
+
 		let allow = [
 			"VIEW_CHANNEL"
 		];
