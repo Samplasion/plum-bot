@@ -99,7 +99,16 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 	async updateInfo() {
 		if (!this.me.hasPermission("MANAGE_CHANNELS"))
 			return;
-		
+    
+    let guild = this;
+    function fmt(str) {
+      let s = str
+        .split("{{members}}").join(guild.members.cache.size)
+        .split("{{channels}}").join(guild.channels.cache.size);
+      console.log(s, str);
+      return s;
+    }
+    
 		let lines = this.config.data.serverinfo || [];
 		let allow = [
 			"VIEW_CHANNEL"
@@ -119,8 +128,6 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 		let channels = this.channels.cache
 			.filter(ch => ch.parent && ch.parent.id == category.id && ch.type == "voice");
 
-		console.log(channels, channels.length);
-
 		if (channels.size > lines.length) {
 			for (let i = 0; i < channels.size - lines.length; i++) {
 				await channels.random().delete();
@@ -129,7 +136,7 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 			let isZero = channels.size == 0;
 
 			for (let i = 0; i < lines.length + channels.size; i++) {
-				await this.channels.create(lines[i], {
+				await this.channels.create(fmt(lines[i]), {
 					permissionOverwrites: [
 						{
 							id: this.id, // @everyone
@@ -156,7 +163,7 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 			.filter(ch => ch.parent && ch.parent.id == category.id && ch.type == "voice");
 
 		channels.array().forEach(async(ch, index) => {
-			await ch.setName(lines[index]);
+			await ch.setName(fmt(lines[index]));
 		});
 
 		// for (let line of lines.reverse()) {
