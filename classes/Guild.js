@@ -124,7 +124,7 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 				await channels.random().delete();
 			}
 		} else if (channels.size < lines.length) {
-			let isZero = channel.size == 0;
+			let isZero = channels.size == 0;
 
 			for (let i = 0; i < lines.length + channels.size; i++) {
 				await this.channels.create(lines[i], {
