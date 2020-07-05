@@ -115,9 +115,11 @@ module.exports = class RandTextCommand extends Command {
     try {
       await channel.delete("Ticket channel expired.");
 
-      return this.client.utils.sendOkMsg(message, "The ticket channel was successfully removed.");
+      if (message.channel.id != channel.id)
+        return this.client.utils.sendOkMsg(message, "The ticket channel was successfully removed.");
     } catch (e) {
-      return this.client.utils.sendErrMsg(message, `I'm lacking permissions to delete that channel!`);
+      if (message.channel.id != channel.id)
+        return this.client.utils.sendErrMsg(message, `I'm lacking permissions to delete that channel!`);
     }
   }
 };
