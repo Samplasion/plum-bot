@@ -99,7 +99,7 @@ module.exports = class RandTextCommand extends Command {
   async delete(message, args) {
     let categoryName = message.guild.config.data.ticketcategory || "Support tickets";
 
-    if (parseInt(args.trim()) == NaN)
+    if (parseInt(args.trim()) == NaN || !args.trim())
       return this.client.utils.sendErrMsg(message, "The argument to `delete` must be a number "
         + "(don't include the leading zeros).");
     
