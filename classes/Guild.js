@@ -116,8 +116,8 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 			});
 		}
 
-		let channels = this.channels.cache
-			.filter(ch => ch.category && ch.category.id == category.id && ch.type == "voice");
+		channels = this.channels.cache
+			.filter(ch => ch.parent && ch.parent.id == category.id && ch.type == "voice");
 
 		console.log(channels, channels.length);
 
@@ -148,7 +148,7 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 		}
 
 		channels = this.channels.cache
-			.filter(ch => ch.category && ch.category.id == category.id && ch.type == "voice");
+			.filter(ch => ch.parent && ch.parent.id == category.id && ch.type == "voice");
 
 		channels.array().forEach(async(ch, index) => {
 			await ch.setName(lines[index]);
