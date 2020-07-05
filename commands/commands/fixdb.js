@@ -30,7 +30,7 @@ module.exports = class EvalCommand extends Command {
       guild.config.fix();
     }
 
-    return this.client.sendOkMsg(message, "Done!");
+    return this.client.utils.sendOkMsg(message, "Done!");
   }
 }
 
