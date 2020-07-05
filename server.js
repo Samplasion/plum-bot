@@ -132,7 +132,7 @@ client.global = new Enmap({ name: "global" });
 var Utilities = require("./classes/Utilities");
 client.utils = new Utilities(client);
 
-client.ver = require("./version");
+client.version = require("./version");
 
 client.login(process.env.TOKEN);
 
