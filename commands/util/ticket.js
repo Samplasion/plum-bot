@@ -52,7 +52,7 @@ module.exports = class RandTextCommand extends Command {
       name++;
     }
 
-    let perms: [
+    let perms = [
       "SEND_MESSAGES",
       "READ_MESSAGE_HISTORY",
       "VIEW_CHANNEL"
