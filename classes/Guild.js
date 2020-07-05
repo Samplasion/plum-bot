@@ -138,12 +138,14 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 					parent: category
 				});
 			}
+
+			return;
 		}
 
 		channels = this.channels.cache
 			.filter(ch => ch.category && ch.category.id == category.id && ch.type == "voice");
 
-		channels.values().forEach(async(ch, index) => {
+		channels.array().forEach(async(ch, index) => {
 			await ch.setName(lines[index]);
 		});
 
