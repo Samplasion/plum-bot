@@ -15,9 +15,9 @@ module.exports = class PlumCommand extends Command {
     let perm = msg.guild
         ? msg.member.level
         : msg.author.level
-    console.log(perm);
     let hasPerm = perm.level >= this.permLevel;
-    if (!hasPerm) return `you don't have the permission to run this command. The minumim permission is: **${perm.name}** [${perm.level}]`;
+    let min = this.client.permissionLevels.filter(i => i.level == this.permLevel)[0];
+    if (!hasPerm) return `you don't have the permission to run this command. The minumim permission is: **${min.name}** [${min.level}]`;
     return hasPerm;
   }
   
