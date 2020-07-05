@@ -45,6 +45,7 @@ client.registry
     .registerGroups([
         ["commands", "Botkeeping Utilities"],
         ["moderation", "Moderation"],
+        ["fakemod", "Moodreatyon"],
         ["fun", "Fun"],
     ])
     //.registerDefaultCommands({
