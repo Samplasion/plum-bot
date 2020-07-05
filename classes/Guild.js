@@ -95,6 +95,72 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 			}
 		}
 	}
+
+	async updateInfo() {
+		if (!this.me.hasPermission("MANAGE_CHANNELS"))
+			return;
+		
+		let lines = this.config.data.serverinfo || [];
+		let allow = [
+			"VIEW_CHANNEL"
+		];
+		let deny = [
+			"CONNECT"
+		];
+
+		let category = this.channels.cache.find(ch => ch.name.toLowerCase() == "server info");
+		if (!category) {
+			category = await message.guild.channels.create("server info", {
+				type: "category",
+				position: 0
+			});
+		}
+
+		let channels = this.channels.cache
+			.filter(ch => ch.category && ch.category.id == category.id && ch.type == "voice");
+
+		if (channels.size > lines.length) {
+			for (let i = 0; i < channels.size - lines.length; i++) {
+				await channels.random().delete();
+			}
+		} else if (channels.size < lines.length) {
+			for (let i = 0; i < lines.length + channels.size; i++) {
+				await this.channels.create(line, {
+					permissionOverwrites: [
+						{
+							id: this.id, // @everyone
+							type: "voice",
+							allow,
+							deny
+						}
+					],
+					parent: category
+				});
+			}
+		}
+
+		channels = this.channels.cache
+			.filter(ch => ch.category && ch.category.id == category.id && ch.type == "voice");
+
+		channels.entries().forEach(async(ch, index) => {
+			await ch.setName(lines[index]);
+		});
+
+		// for (let line of lines.reverse()) {
+		// 	await this.channels.create(line, {
+		// 		permissionOverwrites: [
+		// 			{
+		// 				id: this.id,
+		// 				type: "voice",
+		// 				allow,
+		// 				deny
+		// 			}
+		// 		],
+		// 		position: 0,
+		// 		parent: category
+		// 	});
+		// }
+	}
   
 	async log(...stuff) {
 		let channel = await this.client.channels.fetch(this.config.data.logchan);
