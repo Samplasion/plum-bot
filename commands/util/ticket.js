@@ -13,7 +13,7 @@ module.exports = class RandTextCommand extends Command {
         {
           key: "action",
           type: "string",
-          oneOf: ["create", "delete"],
+          oneOf: ["create", "add", "delete", "remove"],
           prompt: "",
           default: "create"
         },
@@ -28,6 +28,8 @@ module.exports = class RandTextCommand extends Command {
   }
 
   async run(message, { action, args }) {
+    if (action == "add")    action = "create";
+    if (action == "remove") action = "delete";
     return this[action](message, args);
   }
 
