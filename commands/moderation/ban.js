@@ -49,7 +49,7 @@ This permanently bans users.`,
 				return msg.reply("You need to be the server owner in order to ban Administrators")
 		}
     await msg.guild.ban(user.user ? user.user.id : user.id, reason);
-    msg.channel.send(`${user.user ? user.user.tag : user.tag} was banned`);
+    this.client.utils.sendOkMsg(msg, `${user.user ? user.user.tag : user.tag} was banned`);
     let em = this.client.utils.emojis;
     let e = this.client.utils.embed()
       .setTitle("User Banned")
@@ -57,8 +57,8 @@ This permanently bans users.`,
       .setThumbnail(user.user ? user.user.displayAvatarURL() : user.displayAvatarURL())
       .setColor(0xC61919)
       .addField(em.user + " User", `**${user.user ? user.user.tag : user.tag}** [${user.user ? user.user.id : user.id}]`)
-      .addField("👷 Moderator", `**${msg.author.tag}** [${msg.author.id}]`)
-      .addField(em.message + "📝 Reason", `${reason}`)
+      .addField(`${this.client.utils.emojis.moderator}Moderator`, `**${msg.author.tag}** [${msg.author.id}]`)
+      .addField(em.message + " Reason", `${reason}`)
     return msg.guild.log(e);
   }
 };
