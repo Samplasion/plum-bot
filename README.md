@@ -1,5 +1,4 @@
-Plum Bot
-========
+# Plum Bot
 
 A multipurpose bot with lots of fun commands and utilities.
 
@@ -17,3 +16,7 @@ commands from other popular bots, like Koopa and Super Mario, from the same auth
 
 And if something bad happens, a unique code will be generated which'll help developers fix it in no time!
 Oh, and if you ping the bot, it'll remind you of the prefix!
+
+## Disclaimer
+
+Some code is taken from bot "Yamamura" by me and NightScript#5597.
