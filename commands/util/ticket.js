@@ -48,13 +48,45 @@ module.exports = class RandTextCommand extends Command {
 
     // Create a new channel
     let name = message.guild.channels.cache.filter(ch => ch.parent && ch.parent.name == categoryName).size;
-    while (message.guild.channels.cache.map(ch => ch.name).includes(name)) {
+    while (message.guild.channels.cache.map(ch => ch.name).includes(`ticket-${name.toString().padStart(4, "0")}`)) {
       name++;
     }
+
+    let permissionOverwrites = [
+      {
+        id: message.guild.id,
+        type: "role",
+        deny: [
+          "SEND_MESSAGES",
+          "READ_MESSAGE_HISTORY"
+        ]
+      },
+      {
+        id: message.member.id,
+        type: "member",
+        allow: [
+          "SEND_MESSAGES",
+          "READ_MESSAGE_HISTORY"
+        ]
+      }
+    ];
+
+    if (message.guild.config.data.helpers) {
+      permissionOverwrites.push({
+        id: message.guild.config.data.helpers,
+        type: "role",
+        allow: [
+          "SEND_MESSAGES",
+          "READ_MESSAGE_HISTORY"
+        ]
+      });
+    }
+
     let channel = await message.guild.channels.create(`ticket-${name.toString().padStart(4, "0")}`, {
       type: "text",
       parent: category,
-      topic: `Created by: <@${message.author.id}>`
+      topic: `Created by: <@${message.author.id}>`,
+      permissionOverwrites
     });
 
     return channel.send(`<@${message.author.id}>, here's your support ticket channel.`);
@@ -75,7 +107,7 @@ module.exports = class RandTextCommand extends Command {
 
     let channel = message.guild.channels.cache.find(ch => ch.name == name);
 
-    if (channel.topic.replace("Created by: ", "") != `<@${message.author.id}>` && this.client.permissions(message.member).level < 2)
+    if (channel.topic.replace("Created by: ", "") != `<@${message.author.id}>` && (this.client.permissions(message.member).level < 2 && !message.members.roles.cache.has(message.guild.config.data.helpers)))
       return this.client.utils.sendErrMsg(message, `The ticket channel doesn't belong to you and you have no rights over it.`);
 
     await channel.delete("Ticket channel expired.");

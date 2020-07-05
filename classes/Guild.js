@@ -25,6 +25,7 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 				let owners = [guild.owner.id];
 				let admins = scan ? roles.find(role => role.name === "Admin") : [];
 				let mods = scan ? roles.find(role => role.name === "Moderator") : [];
+				let helpers = scan ? roles.find(role => role.name === "Helper") : [];
 
 				return {
 					guildID: guild.id,
@@ -32,6 +33,8 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 					owners,
 					mods,
 					admins,
+
+					helpers,
 
 					logchan: logchannel ? logchannel.id : '',
 
