@@ -102,10 +102,10 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
     
     let guild = this;
     function fmt(str) {
+      if (!str) return str;
       let s = str
         .split("{{members}}").join(guild.members.cache.size)
         .split("{{channels}}").join(guild.channels.cache.size);
-      console.log(s, str);
       return s;
     }
     
