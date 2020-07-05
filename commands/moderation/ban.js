@@ -57,7 +57,7 @@ This permanently bans users.`,
       .setThumbnail(user.user ? user.user.displayAvatarURL() : user.displayAvatarURL())
       .setColor(0xC61919)
       .addField(em.user + " User", `**${user.user ? user.user.tag : user.tag}** [${user.user ? user.user.id : user.id}]`)
-      .addField("👷 Moderator", `**${msg.author.tag}** [${msg.author.id}]`)
+      .addField(`${this.client.utils.emojis.moderator}Moderator`, `**${msg.author.tag}** [${msg.author.id}]`)
       .addField(em.message + " Reason", `${reason}`)
     return msg.guild.log(e);
   }

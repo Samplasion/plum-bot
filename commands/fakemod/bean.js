@@ -37,7 +37,7 @@ module.exports = class BanCommand extends Command {
         .setThumbnail(user.user ? user.user.displayAvatarURL() : user.displayAvatarURL())
         .setColor(0xC61919)
         .addField("<:bean:729346829405257731> User", `**${user.user ? user.user.tag : user.tag}** [${user.user ? user.user.id : user.id}]`)
-        .addField("👷 Beaner", `**${msg.author.tag}** [${msg.author.id}]`)
+        .addField(`${this.client.utils.emojis.moderator}Beaner`, `**${msg.author.tag}** [${msg.author.id}]`)
         .addField(em.message + " Reason", `${reason}`)
     return msg.channel.send(this.client.utils.emojis.ok + ` | ${user.user ? user.user.tag : user.tag} was beaned`, { embed: e });
   }
