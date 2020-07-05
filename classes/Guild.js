@@ -129,11 +129,12 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 					permissionOverwrites: [
 						{
 							id: this.id, // @everyone
-							type: "voice",
+							type: "role",
 							allow,
 							deny
 						}
 					],
+					type: "voice",
 					parent: category
 				});
 			}
@@ -142,7 +143,7 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 		channels = this.channels.cache
 			.filter(ch => ch.category && ch.category.id == category.id && ch.type == "voice");
 
-		channels.entries().forEach(async(ch, index) => {
+		channels.values().forEach(async(ch, index) => {
 			await ch.setName(lines[index]);
 		});
 
