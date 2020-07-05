@@ -111,8 +111,12 @@ module.exports = class RandTextCommand extends Command {
     if (channel.topic.replace("Created by: ", "") != `<@${message.author.id}>` && (this.client.permissions(message.member).level < 2 && !message.members.roles.cache.has(message.guild.config.data.helpers)))
       return this.client.utils.sendErrMsg(message, `The ticket channel doesn't belong to you and you have no rights over it.`);
 
-    await channel.delete("Ticket channel expired.");
+    try {
+      await channel.delete("Ticket channel expired.");
 
-    return this.client.utils.sendOkMsg(message, "The ticket channel was successfully removed.");
+      return this.client.utils.sendOkMsg(message, "The ticket channel was successfully removed.");
+    } catch (e) {
+      return this.client.utils.sendErrMsg(message, `I'm lacking permissions to delete that channel!`);
+    }
   }
 };
