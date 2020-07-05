@@ -52,22 +52,26 @@ module.exports = class RandTextCommand extends Command {
       name++;
     }
 
+    let perms: [
+      "SEND_MESSAGES",
+      "READ_MESSAGE_HISTORY",
+      "VIEW_CHANNEL"
+    ]
     let permissionOverwrites = [
       {
         id: message.guild.id,
         type: "role",
-        deny: [
-          "SEND_MESSAGES",
-          "READ_MESSAGE_HISTORY"
-        ]
+        deny: perms
       },
       {
         id: message.member.id,
         type: "member",
-        allow: [
-          "SEND_MESSAGES",
-          "READ_MESSAGE_HISTORY"
-        ]
+        allow: perms
+      },
+      {
+        id: message.guild.me,
+        type: "member",
+        allow: perms
       }
     ];
 
@@ -75,10 +79,7 @@ module.exports = class RandTextCommand extends Command {
       permissionOverwrites.push({
         id: message.guild.config.data.helpers,
         type: "role",
-        allow: [
-          "SEND_MESSAGES",
-          "READ_MESSAGE_HISTORY"
-        ]
+        allow: perms
       });
     }
 
