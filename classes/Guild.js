@@ -116,7 +116,7 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 			});
 		}
 
-		channels = this.channels.cache
+		let channels = this.channels.cache
 			.filter(ch => ch.parent && ch.parent.id == category.id && ch.type == "voice");
 
 		console.log(channels, channels.length);
