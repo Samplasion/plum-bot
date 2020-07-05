@@ -57,10 +57,13 @@ module.exports = class HelpCommand extends Command {
       embed.addField(`${this.client.utils.emojis.numbers} Level`, `**${perm.name}** [${perm.level}]`, true)
       
       if (command.examples && command.examples.length) {
-        embed.addField(`${this.client.utils.emojis.paper} Examples`, command.examples.map(ex => ` - ${ex}`).join("\n"));
+        embed.addField(`${this.client.utils.emojis.paper} Examples`, command.examples.map(ex => ` - ${msg.prefix}${ex}`).join("\n"));
       }
 
       embed.addField(`${this.client.utils.emojis.message} Usage`, `\`${msg.prefix}${command.name} ${command.format}\``);
+      
+      if (command.aliases.length)
+        embed.addField(`${this.client.utils.emojis.alias} Alias${command.aliases.length == 1 ? "" : "es"}`, command.aliases.map(al => ` - ${msg.prefix}**${al}**`).join("\n"));
     
       return msg.channel.send(embed);
     } else {

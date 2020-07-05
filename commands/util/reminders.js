@@ -11,7 +11,11 @@ module.exports = class ReminderCommand extends Command {
       group: "util",
       memberName: "reminders",
       description: "Lets you see your reminders.",
-      examples: ["reminders"],
+      examples: [
+        "reminders",
+        "reminders view",
+        "reminders delete 1",
+      ],
       args: [
         {
           key: "action",
@@ -23,7 +27,8 @@ module.exports = class ReminderCommand extends Command {
         {
           key: "args",
           type: "string",
-          prompt: "",
+          label: "reminder id",
+          prompt: "which reminder do you want to identify?",
           default: ""
         }
       ]
