@@ -140,7 +140,7 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 						{
 							id: this.client.user.id,
 							type: "member",
-							allow: deny.concat(allow);
+							allow: deny.concat(allow),
 						}
 					],
 					type: "voice",
