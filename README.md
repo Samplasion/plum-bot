@@ -13,6 +13,7 @@ commands from other popular bots, like Koopa and Super Mario, from the same auth
 * Points system
 * Voting
 * Reliable reminder system
+* Ticket channels
 
 And if something bad happens, a unique code will be generated which'll help developers fix it in no time!
 Oh, and if you ping the bot, it'll remind you of the prefix!
