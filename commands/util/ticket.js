@@ -90,6 +90,7 @@ module.exports = class RandTextCommand extends Command {
       permissionOverwrites
     });
 
+    await this.client.utils.sendOkMsg(message, `Your ticket channel was successfully created here: <#${channel.id}>.`);
     return channel.send(`<@${message.author.id}>, here's your support ticket channel.`);
   }
 
@@ -104,7 +105,7 @@ module.exports = class RandTextCommand extends Command {
     let name = "ticket-" + args.trim().padStart(4, "0");
 
     if (!tickets.map(ch => ch.name).includes(name))
-      return this.client.utils.sendErrMsg(message, `There's no ticket channel stored with that number. A typo?`);
+      return this.client.utils.sendErrMsg(message, `There's no ticket channel stored with that number in the ticket channel category of your server. A typo?`);
 
     let channel = message.guild.channels.cache.find(ch => ch.name == name);
 
