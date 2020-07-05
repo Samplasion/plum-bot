@@ -130,7 +130,9 @@ client.reminders.raw = {}
 client.global = new Enmap({ name: "global" });
 
 var Utilities = require("./classes/Utilities");
-client.utils = new Utilities(client)
+client.utils = new Utilities(client);
+
+client.ver = require("./version");
 
 client.login(process.env.TOKEN);
 
