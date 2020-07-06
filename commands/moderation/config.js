@@ -13,6 +13,7 @@ module.exports = class ConfigCommand extends Command {
       description: "Changes the client configuration for the server",
       examples: ["conf set welcomeMessage Welcome, {{user}}, to this server!"],
       guildOnly: true,
+      format: "[view|set|clear|get] (key) (value)",
       args: [
         {
           key: "action",
@@ -150,13 +151,14 @@ module.exports = class ConfigCommand extends Command {
         let type = findType(key);
         let deserializedValue = type.render(this.client, msg, data[key]);
 
-        return msg.channel.send(
-          deserializedValue == type.nullValue ||
-            deserializedValue == undefined ||
-            (deserializedValue == [] || deserializedValue[0] == undefined)
-            ? "This value is empty"
-            : deserializedValue
-        );
+        // return msg.channel.send(
+        //   deserializedValue == type.nullValue ||
+        //     deserializedValue == undefined ||
+        //     (deserializedValue == [] || deserializedValue[0] == undefined)
+        //     ? "This value is empty"
+        //     : deserializedValue
+        // );
+        return msg.channel.send(this.renderEmbed(msg, type, key));
         break;
       case "clear":
       case "reset":
@@ -175,20 +177,10 @@ module.exports = class ConfigCommand extends Command {
               msg.guild.name +
               "'s settings"
           );
-          try {
-            await msg.guild.config.setDefaultSettings(false, false);
-            return msg.reply(
-              "I have successfully cleared the configuration"
-            );
-          } catch (e) {
-            console.error(e);
-            console.log(msg.guild.config.data);
-            return msg.channel.send(
-              
-                `There has been an error while clearing the configuration. Please report this bug to the ${this.client.user.username} Developers`
-              
-            );
-          }
+          await msg.guild.config.setDefaultSettings(false, false);
+          return msg.reply(
+            "I have successfully cleared the configuration"
+          );
         }
         return msg.reply("action cancelled");
         break;
@@ -229,7 +221,7 @@ module.exports = class ConfigCommand extends Command {
   async setArray(msg, data, key, value, recursionDepth = 0) {
 		let t = findType(key);
 
-		let action = await this.awaitReply(msg, "What do you want to do with the values? [`add` a value/`clear` the values]", 30000);
+		let action = await this.awaitReply(msg, "What do you want to do with the values? [`add` a value/`remove` a value/`clear` the values]", 30000);
 
 		if (!action)
 			return msg.reply("action cancelled");
@@ -241,10 +233,10 @@ module.exports = class ConfigCommand extends Command {
 			if (resp && typeof resp == "string" && resp.toLowerCase() == "y") {
 				msg.guild.config.set(key, []);
 
-				return msg.reply("I have successfully cleared the array");
+				return this.client.utils.sendOkMsg(msg, "I have successfully cleared the array");
 			}
 
-			return msg.reply("action cancelled");
+			return this.client.utils.sendErrMsg(msg, "Action cancelled");
 		} else if (action == "add") {
 			let resp = ""
 			let arr = [];
@@ -260,9 +252,35 @@ module.exports = class ConfigCommand extends Command {
 			msg.guild.config.set(key, data[key].concat(arr));
 
 			// await this.client.db.serverconfig.update(data);
-      msg.channel.send(msg, findType(key), key);
+      msg.channel.send(this.renderEmbed(msg, findType(key), key));
 			// msg.channel.send(require("util").inspect(msg.guild.config.data[key]), {code: 'js'});
-		} else {
+		} else if (action == "remove") {
+      let resp = ""
+			let arr = data[key];
+			while (typeof resp == "string" && resp.toLowerCase() != "stop") {
+        if (resp) {
+          let int = parseInt(resp);
+          if (int == NaN)
+            this.client.utils.sendErrMsg(msg, "The index must be an integer number.");
+          else if (int <= 0 || int > arr.length)
+            this.client.utils.sendErrMsg(msg, `The index must be an integer number between 1 and ${arr.length}.`);
+          else {
+            arr.splice(int-1, 1);
+          }
+        }
+				let nicer = arr
+          .map(val => findType(key).deserialize(this.client, msg, val))
+          .map((val, i) => `${i+1}. ${val}`)
+          .join("\n");
+				resp = await this.awaitReply(msg, `Here are the values:\n${nicer}\n\nEnter the index of the value you want to remove, or type \`stop\` (or wait 30 seconds) to stop`, 30000);
+			}
+
+			// console.log(arr);
+			msg.guild.config.set(key, data[key].concat(arr));
+
+			// await this.client.db.serverconfig.update(data);
+      msg.channel.send(this.renderEmbed(msg, findType(key), key));
+    } else {
 			msg.channel.send("The action must be one of [add, clear]!");
 		}
 
