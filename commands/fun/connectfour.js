@@ -25,7 +25,7 @@ module.exports = class ConnectFourCommand extends Command {
       args: [{
         key: 'guess',
         prompt: 'what cell do you wanna click on (or, if the game isn\'t started yet, how big should the grid be)?',
-        type: 'number',
+        type: 'integer',
         default: ""
       }]
     });
