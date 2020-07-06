@@ -100,19 +100,16 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 		if (!this.me.hasPermission("MANAGE_CHANNELS"))
 			return;
     
-    let guild = this;
-    function fmt(str) {
-      if (!str) return str;
-      let s = str
-        .split("{{members}}").join(guild.members.cache.size)
-        .split("{{channels}}").join(guild.channels.cache.size);
-      return s;
-    }
+		let guild = this;
+		function fmt(str) {
+			if (!str) return str;
+			let s = str
+				.split("{{members}}").join(guild.members.cache.size)
+				.split("{{channels}}").join(guild.channels.cache.size);
+			return s;
+		}
     
 		let lines = this.config.data.serverinfo || [];
-
-		if (!lines.length)
-			return;
 
 		let allow = [
 			"VIEW_CHANNEL"
@@ -133,8 +130,9 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 			.filter(ch => ch.parent && ch.parent.id == category.id && ch.type == "voice");
 
 		if (channels.size > lines.length) {
-			for (let i = 0; i < channels.size - lines.length; i++) {
-				await channels.random().delete();
+			let arr = channels.array()
+			for (let i = 0; i < arr.length - lines.length; i++) {
+				await arr[i].delete();
 			}
 		} else if (channels.size < lines.length) {
 			let isZero = channels.size == 0;
@@ -159,9 +157,13 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 				});
 			}
 
+			// Returning because we just created the updated channels
 			if (isZero)
 				return;
 		}
+
+		if (!lines.length)
+			return;
 
 		channels = this.channels.cache
 			.filter(ch => ch.parent && ch.parent.id == category.id && ch.type == "voice");
