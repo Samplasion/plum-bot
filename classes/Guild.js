@@ -137,7 +137,7 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 		} else if (channels.size < lines.length) {
 			let isZero = channels.size == 0;
 
-			for (let i = 0; i < lines.length + channels.size; i++) {
+			for (let i = 0; i < lines.length - channels.size; i++) {
 				await this.channels.create(fmt(lines[i]), {
 					permissionOverwrites: [
 						{
