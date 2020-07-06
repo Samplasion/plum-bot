@@ -264,11 +264,11 @@ module.exports = class ConfigCommand extends Command {
 			while (typeof resp == "string" && resp.toLowerCase() != "stop") {
         if (resp) {
           let int = parseInt(resp);
-          if (int == NaN)
+          if (int == NaN || isNaN(resp)) {
             this.client.utils.sendErrMsg(msg, "The index must be an integer number.");
-          else if (int <= 0 || int > arr.length)
+          } else if (int <= 0 || int > arr.length) {
             this.client.utils.sendErrMsg(msg, `The index must be an integer number between 1 and ${arr.length}.`);
-          else {
+          } else {
             arr.splice(int-1, 1);
           }
         }
@@ -294,7 +294,7 @@ module.exports = class ConfigCommand extends Command {
 			if (otheract && typeof otheract == "string" && otheract.toLowerCase() == "y") {
 				return this.setArray(msg, data, key, value, recursionDepth+1);
 			} else {
-				return this.client.utils.sendErrMsg(msg, "action cancelled");
+				return this.client.utils.sendOkMsg(msg, "Action cancelled");
 			}
 		}
 	}
