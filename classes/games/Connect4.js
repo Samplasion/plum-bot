@@ -132,7 +132,7 @@ class Connect4 {
         // Generate an empty grid
         /** 
          * The grid for the game;
-         * @type {number?[][]}
+         * @type {number[][]}
          */
         this._grid = new Array(width);
         for (let i = 0; i < width; i++) {
@@ -183,6 +183,52 @@ class Connect4 {
     }
 
     /**
+     * Checks that 4 slots in a row are equal
+     * @param {number} row The row to check
+     * @param {number} stcol The starting column from which to check the slots
+     */
+    checkLine(row, stcol) {
+        let empty = Connect4Slot.EMPTY;
+        return this._grid[stcol][row] != empty 
+            && this._grid[stcol][row] == this._grid[stcol+1][row]
+            && this._grid[stcol+1][row] == this._grid[stcol+2][row]
+            && this._grid[stcol+2][row] == this._grid[stcol+3][row]
+            && stcol <= this.size.width - 3;
+    }
+
+    /**
+     * Checks that 4 slots in a diagonal line like `\` are equal
+     * @param {number} strow The starting row from which to check the slots
+     * @param {number} stcol The starting column from which to check the slots
+     */
+    checkTopLeftToBottomRight(strow, stcol) {
+        let rowValid = strow <= this.size.height - 3;
+        let colValid = strow <= this.size.width - 3;
+
+        return colValid && rowValid
+            && this._grid[stcol][strow] != Connect4Slot.EMPTY 
+            && this._grid[stcol][strow] == this._grid[stcol+1][strow+1]
+            && this._grid[stcol+1][strow+1] == this._grid[stcol+2][strow+2]
+            && this._grid[stcol+2][strow+2] == this._grid[stcol+3][strow+3];
+    }
+
+    /**
+     * Checks that 4 slots in a diagonal line like `/` are equal
+     * @param {number} strow The starting row from which to check the slots
+     * @param {number} stcol The starting column from which to check the slots
+     */
+    checkTopRightToBottomLeft(strow, stcol) {
+        let rowValid = strow <= this.size.height - 3;
+        let colValid = strow > 2;
+
+        return colValid && rowValid
+            && this._grid[stcol][strow] != Connect4Slot.EMPTY 
+            && this._grid[stcol][strow] == this._grid[stcol+1][strow-1]
+            && this._grid[stcol+1][strow-1] == this._grid[stcol+2][strow-2]
+            && this._grid[stcol+2][strow-2] == this._grid[stcol+3][strow-3];
+    }
+
+    /**
      * Returns the state of the game.
      * @returns {Connect4State} The state of the game.
      */
@@ -190,16 +236,27 @@ class Connect4 {
         if (this._grid.every(arr => arr.every(slot => slot == Connect4Slot.EMPTY)))
             return Connect4State.READY;
         
-        // Check vertically
         for (let i = 1; i < this.size.width; i++) {
+            // Check vertically
             let ch = check(this._grid[i], 4);
             if (ch != null) {
                 return ch == Connect4Slot.RED ? Connect4State.P1_WIN : Connect4State.P2_WIN;
             }
-        }
 
-        // It's over... for now
+            // Check horizontally
+            for (let j = 1; j < this.size.height; j++) {
+                if (this.checkLine(j, i))
+                    return this._grid[i][j] == Connect4Slot.RED ? Connect4State.P1_WIN : Connect4State.P2_WIN;
+            }
+        }
 
         return Connect4State.READY;
     }
+}
+
+module.exports = {
+    Connect4,
+    Connect4Player,
+    Connect4Slot,
+    Connect4State
 }
