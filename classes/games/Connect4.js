@@ -161,6 +161,8 @@ class Connect4 {
             i++;
         }
 
+        console.log(this._grid);
+
         if (i == -1) {
             throw new Error("The column is full.");
         }
