@@ -136,7 +136,9 @@ class Connect4 {
          */
         this._grid = new Array(width);
         for (let i = 0; i < width; i++) {
-            this._grid[i] = new Array(height).map(() => Connect4Slot.EMPTY);
+            for (let j = 0; j < height; j++) {
+                this._grid[i][j] = Connect4Slot.EMPTY;
+            }
         }
     }
 
