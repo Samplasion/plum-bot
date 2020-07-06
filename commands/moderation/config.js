@@ -247,10 +247,10 @@ module.exports = class ConfigCommand extends Command {
 			}
 
 			// console.log(arr);
-			msg.guild.config.set(key, data[key].concat(arr));
+			await msg.guild.config.set(key, data[key].concat(arr));
 
 			// await this.client.db.serverconfig.update(data);
-      msg.channel.send(this.renderEmbed(msg, findType(key), key));
+      await msg.channel.send(this.renderEmbed(msg, findType(key), key));
 			// msg.channel.send(require("util").inspect(msg.guild.config.data[key]), {code: 'js'});
 		} else if (action == "remove") {
       let resp = ""
@@ -281,20 +281,20 @@ module.exports = class ConfigCommand extends Command {
 			msg.guild.config.set(key, arr);
 
 			// await this.client.db.serverconfig.update(data);
-      msg.channel.send(this.renderEmbed(msg, findType(key), key));
+      await msg.channel.send(this.renderEmbed(msg, findType(key), key));
     } else {
 			this.client.utils.sendErrMsg(msg, "The action must be one of `add`, `remove`, or `clear`!");
 		}
 
-		if (recursionDepth < 5) {
-			let otheract = await this.awaitReply(msg, "Do something else? [`y`/`n`]", 30000);
+		// if (recursionDepth < 5) {
+		// 	let otheract = await this.awaitReply(msg, "Do something else? [`y`/`n`]", 30000);
 
-			if (otheract && typeof otheract == "string" && otheract.toLowerCase() == "y") {
-				return this.setArray(msg, data, key, value, recursionDepth+1);
-			} else {
-				return this.client.utils.sendOkMsg(msg, "Action cancelled");
-			}
-		}
+		// 	if (otheract && typeof otheract == "string" && otheract.toLowerCase() == "y") {
+		// 		return this.setArray(msg, data, key, value, recursionDepth+1);
+		// 	} else {
+		// 		return this.client.utils.sendOkMsg(msg, "Action cancelled");
+		// 	}
+		// }
 	}
 
 	async awaitReply(msg, question, limit = 60000) {
