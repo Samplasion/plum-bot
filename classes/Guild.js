@@ -162,8 +162,9 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 				return;
 		}
 
-		if (!lines.length)
-			return;
+		if (!lines.length) {
+			return await category.delete();
+		}
 
 		channels = this.channels.cache
 			.filter(ch => ch.parent && ch.parent.id == category.id && ch.type == "voice");

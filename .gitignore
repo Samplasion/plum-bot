@@ -1,3 +1,4 @@
 data/
 settings.sqlite3
 reboot.json
+.env
