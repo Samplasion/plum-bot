@@ -50,5 +50,6 @@ module.exports = class ConnectFourCommand extends Command {
     game.move(Connect4.Connect4Player.RED, 0);
     game.move(Connect4.Connect4Player.YELLOW, 1);
     msg.channel.send("```" + game.grid + "```");
+    msg.channel.send("```" + game.state + "```");
   }
 };

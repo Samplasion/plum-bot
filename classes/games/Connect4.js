@@ -175,11 +175,19 @@ class Connect4 {
 
     /** A pretty string representation of the game grid. */
     get grid() {
-        return this._grid.map(col => {
-            return col.map(slot => {
-                return slot === Connect4Slot.RED ? this.options.red : this.options.yellow;
-            }).join("");
-        }).join("");
+        let grid = "";
+        for (let row = 0; row < this.size.height; row++) {
+            for (let column = 0; column < this.size.width; column++) {
+              let cell = this.options.empty;
+              if (this._grid[column][row] == Connect4Slot.RED)
+                  cell = this.options.red;
+              if (this._grid[column][row] == Connect4Slot.YELLOW)
+                  cell = this.options.yellow;
+              grid += cell;
+            }
+            grid += "\n";
+        }
+        return grid.trim();
     }
 
     /** The ID of the game based on user IDs and server ID. */
