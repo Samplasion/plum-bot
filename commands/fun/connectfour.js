@@ -1,6 +1,13 @@
 const Command = require('../../classes/Command.js');
+// @ts-ignore
+const { GuildMember } = require("discord.js");
 const { oneLine, stripIndent } = require('common-tags');
-const Connect4 = require("../../classes/games/Connect4");
+const {
+  Connect4,
+  Connect4Player,
+  Connect4Slot,
+  Connect4State
+} = require("../../classes/games/Connect4");
 
 module.exports = class ConnectFourCommand extends Command {
   /**
@@ -23,33 +30,48 @@ module.exports = class ConnectFourCommand extends Command {
       ownerOnly: true,
       guildOnly: true,
       args: [{
-        key: 'guess',
+        key: 'colOrMem',
+        label: "column|member",
         prompt: 'what cell do you wanna click on (or, if the game isn\'t started yet, how big should the grid be)?',
-        type: 'integer',
+        type: 'integer|member',
         default: ""
       }]
     });
 
-    /** @type {any[]} */
-    this.games = []
+    /** @type {Object.<string, Connect4>} */
+    this.games = {}
   }
   
   /**
    * @param {*} msg 
    * @param {object} args 
-   * @param {string} [args.guess]
+   * @param {number|GuildMember} [args.colOrMem]
    */
-  run(msg, { guess }) {
-    let game = new Connect4.Connect4(msg.member, msg.member);
-    game.move(Connect4.Connect4Player.RED, 0);
-    game.move(Connect4.Connect4Player.YELLOW, 1);
-    game.move(Connect4.Connect4Player.RED, 0);
-    game.move(Connect4.Connect4Player.YELLOW, 1);
-    game.move(Connect4.Connect4Player.RED, 0);
-    game.move(Connect4.Connect4Player.YELLOW, 1);
-    game.move(Connect4.Connect4Player.RED, 0);
-    game.move(Connect4.Connect4Player.YELLOW, 1);
-    msg.channel.send("```" + game.grid + "```");
-    msg.channel.send("```" + game.state + "```");
+  async run(msg, { colOrMem }) {
+    if (colOrMem instanceof GuildMember) {
+      let member = colOrMem;
+      
+      if (Object.keys(this.games).some(k => (k.includes(msg.member.id)) && k.endsWith(msg.guild.id)))
+        return this.client.utils.sendErrMsg(msg, "You already have an ongoing game.");
+      
+      let key = `${msg.member.id}-${member.is}-${msg.guild}`;
+      let agree = await member.user.ask(`<@${member.id}>, do you wanna play some Connect 4 with ${msg.member.displayName}?`);
+
+      if (agree) {
+        this.games[key] = new Connect4(msg.member, member);
+        msg.channel.send(this.games[key].grid);
+      }
+
+      return this.client.utils.sendErrMsg(msg, `I'm sorry, ${member.displayName} refused to play with you.`);
+    } else {
+      /** @type {number} */
+      let column = colOrMem;
+      let game = this.games[Object.keys(this.games).filter(game => game.endsWith(msg.guild.id)).filter(game => game.includes(msg.author.id))[0]];
+      if (!game)
+        return this.client.utils.sendErrMsg(msg, `You have no ongoing names! Run \`${msg.prefix}connectfour @Someone\` to play with a friend.`);
+      let state = game.move(game.lastPlayer == Connect4Player.YELLOW ? Connect4Player.RED : Connect4Player.YELLOW, column);
+      msg.channel.send("```" + game.grid + "```");
+      msg.channel.send("```" + state + "```");
+    }
   }
 };

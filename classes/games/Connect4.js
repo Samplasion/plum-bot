@@ -10,7 +10,8 @@ const Connect4State = Object.freeze({
     AWAITING_USER: 0,
     READY: 1,
     P1_WIN: 2,
-    P2_WIN: 3
+    P2_WIN: 3,
+    DRAW: 4,
 });
 
 /**
@@ -125,6 +126,11 @@ class Connect4 {
         });
 
         /**
+         * The time the game was started.
+         */
+        this.startingTime = Date.now();
+
+        /**
          * @type {Connect4Player?}
          */
         this.lastPlayer = null;
@@ -149,8 +155,11 @@ class Connect4 {
      * @param {number} column 
      */
     move(player, column) {
+        if (this.state != Connect4State.READY) {
+            throw new Error("Attempting to play on a finished board.");
+        }
         if (player === this.lastPlayer) {
-            throw new Error(`Player ${player + 1} can't play twice.`);
+            throw new Error(`Player ${player == Connect4Player.RED ? "RED" : "YELLOW"} can't play twice.`);
         }
         if (column >= this.size.width || column < 0) {
             throw new RangeError(`The column must be a number between 0 and ${this.size.width - 1}.`);
@@ -164,13 +173,13 @@ class Connect4 {
             i++;
         }
 
-        console.log(this._grid);
-
         if (i == -1) {
             throw new Error("The column is full.");
         }
 
         this._grid[column][i] = player == Connect4Player.RED ? Connect4Slot.RED : Connect4Slot.YELLOW;
+
+        return this.state;
     }
 
     /** A pretty string representation of the game grid. */
@@ -188,6 +197,10 @@ class Connect4 {
             grid += "\n";
         }
         return grid.trim();
+    }
+
+    get _flat() {
+        return this._grid.flat();
     }
 
     /** The ID of the game based on user IDs and server ID. */
@@ -262,6 +275,9 @@ class Connect4 {
                     return this._grid[i][j] == Connect4Slot.RED ? Connect4State.P1_WIN : Connect4State.P2_WIN;
             }
         }
+
+        if (!this._flat.some(slot => slot == Connect4Slot.EMPTY))
+            return Connect4State.DRAW;
 
         return Connect4State.READY;
     }
