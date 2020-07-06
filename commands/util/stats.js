@@ -13,7 +13,6 @@ module.exports = class EvalCommand extends Command {
       description: "Shows some stats of the bot.",
       details:
         "Shows stats such as uptime, memory usage and Discord.js version.",
-      ownerOnly: true,
 
       args: []
     });
