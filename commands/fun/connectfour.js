@@ -55,7 +55,7 @@ module.exports = class ConnectFourCommand extends Command {
         return this.client.utils.sendErrMsg(msg, "You already have an ongoing game.");
       
       let key = `${msg.member.id}-${member.is}-${msg.guild}`;
-      let agree = await member.user.ask(`<@${member.id}>, do you wanna play some Connect 4 with ${msg.member.displayName}?`);
+      let agree = await member.user.ask(msg.channel, `<@${member.id}>, do you wanna play some Connect 4 with ${msg.member.displayName}?`);
 
       if (agree) {
         this.games[key] = new Connect4(msg.member, member);
