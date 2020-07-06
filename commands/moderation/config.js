@@ -255,6 +255,10 @@ module.exports = class ConfigCommand extends Command {
 		} else if (action == "remove") {
       let resp = ""
 			let arr = data[key];
+
+      if (!arr.length)
+        returnthis.client.utils.sendErrMsg(msg, "The list is empty.");
+
 			while (typeof resp == "string" && resp.toLowerCase() != "stop") {
         if (resp) {
           let int = parseInt(resp);
@@ -274,23 +278,23 @@ module.exports = class ConfigCommand extends Command {
 			}
 
 			// console.log(arr);
-			msg.guild.config.set(key, data[key].concat(arr));
+			msg.guild.config.set(key, arr);
 
 			// await this.client.db.serverconfig.update(data);
       msg.channel.send(this.renderEmbed(msg, findType(key), key));
     } else {
-			msg.channel.send("The action must be one of [add, clear]!");
+			this.client.utils.sendErrMsg(msg, "The action must be one of `add`, `remove`, or `clear`!");
 		}
 
-		/* if (recursionDepth < 5) {
-			let otheract = await this.awaitReply(msg, __("Do something else? [`y`/`n`]"), 30000);
+		if (recursionDepth < 5) {
+			let otheract = await this.awaitReply(msg, "Do something else? [`y`/`n`]", 30000);
 
 			if (otheract && typeof otheract == "string" && otheract.toLowerCase() == "y") {
-				return this.setArray(msg, data, key, value, ++recursionDepth);
+				return this.setArray(msg, data, key, value, recursionDepth+1);
 			} else {
-				return msg.reply(__("action cancelled"));
+				return this.client.utils.sendErrMsg(msg, "action cancelled");
 			}
-		} */
+		}
 	}
 
 	async awaitReply(msg, question, limit = 60000) {
