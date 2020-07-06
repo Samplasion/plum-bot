@@ -41,5 +41,8 @@
     "node",
     "glitch",
     "express"
-  ]
+  ],
+  "devDependencies": {
+    "typescript": "^3.9.6"
+  }
 }
