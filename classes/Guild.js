@@ -119,7 +119,7 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 		];
 
 		let category = this.channels.cache.find(ch => ch.name.toLowerCase() == "server info");
-		if (!category && lines.length) {
+		if (!category) {
 			category = await this.channels.create("server info", {
 				type: "category",
 				position: 0
@@ -163,9 +163,7 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 		}
 
 		if (!lines.length) {
-			if (category) 
-				await category.delete();
-			return;
+			return await category.delete();
 		}
 
 		channels = this.channels.cache
