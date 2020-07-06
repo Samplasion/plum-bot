@@ -25,15 +25,15 @@ module.exports = class EvalCommand extends Command {
 	}
 
 	async run(msg, { script }) {
-    const client = this.client;
-		const channel = msg.channel;
-		const message = msg;
+    	let client = this.client;
+		let channel = msg.channel;
+		let message = msg;
 
 		try {
 			let result = await exec(script).catch((err) => { throw err; });
 
-			const output = result.stdout ? "```sh\n" + result.stdout + "```" : "";
-			const outerr = result.stderr ? "```sh\n" + result.stderr + "```" : "";
+			let output = result.stdout ? "```sh\n" + result.stdout + "```" : "";
+			let outerr = result.stderr ? "```sh\n" + result.stderr + "```" : "";
 
 			if (output.includes(this.client.token)) output = output.replace(this.client.token, '"If someone tried to make you output the token, you were likely being scammed."')
 			if (outerr.includes(this.client.token)) outerr = outerr.replace(this.client.token, '"If someone tried to make you output the token, you were likely being scammed."')
@@ -50,7 +50,7 @@ module.exports = class EvalCommand extends Command {
 		} catch(err) {
 			console.error(err)
 
-			const error = err.toString().replace(this.client.token, '"If someone tried to make you output the token, you were likely being scammed."')
+			let error = err.toString().replace(this.client.token, '"If someone tried to make you output the token, you were likely being scammed."')
 			return msg.channel.send(error, {code: 'bash'})
 		}
 
