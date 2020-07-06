@@ -126,6 +126,11 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 			});
 		}
 
+		// If there's still no category there's nothing we can do.
+		if (!category) {
+			return;
+		}
+
 		let channels = this.channels.cache
 			.filter(ch => ch.parent && ch.parent.id == category.id && ch.type == "voice");
 
