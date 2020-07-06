@@ -132,7 +132,7 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 		if (channels.size > lines.length) {
 			let arr = channels.array()
 			for (let i = 0; i < arr.length - lines.length; i++) {
-				await arr[i].delete();
+				await arr[i].delete("Server info line number mismatch");
 			}
 		} else if (channels.size < lines.length) {
 			let isZero = channels.size == 0;
