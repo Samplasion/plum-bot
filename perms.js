@@ -57,6 +57,17 @@ class PermissionFour extends Permission {
   }
 }
 
+class PermissionNine extends Permission {
+  constructor(client) {
+    super(client, 9, "Bot helper", "The bot helpers are the Owners' assistants in making the bot easy to use.")
+  }
+  
+  validate(member) {
+    if (member.user.bot) return false
+    return ["311929179186790400"].includes(member.user.id);
+  }
+}
+
 class PermissionTen extends Permission {
   constructor(client) {
     super(client, 10, "Bot owner", "The bot owner, or Developer, is whoever made the bot.")
@@ -68,4 +79,4 @@ class PermissionTen extends Permission {
   }
 }
 
-module.exports = [ PermissionZero, PermissionOne, PermissionTwo, PermissionThree, PermissionFour, PermissionTen ]
+module.exports = [ PermissionZero, PermissionOne, PermissionTwo, PermissionThree, PermissionFour, PermissionNine, PermissionTen ]

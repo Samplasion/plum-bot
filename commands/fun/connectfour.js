@@ -8,6 +8,8 @@ const {
     Connect4Slot,
     Connect4State
 } = require("../../classes/games/Connect4");
+// @ts-expect-error
+const { Message } = require("discord.js");
 
 module.exports = class ConnectFourCommand extends Command {
     /**
@@ -27,7 +29,7 @@ module.exports = class ConnectFourCommand extends Command {
             //   SYMBOL is optional and can be either \`?\` or \`!\`.
             //   There can be an arbitrary amount of space between each "token" of the format.`,
             examples: ['minesweeper', "minesweeper 2x3", "minesweeper 4 - 1 !", "minesweeper 3 . 4?"],
-            ownerOnly: true,
+            permLevel: 9,
             guildOnly: true,
             args: [{
                 key: 'colOrMem',
@@ -41,22 +43,34 @@ module.exports = class ConnectFourCommand extends Command {
         /** @type {Object.<string, Connect4>} */
         this.games = {}
     }
-  
-    hasPermission(msg) {
-      return ["280399026749440000", "413378420236615680", "311929179186790400"].includes(msg.author.id)
+
+    getID(msg) {
+        return Object.keys(this.games).filter(game => game.endsWith(msg.guild.id)).filter(game => game.includes(msg.author.id))[0];
     }
 
     /**
      * @param {*} msg 
      * @param {object} args 
      * @param {number|GuildMember} [args.colOrMem]
+     * @returns {Promise<Message>}
      */
     async run(msg, { colOrMem }) {
         if (colOrMem instanceof GuildMember) {
             let member = colOrMem;
 
-            if (Object.keys(this.games).some(k => (k.includes(msg.member.id)) && k.endsWith(msg.guild.id)))
-                return this.client.utils.sendErrMsg(msg, "You already have an ongoing game.");
+            if (Object.keys(this.games).some(k => (k.includes(msg.member.id)) && k.endsWith(msg.guild.id))) {
+                if (Date.now() - this.games[this.getID(msg)].startingTime > 10 * 60000) {
+                    let delet = await msg.member.ask(`You already have an ongoing game, but it's been going on for more than 30 minutes. Do you wanna delete it?`);
+                    if (delet) {
+                        delete this.games[this.getID(msg)];
+                        msg.ok("I deleted your game.");
+                    } else {
+                        return msg.error("I won't delete the game.");
+                    }
+                } else {
+                    return this.client.utils.sendErrMsg(msg, "You already have an ongoing game.");
+                }
+            }
             if (Object.keys(this.games).some(k => (k.includes(member.id)) && k.endsWith(msg.guild.id)))
                 return this.client.utils.sendErrMsg(msg, `${member.displayName} already has an ongoing game.`);
 
