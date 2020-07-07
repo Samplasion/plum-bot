@@ -80,10 +80,27 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
    * @param {string} question 
    */
   async ask(channel, question) {
+    // SMERLIR Tactic
     if (this.guild.me.hasPermission("MANAGE_MESSAGES")) {
+      // Send MEssage
+      let msg = await channel.send(question);
       
-      return false;
+      // React
+      await msg.react(this.client.utils.emojis.ok);
+      await msg.react(this.client.utils.emojis.error);
+      
+      // LIsten
+      const filter = (reaction, user) => {
+        return (reaction.emoji.name === this.client.utils.emojis.ok || reaction.emoji.name == this.client.utils.emojis.error)
+          && user.id === this.id;
+      };
+
+      let react = await msg.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] }); 
+      
+      // Return
+      return react.first().emoji.name == this.client.utils.emojis.ok;
     }
+    
     /**
      * @param {Message} m 
      */

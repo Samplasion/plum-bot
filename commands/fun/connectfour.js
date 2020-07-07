@@ -61,11 +61,11 @@ module.exports = class ConnectFourCommand extends Command {
                 return this.client.utils.sendErrMsg(msg, `${member.displayName} already has an ongoing game.`);
 
             let key = `${msg.member.id}-${member.id}-${msg.guild.id}`;
-            let agree = await member.user.ask(msg.channel, `<@${member.id}>, do you wanna play some Connect 4 with ${msg.member.displayName}?`);
+            let agree = await member.ask(msg.channel, `<@${member.id}>, do you wanna play some Connect 4 with ${msg.member.displayName}?`);
 
             if (agree) {
                 this.games[key] = new Connect4(msg.member, member);
-                return msg.channel.send(this.games[key].grid);
+                return msg.channel.send(this.gridEmbed(this.games[key]));
             }
 
             return this.client.utils.sendErrMsg(msg, `<@${msg.author.id}>, I'm sorry, ${member.displayName} refused to play with you.`);
