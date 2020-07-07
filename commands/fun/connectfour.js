@@ -114,15 +114,20 @@ module.exports = class ConnectFourCommand extends Command {
             [turn, next] = [`${game.players.yellow}`, `${game.players.red}`]
         else
             [turn, next] = [`${game.players.red}`, `${game.players.yellow}`]
+      
+        let fields = [
+            ["State", Connect4.prettyState(game.state)],
+        ]
+        
+        if (game.state == Connect4State.READY) {
+            fields.push(["Next turn", turn, true]);
+            fields.push(["Turn after", next, true]);
+        }
 
         return this.client.utils.fastEmbed(
             "Connect Four game",
             "```" + game.grid + "```",
-            [
-                ["State", Connect4.prettyState(game.state)],
-                ["Next turn", turn, true],
-                ["Turn after", next, true],
-            ]
+            
         )
     }
 };
