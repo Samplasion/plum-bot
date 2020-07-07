@@ -268,7 +268,7 @@ class Connect4 {
         for (let i = 1; i < this.size.width; i++) {
             // Check vertically
             let ch = check(this._grid[i], 4);
-            if (ch != null && ch != Connect4State.EMPTY) {
+            if (ch != null && ch != Connect4Slot.EMPTY) {
                 return ch == Connect4Slot.RED ? Connect4State.P1_WIN : Connect4State.P2_WIN;
             }
 
