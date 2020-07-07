@@ -60,7 +60,7 @@ module.exports = class ConnectFourCommand extends Command {
 
             if (Object.keys(this.games).some(k => (k.includes(msg.member.id)) && k.endsWith(msg.guild.id))) {
                 if (Date.now() - this.games[this.getID(msg)].startingTime > 10 * 60000) {
-                    let delet = await msg.member.ask(`You already have an ongoing game, but it's been going on for more than 30 minutes. Do you wanna delete it?`);
+                    let delet = await msg.member.ask(msg.channel, `You already have an ongoing game, but it's been going on for more than 30 minutes. Do you wanna delete it?`);
                     if (delet) {
                         delete this.games[this.getID(msg)];
                         msg.ok("I deleted your game.");
