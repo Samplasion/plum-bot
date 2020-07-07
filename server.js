@@ -33,7 +33,7 @@ require("./classes/User.js");
 const client = new CommandoClient({
   commandPrefix: "pl.",
   unknownCommandResponse: false,
-  owner: ["280399026749440000"],
+  owner: ["280399026749440000", "413378420236615680"],
   invite: "https://discord.gg/MDtgmEM",
   fetchAllMembers: true,
   disableEveryone: true,

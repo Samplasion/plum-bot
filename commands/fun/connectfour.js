@@ -47,9 +47,7 @@ module.exports = class ConnectFourCommand extends Command {
      * @param {object} args 
      * @param {number|GuildMember} [args.colOrMem]
      */
-    async run(msg, {
-        colOrMem
-    }) {
+    async run(msg, { colOrMem }) {
         if (colOrMem instanceof GuildMember) {
             let member = colOrMem;
 
@@ -76,13 +74,16 @@ module.exports = class ConnectFourCommand extends Command {
             if (!game)
                 return this.client.utils.sendErrMsg(msg, `You have no ongoing games! Run \`${msg.prefix}connectfour @Someone\` to play with a friend.`);
 
+            if (column < 1 || column > game.size.width)
+                return msg.error(`The column must be a number between 1 and ${game.size.width}.`);
+          
             if (!column) {
                 return msg.channel.send(this.gridEmbed(game));
             }
-
-            if (column < 1 || column > game.size.width)
-                return msg.error(`The column must be a number between 1 and ${game.size.width}`);
-
+          
+            if (msg.author.id != (game.lastPlayer == Connect4Player.RED ? game.players.yellow : game.players.red).id)
+                return msg.error();
+            
             let state = game.move(game.lastPlayer == Connect4Player.RED ? Connect4Player.YELLOW : Connect4Player.RED, column);
             if (state != Connect4State.READY) {
                 delete this.games[key];
