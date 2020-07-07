@@ -17,7 +17,7 @@ app.get("/", (request, response) => {
 });
 app.get("/vote/blspace", (req, res) => {
   console.log(req.body);
-  res.status(200);
+  res.status(200).send("lol");
 })
 app.listen(process.env.PORT);
 setInterval(() => {
