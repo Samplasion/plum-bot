@@ -74,4 +74,26 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
 			},
 		}
 	}
+  
+  /**
+   * @param {GuildChannel} channel 
+   * @param {string} question 
+   */
+  async ask(channel, question) {
+    if (this.guild.me.hasPermission("MANAGE_MESSAGES")) {
+      
+      return false;
+    }
+    /**
+     * @param {Message} m 
+     */
+    const filter = m => m.author.id == this.id;
+    await channel.send(`${question} [Y/N]`);
+    try {
+      const collected = await channel.awaitMessages(filter, { max: 1, time: 60000, errors: ["time"] });
+      return ["ok", "yes", "yeah", "y", "sure", "why not"].includes(collected.first().content.toLowerCase().trim());
+    } catch (e) {
+      return false;
+    }
+  }
 })

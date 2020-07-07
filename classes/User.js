@@ -49,24 +49,6 @@ module.exports = Structures.extend("User", User => class extends User {
 		}
   }
   
-  /**
-   * @param {GuildChannel} channel 
-   * @param {string} question 
-   */
-  async ask(channel, question) {
-    /**
-     * @param {Message} m 
-     */
-    const filter = m => m.author.id == this.id;
-    await channel.send(question);
-    try {
-      const collected = await channel.awaitMessages(filter, { max: 1, time: 60000, errors: ["time"] });
-      return ["ok", "yes", "y", "sure", "why not"].includes(collected.first().content.toLowerCase().trim());
-    } catch (e) {
-      return false;
-    }
-  }
-  
   get level() {
     return this.client.permissionLevels.filter(i => i.level == (this.client.isOwner(this) ? 10 : 1))[0]
   }
