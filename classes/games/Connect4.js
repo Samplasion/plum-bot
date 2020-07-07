@@ -69,7 +69,7 @@ class Connect4 {
      * @param {GuildMember} user1 The user who started the game. Has the red dots.
      * @param {GuildMember} user2 The user who accepted the game. Has the yellow dots.
      * @param {Object} options Sets some options for the game
-     * @param {number} [options.width ] Sets the width of the grid. Must be ≥ 4
+     * @param {number} [options.width] Sets the width of the grid. Must be ≥ 4
      * @param {number} [options.height] Sets the height of the grid. Must be ≥ 4
      * @param {string} [options.empty] Sets the character that'll be shown in place
      * of an empty slot. 
@@ -83,7 +83,7 @@ class Connect4 {
         user2,
         {
             width = 7,
-            height = 5,
+            height = 6,
             empty = "⬜️",
             red = "🔴",
             yellow = "🟡",
@@ -228,8 +228,8 @@ class Connect4 {
      * @param {number} stcol The starting column from which to check the slots
      */
     checkTopLeftToBottomRight(strow, stcol) {
-        let rowValid = strow < this.size.height - 2;
-        let colValid = strow < this.size.width - 2;
+        let rowValid = strow < this.size.height - 3;
+        let colValid = stcol < this.size.width - 3;
 
         console.log(strow, stcol, this._grid, strow + 3, stcol + 3, this._grid[stcol+3]);
 
@@ -246,8 +246,8 @@ class Connect4 {
      * @param {number} stcol The starting column from which to check the slots
      */
     checkTopRightToBottomLeft(strow, stcol) {
-        let rowValid = strow < this.size.height - 2;
-        let colValid = strow < this.size.width - 2;
+        let rowValid = strow < this.size.height - 3;
+        let colValid = stcol < this.size.width - 3;
 
         return colValid && rowValid
             && this._grid[stcol+3][strow] != Connect4Slot.EMPTY 
