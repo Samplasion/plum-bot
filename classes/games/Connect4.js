@@ -286,6 +286,23 @@ class Connect4 {
 
         return Connect4State.READY;
     }
+  
+    /**
+     * Returns a pretty representation of a state.
+     * @static
+     * @param {Connect4State} state The state to prettify.
+     * @returns {string} The pretty state.
+     */
+    static prettyState(state) {
+        switch (state) {
+            case 0: return "Awaiting player 2";
+            case 1: return "Ready";
+            case 2: return "Red won";
+            case 3: return "Yellow won";
+            case 4: return "Draw";
+        }
+        return "Invalid state.";
+    }
 }
 
 module.exports = {

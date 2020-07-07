@@ -68,10 +68,11 @@ module.exports = class ConnectFourCommand extends Command {
     } else {
       /** @type {number} */
       let column = colOrMem;
-      console.log(Object.keys(this.games).filter(game => game.endsWith(msg.guild.id)).filter(game => game.includes(msg.author.id)));
       let game = this.games[Object.keys(this.games).filter(game => game.endsWith(msg.guild.id)).filter(game => game.includes(msg.author.id))[0]];
+      
       if (!game)
         return this.client.utils.sendErrMsg(msg, `You have no ongoing games! Run \`${msg.prefix}connectfour @Someone\` to play with a friend.`);
+      
       let state = game.move(game.lastPlayer == Connect4Player.YELLOW ? Connect4Player.RED : Connect4Player.YELLOW, column);
       msg.channel.send("```" + game.grid + "```");
       msg.channel.send("```" + state + "```");
