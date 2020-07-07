@@ -265,7 +265,7 @@ class Connect4 {
         if (this._flat.filter(slot => slot != Connect4Slot.EMPTY).length < 7)
             return Connect4State.READY;
         
-        for (let i = 1; i < this.size.width; i++) {
+        for (let i = 0; i < this.size.width; i++) {
             // Check vertically
             let ch = check(this._grid[i], 4);
             if (ch != null && ch != Connect4Slot.EMPTY) {
