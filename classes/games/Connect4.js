@@ -228,8 +228,10 @@ class Connect4 {
      * @param {number} stcol The starting column from which to check the slots
      */
     checkTopLeftToBottomRight(strow, stcol) {
-        let rowValid = strow <= this.size.height - 3;
-        let colValid = strow <= this.size.width - 3;
+        let rowValid = strow < this.size.height - 2;
+        let colValid = strow < this.size.width - 2;
+
+        console.log(strow, stcol, this._grid, strow + 3, stcol + 3, this._grid[stcol+3]);
 
         return colValid && rowValid
             && this._grid[stcol][strow] != Connect4Slot.EMPTY 
@@ -246,8 +248,6 @@ class Connect4 {
     checkTopRightToBottomLeft(strow, stcol) {
         let rowValid = strow < this.size.height - 2;
         let colValid = strow < this.size.width - 2;
-
-        console.log(this._grid);
 
         return colValid && rowValid
             && this._grid[stcol+3][strow] != Connect4Slot.EMPTY 
@@ -275,7 +275,7 @@ class Connect4 {
             }
 
             // Check horizontally
-            for (let j = 1; j < this.size.height; j++) {
+            for (let j = 0; j < this.size.height; j++) {
                 if (i > 4)
                     continue;
                 if (this.checkLine(j, i)) {
@@ -284,6 +284,7 @@ class Connect4 {
                 if (this.checkTopLeftToBottomRight(j, i)) {
                     return this._grid[i][j] == Connect4Slot.RED ? Connect4State.P1_WIN : Connect4State.P2_WIN;
                 }
+                if (i == 4) continue; 
                 if (this.checkTopRightToBottomLeft(j, i)) {
                     return this._grid[i][j+3] == Connect4Slot.RED ? Connect4State.P1_WIN : Connect4State.P2_WIN;
                 }
