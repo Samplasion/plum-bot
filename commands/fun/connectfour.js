@@ -89,7 +89,7 @@ module.exports = class ConnectFourCommand extends Command {
             if (msg.author.id != thisPlayer.id)
                 return msg.error(`Wait for ${thisPlayer.displayName} to finish their turn!`);
             
-            let state = game.move(game.lastPlayer == Connect4Player.RED ? Connect4Player.YELLOW : Connect4Player.RED, column);
+            let state = game.move(game.lastPlayer == Connect4Player.RED ? Connect4Player.YELLOW : Connect4Player.RED, column - 1);
             if (state != Connect4State.READY) {
                 delete this.games[key];
                 let s = "";
@@ -131,7 +131,7 @@ module.exports = class ConnectFourCommand extends Command {
         return this.client.utils.fastEmbed(
             "Connect Four game",
             "```" + game.grid + "```",
-            
+            fields
         )
     }
 };
