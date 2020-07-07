@@ -296,7 +296,7 @@ class Connect4 {
     static prettyState(state) {
         switch (state) {
             case 0: return "Awaiting player 2";
-            case 1: return "Ready";
+            case 1: return "Game in progress";
             case 2: return "Red won";
             case 3: return "Yellow won";
             case 4: return "Draw";
