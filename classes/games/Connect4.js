@@ -262,15 +262,20 @@ class Connect4 {
         if (this._grid.every(arr => arr.every(slot => slot == Connect4Slot.EMPTY)))
             return Connect4State.READY;
         
+        if (this._flat.filter(slot => slot != Connect4Slot.EMPTY).length < 7)
+            return Connect4State.READY;
+        
         for (let i = 1; i < this.size.width; i++) {
             // Check vertically
             let ch = check(this._grid[i], 4);
-            if (ch != null) {
+            if (ch != null && ch != Connect4State.EMPTY) {
                 return ch == Connect4Slot.RED ? Connect4State.P1_WIN : Connect4State.P2_WIN;
             }
 
             // Check horizontally
             for (let j = 1; j < this.size.height; j++) {
+                if (i > 4)
+                    continue
                 if (this.checkLine(j, i))
                     return this._grid[i][j] == Connect4Slot.RED ? Connect4State.P1_WIN : Connect4State.P2_WIN;
             }

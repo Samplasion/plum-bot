@@ -56,7 +56,7 @@ module.exports = class ConnectFourCommand extends Command {
       if (Object.keys(this.games).some(k => (k.includes(member.id)) && k.endsWith(msg.guild.id)))
         return this.client.utils.sendErrMsg(msg, `${member.displayName} already has an ongoing game.`);
 
-      let key = `${msg.member.id}-${member.id}-${msg.guild}`;
+      let key = `${msg.member.id}-${member.id}-${msg.guild.id}`;
       let agree = await member.user.ask(msg.channel, `<@${member.id}>, do you wanna play some Connect 4 with ${msg.member.displayName}?`);
 
       if (agree) {
@@ -68,6 +68,7 @@ module.exports = class ConnectFourCommand extends Command {
     } else {
       /** @type {number} */
       let column = colOrMem;
+      console.log(Object.keys(this.games).filter(game => game.endsWith(msg.guild.id)).filter(game => game.includes(msg.author.id)));
       let game = this.games[Object.keys(this.games).filter(game => game.endsWith(msg.guild.id)).filter(game => game.includes(msg.author.id))[0]];
       if (!game)
         return this.client.utils.sendErrMsg(msg, `You have no ongoing games! Run \`${msg.prefix}connectfour @Someone\` to play with a friend.`);
