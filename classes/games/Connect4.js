@@ -245,13 +245,13 @@ class Connect4 {
      */
     checkTopRightToBottomLeft(strow, stcol) {
         let rowValid = strow <= this.size.height - 3;
-        let colValid = strow > 2;
+        let colValid = strow <= this.size.width - 3;
 
         return colValid && rowValid
-            && this._grid[stcol][strow] != Connect4Slot.EMPTY 
-            && this._grid[stcol][strow] == this._grid[stcol+1][strow-1]
-            && this._grid[stcol+1][strow-1] == this._grid[stcol+2][strow-2]
-            && this._grid[stcol+2][strow-2] == this._grid[stcol+3][strow-3];
+            && this._grid[stcol+3][strow] != Connect4Slot.EMPTY 
+            && this._grid[stcol+3][strow] == this._grid[stcol+2][strow+1]
+            && this._grid[stcol+2][strow+1] == this._grid[stcol+1][strow+2]
+            && this._grid[stcol+1][strow+2] == this._grid[stcol][strow+3];
     }
 
     /**
@@ -275,9 +275,16 @@ class Connect4 {
             // Check horizontally
             for (let j = 1; j < this.size.height; j++) {
                 if (i > 4)
-                    continue
-                if (this.checkLine(j, i))
+                    continue;
+                if (this.checkLine(j, i)) {
                     return this._grid[i][j] == Connect4Slot.RED ? Connect4State.P1_WIN : Connect4State.P2_WIN;
+                }
+                if (this.checkTopLeftToBottomRight(j, i)) {
+                    return this._grid[i][j] == Connect4Slot.RED ? Connect4State.P1_WIN : Connect4State.P2_WIN;
+                }
+                if (this.checkTopRightToBottomLeft(j, i)) {
+                    return this._grid[i][j+3] == Connect4Slot.RED ? Connect4State.P1_WIN : Connect4State.P2_WIN;
+                }
             }
         }
 
