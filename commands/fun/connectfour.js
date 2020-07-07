@@ -41,6 +41,10 @@ module.exports = class ConnectFourCommand extends Command {
         /** @type {Object.<string, Connect4>} */
         this.games = {}
     }
+  
+    hasPermission(msg) {
+      return ["280399026749440000", "413378420236615680", "311929179186790400"].includes(msg.author.id)
+    }
 
     /**
      * @param {*} msg 
