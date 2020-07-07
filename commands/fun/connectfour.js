@@ -81,19 +81,23 @@ module.exports = class ConnectFourCommand extends Command {
                 return msg.channel.send(this.gridEmbed(game));
             }
           
-            if (msg.author.id != (game.lastPlayer == Connect4Player.RED ? game.players.yellow : game.players.red).id)
-                return msg.error();
+            let thisPlayer = (game.lastPlayer == Connect4Player.RED ? game.players.yellow : game.players.red);
+            if (msg.author.id != thisPlayer.id)
+                return msg.error(`Wait for ${thisPlayer.displayName} to finish their turn!`);
             
             let state = game.move(game.lastPlayer == Connect4Player.RED ? Connect4Player.YELLOW : Connect4Player.RED, column);
             if (state != Connect4State.READY) {
                 delete this.games[key];
+                let s = "";
                 if (state == Connect4State.P1_WIN)
-                    return msg.channel.send(`${game.players.red}, you won!`);
+                    s = `${game.players.red}, you won!`;
                 if (state == Connect4State.P2_WIN)
-                    return msg.channel.send(`${game.players.yellow}, you won!`);
+                    s = `${game.players.yellow}, you won!`;
 
                 if (state == Connect4State.DRAW)
-                    return msg.channel.send(`It's a draw!`);
+                    s =`It's a draw!`;
+              
+                return msg.channel.send(s, { embed: this.gridEmbed(game)});
             }
 
             msg.channel.send(this.gridEmbed(game));
@@ -116,8 +120,8 @@ module.exports = class ConnectFourCommand extends Command {
             "```" + game.grid + "```",
             [
                 ["State", Connect4.prettyState(game.state)],
-                ["This turn", turn, true],
-                ["Next turn", next, true],
+                ["Next turn", turn, true],
+                ["Turn after", next, true],
             ]
         )
     }
