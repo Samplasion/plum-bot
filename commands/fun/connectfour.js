@@ -1,15 +1,12 @@
 const Command = require('../../classes/Command.js');
-// @ts-ignore
-const { GuildMember } = require("discord.js");
-const { oneLine, stripIndent } = require('common-tags');
+// @ts-expect-error
+const { GuildMember, Message } = require("discord.js");
+const { oneLine } = require('common-tags');
 const {
     Connect4,
     Connect4Player,
-    Connect4Slot,
     Connect4State
 } = require("../../classes/games/Connect4");
-// @ts-expect-error
-const { Message } = require("discord.js");
 
 module.exports = class ConnectFourCommand extends Command {
     /**
@@ -60,7 +57,7 @@ module.exports = class ConnectFourCommand extends Command {
 
             if (Object.keys(this.games).some(k => (k.includes(msg.member.id)) && k.endsWith(msg.guild.id))) {
                 if (Date.now() - this.games[this.getID(msg)].startingTime > 10 * 60000) {
-                    let delet = await msg.member.ask(msg.channel, `You already have an ongoing game, but it's been going on for more than 30 minutes. Do you wanna delete it?`);
+                    let delet = await msg.member.ask(msg.channel, `You already have an ongoing game, but it's been going on for more than 10 minutes. Do you wanna delete it?`);
                     if (delet) {
                         delete this.games[this.getID(msg)];
                         msg.ok("I deleted your game.");
@@ -133,6 +130,7 @@ module.exports = class ConnectFourCommand extends Command {
         else
             [turn, next] = [`${game.players.red}`, `${game.players.yellow}`]
       
+        /** @type {[[string, string, boolean?]]} */
         let fields = [
             ["State", Connect4.prettyState(game.state)],
         ]
