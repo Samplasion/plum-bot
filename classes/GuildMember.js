@@ -99,15 +99,19 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
                 return (reaction.emoji.name === this.client.utils.emojis.ok || reaction.emoji.name == this.client.utils.emojis.error) &&
                     user.id === this.id;
             };
+            
+            try {
+                let react = await msg.awaitReactions(filter, {
+                    max: 1,
+                    time: 60000,
+                    errors: ['time']
+                });
 
-            let react = await msg.awaitReactions(filter, {
-                max: 1,
-                time: 60000,
-                errors: ['time']
-            });
-
-            // Return
-            return react.size && react.first().emoji.name == this.client.utils.emojis.ok;
+                // Return
+                return react.size && react.first().emoji.name == this.client.utils.emojis.ok;
+            } catch (e) {
+                return false;
+            }
         }
 
         // @ts-ignore
