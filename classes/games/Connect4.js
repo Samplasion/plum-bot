@@ -244,8 +244,10 @@ class Connect4 {
      * @param {number} stcol The starting column from which to check the slots
      */
     checkTopRightToBottomLeft(strow, stcol) {
-        let rowValid = strow <= this.size.height - 3;
-        let colValid = strow <= this.size.width - 3;
+        let rowValid = strow < this.size.height - 2;
+        let colValid = strow < this.size.width - 2;
+
+        console.log(this._grid);
 
         return colValid && rowValid
             && this._grid[stcol+3][strow] != Connect4Slot.EMPTY 
@@ -265,7 +267,7 @@ class Connect4 {
         if (this._flat.filter(slot => slot != Connect4Slot.EMPTY).length < 7)
             return Connect4State.READY;
         
-        for (let i = 1; i < this.size.width; i++) {
+        for (let i = 0; i < this.size.width; i++) {
             // Check vertically
             let ch = check(this._grid[i], 4);
             if (ch != null && ch != Connect4Slot.EMPTY) {
