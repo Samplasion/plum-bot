@@ -53,22 +53,24 @@ module.exports = class ConnectFourCommand extends Command {
       
       if (Object.keys(this.games).some(k => (k.includes(msg.member.id)) && k.endsWith(msg.guild.id)))
         return this.client.utils.sendErrMsg(msg, "You already have an ongoing game.");
-      
-      let key = `${msg.member.id}-${member.is}-${msg.guild}`;
+      if (Object.keys(this.games).some(k => (k.includes(member.id)) && k.endsWith(msg.guild.id)))
+        return this.client.utils.sendErrMsg(msg, `${member.displayName} already has an ongoing game.`);
+
+      let key = `${msg.member.id}-${member.id}-${msg.guild}`;
       let agree = await member.user.ask(msg.channel, `<@${member.id}>, do you wanna play some Connect 4 with ${msg.member.displayName}?`);
 
       if (agree) {
         this.games[key] = new Connect4(msg.member, member);
-        msg.channel.send(this.games[key].grid);
+        return msg.channel.send(this.games[key].grid);
       }
 
-      return this.client.utils.sendErrMsg(msg, `I'm sorry, ${member.displayName} refused to play with you.`);
+      return this.client.utils.sendErrMsg(msg, `<@${msg.author.id}>, I'm sorry, ${member.displayName} refused to play with you.`);
     } else {
       /** @type {number} */
       let column = colOrMem;
       let game = this.games[Object.keys(this.games).filter(game => game.endsWith(msg.guild.id)).filter(game => game.includes(msg.author.id))[0]];
       if (!game)
-        return this.client.utils.sendErrMsg(msg, `You have no ongoing names! Run \`${msg.prefix}connectfour @Someone\` to play with a friend.`);
+        return this.client.utils.sendErrMsg(msg, `You have no ongoing games! Run \`${msg.prefix}connectfour @Someone\` to play with a friend.`);
       let state = game.move(game.lastPlayer == Connect4Player.YELLOW ? Connect4Player.RED : Connect4Player.YELLOW, column);
       msg.channel.send("```" + game.grid + "```");
       msg.channel.send("```" + state + "```");
