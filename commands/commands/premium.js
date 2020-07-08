@@ -27,13 +27,15 @@ module.exports = class PremiumCommand extends Command {
                 "Your premium status", 
                 "🙁 You don't have Premium!",
                 [
-                    "What can I do to obtain Premium?",
-                    "Obtaining Premium is easy! First, you got to " +
-                    `be in [the Support server](${this.client.options.invite}). ` +
-                    "Then, you can " +
-                    "[donate to the Patreon page](https://www.patreon.com/samplasion) " +
-                    "subscribe to one of the Premium tiers. Finally, alert Samplasion " +
-                    "and, if all went well, you can enjoy the premium commands!"
+                    [
+                        "What can I do to obtain Premium?",
+                        "Obtaining Premium is easy! First, you got to " +
+                        `be in [the Support server](${this.client.options.invite}). ` +
+                        "Then, you can " +
+                        "[donate to the Patreon page](https://www.patreon.com/samplasion) " +
+                        "subscribe to one of the Premium tiers. Finally, alert Samplasion " +
+                        "and, if all went well, you can enjoy the premium commands!"
+                    ]
                 ]
             ));
         }
