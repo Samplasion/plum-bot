@@ -7,11 +7,29 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 	constructor(...args) {
 		super(...args);
 		this.DBinit();
-	}
+    }
+    
+    /**
+     * @typedef GuildConfigData
+     * @type {Object.<string, any>}
+     */
+
+    /**
+     * @typedef GuildConfig
+     * @type {{ 
+     *      getDefaults: (blank?: boolean, scan?: boolean) => GuildConfigData
+     *      setDefaultSettings: (blank?: boolean, scan?: boolean) => GuildConfigData
+     *      data: GuildConfigData
+     *      set: (key: string, value: any) => GuildConfig
+     *      render: (key: string) => string
+     *      fix: () => Object.<string, any>
+     * }}
+     */
 
 	DBinit() {
-    const serverconfig = this.client.settings;
-		let guild = this;
+        const serverconfig = this.client.settings;
+        let guild = this;
+        /** @type GuildConfig */
 		this.config = {
 			getDefaults: function(blank = false, scan = true) {
 				let channels = guild.channels;
@@ -45,6 +63,8 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 					mutedrole: mutedrole ? mutedrole.id : '',
 
 					ticketcategory: blank ? '' : "Support tickets",
+                    
+                    levelupmsgs: true
 				};
 			},
 			setDefaultSettings: function(blank = false, scan = true) {
@@ -67,11 +87,12 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 				let data = serverconfig.get(guild.id) || this.setDefaultSettings();
 				return data;
 			},
-			set: (key, newValue) => {
+			set(key, newValue) {
 				let currentsettings = serverconfig.get(guild.id) || this.setDefaultSettings();
 				currentsettings[key] = newValue;
 
-				return serverconfig.set(guild.id, currentsettings);
+                serverconfig.set(guild.id, currentsettings);
+                return this;
 			},
 			render: (key) => {
 				let data = serverconfig.get(guild.id) || this.setDefaultSettings();
@@ -80,15 +101,15 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 				return findType(key).deserialize(guild.client, { guild }, value);
 			},
 			fix: function() {
-				const def = this.getDefaults();
+				let def = this.getDefaults();
 				if (!guild) return def;
-				const returns = {};
-				const overrides = this.data || {};
-				for (const key in def) {
+				let returns = {};
+				let overrides = this.data || {};
+				for (let key in def) {
 					if (key == "types") returns[key] = def[key] // replace the types, just to be sure it's up-to-date
 					else returns[key] = overrides[key] || def[key]; // For every key that's not there, use the default one
 				}
-				serverconfig.set(guild.id, returns)
+				serverconfig.set(guild.id, returns);
 				return returns;
 			}
 		}
