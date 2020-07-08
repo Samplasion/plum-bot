@@ -8,7 +8,7 @@ const { Message, GuildChannel } = require("discord.js");
 
 // This extends Discord's native Guild class with our own methods and properties
 // @ts-ignore
-module.exports = Structures.extend("User", User => class extends User {
+module.exports = Structures.extend("User", User => class PlumUser extends User {
 
   // @ts-expect-error
 	constructor(...args) {
@@ -51,5 +51,16 @@ module.exports = Structures.extend("User", User => class extends User {
   
   get level() {
     return this.client.permissionLevels.filter(i => i.level == (this.client.isOwner(this) ? 10 : 1))[0]
+  }
+
+  /**
+   * Returns `true` if the member is in the Server and either
+   * has the Premium role or has boosted the server.
+   */
+  get isPremium() {
+      let member = this.client.guilds.cache.get("689149132371263604").members.resolve(this);
+      // Returns true if the member is in the Server and either
+      // has the Premium role or has boosted the server.
+      return member && (member.roles.cache.has("730500262204014644") || !!member.premiumSince);
   }
 })
