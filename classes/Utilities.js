@@ -92,10 +92,7 @@ class Utilities {
   // fieldArray = Embed fields (eg. [["Title1", "Value1"], ["Title2", "Value2", true]] )
   fastEmbed(t, v, fieldArray, marking = true, icon = "") {
     // List (because of the forEach below)
-    if (fieldArray) var fields = fieldArray
-
-    // Ensures the list is [ "ownerID1", "ownerID2" ] regardless of type
-    var owners = this.client.owner.flat();
+    if (fieldArray) var fields = fieldArray;
 
     // Creates the embed
     var logged = this.embed()
