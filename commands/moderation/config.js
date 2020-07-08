@@ -53,7 +53,8 @@ module.exports = class ConfigCommand extends Command {
       leavemessage: "Leave message",
       mutedrole: "Muted role",
       ticketcategory: "Category for ticket channels",
-      serverinfo: "Server information channel names"
+      serverinfo: "Server information channel names",
+      levelupmsgs: "Level up messages"
     };
   }
   
@@ -69,7 +70,8 @@ module.exports = class ConfigCommand extends Command {
           'leavemessage',
           'mutedrole',
           'ticketcategory',
-          'serverinfo'
+          'serverinfo',
+          'levelupmsgs'
       ];
   }
 

@@ -25,7 +25,7 @@ module.exports = async (client, message) => {
   } else {
     if (message.guild) {
       let lvlup = message.member.points.award();
-      if (lvlup) {
+      if (lvlup && message.guild.config.data.levelupmsgs) {
         let embed = client.utils.embed()
           .setAuthor(message.member.displayName, message.author.displayAvatarURL())
           .setColor(message.member.displayHexColor)
