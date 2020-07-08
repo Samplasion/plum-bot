@@ -63,6 +63,8 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 					mutedrole: mutedrole ? mutedrole.id : '',
 
 					ticketcategory: blank ? '' : "Support tickets",
+
+                    serverinfo: [],
                     
                     levelupmsgs: true
 				};
@@ -113,6 +115,106 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 				return returns;
 			}
 		}
+	}
+
+	async updateInfo() {
+		if (!this.me.hasPermission("MANAGE_CHANNELS"))
+			return;
+    
+		let guild = this;
+		function fmt(str) {
+			if (!str) return str;
+			let s = str
+				.split("{{members}}").join(guild.members.cache.size)
+				.split("{{channels}}").join(guild.channels.cache.size);
+			return s;
+		}
+    
+		let lines = this.config.data.serverinfo || [];
+
+		let allow = [
+			"VIEW_CHANNEL"
+		];
+		let deny = [
+			"CONNECT"
+		];
+
+		let category = this.channels.cache.find(ch => ch.name.toLowerCase() == "server info");
+		if (!category && lines.length) {
+			category = await this.channels.create("server info", {
+				type: "category",
+				position: 0
+			});
+		}
+
+		// If there's still no category there's nothing we can do.
+		if (!category) {
+			return;
+		}
+
+		let channels = this.channels.cache
+			.filter(ch => ch.parent && ch.parent.id == category.id && ch.type == "voice");
+
+		if (channels.size > lines.length) {
+			let arr = channels.array()
+			for (let i = 0; i < arr.length - lines.length; i++) {
+				await arr[i].delete("Server info line number mismatch");
+			}
+		} else if (channels.size < lines.length) {
+			let isZero = channels.size == 0;
+
+			for (let i = 0; i < lines.length - channels.size; i++) {
+				await this.channels.create(fmt(lines[i]), {
+					permissionOverwrites: [
+						{
+							id: this.id, // @everyone
+							type: "role",
+							allow,
+							deny
+						},
+						{
+							id: this.client.user.id,
+							type: "member",
+							allow: deny.concat(allow),
+						}
+					],
+					type: "voice",
+					parent: category
+				});
+			}
+
+			// Returning because we just created the updated channels
+			if (isZero)
+				return;
+		}
+
+		if (!lines.length) {
+			if (category) 
+				await category.delete();
+			return;
+		}
+
+		channels = this.channels.cache
+			.filter(ch => ch.parent && ch.parent.id == category.id && ch.type == "voice");
+
+		channels.array().forEach(async(ch, index) => {
+			await ch.setName(fmt(lines[index]));
+		});
+
+		// for (let line of lines.reverse()) {
+		// 	await this.channels.create(line, {
+		// 		permissionOverwrites: [
+		// 			{
+		// 				id: this.id,
+		// 				type: "voice",
+		// 				allow,
+		// 				deny
+		// 			}
+		// 		],
+		// 		position: 0,
+		// 		parent: category
+		// 	});
+		// }
 	}
   
 	async log(...stuff) {

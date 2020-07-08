@@ -1,2 +1,6 @@
 data/
 settings.sqlite3
+reboot.json
+.env
+node_modules
+.vscode/*

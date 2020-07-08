@@ -17,7 +17,7 @@ app.get("/", (request, response) => {
 });
 app.get("/vote/blspace", (req, res) => {
   console.log(req.body);
-  res.status(200);
+  res.status(200).send("lol");
 })
 app.listen(process.env.PORT);
 setInterval(() => {
@@ -33,7 +33,7 @@ require("./classes/User.js");
 const client = new CommandoClient({
   commandPrefix: "pl.",
   unknownCommandResponse: false,
-  owner: ["280399026749440000"],
+  owner: ["280399026749440000", "413378420236615680"],
   invite: "https://discord.gg/MDtgmEM",
   fetchAllMembers: true,
   disableEveryone: true,

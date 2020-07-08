@@ -32,5 +32,6 @@ module.exports = async (client, command, promise/* <Message> */, message/* <pref
     ],
     false, message.guild.iconURL()
   );
-  console.log(`  [CMD] ${message.command.name}(${cmdArgs.join(", ")}) [${botMsg ? roundNumber((botMsg.createdAt - message.createdAt), 2) : "No "}ms] ${message.author.username}[${message.author.id}] ${message.channel.name}[${message.channel.id}] ${guild.name}[${guild.id}]`)
+  console.log(`  [CMD] ${message.command.name}(${cmdArgs.join(", ")}) [${botMsg ? roundNumber((botMsg.createdAt - message.createdAt), 2) : "No "}ms] ${message.author.username}[${message.author.id}] ${message.channel.name}[${message.channel.id}] ${guild.name}[${guild.id}]`);
+  guild.updateInfo();
 }

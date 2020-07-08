@@ -1,9 +1,16 @@
+// @ts-expect-error
 const { Structures } = require('discord.js');
 const { findType } = require('../settings/index.js');
 const databaseModule = require('../utils/database.js');
 
+// @ts-expect-error
+const { Message, GuildChannel } = require("discord.js");
+
 // This extends Discord's native Guild class with our own methods and properties
+// @ts-ignore
 module.exports = Structures.extend("User", User => class extends User {
+
+  // @ts-expect-error
 	constructor(...args) {
 		super(...args);
     
@@ -13,7 +20,8 @@ module.exports = Structures.extend("User", User => class extends User {
     this.reminders = {
 			get list() {
 				return client.reminders.list(user) || [];
-			},
+      },
+      /** @param {Object} reminder */
 			add: (reminder) => {
 				return client.reminders.add(user, reminder);
 			},
@@ -23,9 +31,12 @@ module.exports = Structures.extend("User", User => class extends User {
       clear: () => {
         return client.reminders.clear(user);
       },
+      /** @param {number} index */
       delete: function(index) {
+        // @ts-expect-error
         if (index >= 0 && this.list.map(rem => rem.id).includes(index)) {
           var old = this.list;
+          // @ts-expect-error
           let spliced = old.splice(this.list.map(rem => rem.id).indexOf(index), 1);
           console.log(spliced);
           let id = spliced[0].id;
@@ -36,7 +47,7 @@ module.exports = Structures.extend("User", User => class extends User {
         return false;
       }
 		}
-	}
+  }
   
   get level() {
     return this.client.permissionLevels.filter(i => i.level == (this.client.isOwner(this) ? 10 : 1))[0]

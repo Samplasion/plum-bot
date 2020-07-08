@@ -54,6 +54,11 @@ module.exports = async client => {
     updateAPIs();
     setInterval(updateAPIs, 15 * 60000);
   }
+
+  for (let guild of client.guilds.cache.array()) {
+    guild.updateInfo();
+    setInterval(() => guild.updateInfo(), 10 * 60000);
+  }
   
   /*
   client.users.cache.forEach(user => {

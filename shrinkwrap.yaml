@@ -21,6 +21,8 @@ dependencies:
   parse-ms: 2.1.0
   safe-eval: 0.4.1
   sqlite: 3.0.0
+devDependencies:
+  typescript: 3.9.6
 packages:
   /@discordjs/collection/0.1.5:
     dev: false
@@ -3038,6 +3040,13 @@ packages:
       node: '>= 6'
     resolution:
       integrity: sha512-RbN7MaTQBZLJYzDENHPA0nUmWT0Ex80KHItprrgbTPufYhIlTePvCXZxyQK7wgn19FW5bnuaBIKcBb5mRWjB1Q==
+  /typescript/3.9.6:
+    dev: true
+    engines:
+      node: '>=4.2.0'
+    hasBin: true
+    resolution:
+      integrity: sha512-Pspx3oKAPJtjNwE92YS05HQoY7z2SFyOpHo9MqJor3BXAGNaPUs83CuVp9VISFkSjyRfiTpmKuAYGJB7S7hOxw==
   /unique-string/1.0.0:
     dependencies:
       crypto-random-string: 1.0.0
@@ -3226,3 +3235,4 @@ specifiers:
   parse-ms: ^2.0.0
   safe-eval: ^0.4.1
   sqlite: ^3.0.0
+  typescript: ^3.9.6
