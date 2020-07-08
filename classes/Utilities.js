@@ -2,7 +2,6 @@ const Commando = require("discord.js-commando");
 const { oneLine } = require('common-tags')
     , PlumEmbed = require('./Embed')
     , CommandError = require("./CommandError")
-    , List = require("list-array")
 
 class Utilities {
   constructor(client) {
@@ -93,10 +92,10 @@ class Utilities {
   // fieldArray = Embed fields (eg. [["Title1", "Value1"], ["Title2", "Value2", true]] )
   fastEmbed(t, v, fieldArray, marking = true, icon = "") {
     // List (because of the forEach below)
-    if (fieldArray) var fields = List.fromArray(fieldArray)
+    if (fieldArray) var fields = fieldArray
 
     // Ensures the list is [ "ownerID1", "ownerID2" ] regardless of type
-    var owners = List.of(this.client.owner).flatten()
+    var owners = this.client.owner.flat();
 
     // Creates the embed
     var logged = this.embed()
