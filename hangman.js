@@ -1,5 +1,4 @@
-const List = require("list-array");
-module.exports = List.of(
+module.exports = Array.of(
   'about',
   'search',
   'other',
