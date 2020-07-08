@@ -67,15 +67,16 @@ module.exports = class HelpCommand extends Command {
     
       return msg.channel.send(embed);
     } else {
+        /** @type {PlumEmbed[]} */
       let embeds = [];
       let index = 0;
       
-      groups.filter(grp => grp.commands.some(cmd => {
-        return !cmd.hidden && cmd.isUsable(msg) && (msg.guild ? msg.member : msg.author).level.level >= cmd.permLevel
-      })).sort((g1, g2) => g1.name.localeCompare(g2.name)).forEach(grp => {
+      let cmdFilter = cmd => !cmd.hidden && (cmd.isUsable(msg) || cmd.premium) && (msg.guild ? msg.member : msg.author).level.level >= cmd.permLevel;
+
+      groups.filter(grp => grp.commands.some(cmdFilter)).sort((g1, g2) => g1.name.localeCompare(g2.name)).forEach(grp => {
         let fieldText = [];
         
-        for (let [id, cmd] of grp.commands.filter(cmd => !cmd.hidden && cmd.isUsable(msg) && (msg.guild ? msg.member : msg.author).level.level >= cmd.permLevel).entries()) {
+        for (let [id, cmd] of grp.commands.filter(cmdFilter).entries()) {
           fieldText.push(`• ${prefix}**${cmd.name}**: ${cmd.description}`);
         }
 
@@ -107,6 +108,9 @@ module.exports = class HelpCommand extends Command {
         return;
       }
       
+      /**
+       * @type {[[string, (collector: *) => *]]}
+       */
       const R = [
         [this.client.utils.emojis.prev, (collector) => index--],
         [this.client.utils.emojis.stop, (collector) => collector.stop("manual")],
