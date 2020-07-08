@@ -4,3 +4,15 @@ reboot.json
 .env
 node_modules
 .vscode/*
+.ssh
+.pnpm-store
+.pm2
+.npm
+.local
+.config
+.cache
+.bash_history
+.bashrc
+.cloud-locale-test.skip
+.gitconfig
+.profile

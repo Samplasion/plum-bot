@@ -57,3 +57,21 @@ DiscordAPIError: Cannot send an empty message
   code: 50006,
   httpStatus: 400
 }
+DiscordAPIError: 404: Not Found
+    at RequestHandler.execute (/root/node_modules/.pnpm/discord.js@12.2.0/node_modules/discord.js/src/rest/RequestHandler.js:170:25)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5) {
+  method: 'get',
+  path: '/channels/',
+  code: 0,
+  httpStatus: 404
+}
+DiscordAPIError: 404: Not Found
+    at RequestHandler.execute (/root/node_modules/.pnpm/discord.js@12.2.0/node_modules/discord.js/src/rest/RequestHandler.js:170:25)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5) {
+  method: 'get',
+  path: '/channels/',
+  code: 0,
+  httpStatus: 404
+}
