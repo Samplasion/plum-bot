@@ -1,0 +1,24 @@
+{
+    "name": "@types/integer",
+    "version": "1.0.1",
+    "description": "TypeScript definitions for integer",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Ben Davies",
+            "url": "https://github.com/Morfent",
+            "githubUsername": "Morfent"
+        }
+    ],
+    "main": "",
+    "types": "index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/integer"
+    },
+    "scripts": {},
+    "dependencies": {},
+    "typesPublisherContentHash": "428fa02f1ca4a37716447fb86c18133545b71f1dbac4c1f4e5b06664dc97eded",
+    "typeScriptVersion": "3.0"
+}

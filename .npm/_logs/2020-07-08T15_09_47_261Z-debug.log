@@ -1,0 +1,35 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'start' ]
+2 info using npm@6.14.5
+3 info using node@v12.18.2
+4 verbose config Skipping project config: /root/.npmrc. (matches userconfig)
+5 verbose run-script [ 'prestart', 'start', 'poststart' ]
+6 info lifecycle plum-bot@0.1.0~prestart: plum-bot@0.1.0
+7 info lifecycle plum-bot@0.1.0~start: plum-bot@0.1.0
+8 verbose lifecycle plum-bot@0.1.0~start: unsafe-perm in lifecycle true
+9 verbose lifecycle plum-bot@0.1.0~start: PATH: /usr/lib/node_modules/npm/node_modules/npm-lifecycle/node-gyp-bin:/root/node_modules/.bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+10 verbose lifecycle plum-bot@0.1.0~start: CWD: /root
+11 silly lifecycle plum-bot@0.1.0~start: Args: [ '-c', 'node server.js' ]
+12 silly lifecycle plum-bot@0.1.0~start: Returned: code: 1  signal: null
+13 info lifecycle plum-bot@0.1.0~start: Failed to exec start script
+14 verbose stack Error: plum-bot@0.1.0 start: `node server.js`
+14 verbose stack Exit status 1
+14 verbose stack     at EventEmitter.<anonymous> (/usr/lib/node_modules/npm/node_modules/npm-lifecycle/index.js:332:16)
+14 verbose stack     at EventEmitter.emit (events.js:315:20)
+14 verbose stack     at ChildProcess.<anonymous> (/usr/lib/node_modules/npm/node_modules/npm-lifecycle/lib/spawn.js:55:14)
+14 verbose stack     at ChildProcess.emit (events.js:315:20)
+14 verbose stack     at maybeClose (internal/child_process.js:1021:16)
+14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:286:5)
+15 verbose pkgid plum-bot@0.1.0
+16 verbose cwd /root
+17 verbose Linux 4.15.0-66-generic
+18 verbose argv "/usr/bin/node" "/usr/bin/npm" "start"
+19 verbose node v12.18.2
+20 verbose npm  v6.14.5
+21 error code ELIFECYCLE
+22 error errno 1
+23 error plum-bot@0.1.0 start: `node server.js`
+23 error Exit status 1
+24 error Failed at the plum-bot@0.1.0 start script.
+24 error This is probably not a problem with npm. There is likely additional logging output above.
+25 verbose exit [ 1, true ]
