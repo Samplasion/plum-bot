@@ -55,6 +55,12 @@ module.exports = class ConnectFourCommand extends Command {
         if (colOrMem instanceof GuildMember) {
             let member = colOrMem;
 
+            if (member.id == msg.member.id)
+                return msg.error("You can't play against yourself!");
+
+            if (member.user.bot)
+                return msg.error("You can't play against a bot!");
+
             if (Object.keys(this.games).some(k => (k.includes(msg.member.id)) && k.endsWith(msg.guild.id))) {
                 if (Date.now() - this.games[this.getID(msg)].startingTime > 10 * 60000) {
                     let delet = await msg.member.ask(msg.channel, `You already have an ongoing game, but it's been going on for more than 10 minutes. Do you wanna delete it?`);
