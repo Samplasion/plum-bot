@@ -1,12 +1,21 @@
 const Command = require('./../../classes/Command.js');
 const { oneLine } = require('common-tags');
-const List = require('list-array');
 const Embed = require('../../classes/Embed');
 const Game = require('hangman-game-engine');
 function random(a, b = 0) {
     var max = Math.max(a, b),
         min = Math.min(a, b)
     return ~~(Math.random() * (max - min) + min)
+}
+/**
+ * Filter function to eliminate duplicates
+ * @template T
+ * @param {T} value 
+ * @param {number} index 
+ * @param {Array<T>} self 
+ */
+function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
 }
 function roundNumber(num, scale) {
   if(!("" + num).includes("e")) {
@@ -63,11 +72,11 @@ module.exports = class HangmanCommand extends Command {
         return msg.channel.send(e)
       }
       const words = require("./../../hangman.js")
-      let word = words.random()
+      let word = words[random(words.length)]
       game = new Game(word, {maxAttempt: 6})
       // if (this.client.settings.get(msg.guild.id, "hangmanHint")) {
-      var letters = List.fromArray(word.split(""))
-      List.of(letters.first, letters.last).uniq().forEach(letter => game.guess(letter))
+      var letters = word.split("")
+      Array.from(letters[0], letters[letters.length-1]).filter(onlyUnique).forEach(letter => game.guess(letter))
       // }
       let e = new Embed(this.client)
         .setAuthor(msg.member.displayName, msg.author.displayAvatarURL)
