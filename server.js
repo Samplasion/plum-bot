@@ -7,6 +7,9 @@ const Enmap = require("enmap")
 const CommandError = require("./classes/CommandError");
 const PlumEmbed = require("./classes/Embed");
 
+// Import env variables
+require('dotenv').config()
+
 // ======== REQUIRED
 const http = require('http');
 const express = require('express');
@@ -137,7 +140,7 @@ client.version = require("./version");
 
 client.login(process.env.TOKEN);
 
-// LOGGERS
+/* LOGGERS
 process
   .on('unhandledRejection', (err, p) => {
     console.error(err);
@@ -149,5 +152,5 @@ process
     client.utils.errors.uncaughtException(err);
     process.exit(1);
   });
-
+*/
 module.exports = client;
