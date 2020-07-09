@@ -74,7 +74,7 @@ module.exports = class HangmanCommand extends Command {
       const words = require("./../../hangman.js")
       let word = words[random(words.length)]
       game = new Game(word, {maxAttempt: 6})
-      // if (this.client.settings.get(msg.guild.id, "hangmanHint")) {
+      // if (this.client.configs.get(msg.guild.id, "hangmanHint")) {
       var letters = word.split("")
       Array.from(letters[0], letters[letters.length-1]).filter(onlyUnique).forEach(letter => game.guess(letter))
       // }

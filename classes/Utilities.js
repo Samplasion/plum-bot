@@ -21,7 +21,7 @@ class Utilities {
       const def = client.defaultSettings;
       if (!guild) return def;
       const returns = {};
-      const overrides = client.settings.get(guild.id) || {};
+      const overrides = client.configs.get(guild.id) || {};
       for (const key in def) {
         if (key == "types") returns[key] = def[key] // replace the types, just to be sure it's up-to-date
         else returns[key] = overrides[key] || def[key]; // For every key that's not there, use the default one
@@ -29,7 +29,7 @@ class Utilities {
       return returns;
     };
     this.getSettings = this.getGuildSettings
-    client.settings.ensureSets = (guild) => client.settings.set(guild.id, this.getGuildSettings(guild));
+    client.configs.ensureSets = (guild) => client.configs.set(guild.id, this.getGuildSettings(guild));
 	}
   
   get emojis() {

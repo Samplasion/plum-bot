@@ -27,7 +27,7 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
      */
 
 	DBinit() {
-        const serverconfig = this.client.settings;
+        const serverconfig = this.client.configs;
         let guild = this;
         /** @type GuildConfig */
 		this.config = {
