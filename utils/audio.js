@@ -74,7 +74,7 @@ async function play(msg, client, data) {
 			data.dispatcher.guildID = data.guildID;
 			client.audio.finish(msg, client, data.dispatcher);
 		})
-		.once('end', () => {
+		.on('finish', () => {
 			data.dispatcher.guildID = data.guildID;
 			client.audio.finish(msg, client, data.dispatcher);
 		});
