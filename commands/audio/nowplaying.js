@@ -80,7 +80,7 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
 																	// lower int, but lower than the nearest
 																	// greater int, add a second
 		var sec = (secs % 60) + (oms ? 0 : 1);
-		return `${this.client.util.pad(Math.floor(mins))}:${this.client.util.pad(Math.floor(sec))}`
+		return `${this.client.utils.pad(Math.floor(mins))}:${this.client.utils.pad(Math.floor(sec))}`
 	}
 
 	progressBar(now, total, url, bars) {
