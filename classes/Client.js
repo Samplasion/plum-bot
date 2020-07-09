@@ -98,5 +98,8 @@ module.exports = class PlumClient extends CommandoClient {
         this.utils = new Utilities(this);
 
         this.version = require("../version");
+
+        // For the premium nag and stuff.
+        this.commandsRan = new Map();
     }
 }

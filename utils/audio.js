@@ -88,7 +88,7 @@ async function play(msg, client, data) {
  */
 async function finish(msg, client, dispatcher) {
 	let fetched = await client.audio.active.get(dispatcher.guildID);
-	let voicechat = client.guilds.get(dispatcher.guildID).me.voice.channel;
+	let voicechat = client.guilds.cache.get(dispatcher.guildID).me.voice.channel;
 	try {
 		const vcsize = await voicechat.members.filter(val => val.id !== client.user.id).size;
 		if (!vcsize) {
