@@ -1,7 +1,7 @@
 const { oneLine } = require('common-tags');
 const Command = require('../../classes/Command.js');
 
-module.exports = class PremiumCommand extends Command {
+module.exports = class PremiumStatusCommand extends Command {
     // @ts-expect-error
 	constructor(client) {
 		super(client, {
