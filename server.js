@@ -138,6 +138,11 @@ client.utils = new Utilities(client);
 
 client.version = require("./version");
 
+/**
+ * @type {Map<string, number>}
+ */
+client.commandsRan = new Map();
+
 client.login(process.env.TOKEN);
 
 /* LOGGERS

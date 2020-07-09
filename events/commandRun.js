@@ -15,11 +15,6 @@ function roundNumber(num, scale) {
     }
 }
 
-/**
- * @type {Map<string, number>}
- */
-let commandsRan = new Map();
-
 module.exports = async (client, command, promise /* <Message> */ , message /* <prefix><command> <args> */ , args, isCommandPattern) => {
     var cmdArgs = []
     if (args instanceof Array) cmdArgs = args
@@ -48,11 +43,11 @@ module.exports = async (client, command, promise /* <Message> */ , message /* <p
     guild.updateInfo();
 
     // Show the "Donate" embed
-    if (!commandsRan.has(message.author.id)) {
-        commandsRan.set(message.author.id, 0);
+    if (!client.commandsRan.has(message.author.id)) {
+        client.commandsRan.set(message.author.id, 0);
     }
     // @ts-expect-error
-    if (commandsRan.get(message.author.id) > 40) {
+    if (client.commandsRan.get(message.author.id) > 40) {
         message.channel.send(client.utils.fastEmbed(
             "You seem to love Plum Bot",
             "But unfortunately, hosting isn't free. " +
@@ -60,9 +55,9 @@ module.exports = async (client, command, promise /* <Message> */ , message /* <p
             "You'll also get some awesome perks! You can know more about it using " +
             "the `premium` command."
         ));
-        commandsRan.set(message.author.id, 0);
+        client.commandsRan.set(message.author.id, 0);
     } else {
         //@ts-expect-error
-        commandsRan.set(message.author.id, commandsRan.get(message.author.id) + 1);
+        client.commandsRan.set(message.author.id, client.commandsRan.get(message.author.id) + 1);
     }
 }
