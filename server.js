@@ -65,41 +65,6 @@ client.configs.getSet = (guild, path = null) => {
 }
 */
 
-<<<<<<< HEAD
-client.reminders = new Enmap({ name: "reminders" });
-client.reminders.add = (user, reminder) => {
-  var old = client.reminders.has(user.id) ? client.reminders.get(user.id) : [];
-  old.push(reminder);
-  client.reminders.set(user.id, old);
-}
-client.reminders.flush = () => {
-  for (let [key, old] of client.reminders.entries()) {
-    old = old.filter(r => r.date > Date.now());
-    client.reminders.set(key, old);
-  }
-}
-client.reminders.reset = (user) => {
-  client.reminders.set(user.id, []);
-}
-client.reminders.list = (user) => {
-  return client.reminders.get(user.id);
-}
-client.reminders.raw = {}
-
-client.global = new Enmap({ name: "global" });
-
-var Utilities = require("./classes/Utilities");
-client.utils = new Utilities(client);
-
-client.version = require("./version");
-
-/**
- * @type {Map<string, number>}
- */
-client.commandsRan = new Map();
-
-=======
->>>>>>> 283a662aa93c3e85f5436f86529d570a1aa46829
 client.login(process.env.TOKEN);
 
 /* LOGGERS

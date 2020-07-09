@@ -6,7 +6,7 @@ const { Message } = require('discord.js');
 const CommandError = require("./CommandError");
 // @ts-ignore
 const Embed = require("./Embed");
-const PlumMessage = require('../../classes/Message');
+const PlumMessage = require('./Message');
 const PlumClient = require("./Client");
 
 module.exports = class PlumCommand extends Command {
@@ -20,7 +20,7 @@ module.exports = class PlumCommand extends Command {
      */
     constructor(client, options) {
         super(client, options);
-        this.client = client;
+        // this.client = client;
 
         this.permLevel = options.permLevel || 1;
         if (this.ownerOnly) this.permLevel = 10;

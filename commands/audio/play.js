@@ -21,7 +21,7 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
 		super(client, {
             name: "play",
             memberName: "play",
-			group: 'Audio',
+			group: 'audio',
 			description: 'Plays audio. Can either be a Youtube video or one of the streams from listen.moe',
 			args: [{
 				key: 'link',

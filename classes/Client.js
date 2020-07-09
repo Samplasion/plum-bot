@@ -31,9 +31,9 @@ module.exports = class PlumClient extends CommandoClient {
             //  ping: false,
             //  reload: false
             //})
-            .registerCommandsIn(path.join(__dirname, 'commands'));
+            .registerCommandsIn(path.join(__dirname, '..', 'commands'));
 
-        sqlite.open(path.join(__dirname, "settings.sqlite3")).then((db) => {
+        sqlite.open(path.join(__dirname, '..', "settings.sqlite3")).then((db) => {
             this.setProvider(new SQLiteProvider(db));
         });
 
