@@ -6,6 +6,8 @@ const { Message } = require('discord.js');
 const CommandError = require("./CommandError");
 // @ts-ignore
 const Embed = require("./Embed");
+const PlumMessage = require('../../classes/Message');
+const PlumClient = require("./Client");
 
 module.exports = class PlumCommand extends Command {
     /**
@@ -13,11 +15,12 @@ module.exports = class PlumCommand extends Command {
      */
 
     /**
-     * @param {CommandoClient} client The client that instantiated the command.
+     * @param {PlumClient} client The client that instantiated the command.
      * @param {*} options Any option for the command is defined here.
      */
     constructor(client, options) {
         super(client, options);
+        this.client = client;
 
         this.permLevel = options.permLevel || 1;
         if (this.ownerOnly) this.permLevel = 10;
@@ -25,6 +28,10 @@ module.exports = class PlumCommand extends Command {
 
         this.premium = false;
     }
+
+    /**
+     * @property {PlumClient} client 
+     */
 
     /**
      * Returns a string or `false` if the user doesn't have permission to run this command.
@@ -76,4 +83,85 @@ module.exports = class PlumCommand extends Command {
         this.client.utils.sendErrMsg(message, `There was an error. The developers have already received the report, though you can speed the `
                          + `fix if you send them this Error ID: \`${error.msg.id}\` in this server: ${this.client.options.invite}`);
     }
+
+    /**
+     * 
+     * @param {PlumMessage} msg 
+     * @param {any[]} responces 
+     * @param {Embed} embed 
+     */
+    async responceSelector(msg, responces, embed) {
+		let WaitMessage = `Within the next 30 seconds, you'll need to pick a number between 1-${responces.length}. `
+                        + "The command will be automatically canceled canceled in 30 seconds if no selection has been made."
+                        + "Alternatively, type `cancel` to manually cancel the command, skipping the countdown"
+
+		switch(responces.length) {
+			case 0:
+				embed
+					.setDescription(`There have been no results found for your search query. Try using a different name.`)
+					.setFooter(`Requested by ${msg.author.tag}`, msg.author.displayAvatarURL({format: 'png'}))
+					.setTimestamp(new Date());
+
+				msg.util.send(embed);
+				return null
+				break;
+			case 1:
+				return responces[0];
+				break;
+			case 2:
+			case 4:
+			case 6:
+			case 8:
+				embed
+					.setDescription("Requested by " + msg.author.tag)
+					.setFooter(WaitMessage)
+					.setTimestamp(new Date());
+
+				for (var i in responces) {
+					if (isNaN(i)) continue;
+
+					embed = await this.handleSelector(responces, i, await embed, msg.author.lang)
+				}
+
+				msg.channel.send(embed);
+				break;
+			default:
+				let resp = '';
+				let whattoadd;
+				for (var i in responces) {
+					if (isNaN(i)) continue;
+
+					whattoadd = await this.handleSelector(responces, i, null, msg.author.lang)
+					console.log(whattoadd)
+					resp += whattoadd
+				}
+
+				resp += `\n` + WaitMessage;
+				embed
+					.setColor("#FF006E")
+					.setFooter(`Requested by ${msg.author.tag}`, msg.author.displayAvatarURL({format: 'png'}))
+					.setTimestamp(new Date())
+					.setDescription(resp);
+				msg.channel.send(embed);
+		}
+
+		let filter = response => response.author.id == msg.author.id && (!isNaN(response.content) && parseInt(response.content) <= responces.length && parseInt(response.content) > 0 || response.content == 'cancel');
+		try {
+			let collected = await msg.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] })
+
+			if(collected.first().content == 'cancel') {
+				msg.reply('command canceled');
+				return null
+			}
+			
+			return await responces[collected.first().content - 1]
+		} catch (e) {
+			msg.reply('command canceled');
+			return null
+		}
+    }
+    
+    isGood(variable) {
+		return (variable && variable !== null && (variable.size || variable.length))
+	}
 }
