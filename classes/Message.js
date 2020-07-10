@@ -9,7 +9,7 @@ const PlumClient = require("./Client");
 const PlumTextChannel = require("./TextChannel");
 
 // This extends Discord's native Guild class with our own methods and properties
-module.exports = Structures.extend("Message", Message => class extends Message {
+module.exports = Structures.extend("Message", Message => class PlumMessage extends Message {
     /**
      * @param {PlumClient} client 
      * @param {any} data
@@ -19,6 +19,9 @@ module.exports = Structures.extend("Message", Message => class extends Message {
         super(client, data, channel);
 
         this.channel = channel;
+
+        /** @type {PlumClient} */
+        this.client;
     }
 
     get prefix() {
@@ -40,6 +43,16 @@ module.exports = Structures.extend("Message", Message => class extends Message {
     ok(text) {
         return this.client.utils.sendOkMsg(this, text);
     }
+
+    /**
+     * Sends an info message in the current channel.
+     * @param {string} text The text to send
+     */
+    info(text) {
+        return this.client.utils.sendInfoMsg(this, text);
+    }
+
+    
 
     /**
      * This method does...
