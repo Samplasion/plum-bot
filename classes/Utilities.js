@@ -56,6 +56,7 @@ class Utilities {
       trash: "🗑️",
       alias: "📑",
       moderator: "👷",
+      music: "🎵",
     }
   }
 
