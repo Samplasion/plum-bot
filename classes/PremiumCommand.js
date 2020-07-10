@@ -1,12 +1,13 @@
 const Command = require("./Command");
+const PlumClient = require("./Client");
 
 module.exports = class PremiumCommand extends Command {
     /**
-     * @param  {...*} args
+     * @param {PlumClient} client
+     * @param {import("discord.js-commando").CommandInfo} info
      */
-    constructor(...args) {
-        // @ts-expect-error
-        super(...args);
+    constructor(client, info) {
+        super(client, info);
 
         this.premium = true;
     }

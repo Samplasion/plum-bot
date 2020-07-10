@@ -24,13 +24,13 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
             memberName: "play",
 			group: 'audio',
 			description: 'Plays audio. Can either be a Youtube video or one of the streams from listen.moe',
-			args: [{
-				key: 'link',
-				description: "You can specify either a specific Youtube video URL or the title of the video. You can also add playlists (put the playlist URL) or songs related to the song that is playing right now (type 'related')",
-				prompt: "Please state a video from Youtube you'd like to listen to.",
-				type: 'string',
-				match: 'content'
-			}]
+			args: [
+                {
+                    key: 'link',
+                    prompt: "send the link to a video from Youtube you'd like to listen to.",
+                    type: 'string',
+                }
+            ]
 		});
 	}
 
@@ -68,10 +68,18 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
 			let relatedLink = await this.responceSelector(msg, fetched.queue[0].related.splice(0, 6), embed, 'related');
 
 			if (relatedLink) this.play(msg, relatedLink.id.trim(), true)
-		}
+        }
 
-		// Step 5: Check if it's a playlist (playlists have their own unique features and code)
-		if (link.match(playlistRegex)) {
+        // Step 5: Check if it's a playlist (playlists have their own unique features and code)
+        if (link.startsWith("playlist:")) {
+            if (msg.guild.queues.data.filter(entry => entry.id == link.replace("playlist:", "")).length) {
+                let queue = msg.guild.queues.data.filter(entry => entry.id == link.replace("playlist:", ""))[0];
+                for (let track of queue.queue) {
+                    await this.play(msg, track.url, false);
+                }
+                return msg.ok(`Added ${queue.queue.length} items from playlist "${queue.name}" to queue | Requested by: ${msg.author.tag}`);
+            }
+        } else if (link.match(playlistRegex)) {
 			var pl = await playlistRegex.exec(link)[6];
 			const res = await ytpl(pl, { limit: 20 });
 

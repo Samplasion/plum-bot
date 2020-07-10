@@ -1,5 +1,5 @@
 const { CommandoClient, SQLiteProvider } = require("discord.js-commando")
-const { GuildMember } = require("discord.js")
+const { GuildMember, Permissions } = require("discord.js")
 const sqlite = require('sqlite')
 const Enmap = require("enmap");
 const path = require("path")
@@ -94,6 +94,8 @@ module.exports = class PlumClient extends CommandoClient {
 
         this.global = new Enmap({ name: "global" });
 
+        this.queues = new Enmap({ name: "queues" });
+
         var Utilities = require("../classes/Utilities");
         this.utils = new Utilities(this);
 
@@ -102,4 +104,9 @@ module.exports = class PlumClient extends CommandoClient {
         // For the premium nag and stuff.
         this.commandsRan = new Map();
     }
+
+    get invite() {
+		const permissions = new Permissions().add(...this.registry.commands.map(command => new Permissions(command.clientPermissions).bitfield)).bitfield;
+		return `https://discordapp.com/oauth2/authorize?client_id=${application.id}&permissions=${permissions}&scope=bot`;
+	}
 }

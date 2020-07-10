@@ -3,6 +3,22 @@ const { findType } = require('../settings/index.js');
 const db = require('../utils/database.js');
 const PlumClient = require("./Client");
 
+/**
+ * @typedef SavedGuildQueueEntry
+ * 
+ * @property {string} name
+ * @property {string} id
+ * @property {import("../utils/audio").AudioTrack[]} queue
+ */
+
+/** 
+ * @typedef GuildQueueManager
+ * 
+ * @property {SavedGuildQueueEntry[]} data
+ * @property {(object: SavedGuildQueueEntry) => GuildQueueManager} add
+ * @property {(index: number) => GuildQueueManager} remove
+ */
+
 // This extends Discord's native Guild class with our own methods and properties
 module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Guild {
 	constructor(...args) {
@@ -11,6 +27,26 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
 
         /** @type {PlumClient} */
         this.client;
+
+        let guild = this;
+
+        /** @type {GuildQueueManager} */
+        this.queues = {
+			get data() {
+                return guild.client.queues.ensure(guild.id, []);
+            },
+            add(object) {
+                let arr = this.data;
+                arr.push(object);
+                guild.client.queues.set(guild.id, arr);
+                return this;
+            },
+            remove(index) {
+                let arr = this.data;
+                arr.splice(index, 1);
+                return this;
+            }
+		}
     }
     
     /**
