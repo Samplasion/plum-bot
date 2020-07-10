@@ -1,12 +1,16 @@
 const { Structures, Permissions } = require('discord.js');
 const { findType } = require('../settings/index.js');
 const db = require('../utils/database.js');
+const PlumClient = require("./Client");
 
 // This extends Discord's native Guild class with our own methods and properties
 module.exports = Structures.extend("Guild", Guild => class extends Guild {
 	constructor(...args) {
 		super(...args);
 		this.DBinit();
+
+        /** @type {PlumClient} */
+        this.client;
     }
     
     /**
@@ -221,5 +225,9 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 		let channel = await this.client.channels.fetch(this.config.data.logchan);
 		if (channel && channel.send && channel.permissionsFor(channel.guild.me).has(Permissions.FLAGS.SEND_MESSAGES))
 			return channel.send(...stuff);
-	}
+    }
+    
+    get queue() {
+        return this.client.audio.active.get(this.id) || [];
+    }
 })

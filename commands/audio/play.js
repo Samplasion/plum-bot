@@ -7,6 +7,7 @@ const youtubeSearch = require('yt-search');
 const YouTubePlayList = require("ytpl");
 
 const { promisify } = require("util");
+const PlumEmbed = require('../../classes/Embed');
 const findVideosAsync = promisify(youtubeSearch);
 const ytpl = promisify(YouTubePlayList);
 
@@ -108,6 +109,8 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
 	async play(message, video, reply) {
 		var info = await YTDL.getInfo(video);
 
+        /** @type {import('../../utils/audio').GuildAudioManager} */
+        // @ts-expect-error
 		let data = this.client.audio.active.get(message.guild.id) || {};
 
 		if (!data.connection) {
@@ -137,6 +140,12 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
 		this.client.audio.active.set(message.guild.id, data);
 	}
 
+    /**
+     * 
+     * @param {Object.<string, any>} videos 
+     * @param {string} index 
+     * @param {PlumEmbed?} [embed] 
+     */
 	async handleSelector(videos, index, embed = null) {
 		let video = videos[index];
 

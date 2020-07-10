@@ -1,5 +1,75 @@
 const Youtube = require("ytdl-core-discord");
 const PlumMessage = require("../classes/Message");
+const { StreamDispatcher, VoiceConnection } = require("discord.js");
+
+/**
+ * @typedef RelatedTrack
+ * 
+ * @property {string | undefined} [id]
+ * @property {string | undefined} [title]
+ * @property {string | undefined} [author]
+ * @property {string | undefined} [length_seconds]
+ * @property {string | undefined} [iurlmq]
+ * @property {string | undefined} [short_view_count_text]
+ * @property {string} session_data
+ * @property {string | undefined} [endscreen_autoplay_session_data]
+ * @property {string | undefined} [iurlhq]
+ * @property {string | undefined} [playlist_iurlhq]
+ * @property {string | undefined} [playlist_title]
+ * @property {string | undefined} [playlist_length]
+ * @property {string | undefined} [playlist_iurlmq]
+ * @property {string | undefined} [video_id]
+ * @property {string | undefined} [list]
+ * @property {string | undefined} [thumbnail_ids]
+ */
+
+/*
+type relatedVideo = {
+      id?: string;
+      title?: string;
+      author?: string;
+      length_seconds?: string;
+      iurlmq?: string;
+      short_view_count_text?: string;
+      session_data: string;
+      endscreen_autoplay_session_data?: string;
+      iurlhq?: string;
+      playlist_iurlhq?: string;
+      playlist_title?: string;
+      playlist_length?: string;
+      playlist_iurlmq?: string;
+      video_id?: string;
+      list?: string;
+      thumbnail_ids?: string;
+    }
+    */
+
+/** 
+ * @typedef GuildAudioManager Manages the Voice connection between
+ * the bot and a particular guild.
+ * 
+ * @property {StreamDispatcher} dispatcher Manages the state of the track being played.
+ * @property {VoiceConnection} connection Manages the sending of the track's data to the channel.
+ * @property {AudioTrack[]} queue Stores the metadata of the songs in queue.
+ * @property {string} guildID The ID of the Guild that created this.
+ */
+
+/**
+ * @typedef AudioTrack Stores the metadata of a particular track.
+ * 
+ * @property {string} songTitle The title of the track.
+ * @property {string} requester The user who requested the track.
+ * @property {string} url The URL of the raw song.
+ * @property {string} announceChannel The channel where the `play` command
+ * was originally called.
+ * @property {string} length The length of the track in "MM:SS" format.
+ * @property {string} secs The length of the track, in seconds.
+ * @property {string} description The full description of the track.
+ * @property {string} thumbnail The thumbnail of the track.
+ * @property {Date} timerequest The date when the `play` command
+ * was originally called. 
+ * @property {RelatedTrack[]} related A list of up to 10 related videos (if any).
+ */
 
 /**
  * @param {any} variable 
@@ -9,6 +79,7 @@ const isGood = (variable) => {
 		return false;
 }
 
+/** @type {Map<string, GuildAudioManager>} */
 const active = new Map();
 
 /**
