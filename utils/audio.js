@@ -1,6 +1,7 @@
 const Youtube = require("ytdl-core-discord");
 const PlumMessage = require("../classes/Message");
 const { StreamDispatcher, VoiceConnection } = require("discord.js");
+const PlumClient = require("../classes/Client");
 
 /**
  * @typedef RelatedTrack
@@ -85,7 +86,7 @@ const active = new Map();
 /**
  * Plays a song in one's voice channel.
  * @param {PlumMessage} msg The message that called the play command
- * @param {*} client 
+ * @param {PlumClient} client 
  * @param {*} data 
  */
 async function play(msg, client, data) {
@@ -106,7 +107,7 @@ async function play(msg, client, data) {
 	data.dispatcher = data.connection.play(await Youtube(data.queue[0].url), { type: 'opus', volume: false })
 		.on('start', async () => {
 			let embed = client.utils.embed()
-				.setTitle(`<:music:494355292948004874> Now Playing: ${data.queue[0].songTitle}`, data.queue[0].url)
+				.setTitle(`${client.utils.emojis.music} Now Playing: ${data.queue[0].songTitle}`, data.queue[0].url)
 				.setColor("#FF006E")
 				.addInline("Requester", data.queue[0].requester)
 				.addInline("Duration", data.queue[0].length)
