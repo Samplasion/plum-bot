@@ -45,7 +45,7 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
 
 		// Step 1: Check if the user is in a Voice Channel
 		let voiceChannel = await msg.member.voice.channel;
-		if (!voiceChannel) return (canSend ? msg.error("you need to be in a voice channel in order for me to play music") : null);
+		if (!voiceChannel) return (canSend ? msg.error("You need to be in a voice channel in order for me to play music") : null);
 
 		// Step 2: Check the user's perms for that specific voice channel
 		let userperm = voiceChannel.permissionsFor(msg.member);
@@ -55,8 +55,6 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
 		let botperms = voiceChannel.permissionsFor(msg.client.user);
 		if (!botperms.has('CONNECT')) return msg.error("I can't join. Make sure I have the proper permissions.").catch(console.error);
 		if (!botperms.has('SPEAK')) return (canSend ? msg.error("I can't speak. Make sure I have the proper permissions.") : null);
-
-		let musicblock = this.client.emojis.cache.get("494355292948004874")
 
 		let embed = this.client.utils.embed()
 			.setColor("#FF006E")
