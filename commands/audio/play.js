@@ -72,8 +72,8 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
 
         // Step 5: Check if it's a playlist (playlists have their own unique features and code)
         if (link.startsWith("playlist:")) {
-            if (msg.guild.queues.data.filter(entry => entry.id == link.replace("playlist:", "")).length) {
-                let queue = msg.guild.queues.data.filter(entry => entry.id == link.replace("playlist:", ""))[0];
+            if (Object.values(msg.guild.queues.data).filter(entry => entry.id == link.replace("playlist:", "")).length) {
+                let queue = Object.values(msg.guild.queues.data).filter(entry => entry.id == link.replace("playlist:", ""))[0];
                 for (let track of queue.queue) {
                     await this.play(msg, track.url, false);
                 }
