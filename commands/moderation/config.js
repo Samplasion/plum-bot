@@ -21,7 +21,8 @@ module.exports = class ConfigCommand extends Command {
           prompt: "what action do you want to follow?",
           type: "string",
           default: "view",
-          oneOf: ["view", "set", "clear", "get"]
+          oneOf: ["view", "set", "clear", "get"],
+          parse: (val) => val.toLowerCase()
         },
         {
           key: "key",
