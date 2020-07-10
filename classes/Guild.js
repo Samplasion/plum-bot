@@ -4,7 +4,7 @@ const db = require('../utils/database.js');
 const PlumClient = require("./Client");
 
 // This extends Discord's native Guild class with our own methods and properties
-module.exports = Structures.extend("Guild", Guild => class extends Guild {
+module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Guild {
 	constructor(...args) {
 		super(...args);
 		this.DBinit();
@@ -228,6 +228,10 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
     }
     
     get queue() {
-        return this.client.audio.active.get(this.id) || [];
+        try {
+            return this.client.audio.active.get(this.id).queue || [];
+        } catch (_) {
+            return [];
+        }
     }
 })
