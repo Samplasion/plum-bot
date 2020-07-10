@@ -42,9 +42,24 @@ module.exports = class QueueAudioCommand extends PremiumCommand {
     // @ts-expect-error
 	async run(msg, { action, args }) {
         if (!action && !args) action = "current";
-        if (action && action != "current") args = action, action = "view";
+        if (action && action != "current" && !args) args = action, action = "view";
         // @ts-ignore
         return this[action.toLowerCase()](msg, args);
+    }
+
+    /**
+     * @param {PlumMessage} msg 
+     */
+    async list(msg) {
+        if (!Object.keys(msg.guild.queues.data).length) 
+            return msg.error("There are no playlists!");
+        
+        let s = "";
+        for (let playlist of Object.values(msg.guild.queues.data)) {
+            s += ` - **${playlist.name}** [\`${playlist.id}\`] (${this.client.utils.plural(playlist.queue.length, "song")})\n`
+        }
+
+        msg.channel.send(s);
     }
 
     /**
@@ -52,6 +67,10 @@ module.exports = class QueueAudioCommand extends PremiumCommand {
      * @param {string} id 
      */
     async view(msg, id) {
+        console.log(id);
+        if (!id)
+            return msg.error("You have to enter a playlist ID to see what songs are in that playlist.");
+
         if (!Object.keys(msg.guild.queues.data).includes(id))
             return msg.error("There's no playlist/queue with that ID.");
 
