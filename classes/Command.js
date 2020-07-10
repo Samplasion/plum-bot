@@ -102,7 +102,7 @@ module.exports = class PlumCommand extends Command {
 					.setFooter(`Requested by ${msg.author.tag}`, msg.author.displayAvatarURL({format: 'png'}))
 					.setTimestamp(new Date());
 
-				msg.util.send(embed);
+				msg.channel.send(embed);
 				return null
 				break;
 			case 1:
@@ -120,6 +120,8 @@ module.exports = class PlumCommand extends Command {
 				for (var i in responces) {
 					if (isNaN(i)) continue;
 
+                    // @ts-expect-error
+                    // This is implemented in the subclasses that call this method
 					embed = await this.handleSelector(responces, i, await embed, msg.author.lang)
 				}
 
@@ -138,7 +140,6 @@ module.exports = class PlumCommand extends Command {
 
 				resp += `\n` + WaitMessage;
 				embed
-					.setColor("#FF006E")
 					.setFooter(`Requested by ${msg.author.tag}`, msg.author.displayAvatarURL({format: 'png'}))
 					.setTimestamp(new Date())
 					.setDescription(resp);
@@ -154,13 +155,13 @@ module.exports = class PlumCommand extends Command {
 				return null
 			}
 			
-			return await responces[collected.first().content - 1]
+			return await responces[+(collected.first().content) - 1]
 		} catch (e) {
 			msg.reply('command canceled');
 			return null
 		}
     }
-    
+
     isGood(variable) {
 		return (variable && variable !== null && (variable.size || variable.length))
 	}

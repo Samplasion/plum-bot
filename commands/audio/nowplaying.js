@@ -7,6 +7,7 @@ const youtubeSearch = require('yt-search');
 const YouTubePlayList = require("ytpl");
 
 const { promisify } = require("util");
+const { StreamDispatcher } = require('discord.js');
 const findVideosAsync = promisify(youtubeSearch);
 const ytpl = promisify(YouTubePlayList);
 
@@ -20,9 +21,10 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
 	constructor(client) {
 		super(client, {
             name: "nowplaying",
+            aliases: ["np"],
             memberName: "nowplaying",
 			group: 'audio',
-            description: 'Plays audio. Can either be a Youtube video or one of the streams from listen.moe',
+            description: 'Shows information on the currently playing song.',
             guildOnly: true
 		});
 	}
@@ -33,6 +35,7 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
     // @ts-expect-error
 	async run(message) {
 
+        /** @type {{ dispatcher: StreamDispatcher, queue: Object.<string, any>[] }} */
 		let fetched = this.client.audio.active.get(message.guild.id);
 		if (!fetched)
 			return message.error("There currently isn't any music playing in this server.");
@@ -48,7 +51,7 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
 				.setTimestamp(nowPlaying.timerequest)
 				.setThumbnail(nowPlaying.thumbnail)
 				.setFooter("Requested by " + nowPlaying.requester)
-				.addField("Progress", `${this.progressBar(Math.round(fetched.dispatcher.streamTime/1000), nowPlaying.secs, nowPlaying.url, 15)} (${this.getTime(fetched.dispatcher.time/1000)}/${nowPlaying.length})`, true)
+				.addField("Progress", `${this.progressBar(Math.round(fetched.dispatcher.streamTime/1000), nowPlaying.secs, nowPlaying.url, 15)} (${this.getTime(fetched.dispatcher.streamTime/1000)}/${nowPlaying.length})`, true)
 
 			if(nowPlaying.description && nowPlaying.description.length < 1000)
 				embed.setDescription(nowPlaying.description);

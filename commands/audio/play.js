@@ -48,11 +48,11 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
 		if (!voiceChannel) return (canSend ? msg.error("you need to be in a voice channel in order for me to play music") : null);
 
 		// Step 2: Check the user's perms for that specific voice channel
-		let userperm = await voiceChannel.permissionsFor(msg.member);
+		let userperm = voiceChannel.permissionsFor(msg.member);
 		if (!userperm.has('CONNECT')) return (canSend ? msg.error("You lost perms to connect to the Voice Channel.") : null);
 
 		// Step 3: Check the bot perms for that specific voice channel
-		let botperms = await voiceChannel.permissionsFor(msg.client.user);
+		let botperms = voiceChannel.permissionsFor(msg.client.user);
 		if (!botperms.has('CONNECT')) return msg.error("I can't join. Make sure I have the proper permissions.").catch(console.error);
 		if (!botperms.has('SPEAK')) return (canSend ? msg.error("I can't speak. Make sure I have the proper permissions.") : null);
 
@@ -66,7 +66,7 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
 		let fetched = this.client.audio.active.get(msg.guild.id);
 		if (link == "related" && fetched) {
 			embed.setTitle("Related Music Search", "http://clipart-library.com/images/ziXedkoBT.png", "https://youtube.com/");
-			let relatedLink = await this.responceSelector(msg, fetched.queue[0].nowPlaying.related.splice(0, 6), embed, 'related');
+			let relatedLink = await this.responceSelector(msg, fetched.queue[0].related.splice(0, 6), embed, 'related');
 
 			if (relatedLink) this.play(msg, relatedLink.id.trim(), true)
 		}

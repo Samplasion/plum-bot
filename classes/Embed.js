@@ -17,7 +17,7 @@ module.exports = class PlumEmbed extends MessageEmbed {
    * @param {*} name 
    * @param {*?} icon 
    */
-  setFooter(name, icon) {
+  setFooter(name, icon = "") {
     return this.setFullFooter((name ? name + " • " : "") + `Plum is made by Samplasion#0325`, icon);
   }
   
@@ -26,7 +26,7 @@ module.exports = class PlumEmbed extends MessageEmbed {
    * @param {*} name 
    * @param {*?} icon 
    */
-  setFullFooter(name, icon) {
+  setFullFooter(name, icon = "") {
     return super.setFooter(name, icon);
   }
 }
