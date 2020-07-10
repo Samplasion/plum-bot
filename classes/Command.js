@@ -93,15 +93,15 @@ module.exports = class PlumCommand extends Command {
      * @param {Embed} embed 
      */
     async responceSelector(msg, responces, embed) {
-		let WaitMessage = `Within the next 30 seconds, you'll need to pick a number between 1-${responces.length}. `
-                        + "The command will be automatically canceled canceled in 30 seconds if no selection has been made."
+		let WaitMessage = `Within the next 60 seconds, you'll need to pick a number between 1-${responces.length}. `
+                        + "The command will be automatically canceled canceled in 30 seconds if no selection has been made. "
                         + "Alternatively, type `cancel` to manually cancel the command, skipping the countdown"
 
 		switch(responces.length) {
 			case 0:
 				embed
 					.setDescription(`There have been no results found for your search query. Try using a different name.`)
-					.setFooter(`Requested by ${msg.author.tag}`, msg.author.displayAvatarURL({format: 'png'}))
+					.setFullFooter(`Requested by ${msg.author.tag}`, msg.author.displayAvatarURL({format: 'png'}))
 					.setTimestamp(new Date());
 
 				msg.channel.send(embed);
@@ -116,7 +116,7 @@ module.exports = class PlumCommand extends Command {
 			case 8:
 				embed
 					.setDescription("Requested by " + msg.author.tag)
-					.setFooter(WaitMessage)
+					.setFullFooter(WaitMessage)
 					.setTimestamp(new Date());
 
 				for (var i in responces) {
@@ -135,6 +135,8 @@ module.exports = class PlumCommand extends Command {
 				for (var i in responces) {
 					if (isNaN(i)) continue;
 
+                    // @ts-expect-error
+                    // This is implemented in the subclasses that call this method
 					whattoadd = await this.handleSelector(responces, i, null, msg.author.lang)
 					console.log(whattoadd)
 					resp += whattoadd
@@ -150,16 +152,16 @@ module.exports = class PlumCommand extends Command {
 
 		let filter = response => response.author.id == msg.author.id && (!isNaN(response.content) && parseInt(response.content) <= responces.length && parseInt(response.content) > 0 || response.content == 'cancel');
 		try {
-			let collected = await msg.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] })
+			let collected = await msg.channel.awaitMessages(filter, { max: 1, time: 60 * 1000, errors: ['time'] })
 
 			if(collected.first().content == 'cancel') {
-				msg.reply('command canceled');
+				msg.info('Command canceled');
 				return null
 			}
 			
 			return await responces[+(collected.first().content) - 1]
 		} catch (e) {
-			msg.reply('command canceled');
+			msg.info('Command canceled');
 			return null
 		}
     }
