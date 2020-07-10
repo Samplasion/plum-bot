@@ -20,10 +20,10 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
      */
 	constructor(client) {
 		super(client, {
-            name: "stop",
-            memberName: "stop",
+            name: "skip",
+            memberName: "skip",
 			group: 'audio',
-            description: 'Stops the bot from playing music any more.',
+            description: 'Skips the current track and switches to the next one in queue, if any.',
             guildOnly: true
 		});
 	}
