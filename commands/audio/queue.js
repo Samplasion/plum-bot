@@ -24,7 +24,7 @@ module.exports = class QueueAudioCommand extends PremiumCommand {
                     key: "action",
                     oneOf: ["current", "view"],
                     prompt: "",
-                    defaule: "current",
+                    default: "current",
                     type: "string",
                     parse: (val) => val.toLowerCase()          
                 }
