@@ -2,15 +2,15 @@
 <html lang="en">
   
     <% var subtitle = "" %>
-    <% include ../partials/head %>
+    <%- include('../partials/head'); %>
 
     <body id="body">
 
-        <% include ../partials/nav %>
+        <%- include('../partials/nav'); %>
 
         <section name="jumbotron">
             <div class="jumbotron text-center">
-              <h1 class=display-3><%= client.user.username %>></h1>
+              <h1 class=display-3><%= client.user.username %></h1>
               <!-- href="https://discordapp.com/oauth2/authorize?client_id=503183561306669056&scope=bot&permissions=8" -->
               <span><a class="lead btn btn-success btn-lg" role="button" href="<=% client.invite %>">Invite</a></span>
             </div>
@@ -49,7 +49,7 @@
         </div>
       </div>
       
-        <% include ../partials/footer %>
+        <%- include('../partials/footer'); %>
       
       
       <script src="//code.tidio.co/khdtt8ihnaxtwlkj5wcvprkc4gbsjdzj.js"></script>
