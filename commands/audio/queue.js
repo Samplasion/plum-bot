@@ -18,9 +18,8 @@ module.exports = class QueueAudioCommand extends PremiumCommand {
             args: [
                 {
                     key: "action",
-                    oneOf: ["current", "view"],
                     prompt: "",
-                    default: "current",
+                    default: "",
                     type: "string",
                     parse: (val) => val.toLowerCase()          
                 },
@@ -42,6 +41,8 @@ module.exports = class QueueAudioCommand extends PremiumCommand {
      */
     // @ts-expect-error
 	async run(msg, { action, args }) {
+        if (!action && !args) action = "current";
+        if (action && action != "current") args = action, action = "view";
         // @ts-ignore
         return this[action.toLowerCase()](msg, args);
     }
@@ -55,7 +56,7 @@ module.exports = class QueueAudioCommand extends PremiumCommand {
             return msg.error("There's no playlist/queue with that ID.");
 
         let playlist = msg.guild.queues.data[id];
-        let plString = playlist.queue.map((audio, index) => `${index + 1}. ${audio.songTitle} [${audio.length}]`).join("\n");
+        let plString = playlist.queue.map((audio, index) => `${index + 1}. ${audio.songTitle} [${audio.length}]\n  | ${audio.url}`).join("\n");
 
         msg.channel.send(`**${playlist.name}** [\`${playlist.id}\`]\n\n${plString}`, { split: true });
     }
