@@ -12,11 +12,21 @@ module.exports = class PlumEmbed extends MessageEmbed {
     return this.addField(name, body, true);
   }
   
-  setFooter(name) {
-    return this.setFullFooter((name ? name + " • " : "") + `Plum is made by Samplasion#0325`);
+  /**
+   * 
+   * @param {*} name 
+   * @param {*?} icon 
+   */
+  setFooter(name, icon = "") {
+    return this.setFullFooter((name ? name + " • " : "") + `Plum is made by Samplasion#0325`, icon);
   }
   
-  setFullFooter(name) {
-    return super.setFooter(name);
+  /**
+   * 
+   * @param {*} name 
+   * @param {*?} icon 
+   */
+  setFullFooter(name, icon = "") {
+    return super.setFooter(name, icon);
   }
 }

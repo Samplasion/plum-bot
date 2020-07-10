@@ -15,7 +15,8 @@ module.exports = class RandTextCommand extends Command {
           type: "string",
           oneOf: ["create", "add", "delete", "remove"],
           prompt: "",
-          default: "create"
+          default: "create",
+          parse: (val) => val.toLowerCase()
         },
         {
           key: "args",

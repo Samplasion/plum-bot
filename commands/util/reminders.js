@@ -22,7 +22,8 @@ module.exports = class ReminderCommand extends Command {
           oneOf: ["view", "delete"],
           type: "string",
           prompt: "",
-          default: "view"
+          default: "view",
+          parse: (val) => val.toLowerCase()
         },
         {
           key: "args",

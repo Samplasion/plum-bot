@@ -1,12 +1,53 @@
 const { Structures, Permissions } = require('discord.js');
 const { findType } = require('../settings/index.js');
 const db = require('../utils/database.js');
+const PlumClient = require("./Client");
+
+/**
+ * @typedef SavedGuildQueueEntry
+ * 
+ * @property {string} name
+ * @property {string} id
+ * @property {import("../utils/audio").AudioTrack[]} queue
+ */
+
+/** 
+ * @typedef GuildQueueManager
+ * 
+ * @property {Object.<string, SavedGuildQueueEntry>} data
+ * @property {(object: SavedGuildQueueEntry) => GuildQueueManager} add
+ * @property {(id: string) => GuildQueueManager} remove
+ */
 
 // This extends Discord's native Guild class with our own methods and properties
-module.exports = Structures.extend("Guild", Guild => class extends Guild {
+module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Guild {
 	constructor(...args) {
 		super(...args);
 		this.DBinit();
+
+        /** @type {PlumClient} */
+        this.client;
+
+        let guild = this;
+
+        /** @type {GuildQueueManager} */
+        this.queues = {
+			get data() {
+                return guild.client.queues.ensure(guild.id, {});
+            },
+            add(object) {
+                let data = this.data;
+                data[object.id] = object;
+                guild.client.queues.set(guild.id, data);
+                return this;
+            },
+            remove(id) {
+                let data = this.data;
+                delete data[id];
+                guild.client.queues.set(guild.id, data);
+                return this;
+            }
+		}
     }
     
     /**
@@ -27,7 +68,7 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
      */
 
 	DBinit() {
-        const serverconfig = this.client.settings;
+        const serverconfig = this.client.configs;
         let guild = this;
         /** @type GuildConfig */
 		this.config = {
@@ -221,5 +262,13 @@ module.exports = Structures.extend("Guild", Guild => class extends Guild {
 		let channel = await this.client.channels.fetch(this.config.data.logchan);
 		if (channel && channel.send && channel.permissionsFor(channel.guild.me).has(Permissions.FLAGS.SEND_MESSAGES))
 			return channel.send(...stuff);
-	}
+    }
+    
+    get queue() {
+        try {
+            return this.client.audio.active.get(this.id).queue || [];
+        } catch (_) {
+            return [];
+        }
+    }
 })
