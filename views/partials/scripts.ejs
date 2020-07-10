@@ -1,0 +1,14 @@
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/tippy.js@3/dist/tippy.all.min.js"></script>
+<script>
+$("body").find("*").each((item, element) => {
+  var ogtext = $(element).text()
+  var text = ogtext
+  text = text.replace(/\:([a-z_\-])\:/, "$1").replace(":", "")
+  text = text.replace("_", "-")
+  $(element).html($(element).html().replace(/:((?:\w)+[^\s]):/gi, (a, b) => `<i class="twa twa-${b.replace(/_/g, "-")}" data-tippy-content="${a}"></i>`))
+})
+tippy(document.querySelectorAll('.twa'), { delay: [ 500, 20 ], /*arrow: true, arrowType: "round"/**/ })
+</script>
