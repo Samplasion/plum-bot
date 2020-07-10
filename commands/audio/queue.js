@@ -1,10 +1,6 @@
 const PremiumCommand = require('../../classes/PremiumCommand');
 const PlumClient = require('../../classes/Client');
 const PlumMessage = require('../../classes/Message');
-const YTDL = require('ytdl-core-discord');
-
-const youtubeSearch = require('yt-search');
-const YouTubePlayList = require("ytpl");
 
 module.exports = class QueueAudioCommand extends PremiumCommand {
     /**
@@ -59,8 +55,9 @@ module.exports = class QueueAudioCommand extends PremiumCommand {
             return msg.error("There's no playlist/queue with that ID.");
 
         let playlist = msg.guild.queues.data[id];
+        let plString = playlist.queue.map((audio, index) => `${index + 1}. ${audio.songTitle} [${audio.length}]`).join("\n");
 
-        msg.channel.send(playlist.queue.map(audio => `- ${audio.songTitle} [${audio.length}]`).join("\n"));
+        msg.channel.send(`**${playlist.name}** [\`${playlist.id}\`]\n\n${plString}`, { split: true });
     }
 
     /**
