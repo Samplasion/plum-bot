@@ -41,10 +41,9 @@ module.exports = class QueueAudioCommand extends PremiumCommand {
      */
     // @ts-expect-error
 	async run(msg, { action, args }) {
-        console.log(action, args);
         if (!action && !args) action = "current";
         if (action && !["current", "list"].includes(action)) {
-            return this.view(msg, action);
+            return this.view(msg, action.trim());
         }
         // @ts-ignore
         return this[action.toLowerCase()](msg, args);
@@ -70,7 +69,6 @@ module.exports = class QueueAudioCommand extends PremiumCommand {
      * @param {string} id 
      */
     async view(msg, id) {
-        console.log(id);
         if (!id)
             return msg.error("You have to enter a playlist ID to see what songs are in that playlist.");
 
@@ -110,8 +108,10 @@ module.exports = class QueueAudioCommand extends PremiumCommand {
             let i = 1;
 			for (var song of fetched.queue) {
 				if (song == nowPlaying || song == next) continue;
-                if (i <= 25) // Discord puts a hard limit on how many fields you can have in an embed
-                    embed.addField(`${song.songTitle}`, `[Link](${song.url}) | Requested by ${song.requester}`);
+                if (i > 25) // Discord puts a hard limit on how many fields you can have in an embed
+                    break;
+                    
+                embed.addField(`${song.songTitle}`, `[Link](${song.url}) | Requested by ${song.requester}`);
                 i++;
 			}
 
