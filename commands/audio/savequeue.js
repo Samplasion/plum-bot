@@ -59,11 +59,6 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
             id,
             queue
         });
-
-        message.channel.send(require("util").inspect(queue, { depth: Infinity }), {
-            code: true,
-            split: true
-        });
         
         return message.ok(`I have successfully saved the current queue as "${name}" (playlist ID: \`${id}\`).`);
     }
