@@ -27,6 +27,12 @@ module.exports = class QueueAudioCommand extends PremiumCommand {
                     default: "current",
                     type: "string",
                     parse: (val) => val.toLowerCase()          
+                },
+                {
+                    key: "args",
+                    prompt: "",
+                    default: "",
+                    type: "string"
                 }
             ]
 		});
@@ -51,6 +57,10 @@ module.exports = class QueueAudioCommand extends PremiumCommand {
     async view(msg, id) {
         if (!Object.keys(msg.guild.queues.data).includes(id))
             return msg.error("There's no playlist/queue with that ID.");
+
+        let playlist = msg.guild?.queues.data[id];
+
+        msg.channel.send(playlist.queue.map(audio => `- ${audio.songTitle} [${audio.length}]`).join("\n"));
     }
 
     /**
