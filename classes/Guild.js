@@ -14,9 +14,9 @@ const PlumClient = require("./Client");
 /** 
  * @typedef GuildQueueManager
  * 
- * @property {SavedGuildQueueEntry[]} data
+ * @property {Object.<string, SavedGuildQueueEntry>} data
  * @property {(object: SavedGuildQueueEntry) => GuildQueueManager} add
- * @property {(index: number) => GuildQueueManager} remove
+ * @property {(id: string) => GuildQueueManager} remove
  */
 
 // This extends Discord's native Guild class with our own methods and properties
@@ -33,17 +33,18 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
         /** @type {GuildQueueManager} */
         this.queues = {
 			get data() {
-                return guild.client.queues.ensure(guild.id, []);
+                return guild.client.queues.ensure(guild.id, {});
             },
             add(object) {
-                let arr = this.data;
-                arr.push(object);
-                guild.client.queues.set(guild.id, arr);
+                let data = this.data;
+                data[object.id] = object;
+                guild.client.queues.set(guild.id, data);
                 return this;
             },
-            remove(index) {
-                let arr = this.data;
-                arr.splice(index, 1);
+            remove(id) {
+                let data = this.data;
+                delete data[id];
+                guild.client.queues.set(guild.id, data);
                 return this;
             }
 		}

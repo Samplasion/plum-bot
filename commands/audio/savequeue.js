@@ -46,13 +46,20 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
         if (!queue.length)
             return message.error("There needs to be a queue so I can save it.");
 
-        if (message.guild.queues.data.map(entry => entry.name).includes(name))
+        if (Object.values(message.guild.queues.data).map(entry => entry.name).includes(name))
             return message.error("There's already a plylist with that name!");
 
         let id = "";
+        let tries = 0;
+        let increment = 0;
         do {
-            id = this.generate();
-        } while (message.guild.queues.data.map(entry => entry.id).includes(id));
+            if (tries == 10) {
+                tries = 0;
+                increment++;
+            }
+            id = this.generate(6 + increment);
+            tries++;
+        } while (Object.keys(message.guild.queues.data).includes(id));
 
         message.guild.queues.add({
             name,
@@ -65,7 +72,7 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
     
     generate(length = 6) {
         let text = '';
-        const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!?@#$%^&()-_=+/|{}"*';
+        const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   
         for (let i = 0; i < length; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
   

@@ -17,15 +17,44 @@ module.exports = class QueueAudioCommand extends PremiumCommand {
             memberName: "queue",
 			group: 'audio',
             description: 'Shows the song play queue.',
-            guildOnly: true
+            guildOnly: true,
+
+            args: [
+                {
+                    key: "action",
+                    oneOf: ["current", "view"],
+                    prompt: "",
+                    parse: (val) => val.toLowerCase()          
+                }
+            ]
 		});
 	}
 
     /**
      * @param {PlumMessage} msg
+     * @param {Object} args
+     * @param {string} args.action
+     * @param {string} args.args
      */
     // @ts-expect-error
-	async run(msg) {
+	async run(msg, { action, args }) {
+        // @ts-ignore
+        return this[action.toLowerCase()](msg, args);
+    }
+
+    /**
+     * @param {PlumMessage} msg 
+     * @param {string} id 
+     */
+    async view(msg, id) {
+        if (!Object.keys(msg.guild.queues.data).includes(id))
+            return msg.error("There's no playlist/queue with that ID.");
+    }
+
+    /**
+     * @param {PlumMessage} msg 
+     */
+    async current(msg) {
 		let fetched = this.client.audio.active.get(msg.guild.id);
 		if (!fetched)
 			return msg.error("There currently isn't any music playing in this server");
