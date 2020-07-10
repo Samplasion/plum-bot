@@ -6,7 +6,7 @@ const fs = require("fs")
 require('dotenv').config()
 
 // ======== REQUIRED
-if (process.env.BRANCH == "") {
+if (process.env.BRANCH == "master") {
     const http = require('http');
     const express = require('express');
     const app = express();
