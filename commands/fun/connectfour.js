@@ -26,7 +26,6 @@ module.exports = class ConnectFourCommand extends Command {
             //   SYMBOL is optional and can be either \`?\` or \`!\`.
             //   There can be an arbitrary amount of space between each "token" of the format.`,
             examples: ['minesweeper', "minesweeper 2x3", "minesweeper 4 - 1 !", "minesweeper 3 . 4?"],
-            permLevel: 9,
             guildOnly: true,
             args: [{
                 key: 'colOrMem',
