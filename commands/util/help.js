@@ -80,7 +80,7 @@ module.exports = class HelpCommand extends Command {
 	            let fieldText = [];
 
 	            for (let [id, cmd] of grp.commands.filter(cmdFilter).entries()) {
-	                fieldText.push(`• ${prefix}**${cmd.name}**: ${cmd.description}`);
+	                fieldText.push(`${cmd.premium ? "🔸" : "▫️"} ${prefix}**${cmd.name}**: ${cmd.description}`);
 	            }
 
 	            embeds.push(
