@@ -43,7 +43,7 @@ module.exports = class QueueAudioCommand extends PremiumCommand {
 	async run(msg, { action, args }) {
         console.log(action, args);
         if (!action && !args) action = "current";
-        if (action && action != "current" && !args) args = action, action = "view";
+        if (action && ["current", "list"].includes(action) && !args) args = action, action = "view";
         // @ts-ignore
         return this[action.toLowerCase()](msg, args);
     }
