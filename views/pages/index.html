@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+    <% var subtitle = "" %>
+    <% include ../partials/head %>
+
+    <body id="body">
+
+        <% include ../partials/nav %>
+
+        <section name="jumbotron">
+            <div class="jumbotron text-center">
+              <h1 class=display-3><%= client.user.username %>></h1>
+              <!-- href="https://discordapp.com/oauth2/authorize?client_id=503183561306669056&scope=bot&permissions=8" -->
+              <span><a class="lead btn btn-success btn-lg" role="button" href="<=% client.invite %>">Invite</a></span>
+            </div>
+        </section>
+      
+      <div class=container>
+        
+        <% const features = [
+          {
+            icon: "level-up-alt",
+            text: ":arrow_up: Global leveling system"
+          },
+          {
+            icon: "language",
+            text: ":boy: Multi-Language Support"
+          },
+          {
+            icon: "gamepad",
+            text: ":video_game: A growing library of server games"
+          },
+          {
+            icon: "cogs",
+            text: ":gear: Moderation System",
+            col: 6
+          },
+          {
+            icon: "globe",
+            text: ":globe_with_meridians: A shiny blog for updates",
+            col: 6
+          },
+        ] %>
+        
+        <h2 class="text-center">Features</h2>
+        <br />
+
+        <div class="row">
+          
+          <% for (feature of features) { %>
+          <div class="col-<%= feature.col || 4 %> text-center">
+            <h2>
+              <i class="fas fa-<%= feature.icon %>"></i>
+            </h2>
+            <p><%= feature.text %></p>
+          </div>
+          <% } %>
+        </div>
+      </div>
+      
+        <% include ../partials/footer %>
+      
+      
+      <script src="//code.tidio.co/khdtt8ihnaxtwlkj5wcvprkc4gbsjdzj.js"></script>
+    </body>
+    
+  
+</html>

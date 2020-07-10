@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-primary accent">
+
+  <a class="navbar-brand" href="/">Luigi</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="/commands">Commands <span class="badge badge-danger command-num"><%= client.registry.commands.size() %></span></a></li>
+      <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+      <li class="nav-item"><a class="nav-link" href="/blog">Blog</a></li>
+      <li class="nav-item"><a class="nav-link" href="https://invite.gg/luigi">Development Server</a></li>
+      <li class="nav-item"><a class="nav-link" href="/feedback">Feedback</a></li>
+      
+  </div>
+    
+    <div class="navbar-collapse collapse order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item" style="float: right">
+              <div class="form-check nav-link">
+                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" onchange="setCookie('darkmode', !(getCookie('darkmode') == 'true') ? 'true' : '', 36500)">
+                <label class="form-check-label" id="dml" for="defaultCheck1">
+                  Dark mode
+                </label>
+              </div>
+            </li>
+        </ul>
+    </div>
+
+</nav>

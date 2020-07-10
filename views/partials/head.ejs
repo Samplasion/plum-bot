@@ -1,0 +1,160 @@
+<head>
+  <title><%= subtitle ? `${subtitle} – ` : "" %>Luigi Beta</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="apple-touch-icon" href="{%= client.user.displayAvatarURL() %}" />
+  <link rel="icon" type="image/png" href="{%= client.user.displayAvatarURL() %}">
+  
+  <meta property="og:image" content="{%= client.user.displayAvatarURL() %}">
+  <meta property="og:title" content="{%= client.user.username %}">
+  <meta name="og:description" content="{%= client.user.username %} is a multipurpose bot with lots of games and utilities.">
+  <meta name="description" content="{%= client.user.username %} is a multipurpose bot with lots of games and utilities.">
+  
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <!-- Popper JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> 
+  
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://rawcdn.githack.com/ellekasai/twemoji-awesome/gh-pages/twemoji-awesome.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="//twemoji.maxcdn.com/2/twemoji.min.js?11.2"></script>
+  <style>
+
+	/* MemberList Grid */
+	.grid-container {
+		display: grid;
+		grid-template-columns: auto;
+		grid-gap: 10px;
+		padding: 10px;
+	}
+
+	.grid-container > table {
+		max-width:350px;
+	}
+
+	@media only screen and (min-width: 500px) {
+		.grid-container {
+			display: grid;
+			grid-template-columns: auto auto;
+			grid-gap: 10px;
+			padding: 10px;
+		}
+	}
+		
+	@media only screen and (min-width: 1000px) {
+		.grid-container {
+			display: grid;
+			grid-template-columns: auto auto auto;
+			grid-gap: 10px;
+			padding: 10px;
+		}
+	}
+
+	@media only screen and (min-width: 1200px) {
+		.grid-container {
+			display: grid;
+			grid-template-columns: auto auto auto auto;
+			grid-gap: 10px;
+			padding: 10px;
+		}
+	}
+    </style>
+  
+  <style>
+      .context-dark, .bg-gray-dark, .bg-primary {
+        color: rgba(255, 255, 255, 0.8);
+        background-color: #007AFF;
+      }
+      .navbar-dark, .accent {
+        background-color: green !important;
+      }
+      .navbar-dark a.nav-link {
+        color: rgba(255,255,255,.74) !important;
+      }
+      .navbar-dark a.nav-link:hover {
+        color: rgba(255,255,255,.99) !important;
+      }
+    </style>
+  
+  <style>
+    /* DARK THEEEEEEME */
+    /*@media screen and (prefers-color-scheme: dark) {*/
+      body[data-dark="dark"] {
+        background-color: #141414;
+        color: #ededed;
+      }
+      [data-dark="dark"] .jumbotron {
+        color: #ededed;
+        background-color: #262626;
+      }
+      [data-dark="dark"]  .table-hover tbody tr:hover {
+        background-color: rgba(255,255,255,.075);
+      }
+      [data-dark="dark"]  .table tbody + tbody {
+        border-top: 2px solid #34383c;
+      }
+      [data-dark="dark"]  .table td, .table th {
+        border-top: 1px solid #34383c;
+      }
+      [data-dark="dark"]  .card {
+        background-color: #262626;
+        box-shadow: 0 4px 8px 0 rgba(255,255,255,0.2);
+        border: 1px solid rgba(255,255,255,.125);
+      }
+    /*}*/
+  </style>
+  
+  <script>
+        function setCookie(name,value,days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days*24*60*60*1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "")  + expires + "; sameSite=lax; path=/";
+        }
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+            }
+            return null;
+        }
+        function eraseCookie(name) {   
+            document.cookie = name+'=; Max-Age=-99999999;';  
+        }
+          if (!getCookie("darkmode")) {
+            setCookie("darkmode", window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches, 365 * 100); // 1 century
+          }
+          
+          var element = document.getElementById("body");
+          // element.classList.toggle("dark");
+          
+          window.check = function() {
+            var element = document.getElementById("body");
+            if (getCookie("darkmode") == "true") {
+              element.setAttribute("data-dark", "dark")
+            } else {
+              element.setAttribute("data-dark", "")
+            }
+            document.getElementById('dml').innerText = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? "Light theme" : "Dark theme"
+          }
+          setInterval(check, 200);
+    
+          document.getElementById('defaultCheck1').checked = (getCookie("darkmode") == "true");
+      </script>
+</head>
