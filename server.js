@@ -7,22 +7,7 @@ require('dotenv').config()
 
 // ======== REQUIRED
 if (process.env.BRANCH == "master") {
-    const http = require('http');
-    const express = require('express');
-    const app = express();
-    app.get("/", (request, response) => {
-        console.log(` [PING] ${new Date().toLocaleString()}`);
-        response.sendStatus(200);
-    });
-    app.get("/vote/blspace", (req, res) => {
-        console.log(req.body);
-        res.status(200).send("lol");
-    })
-    app.listen(5000);
-    setInterval(() => {
-        http.get(`http://glitch-proxy.now.sh/plum-bot/`);
-    }, 200000);
-    http.get(`http://glitch-proxy.now.sh/plum-bot/`);
+    require("./site.js");
 }
 
 require("./classes/Guild.js");
