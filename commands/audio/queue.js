@@ -43,7 +43,9 @@ module.exports = class QueueAudioCommand extends PremiumCommand {
 	async run(msg, { action, args }) {
         console.log(action, args);
         if (!action && !args) action = "current";
-        if (action && !["current", "list"].includes(action) && !args) args = action, action = "view";
+        if (action && !["current", "list"].includes(action)) {
+            return this.view(msg, action);
+        }
         // @ts-ignore
         return this[action.toLowerCase()](msg, args);
     }
@@ -76,7 +78,7 @@ module.exports = class QueueAudioCommand extends PremiumCommand {
             return msg.error("There's no playlist/queue with that ID.");
 
         let playlist = msg.guild.queues.data[id];
-        let plString = playlist.queue.map((audio, index) => `${index + 1}. ${audio.songTitle} [${audio.length}]\n  | ${audio.url}`).join("\n");
+        let plString = playlist.queue.map((audio, index) => `${index + 1}. ${audio.songTitle} [${audio.length}] | <${audio.url}>`).join("\n");
 
         msg.channel.send(`**${playlist.name}** [\`${playlist.id}\`]\n\n${plString}`, { split: true });
     }
