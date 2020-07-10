@@ -58,7 +58,7 @@ module.exports = class QueueAudioCommand extends PremiumCommand {
         if (!Object.keys(msg.guild.queues.data).includes(id))
             return msg.error("There's no playlist/queue with that ID.");
 
-        let playlist = msg.guild?.queues.data[id];
+        let playlist = msg.guild.queues.data[id];
 
         msg.channel.send(playlist.queue.map(audio => `- ${audio.songTitle} [${audio.length}]`).join("\n"));
     }
