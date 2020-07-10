@@ -41,6 +41,7 @@ module.exports = class QueueAudioCommand extends PremiumCommand {
      */
     // @ts-expect-error
 	async run(msg, { action, args }) {
+        console.log(action, args);
         if (!action && !args) action = "current";
         if (action && action != "current" && !args) args = action, action = "view";
         // @ts-ignore
