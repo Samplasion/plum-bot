@@ -41,7 +41,7 @@ module.exports = class QueueAudioCommand extends PremiumCommand {
 				.setTimestamp(new Date())
 				.setDescription(`**NOW PLAYING**: [${nowPlaying.songTitle}](${nowPlaying.url}) | Requested by ${nowPlaying.requester}`)
 				.setThumbnail(msg.guild.iconURL({ format: 'png' }))
-                .setFooter('Add your own song to this list using the play command');
+                .setFullFooter('Add your own song to this list using the play command');
                 
             if (next)
                 embed.setDescription(embed.description + `\n**NEXT**: [${next.songTitle}](${next.url}) | Requested by ${next.requester}`);

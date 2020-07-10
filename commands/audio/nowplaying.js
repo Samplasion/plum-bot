@@ -41,7 +41,7 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
 				.setColor("#FF006E")
 				.setTimestamp(nowPlaying.timerequest)
 				.setThumbnail(nowPlaying.thumbnail)
-				.setFooter("Requested by " + nowPlaying.requester)
+				.setFullFooter("Requested by " + nowPlaying.requester)
 				.addField("Progress", `${this.progressBar(Math.round(fetched.dispatcher.streamTime/1000), nowPlaying.secs, nowPlaying.url, 15)} (${this.getTime(fetched.dispatcher.streamTime/1000)}/${nowPlaying.length})`, true)
 
 			if(nowPlaying.description && nowPlaying.description.length < 1000)
