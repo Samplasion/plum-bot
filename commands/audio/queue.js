@@ -72,6 +72,8 @@ module.exports = class QueueAudioCommand extends PremiumCommand {
         if (!id)
             return msg.error("You have to enter a playlist ID to see what songs are in that playlist.");
 
+        msg.info(`${id}, ${require("util").inspect(Object.keys(msg.guild.queues.data))}`);
+
         if (!Object.keys(msg.guild.queues.data).includes(id))
             return msg.error("There's no playlist/queue with that ID.");
 
