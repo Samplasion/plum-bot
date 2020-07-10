@@ -40,7 +40,7 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
 
         let fetched = this.client.audio.active.get(message.guild.id);
         if (!fetched)
-            return message.error("In order to resume playing audio, there needs to be audio playing in the channel.");
+            return message.error("In order to pause audio, there needs to be audio playing in the channel.");
 
         if (fetched.dispatcher.paused)
             return message.error("The audio that you are currently supposed to be listening to is already paused.");
