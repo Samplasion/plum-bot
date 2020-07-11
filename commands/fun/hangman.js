@@ -46,7 +46,7 @@ module.exports = class HangmanCommand extends Command {
       if (this.games[key]) {
         let game = this.games[key]
         const [fAtt, rAtt] = [game.failedGuesses, game.config.maxAttempt-game.failedGuesses]
-        let e = new Embed(this.client)
+        let e = this.client.utils.embed()
           .setAuthor(msg.member.displayName, msg.author.displayAvatarURL)
           .setTitle("Showing Hangman game")
           .setDescription(`\`\`\`${game.hiddenWord.join("")}\`\`\``)
@@ -58,19 +58,26 @@ module.exports = class HangmanCommand extends Command {
 
         return msg.channel.send(e)
       }
+      
       const words = require("./../../hangman.js")
       let word = words[random(words.length)]
+      
       game = new HangmanGame(word, {maxAttempt: 6})
+      
       // if (this.client.configs.get(msg.guild.id, "hangmanHint")) {
-      var letters = word.split("")
-      Array.from(letters[0], letters[letters.length-1]).filter(onlyUnique).forEach(letter => game.guess(letter))
+      var letters = word.split("");
+      
+      [letters[0], letters[letters.length-1]].filter(onlyUnique).forEach(letter => game.guess(letter))
+      
       // }
       let e = new Embed(this.client)
         .setAuthor(msg.member.displayName, msg.author.displayAvatarURL)
         .setTitle("Showing Hangman game")
         .setDescription(`\`\`\`${game.hiddenWord.join("")}\`\`\``)
+      
       msg.channel.send(e)
       this.games[key] = game
+      
       return
     }
     action = action[0]
