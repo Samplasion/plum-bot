@@ -10,7 +10,7 @@
 
         <section name="jumbotron">
             <div class="jumbotron text-center">
-              <h1 class=display-3><%= util.inspect(client).split(client.token).join("nope") %></h1>
+              <h1 class=display-3><%= client.user.username %></h1>
               <span><a class="lead btn accent btn-lg" role="button" href="<%= client %>">Invite</a></span>
             </div>
         </section>
