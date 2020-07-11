@@ -76,6 +76,7 @@ module.exports = class HangmanCommand extends Command {
     action = action[0]
     game = this.games[key]
     if (!game) return this.run(msg);
+    console.log(game);
     if (game.guessedLetters.includes(action))
       return msg.channel.send(
         new Embed(this.client)
