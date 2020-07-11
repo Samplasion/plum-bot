@@ -8,6 +8,7 @@ dependencies:
   discord.js: 12.2.0
   discord.js-commando: github.com/discordjs/Commando/bdbd84e2a978322f3af12c21e729eb7b7cd4a3dc_00400a32f27d1b501167c07bf28bfe15
   dotenv: 8.2.0
+  ejs: 2.7.4
   enmap: 5.3.1_better-sqlite3@7.1.0
   express: 4.17.1
   gblapi.js: 2.0.5
@@ -26,8 +27,6 @@ dependencies:
   yt-search: 2.1.1
   ytdl-core-discord: 1.2.1
   ytpl: 0.1.22
-devDependencies:
-  typescript: 3.9.6
 lockfileVersion: 5.1
 packages:
   /@discordjs/collection/0.1.5:
@@ -512,6 +511,13 @@ packages:
     dev: false
     resolution:
       integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
+  /ejs/2.7.4:
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    requiresBuild: true
+    resolution:
+      integrity: sha512-7vmuyh5+kuUyJKePhQfRQBhXV5Ce+RnaeeQArKu1EAMpL3WbgMt5WG6uQZpEVvYSSsxMXRKOewtDk9RaTKXRlA==
   /encodeurl/1.0.2:
     dev: false
     engines:
@@ -1787,13 +1793,6 @@ packages:
       node: '>= 6'
     resolution:
       integrity: sha512-RbN7MaTQBZLJYzDENHPA0nUmWT0Ex80KHItprrgbTPufYhIlTePvCXZxyQK7wgn19FW5bnuaBIKcBb5mRWjB1Q==
-  /typescript/3.9.6:
-    dev: true
-    engines:
-      node: '>=4.2.0'
-    hasBin: true
-    resolution:
-      integrity: sha512-Pspx3oKAPJtjNwE92YS05HQoY7z2SFyOpHo9MqJor3BXAGNaPUs83CuVp9VISFkSjyRfiTpmKuAYGJB7S7hOxw==
   /underscore/1.7.0:
     dev: false
     resolution:
@@ -1930,6 +1929,7 @@ specifiers:
   discord.js: ^12
   discord.js-commando: 'github:discordjs/Commando'
   dotenv: ^8.2.0
+  ejs: ^2.6.2
   enmap: ^5
   express: ^4.16.3
   gblapi.js: ^2.0.5
@@ -1945,7 +1945,6 @@ specifiers:
   safe-eval: ^0.4.1
   sqlite: ^3.0.0
   systeminformation: ^4.26.9
-  typescript: ^3.9.6
   yt-search: ^2.1.1
   ytdl-core-discord: ^1.2.1
   ytpl: ^0.1.22

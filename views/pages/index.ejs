@@ -10,9 +10,8 @@
 
         <section name="jumbotron">
             <div class="jumbotron text-center">
-              <h1 class=display-3><%= client %><%= util.inspect %></h1>
-              <!-- href="https://discordapp.com/oauth2/authorize?client_id=503183561306669056&scope=bot&permissions=8" -->
-              <span><a class="lead btn btn-success btn-lg" role="button" href="<=% client.invite %>">Invite</a></span>
+              <h1 class=display-3><%= util.inspect(client.registry.commands.size) %></h1>
+              <span><a class="lead btn accent btn-lg" role="button" href="<%= client %>">Invite</a></span>
             </div>
         </section>
       

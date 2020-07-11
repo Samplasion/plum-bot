@@ -1,11 +1,11 @@
 <head>
-  <title><%= subtitle ? `${subtitle} – ` : "" %>Luigi Beta</title>
+  <title><%= subtitle ? `${subtitle} – ` : "" %>Plum Bot</title>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
-  <link rel="apple-touch-icon" href="<%= client.user.displayAvatarURL() %>" />
-  <link rel="icon" type="image/png" href="<%= client.user.displayAvatarURL() %>">
+  <link rel="apple-touch-icon" href="<%= // client.user.displayAvatarURL() %>" />
+  <link rel="icon" type="image/png" href="<%= // client.user.displayAvatarURL() %>">
   
   <meta property="og:image" content="<%= //client.user.displayAvatarURL() %>">
   <meta property="og:title" content="<%= // client.user.username %>">
@@ -76,7 +76,10 @@
         background-color: #007AFF;
       }
       .navbar-dark, .accent {
-        background-color: green !important;
+        background-color: #c44040 !important;
+      }
+      a.accent {
+        color: white;
       }
       .navbar-dark a.nav-link {
         color: rgba(255,255,255,.74) !important;
