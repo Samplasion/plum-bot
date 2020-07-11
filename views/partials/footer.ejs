@@ -5,12 +5,16 @@
 </style>
 <br />
 <!-- Footer -->
-<footer class="page-footer footer-classic context-dark blue font-small blue pt-4 accent" style="padding-top: 0rem!important;">
-  
-  <div class="footer-copyright text-center py-3">
-    <i class=emoji>:robot_face:</i> <%= client.user.username %> – © 2020-<%= new Date().getFullYear() %> Samplasion#0325 <br> 
-  </div>
 
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>
+            <i class=emoji>:robot_face:</i> 
+            <a href="/"><%= client.user.username %></a> – © 
+            <% if (new Date().getFullYear() != 2020) { %>2020 -<% } %>
+            <%= new Date().getFullYear() %> Samplasion#0325
+        </p>
+    </div>
 </footer>
 
 <script src="/scripts/rainbow.js"></script>

@@ -7,12 +7,12 @@
 <% var command = cmd %>
 
 <br>
-<h1 style="text-align: center; min-width: 100% !important;" width="100%">Help for command: <%= cmd.name %></h1>
+<h1 class="title is-1" style="text-align: center; min-width: 100% !important;" width="100%">Help for command: <%= cmd.name %></h1>
 <div class="container">
-    <h3>Description</h3>
+    <h3 class="title">Description</h3>
     <p><%- md(cmd.description) %></p>
-    <% if (cmd.details) { %><p><%- md(cmd.details.split("\n").join("<br />")) %></p><% } %>
-    <div class="row">
+    <% if (cmd.details) { %><br /><p><%- md(cmd.details.split("\n").join("<br />")) %></p><% } %><br />
+    <div class="columns is-multiline">
         <%
             let lims = [];
 	        if (command.guildOnly)
@@ -25,26 +25,42 @@
                 lims.push(`:large_orange_diamond: Premium users only`);
         %>
         <% if (lims.length) { %>
-            <div class="col">
-                <h3>Limitations</h3>
+            <div class="column is-4">
+                <h3 class="title">Limitations</h3>
                 <ul>
                     <%- lims.map(l => `<li>${l}</li>`).join("") %>
                 </ul>
             </div>
         <% } %>
-        <div class="col">
-            <h3>Permission Level</h3>
+        <div class="column is-4">
+            <h3 class="title">Permission Level</h3>
             <% let p = client.permissions.get(command.permLevel); %>
             <strong><%= p.name %></strong> [<%= p.level %>]
         </div>
         <% if (cmd.examples && cmd.examples.length) { %>
-            <div class="col">
-                <h3>Examples</h3>
+            <div class="column is-4">
+                <h3 class="title">Examples</h3>
                 <ul>
                     <%- cmd.examples.map(l => `<li><code>${l}</code></li>`).join("") %>
                 </ul>
             </div>
         <% } %>
+        <div class="column is-4">
+            <h3 class="title">Usage</h3>
+            <code><%= client.commandPrefix %><%= cmd.name %> <%= cmd.format %></code>
+        </div>
+        <% if (cmd.aliases && cmd.aliases.length) { %>
+            <div class="column is-4">
+                <h3 class="title">Alias<% if (cmd.aliases.length > 1) { %>es<% } %></h3>
+                <ul>
+                    <%- cmd.aliases.map(l => `<li><code>${l}</code></li>`).join("") %>
+                </ul>
+            </div>
+        <% } %>
+        <div class="column is-4">
+            <h3 class="title">Category</h3>
+            <%= cmd.group.name %>
+        </div>
     </div>
 </div>
 

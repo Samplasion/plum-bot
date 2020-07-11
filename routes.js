@@ -14,14 +14,14 @@ module.exports = function (app, client) {
         if (!cmds.length) return res.status(404).render("pages/404");
         res.render("pages/command", { cmd: cmds[0] });
     })
-    app.get("/commandstest", (req, res) => {
-        res.render("pages/commandstest")
+    app.get("/support", (req, res) => {
+        res.render("pages/donate")
     })
     app.get("/about", (req, res) => {
         res.render("pages/about")
     })
-    app.get("/feedback", (req, res) => {
-        res.render("pages/feedback")
+    app.get("/server", (req, res) => {
+        res.redirect(client.options.invite);
     })
     // 404 route
     app.get("*", (req, res) => {

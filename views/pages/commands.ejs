@@ -7,19 +7,22 @@
   
     
     <br>
-    <h1 style="text-align: center; min-width: 100% !important;" width="100%">Command list</h1>
+    <h1 class="title is-1" style="text-align: center; min-width: 100% !important;" width="100%">Command list</h1>
     <div class="container">
-      <% for (let category of client.registry.groups.filter(grp => grp.commands.some(c => c.permLevel <= 4)).values()) { %>
+      <% for (let category of client.registry.groups.filter(grp => grp.commands.some(c => c.permLevel <= 4)).sort((a, b) => a.name.localeCompare(b.name)).values()) { %>
         <% 
           var cmds = category.commands.filter(c => c.permLevel <= 4);
         %>
         <% if (!cmds.size) return; // skip empty %>
-        <h2><%= category.name %> [<%= cmds.size %>]</h2>
-        <table class="table table-hover table-commands table-responsive">
+        <% let aliases = cmds.some(c => c.aliases && c.aliases.length) %>
+        <h3 class="title"><%= category.name %> [<%= cmds.size %>]</h3>
+        <table style="width:100%;" class="table is-hoverable is-bordered table-commands table-responsive">
             <tbody>
               <tr>
                 <th scope="col">Name</th>
-                <th scope="col">Aliases</th>
+                <% if (aliases) { %>
+                    <th scope="col">Alias<% if (cmds.some(c => c.aliases.length > 1)) { %>es<% } %></th>
+                <% } %>
                 <th scope="col">Description</th>
                 <th scope="col">Permissions</th>
               </tr>
@@ -29,8 +32,10 @@
   
               <tr>
                 <th scope="row"><a href="/commands/<%= cmd.name %>"><%= cmd.name %></a></th>
-                <td><%- cmd.aliases.map(a => `<code>${a}</code>`).join(", ") %></td>
-                <td><%= cmd.description || "No description" %></td>
+                <% if (aliases) { %>
+                    <td><%- cmd.aliases.map(a => `<code>${a}</code>`).join(", ") %></td>
+                <% } %>
+                <td><%- md(cmd.description) || "No description" %></td>
                 <td><%= cmd.clientPermissions && cmd.clientPermissions.length ? cmd.clientPermissions.map(p => perm(p)) : "None" %></td>
                 
               </tr>

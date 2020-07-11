@@ -18,6 +18,7 @@
     "dotenv": "^8.2.0",
     "ejs": "^2.6.2",
     "enmap": "^5",
+    "eslint": "^7.4.0",
     "express": "^4.16.3",
     "gblapi.js": "^2.0.5",
     "hangman-game-engine": "^1.1.3",

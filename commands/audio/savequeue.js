@@ -25,7 +25,7 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
             aliases: ["sq"],
             memberName: "savequeue",
 			group: 'audio',
-            description: 'Resumes a paused track.',
+            description: 'Saves the current queue into a playlist.',
             guildOnly: true,
 
             args: [{
