@@ -17,26 +17,27 @@
         <% if (!cmds.size) return; // skip empty %>
         <h2><%= category.name %> [<%= cmds.size %>]</h2>
         <table class="table table-hover table-commands table-responsive">
-          <tbody>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Aliases</th>
-              <th scope="col">Description</th>
-              <th scope="col">Restrictions</th>
-            </tr>
-          </tbody><tbody>
-          
-          <% for (let cmd of cmds.values()) { %>
-            <tr>
-              <th scope="row"><%= cmd.name %></th>
-              <td><%- cmd.aliases.map(a => `<code>${a}</code>`).join(", ") %></td>
-              <td><%= cmd.description || "No description" %></td>
-              <td><%= cmd.userPermissions && cmd.userPermissions.length ? cmd.userPermissions.map(perm) : "None" %></td>
-              
-            </tr>
-          <% } %>
-        </tbody>
-      </table>
+            <tbody>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Aliases</th>
+                <th scope="col">Description</th>
+                <th scope="col">Permissions</th>
+              </tr>
+            </tbody><tbody>
+            
+            <% for (let cmd of cmds.values()) { %>
+  
+              <tr>
+                <th scope="row"><%= cmd.name %></th>
+                <td><%- cmd.aliases.map(a => `<code>${a}</code>`).join(", ") %></td>
+                <td><%= cmd.description || "No description" %></td>
+                <td><%= cmd.clientPermissions && cmd.clientPermissions.length ? cmd.clientPermissions.map(perm) : "None" %></td>
+                
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
       <% } %>
   </div>
   
