@@ -8,6 +8,7 @@ function random(a, b = 0) {
 
 module.exports = async client => {
   console.log(`[START] ${new Date().toLocaleString()}`);
+  console.log(`[START] Logged in as: ${client.user.tag} [${client.user.id}]`);
   
   // Edit message to say "Took N seconds"
   try {
@@ -18,16 +19,8 @@ module.exports = async client => {
   } catch(O_o) {console.error(O_o)}
   
   // Set "Playing" status
-  const activityMessages = [`Help for ${client.guilds.cache.reduce((a, b) => a + b.memberCount, 0).toLocaleString()} users`, `Help for ${client.channels.cache.size.toLocaleString()} total channels`, `Type pl.help for a list of commands`];
-  let i = random(activityMessages.length-1);
-  client.user.setActivity(activityMessages[i], {type: 0});
-  console.log("  [LOG] Set status message:", activityMessages[i]);
-  setInterval(() => {
-    client.user.setActivity(activityMessages[i], {type: 0});
-    console.log("  [LOG] Set status message:", activityMessages[i]);
-    i++;
-    i %= activityMessages.length;
-  }, 120000);
+  client.user.setActivity(`plum-bot.xyz | pl.help`);
+  console.log(`  [LOG] Set activity to: plum-bot.xyz | pl.help`);
   
   // Re-setup reminders
   Array.from(client.reminders.values()).forEach(user => {
@@ -48,6 +41,7 @@ module.exports = async client => {
     client.apis = {};
     client.apis.glenn = new GBL(client.user.id, process.env.GBLTOKEN, false);
 
+    // eslint-disable-next-line no-inner-declarations
     function updateAPIs() {
       client.apis.glenn.updateStats(client.guilds.cache.size);
     }
