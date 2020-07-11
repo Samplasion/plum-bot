@@ -25,20 +25,20 @@
                 lims.push(`:large_orange_diamond: Premium users only`);
         %>
         <% if (lims.length) { %>
-            <div class="col-4-sm">
+            <div class="col">
                 <h3>Limitations</h3>
                 <ul>
                     <%- lims.map(l => `<li>${l}</li>`).join("") %>
                 </ul>
             </div>
         <% } %>
-        <div class="col-4-sm">
+        <div class="col">
             <h3>Permission Level</h3>
             <% let p = client.permissions.get(command.permLevel); %>
             <strong><%= p.name %></strong> [<%= p.level %>]
         </div>
         <% if (cmd.examples && cmd.examples.length) { %>
-            <div class="col-4-sm">
+            <div class="col">
                 <h3>Examples</h3>
                 <ul>
                     <%- cmd.examples.map(l => `<li><code>${l}</code></li>`).join("") %>
