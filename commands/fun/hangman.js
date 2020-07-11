@@ -1,5 +1,4 @@
 const Command = require('./../../classes/Command.js');
-const { oneLine } = require('common-tags');
 const Embed = require('../../classes/Embed');
 const Game = require('hangman-game-engine');
 function random(a, b = 0) {
@@ -16,18 +15,6 @@ function random(a, b = 0) {
  */
 function onlyUnique(value, index, self) { 
     return self.indexOf(value) === index;
-}
-function roundNumber(num, scale) {
-  if(!("" + num).includes("e")) {
-    return +(Math.round(num + "e+" + scale) + "e-" + scale);
-  } else {
-    var arr = ("" + num).split("e");
-    var sig = ""
-    if(+arr[1] + scale > 0) {
-      sig = "+";
-    }
-    return +(Math.round(+arr[0] + "e" + sig + (+arr[1] + scale)) + "e-" + scale);
-  }
 }
 
 module.exports = class HangmanCommand extends Command {
@@ -88,7 +75,7 @@ module.exports = class HangmanCommand extends Command {
     }
     action = action[0]
     game = this.games[key]
-    if (!game) return this.run(msg, {guess: "new"})
+    if (!game) return this.run(msg);
     if (game.guessedLetters.includes(action))
       return msg.channel.send(
         new Embed(this.client)

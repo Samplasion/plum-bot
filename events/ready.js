@@ -1,11 +1,5 @@
 const fs = require("fs");
 
-function random(a, b = 0) {
-    var max = Math.max(a, b),
-        min = Math.min(a, b)
-    return ~~(Math.random() * (max - min) + min)
-}
-
 module.exports = async client => {
   console.log(`[START] ${new Date().toLocaleString()}`);
   console.log(`[START] Logged in as: ${client.user.tag} [${client.user.id}]`);
