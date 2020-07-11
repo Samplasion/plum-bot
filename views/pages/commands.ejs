@@ -31,7 +31,7 @@
               <th scope="row"><%= cmd.name %></th>
               <td><%= cmd.aliases.map(a => `<pre>${a}</pre>`).join(", ") %></td>
               <td><%= cmd.description || "No description" %></td>
-              <td><%= cmd.userPermissions.length ? cmd.userPermissions.map(perm) : "None" %></td>
+              <td><%= cmd.userPermissions && cmd.userPermissions.length ? cmd.userPermissions.map(perm) : "None" %></td>
               
             </tr>
           <% } %>
