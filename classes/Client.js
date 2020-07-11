@@ -23,7 +23,7 @@ module.exports = class PlumClient extends CommandoClient {
                 ["audio", "Audio & Music"],
                 ["commands", "Botkeeping Utilities"],
                 ["moderation", "Moderation"],
-                ["fakemod", "Mooderatyon"],
+                ["fakemod", "Fake Moderation"],
                 ["fun", "Fun"],
             ])
             //.registerDefaultCommands({
