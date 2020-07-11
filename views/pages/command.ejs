@@ -14,19 +14,19 @@
         <%
             let lims = [];
 	        if (command.guildOnly)
-	            lims.push(`${client.utils.emojis.server} Guild only`);
+	            lims.push(:globe_with_meridians: Guild only`);
 	        if (command.ownerOnly || command.permLevel == 10)
-	            lims.push(`${client.utils.emojis.user} Bot owner only`);
+	            lims.push(`:bust_in_silhouette: Bot owner only`);
             if (command.nsfw)
-                lims.push(`${client.utils.emojis.channel} NSFW channels only`);
+                lims.push(`:bookmark_tabs: NSFW channels only`);
             if (command.premium)
-                lims.push(`${client.utils.emojis.premium} Premium users only`);
+                lims.push(`:large_orange_diamond: Premium users only`);
         %>
         <% if (lims.length) { %>
             <div class="row-4-sm">
                 <h2>Limitations</h2>
                 <ul>
-                    <%= lims.map(l => `<li>${l}</li>`) %>
+                    <%- lims.map(l => `<li>${l}</li>`) %>
                 </ul>
             </div>
         <% } %>
