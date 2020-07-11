@@ -13,6 +13,7 @@ dependencies:
   express: 4.17.1
   gblapi.js: 2.0.5
   hangman-game-engine: 1.1.3
+  jsdiscordperms: github.com/PgBiel/jsdiscordperms/61a7bc02536bf2381f2e41cdb39e672c35428986
   lokijs: 1.5.9
   mathjs: 7.0.2
   minesweeper: 1.0.5
@@ -1898,6 +1899,12 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-3o/zmo7VA6EH6SA6z4Ni2t5bmRzPNSJgsDP60f+FFjPr7nOOOEjkU0Z8ky5TfDUocFs4iQNB19BDd0owrzRZ2g==
+  github.com/PgBiel/jsdiscordperms/61a7bc02536bf2381f2e41cdb39e672c35428986:
+    dev: false
+    name: jsdiscordperms
+    resolution:
+      tarball: 'https://codeload.github.com/PgBiel/jsdiscordperms/tar.gz/61a7bc02536bf2381f2e41cdb39e672c35428986'
+    version: 1.2.0
   github.com/discordjs/Commando/bdbd84e2a978322f3af12c21e729eb7b7cd4a3dc_00400a32f27d1b501167c07bf28bfe15:
     dependencies:
       better-sqlite3: 7.1.0
@@ -1934,6 +1941,7 @@ specifiers:
   express: ^4.16.3
   gblapi.js: ^2.0.5
   hangman-game-engine: ^1.1.3
+  jsdiscordperms: 'github:PgBiel/jsdiscordperms'
   lokijs: ^1.5.8
   mathjs: ^7.0.2
   minesweeper: ^1.0.5
