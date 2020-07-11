@@ -1,47 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-  
-    <% var subtitle = "Command List" %>
-    <% include ../partials/head %>
-    <% include ../partials/nav %>
-  <body id="body">
-  
-    
-    <br>
-    <h1 style="text-align: center; min-width: 100% !important;" width="100%">Help for command: <%= cmd %></h1>
-    <div class="container">
-      <% for (let category of client.registry.groups.filter(grp => grp.commands.some(c => c.permLevel <= 4)).values()) { %>
-        <% 
-          var cmds = category.commands.filter(c => c.permLevel <= 4);
-        %>
-        <% if (!cmds.size) return; // skip empty %>
-        <h2><%= category.name %> [<%= cmds.size %>]</h2>
-        <table class="table table-hover table-commands table-responsive">
-          <tbody>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Aliases</th>
-              <th scope="col">Description</th>
-              <th scope="col">Permissions</th>
-            </tr>
-          </tbody><tbody>
-          
-          <% for (let cmd of cmds.values()) { %>
 
-            <tr>
-              <th scope="row"><%= cmd.name %></th>
-              <td><%- cmd.aliases.map(a => `<code>${a}</code>`).join(", ") %></td>
-              <td><%= cmd.description || "No description" %></td>
-              <td><%= cmd.clientPermissions && cmd.clientPermissions.length ? cmd.clientPermissions.map(perm) : "None" %></td>
-              
-            </tr>
-          <% } %>
-        </tbody>
-      </table>
-      <% } %>
-  </div>
-  
-    <% include ../partials/footer %>
-      
-    
+<% var subtitle = "Command List" %>
+<% include ../partials/head %>
+<% include ../partials/nav %>
+
+<br>
+<h1 style="text-align: center; min-width: 100% !important;" width="100%">Help for command: <%= cmd.name %></h1>
+<div class="container">
+    <p><%= cmd.description %></p>
+    <div class="column">
+        <%
+            let lims = [];
+	        if (command.guildOnly)
+	            lims.push(`${client.utils.emojis.server} Guild only`);
+	        if (command.ownerOnly || command.permLevel == 10)
+	            lims.push(`${client.utils.emojis.user} Bot owner only`);
+            if (command.nsfw)
+                lims.push(`${client.utils.emojis.channel} NSFW channels only`);
+            if (command.premium)
+                lims.push(`${client.utils.emojis.premium} Premium users only`);
+        %>
+        <% if (lims.length) { %>
+            <div class="row-4-sm">
+                <h2>Limitations</h2>
+                <ul>
+                    <%= lims.map(l => `<li>${l}</li>`) %>
+                </ul>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<% include ../partials/footer %>
+
+
 </html>

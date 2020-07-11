@@ -4,7 +4,6 @@
     <% var subtitle = "Command List" %>
     <% include ../partials/head %>
     <% include ../partials/nav %>
-  <body id="body">
   
     
     <br>
@@ -29,7 +28,7 @@
             <% for (let cmd of cmds.values()) { %>
   
               <tr>
-                <th scope="row"><%= cmd.name %></th>
+                <th scope="row"><a href="/commands/<%= cmd.name %>"><%= cmd.name %></a></th>
                 <td><%- cmd.aliases.map(a => `<code>${a}</code>`).join(", ") %></td>
                 <td><%= cmd.description || "No description" %></td>
                 <td><%= cmd.clientPermissions && cmd.clientPermissions.length ? cmd.clientPermissions.map(p => perm(p)) : "None" %></td>

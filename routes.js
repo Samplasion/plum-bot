@@ -1,7 +1,8 @@
 /**
  * @param {import("express").Application} app 
+ * @param {import("./classes/Client")} client
  */
-module.exports = function (app) {
+module.exports = function (app, client) {
     app.get("/", (req, res) => {
         res.render("pages/index")
     })
@@ -9,7 +10,9 @@ module.exports = function (app) {
         res.render("pages/commands")
     })
     app.get("/commands/:command", (req, res) => {
-        res.render("pages/command", { cmd: req.params.command });
+        let cmds = client.registry.findCommands(req.params.command, false, undefined);
+        if (!cmds.length) return res.status(404).render("pages/404");
+        res.render("pages/command", { cmd: cmds[0] });
     })
     app.get("/commandstest", (req, res) => {
         res.render("pages/commandstest")
