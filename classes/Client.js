@@ -10,7 +10,7 @@ module.exports = class PlumClient extends CommandoClient {
             commandPrefix: "pl.",
             // @ts-expect-error
             unknownCommandResponse: false,
-            owner: ["280399026749440000", "413378420236615680"],
+            owner: ["280399026749440000"],
             invite: "https://discord.gg/MDtgmEM",
             fetchAllMembers: true,
             disableEveryone: true,
@@ -23,7 +23,7 @@ module.exports = class PlumClient extends CommandoClient {
                 ["audio", "Audio & Music"],
                 ["commands", "Botkeeping Utilities"],
                 ["moderation", "Moderation"],
-                ["fakemod", "Mooderatyon"],
+                ["fakemod", "Fake Moderation"],
                 ["fun", "Fun"],
             ])
             //.registerDefaultCommands({
@@ -103,10 +103,20 @@ module.exports = class PlumClient extends CommandoClient {
 
         // For the premium nag and stuff.
         this.commandsRan = new Map();
+
+        this.usefulPerms = [
+            Permissions.FLAGS.MANAGE_EMOJIS,
+            Permissions.FLAGS.MANAGE_CHANNELS,
+            Permissions.FLAGS.MANAGE_WEBHOOKS
+        ]
     }
 
     get invite() {
-		const permissions = new Permissions().add(...this.registry.commands.map(command => new Permissions(command.clientPermissions).bitfield)).bitfield;
-		return `https://discordapp.com/oauth2/authorize?client_id=${application.id}&permissions=${permissions}&scope=bot`;
+        let permissions = Array.from(this.registry.commands.values()).map(c => c.clientPermissions).flat().concat(this.usefulPerms).reduce((prev, this_) => {
+            if (!this_) return prev;
+            return new Permissions(prev).add(this_);
+            //@ts-expect-error
+        }, new Permissions()).bitfield;
+		return `https://discordapp.com/oauth2/authorize?client_id=${this.user.id}&permissions=${permissions}&scope=bot`;
 	}
 }

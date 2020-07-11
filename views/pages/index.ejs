@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <% var subtitle = "" %>
+    <% include ../partials/head %>
+
+    <% include ../partials/nav %>
+
+    <section class="hero">
+        <div class="hero-body has-text-centered">
+            <div class="container">
+                <h1 class="title is-1">
+                    <%= client.user.username %>
+                </h1>
+                <h2 class="subtitle">
+                    <%= client.user.username %> is a multipurpose bot with lots of games and utilities.
+                </h2>
+                <div style="justify-content: center;" class="field has-addons has-text-centered">
+                    <p class="control">
+                        <a class="button is-primary" href="<%- client.invite %>">Invite</a>
+                    </p>
+                    <p class="control">
+                        <a class="button is-primary" href="/support">Support</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class=container>
+
+        <% 
+            const features = [
+                {
+                    icon: "level-up-alt",
+                    text: ":arrow_up: Global leveling system"
+                },
+                {
+                    icon: "gamepad",
+                    text: ":video_game: A growing library of server games",
+                    more: "You can also play some games (like <a href=\"/commands/connectfour\"><code>pl.connectfour</code></a>) with someone else!"
+                },
+                {
+                    icon: "cogs",
+                    text: ":gear: Moderation System",
+                },
+                {
+                    icon: "globe",
+                    text: ":globe_with_meridians: Per-server configuration, easy as a piece of cake"
+                },
+                {
+                    icon: "music",
+                    text: ":musical_note: A powerful music system, with playlists."
+                },
+                {
+                    icon: "info",
+                    text: ":information_source: Server information, always on top of the channel list",
+                    more: "Can be moved, usually sits on bottom of channel list when created."
+                }
+            ]
+        %>
+
+        <h2 class="title display-2 has-text-centered">Features</h2>
+
+        <div class="columns is-multiline">
+            <% let mores = 1; %>
+            <% for (let feature of features) { %>
+                <div class="column is-<%= feature.col || 4 %> text-center">
+                    <h2 class="title display-2 has-text-centered">
+                        <i class="fas fa-<%= feature.icon %>"></i>
+                    </h2>
+                    <p class="has-text-centered"><%= feature.text %><% if (feature.more) { %><sup><%= mores++ %></sup><% } %></p>
+                </div>
+            <% } %>
+        </div>
+        <% features.map(f => f.more).filter(f => !!f).forEach((more, i) => { %>
+            <div>
+                <small>
+                    <sup><%= i + 1 %></sup>&nbsp;<%- more %>
+                </small><br>
+            </div>
+        <% }) %>
+    </div>
+
+    <% include ../partials/footer %>
+
+
+</html>

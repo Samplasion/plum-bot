@@ -12,3 +12,8 @@ $("body").find("*").each((item, element) => {
 })
 tippy(document.querySelectorAll('.twa'), { delay: [ 500, 20 ], /*arrow: true, arrowType: "round"/**/ })
 </script>
+<script>
+if ($(document.body).height() < $(window).height()) {
+  $('#page-footer').attr('style', 'position: fixed!important; bottom: 0px;');
+}
+</script>

@@ -42,7 +42,8 @@ module.exports = class HelpCommand extends Command {
 
 	        embed.setTitle(`${this.client.utils.emojis.info} Help for command: ${command.name}`);
 	        embed.setDescription(command.description +
-	            (command.details ? "\n\n" + command.details : ""));
+	            (command.details ? "\n\n" + command.details : "")+ "\n\n[More info about " + 
+                `this command](https://plum-bot.xyz/commands/${command.name})`);
 
 	        let lims = [];
 	        if (command.guildOnly)
@@ -94,7 +95,12 @@ module.exports = class HelpCommand extends Command {
 	            embed
 	                .setDescription(`${embed.description} of ${embeds.length}`);
 	            if (msg.guild.me.hasPermission("MANAGE_MESSAGES"))
-	                embed.setFooter(`This menu will expire in 2 minutes`);
+                    embed.setFooter(`This menu will expire in 2 minutes`);
+                embed.addField("Useful Links",
+                    oneLine`
+                    [Official Website](https://plum-bot.xyz) | 
+                    [All commands](https://plum-bot.xyz/commands) |
+                    [Official Support Server](https://plum-bot.xyz/)`);
 	        });
 
 	        if (!embeds.length) {
