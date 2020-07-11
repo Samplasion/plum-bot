@@ -1,6 +1,6 @@
 const Command = require('./../../classes/Command.js');
 const Embed = require('../../classes/Embed');
-const Game = require('hangman-game-engine');
+const HangmanGame = require('hangman-game-engine');
 function random(a, b = 0) {
     var max = Math.max(a, b),
         min = Math.min(a, b)
@@ -60,7 +60,7 @@ module.exports = class HangmanCommand extends Command {
       }
       const words = require("./../../hangman.js")
       let word = words[random(words.length)]
-      game = new Game(word, {maxAttempt: 6})
+      game = new HangmanGame(word, {maxAttempt: 6})
       // if (this.client.configs.get(msg.guild.id, "hangmanHint")) {
       var letters = word.split("")
       Array.from(letters[0], letters[letters.length-1]).filter(onlyUnique).forEach(letter => game.guess(letter))
@@ -76,7 +76,6 @@ module.exports = class HangmanCommand extends Command {
     action = action[0]
     game = this.games[key]
     if (!game) return this.run(msg);
-    console.log(game);
     if (game.guessedLetters.includes(action))
       return msg.channel.send(
         new Embed(this.client)
