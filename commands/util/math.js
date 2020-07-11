@@ -29,7 +29,13 @@ module.exports = class EvalCommand extends Command {
   // }
 
 	async run(message, { expr }) {
-    const res = evaluate(expr);
+        let res;
+        try {
+            res = evaluate(expr);
+        } catch (error) {
+            return message.error("You're supposed to enter a valid mathematical equation.");
+        }
+    
     const embed = this.client.utils.embed()
       .setColor(0x10ce66)
       .setDescription(`${message.author.username}, here are the results of your expression`)
