@@ -8,6 +8,9 @@ module.exports = function (app) {
     app.get("/commands", (req, res) => {
         res.render("pages/commands")
     })
+    app.get("/commands/:command", (req, res) => {
+        res.render("pages/command", { cmd: req.params.command });
+    })
     app.get("/commandstest", (req, res) => {
         res.render("pages/commandstest")
     })
