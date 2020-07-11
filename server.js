@@ -5,11 +5,6 @@ const fs = require("fs")
 // Import env variables
 require('dotenv').config()
 
-// ======== REQUIRED
-if (process.env.BRANCH == "master") {
-    require("./site.js");
-}
-
 require("./classes/Guild.js");
 require("./classes/GuildMember.js");
 require("./classes/Message.js");
@@ -53,6 +48,11 @@ client.configs.getSet = (guild, path = null) => {
 */
 
 client.login(process.env.TOKEN);
+
+// ======== REQUIRED
+if (process.env.BRANCH == "master") {
+    require("./site.js")(client);
+}
 
 /* LOGGERS
 process
