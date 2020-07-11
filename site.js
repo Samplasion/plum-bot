@@ -26,7 +26,7 @@ app.set('view engine', 'ejs');
 // set up modules
 // ================================================================
 app.locals.client = client;
-app.locals.util = util
+app.locals.util = util;
 /** @param {string} query */
 app.locals.getParams = query => {
     return query
