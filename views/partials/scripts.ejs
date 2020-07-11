@@ -12,3 +12,12 @@ $("body").find("*").each((item, element) => {
 })
 tippy(document.querySelectorAll('.twa'), { delay: [ 500, 20 ], /*arrow: true, arrowType: "round"/**/ })
 </script>
+<script>
+$(window).on('load resize scroll', function() {
+    var f = $('#footer-wrapper');
+    f.css({position:'static'});
+    if (f.offset().top + f.height() < $(window).height()) {
+        f.css({position:'fixed', bottom:'0', width:'100%'});
+    }
+});
+</script>
