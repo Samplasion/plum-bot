@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+    <% var subtitle = "Command List" %>
+    <% include ../partials/head %>
+    <% include ../partials/nav %>
+  <body id="body">
+  
+    
+    <br>
+    <h1 style="text-align: center; min-width: 100% !important;" width="100%">Command list</h1>
+    <div class="container">
+      <% for (let category of client.registry.groups.filter(grp => grp.commands.some(c => c.permLevel <= 4)).values()) { %>
+        <% 
+          var cmds = category.commands.filter(c => c.permLevel <= 4);
+        %>
+        <% if (!cmds.size) return; // skip empty %>
+        <h2><%= category.name %> [<%= cmds.size %>]</h2>
+        <table class="table table-hover table-commands table-responsive">
+          <tbody>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Aliases</th>
+              <th scope="col">Description</th>
+              <th scope="col">Restrictions</th>
+            </tr>
+          </tbody><tbody>
+          
+          <% for (let cmd of cmds.values()) { %>
+            <tr>
+              <th scope="row"><%= cmd.name %></th>
+              <td><%= cmd.aliases.map(a => `<pre>${a}</pre>`).join(", ") %></td>
+              <td><%= cmd.description || "No description" %></td>
+              <td><%= cmd.userPermissions.length ? cmd.userPermissions.map(perm) : "None" %></td>
+              
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+      <% } %>
+  </div>
+  
+    <% include ../partials/footer %>
+      
+    
+</html>

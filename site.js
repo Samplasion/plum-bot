@@ -28,6 +28,7 @@ module.exports = function server(client) {
     // ================================================================
     app.locals.client = client;
     app.locals.util = util;
+    app.locals.perm = require("jsdiscordperms").convertReadable;
     /** @param {string} query */
     app.locals.getParams = query => {
         return query ?
