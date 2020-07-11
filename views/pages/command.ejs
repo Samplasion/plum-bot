@@ -10,7 +10,7 @@
 <h1 style="text-align: center; min-width: 100% !important;" width="100%">Help for command: <%= cmd.name %></h1>
 <div class="container">
     <p><%- md(cmd.description) %></p>
-    <% if (cmd.details) { %><p><%- md(cmd.details.split("\n").join("\n\n")) %></p><% } %>
+    <% if (cmd.details) { %><p><%- md(cmd.details.split("\n").join("<br />")) %></p><% } %>
     <div class="column">
         <%
             let lims = [];
