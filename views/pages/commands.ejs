@@ -16,32 +16,34 @@
         <% if (!cmds.size) return; // skip empty %>
         <% let aliases = cmds.some(c => c.aliases && c.aliases.length) %>
         <h3 class="title"><%= category.name %> [<%= cmds.size %>]</h3>
-        <table style="width:100%;" class="table is-hoverable is-bordered table-commands table-responsive">
-            <tbody>
-              <tr>
-                <th scope="col">Name</th>
-                <% if (aliases) { %>
-                    <th scope="col">Alias<% if (cmds.some(c => c.aliases.length > 1)) { %>es<% } %></th>
-                <% } %>
-                <th scope="col">Description</th>
-                <th scope="col">Permissions</th>
-              </tr>
-            </tbody><tbody>
-            
-            <% for (let cmd of cmds.values()) { %>
-  
-              <tr>
-                <th scope="row"><a href="/commands/<%= cmd.name %>"><%= cmd.name %></a></th>
-                <% if (aliases) { %>
-                    <td><%- cmd.aliases.map(a => `<code>${a}</code>`).join(", ") %></td>
-                <% } %>
-                <td><%- md(cmd.description) || "No description" %></td>
-                <td><%= cmd.clientPermissions && cmd.clientPermissions.length ? cmd.clientPermissions.map(p => perm(p)) : "None" %></td>
+        <div class="table-container">
+            <table style="width:100%;" class="table is-hoverable is-bordered table-commands table-responsive">
+                <tbody>
+                <tr>
+                    <th scope="col">Name</th>
+                    <% if (aliases) { %>
+                        <th scope="col">Alias<% if (cmds.some(c => c.aliases.length > 1)) { %>es<% } %></th>
+                    <% } %>
+                    <th scope="col">Description</th>
+                    <th scope="col">Permissions</th>
+                </tr>
+                </tbody><tbody>
                 
-              </tr>
-            <% } %>
-          </tbody>
-        </table>
+                <% for (let cmd of cmds.values()) { %>
+    
+                <tr>
+                    <th scope="row"><a href="/commands/<%= cmd.name %>"><%= cmd.name %></a></th>
+                    <% if (aliases) { %>
+                        <td><%- cmd.aliases.map(a => `<code>${a}</code>`).join(", ") %></td>
+                    <% } %>
+                    <td><%- md(cmd.description) || "No description" %></td>
+                    <td><%= cmd.clientPermissions && cmd.clientPermissions.length ? cmd.clientPermissions.map(p => perm(p)) : "None" %></td>
+                    
+                </tr>
+                <% } %>
+            </tbody>
+            </table>
+        </div>
       <% } %>
   </div>
   
