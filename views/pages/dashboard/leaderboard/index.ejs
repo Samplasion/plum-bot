@@ -19,6 +19,7 @@
             <% } %>
             <% sorted.forEach((u, i) => { %>
                 <% let lb = guild.members.resolve(u.userID); %>
+                <% if (!lb) return; %>
                 <div class="column is-12 has-text-centered">
                     <div class="card">
                         <div class="card-content">
@@ -29,8 +30,16 @@
                                     </figure>
                                 </div>
                                 <div class="media-content">
-                                    <p class="title is-4"><%= i + 1 %>. <%= lb.displayName %></p>
-                                    <p class="subtitle is-6">@<%= lb.user.tag %></p>
+                                    <div class="columns">
+                                        <div class="column">
+                                            <p class="title is-4"><%= i + 1 %>. <%= lb.displayName %></p>
+                                            <p class="subtitle is-6">@<%= lb.user.tag %></p>
+                                        </div>
+                                        <div class="column column has-text-right">
+                                            <p class="title is-4"><%= client.utils.plural(lb.points.data.points, "point") %></p>
+                                            <p class="subtitle is-6">Level <%= lb.points.data.level %></p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
