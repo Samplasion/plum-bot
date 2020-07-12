@@ -6,16 +6,13 @@ function random(a, b = 0) {
 
 module.exports = async (client, member) => {
     let guild = member.guild;
-    console.log(1, guild);
     if (!guild.config.data.welcomechan || 
         !guild.config.data.leavemessage || 
         !guild.config.data.leavemessage.length)
         return;
-    console.log(2);
     let channel = await client.channels.fetch(guild.config.data.welcomechan);
     if (!channel || !channel.sendable)
         return;
-        console.log(3);
     let messages = guild.config.data.leavemessage;
     let message = messages[random(messages.length)];
     channel.send(message
