@@ -33,7 +33,7 @@ module.exports = class PremiumStatusCommand extends Command {
 
         console.log(msg.author.isPremium, msg.guild.isPremium);
 
-        if (msg.author.isPremium) {
+        if (user.isPremium) {
             return msg.channel.send(this.client.utils.fastEmbed(
                 `${Your} premium status`,
                 `😃 ${You} ${have} Premium!`
@@ -49,7 +49,7 @@ module.exports = class PremiumStatusCommand extends Command {
         } else {
             return msg.channel.send(this.client.utils.fastEmbed(
                 `${Your} premium status`, 
-                `🙁 ${You} don't have Premium!`,
+                `🙁 ${You} ${dont} have Premium!`,
                 [
                     [
                         `What can I do to obtain Premium?`,
