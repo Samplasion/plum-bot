@@ -4,7 +4,7 @@ function random(a, b = 0) {
     return ~~(Math.random() * (max - min) + min)
 }
 
-module.exports = async function(client, member) {
+module.exports = async (client, member) => {
     let guild = member.guild;
     console.log(1, guild);
     if (!guild.config.data.welcomechan || 
