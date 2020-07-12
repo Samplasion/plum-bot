@@ -61,7 +61,7 @@ module.exports = function server(client) {
     const mStore = MemoryStore(session);
     app.use(session({
         store: new mStore({ checkPeriod: 86400000 }), // we refresh the store each day
-        secret: "Plum_bot_is_the_most_amazing_bot_ever_made",
+        secret: process.env.CLIENT_SECRET.repeat(12),
         saveUninitialized: true,
         resave: true,
     }));
@@ -80,7 +80,7 @@ module.exports = function server(client) {
     const strategy = new Strategy({
         clientID: process.env.CLIENT_ID,
         clientSecret: process.env.CLIENT_SECRET,
-        callbackURL: "http://localhost:5000/dashboard/callback", // The url that will handle callbacks.
+        callbackURL: "https://plum-bot.xyz/dashboard/callback", // The url that will handle callbacks.
         scope: ["identify", "guilds"] // Get tag and profile picture + servers user is in.
     },
     (accessToken, refreshToken, profile, done) => {
