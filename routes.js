@@ -2,7 +2,7 @@
  * @param {import("express").Application} app 
  * @param {import("./classes/Client")} client
  */
-module.exports = function (app, client, passport, session) {
+module.exports = function (app, client) {
     app.get("/", (req, res) => {
         res.render("pages/index")
     })
@@ -22,6 +22,20 @@ module.exports = function (app, client, passport, session) {
     })
     app.get("/server", (req, res) => {
         res.redirect(client.options.invite);
+    })
+
+    // Webhooks
+    app.use("/wh/gbl", (req, res) => {
+        if (req.body.auth !== process.env.API_PW) {
+            res.status(401);
+            delete req.body.auth;
+            // this.emit('error', `Unauthorized. You did not specify a correct token.`);
+            return res.json({ invalidauth: true });
+        }
+        delete req.body.auth;
+        client.emit('gbl-vote', req.body);
+        res.status(200);
+        return res.json({ good: true });
     })
 
     // 404 route

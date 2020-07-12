@@ -33,7 +33,7 @@ module.exports = async client => {
   if (process.env.BRANCH === "master") {
     const GBL = require('gblapi.js');
     client.apis = {};
-    client.apis.glenn = new GBL(client.user.id, process.env.GBLTOKEN, false, { webhookPort: 3001, webhookPath: "/GBLWebhook", webhookAuth: process.env.API_PW });
+    client.apis.glenn = new GBL(client.user.id, process.env.GBLTOKEN, false)//, { webhookPort: 3001, webhookPath: "/GBLWebhook", webhookAuth: process.env.API_PW });
 
     // eslint-disable-next-line no-inner-declarations
     function updateAPIs() {
