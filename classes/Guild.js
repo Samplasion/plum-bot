@@ -271,4 +271,18 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
             return [];
         }
     }
+
+    /** 
+     * @returns {GuildMember[]}
+     */
+    get owners() {
+        if (!this.config.data.owners) return [];
+        return this.members.cache
+            .filter(member => member.roles.cache.has(this.config.data.owners))
+            .array();
+    }
+
+    get isPremium() {
+        return this.owners.some(owner => owner.user.isPremium);
+    }
 })
