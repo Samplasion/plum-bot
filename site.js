@@ -141,6 +141,7 @@ module.exports = function server(client) {
     app.get("/dashboard/:guildID/home", authenticate, async (req, res) => {
         const guild = client.guilds.cache.get(req.params.guildID);
         if (!guild) return res.redirect("/dashboard");
+        await guild.members.fetch();
         const member = guild.members.cache.get(req.user.id);
         if (!member) return res.redirect("/dashboard");
 
@@ -153,6 +154,7 @@ module.exports = function server(client) {
     app.get("/dashboard/:guildID/leaderboard", authenticate, async (req, res) => {
         const guild = client.guilds.cache.get(req.params.guildID);
         if (!guild) return res.redirect("/dashboard");
+        await guild.members.fetch();
         const member = guild.members.cache.get(req.user.id);
         if (!member) return res.redirect("/dashboard");
 
@@ -166,6 +168,7 @@ module.exports = function server(client) {
         // We validate the request, check if guild exists, member is in guild and if member has minimum permissions, if not, we redirect it back.
         const guild = client.guilds.cache.get(req.params.guildID);
         if (!guild) return res.redirect("/dashboard");
+        await guild.members.fetch();
         const member = guild.members.cache.get(req.user.id);
         if (!member) return res.redirect("/dashboard");
         if (member.level.level < 3) return res.redirect("/dashboard");
@@ -191,6 +194,7 @@ module.exports = function server(client) {
         // We validate the request, check if guild exists, member is in guild and if member has minimum permissions, if not, we redirect it back.
         const guild = client.guilds.cache.get(req.params.guildID);
         if (!guild) return res.redirect("/dashboard");
+        await guild.members.fetch();
         const member = guild.members.cache.get(req.user.id);
         if (!member) return res.redirect("/dashboard");
         if (member.level.level < 3) return res.redirect("/dashboard");
@@ -215,6 +219,7 @@ module.exports = function server(client) {
     app.post("/dashboard/:guildID/config/save", authenticate, async (req, res) => {
         const guild = client.guilds.cache.get(req.params.guildID);
         if (!guild) return res.redirect("/dashboard");
+        await guild.members.fetch();
         const member = guild.members.cache.get(req.user.id);
         if (!member) return res.redirect("/dashboard");
         if (member.level.level < 3) return res.redirect("/dashboard");
@@ -252,6 +257,7 @@ module.exports = function server(client) {
     app.post("/dashboard/:guildID/config/prefix", authenticate, async (req, res) => {
         const guild = client.guilds.cache.get(req.params.guildID);
         if (!guild) return res.redirect("/dashboard");
+        await guild.members.fetch();
         const member = guild.members.cache.get(req.user.id);
         if (!member) return res.redirect("/dashboard");
         if (member.level.level < 3) return res.redirect("/dashboard");
