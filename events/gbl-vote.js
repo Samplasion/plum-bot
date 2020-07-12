@@ -4,6 +4,6 @@ module.exports = async (client, { id, test }) => {
         return;
     }
     let user = await client.users.fetch(id);
-    user.money = user.money++;
+    user.money = user.money + 1;
     console.log(` [VOTE] Received vote from Glenn Bot List: ${user.tag} [${user.id}]`);
 }
