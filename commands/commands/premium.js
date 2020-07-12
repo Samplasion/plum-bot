@@ -30,8 +30,9 @@ module.exports = class PremiumStatusCommand extends Command {
         let youre = user.id == msg.author.id ? "you're" : user.username + "'s";
         let have = you == "you" ? "have" : "has";
         let dont = you == "you" ? "don't" : "doesn't";
+        let they = you == "you" ? "you" : "they";
 
-        console.log(msg.author.isPremium, msg.guild.isPremium);
+        console.log(user.isPremium, msg.guild.isPremium);
 
         if (user.isPremium) {
             return msg.channel.send(this.client.utils.fastEmbed(
@@ -44,7 +45,7 @@ module.exports = class PremiumStatusCommand extends Command {
                 `🙃 ${You} ${dont} have Premium, but ` +
                 `one of this server's owners does. This ` +
                 `means that, while ${youre} in this server, ` + 
-                `${you}'ll be able to use all the Premium perks!`
+                `${they}'ll be able to use all the Premium perks!`
             ));
         } else {
             return msg.channel.send(this.client.utils.fastEmbed(
