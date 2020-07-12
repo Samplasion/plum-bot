@@ -120,11 +120,11 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
 					}
 
 					serverconfig.set(guild.id, currentsettings);
-          			return currentsettings;
+                    return currentsettings;
 				}
 
 				serverconfig.set(guild.id, defaultSettings);
-        		return defaultSettings;
+                return defaultSettings;
 			},
 			get data() {
 				let data = serverconfig.get(guild.id) || this.setDefaultSettings();

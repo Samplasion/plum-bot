@@ -1,6 +1,6 @@
 module.exports = class BoolType {
 	static get nullValue() {
-		return false;
+		return "false";
 	}
 
 	static get id() {
@@ -8,12 +8,14 @@ module.exports = class BoolType {
 	}
 
 	static serialize(client, _, val) {
+        console.log(val);
 		return "" + val;
 	}
 
 	static deserialize(client, _, val) {
 		if (val.toLowerCase() == "null") val = "false";
-		return val == "false" ? false : true;
+        console.log("des", val);
+		return val == "true" ? true : false;
 	}
 
 	static render(client, msg, val) {
@@ -24,4 +26,22 @@ module.exports = class BoolType {
 		if (val.toLowerCase() == "null") val = "false";
 		return ["true", "false"].includes(val.toLowerCase());
 	}
+
+    static webRender(client, guild, val) {
+        console.log("render", val, typeof val);
+        let checked = val.toString() == "true" ? "checked" : "";
+        let endis = val.toString() == "true" ? "En" : "Dis";
+        return `<input type="checkbox" disabled ${checked}> ${endis}abled`;
+    }
+
+    static webInput(client, guild, val, name) {
+        return `<input id="${name}" name="${name}" type="checkbox" ${val.toString() == "true" ? "checked" : ""}>`
+    }
+
+    static webSerialize(client, guild, val) {
+        console.log("serial", val);
+        if (val == "null" || !val)
+            return this.nullValue;
+        return val ? val == "on" : this.nullValue;
+    }
 }

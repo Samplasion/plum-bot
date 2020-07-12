@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <% var subtitle = "" %>
+    <% include ../../partials/head %>
+    <% include ../../partials/nav %>
+
+    <%
+        function getType(key) {
+            return types.filter(t => !!settingProps[key] && settingProps[key].type == t.id)[0];
+        }
+    %>
+    
+    <div class="container content">
+        <h1 class="title is-1 has-text-centered">Server dashboard</h1>
+        <h3 class="subtitle is-3 has-text-centered">Server: <%= guild.name %></h3>
+        <br>
+        <div class="columns">
+            <div class="column is-6">
+                <h5>Prefix</h5>
+                <p>
+                    <code><%= guild.commandPrefix %></code>&nbsp;(<a onclick="$('.modal').toggleClass('is-active')">Edit</a>)
+                </p>
+
+                <br>
+
+                <h5>Server configuration</h5>
+                <a href="/dashboard/<%= guild.id %>/config/view">View →</a>
+                |
+                <a href="/dashboard/<%= guild.id %>/config/edit">Edit →</a>
+            </div>
+            <div class="column is-6">
+                <h5>Stats</h5>
+                <p>
+                    <ul>
+                        <li>Users: <%= guild.members.cache.size %></li>
+                        <li>
+                            Channels: <%= guild.channels.cache.size %>
+                            <ul>
+                                <li>Text: <%= guild.channels.cache.filter(c => c.type == "text").size %></li>
+                                <li>Voice: <%= guild.channels.cache.filter(c => c.type == "voice").size %></li>
+                                <li>Category: <%= guild.channels.cache.filter(c => c.type == "category").size %></li>
+                            </ul>
+                        </li>
+                        <li>
+                            Roles: <%= guild.roles.cache.size %>
+                        </li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal">
+        <form action="/dashboard/<%= guild.id %>/config/prefix" method="post">
+            <div class="modal-background" onclick="$('.modal').removeClass('is-active')"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Edit prefix</p>
+                    <button class="delete" onclick="$('.modal').removeClass('is-active')" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    Edit the prefix (the current one is <code><%= guild.commandPrefix %></code>):<br>
+                    <input type="text" name="prefix" id="prefix" class="input" value=<%= guild.commandPrefix %> placeholder=<%= guild.commandPrefix %>>
+                </section>
+                <footer class="modal-card-foot">
+                    <input type="submit" class="button is-success" value="Save changes"></input>
+                    <button class="button" onclick="$('.modal').removeClass('is-active')">Cancel</button>
+                </footer>
+            </div>
+        </form>
+    </div>
+      
+    <% include ../../partials/footer %>
+</html>

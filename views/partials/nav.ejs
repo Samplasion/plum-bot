@@ -17,9 +17,10 @@
                     <div id="navbarMenuHeroA" class="navbar-menu">
                         <div class="navbar-end">
                             <a href="/" class="navbar-item">Home</a>
-                            <a href="/commands" class="navbar-item">Commands</a>
+                            <a href="/commands" class="navbar-item">Commands&nbsp;&nbsp;<span class="tag is-light"><%= client.registry.commands.filter(c => c.permLevel <= 4).size %></span></a>
                             <a href="/support" class="navbar-item">Support Us</a>
                             <a href="/about" class="navbar-item">About</a>
+                            <a href="/dashboard" class="navbar-item">Web Dashboard</a>
                             <a href="/server" class="navbar-item">Official Server</a>
                         </div>
                     </div>

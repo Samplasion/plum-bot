@@ -40,4 +40,26 @@ module.exports = class RoleType {
 			return false;
 		}
 	}
+
+    static webRender(client, guild, val) {
+		let role = this.deserialize(client, { guild }, val);
+		return role ? `<span style="padding: 0 2px;border-radius: 5px;background-color: #${role.color.toString(16)}11;color: #${role.color.toString(16)}">@${role.name}</span>` : this.nullValue;
+    }
+
+    static webInput(client, guild, val, name) {
+		let role = this.deserialize(client, { guild }, val);
+        let s = `<select class="select" id="${name}" name="${name}">
+        <option value="${this.nullValue}" ${!role ? "selected" : ""}>None</option>`;
+        guild.roles.cache.filter(r => r.id != guild.id).forEach(r => {
+            s += `<option value="${r.id}" ${role && role.id == r.id ? "selected" : ""}>${r.name}</option>`;
+        });
+        s += "</select>";
+        return s;
+    }
+
+    static webSerialize(client, guild, val) {
+        if (guild.roles.cache.map(c => c.id).includes(val))
+            return val;
+        return this.nullValue;
+    }
 }

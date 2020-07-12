@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <% var subtitle = "Web Dashboard" %>
+    <% include ../../partials/head %>
+    <% include ../../partials/nav %>
+    <% 
+        let g = user.guilds.filter(guild_ => {
+            let guild = client.guilds.cache.get(guild_.id);
+            return guild && [...guild.members.cache.keys()].includes(client.user.id);
+        }) 
+    %>
+    
+    <div class="container content">
+        <h1 class="has-text-centered">Web Dashboard</h1>
+        <% if (!g.length) { %>
+            <h3 class="has-text-centered">You don't have servers shared with the bot!</h3>
+        <% } %>
+        <% g.forEach(guild => { %>
+            <hr>
+            <h5><%= guild.name %></h5>
+            <% if (client.guilds.cache.get(guild.id)) { %>
+                <% if (client.guilds.cache.get(guild.id).members.resolve(user.id).level.level >= 3) { %>
+                    <a href="/dashboard/<%= guild.id %>/home">Server dashboard</a> | 
+                <% } %>
+                <a href="/dashboard/<%= guild.id %>/leaderboard">Leaderboard</a>
+            <% } else { %>
+                Not added.
+            <% } %>
+        <% }); %>
+    </div>
+      
+    <% include ../../partials/footer %>
+</html>

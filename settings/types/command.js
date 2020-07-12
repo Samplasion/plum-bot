@@ -8,7 +8,7 @@ module.exports = class CommandType {
 	}
 
 	static serialize(client, _, val) {
-		let cmd = client.commandHandler.aliases.get(val);
+		let cmd = client.registry.commands.aliases.get(val);
 		if (cmd)
 			return cmd.id;
 
@@ -59,4 +59,27 @@ module.exports = class CommandType {
 
 		return false;
 	}
+
+    static webRender(client, guild, val) {
+		let cmd = this.deserialize(client, { guild }, val);
+		return cmd ? `${client.commandPrefix}<strong>${cmd.name}</strong>` : this.nullValue;
+    }
+
+    static webInput(client, guild, val, name) {
+		let c = this.deserialize(client, { guild }, val);
+        let s = `<select class="select" id="${name}" name="${name}">
+        <option value="${this.nullValue}" ${!c ? "selected" : ""}>None</option>`;
+        client.registry.commands.filter(c => c.permLevel < 5).forEach(cmd => {
+            s += `<option value="${cmd.name}" ${c && c.name == c.name ? "selected" : ""}>${cmd.name}</option>`;
+        });
+        s += "</select>";
+        return s;
+    }
+
+    static webSerialize(client, guild, val) {
+        let cmd = client.registry.findCommands(val, false, undefined);
+        if (cmd)
+            return cmd.name;
+        return this.nullValue;
+    }
 }

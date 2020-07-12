@@ -7,3 +7,19 @@
         margin: 0 16px;
     }
 }
+
+@media screen and (prefers-color-scheme: dark) {
+    .modal-background {
+        background-color: rgba(0, 0, 0, 0.86);
+    }
+    .modal-card-head {
+        background-color: #242424;
+    }
+    .modal-card-title {
+        color: #dbdbdb;
+    }
+    .modal-card-body {
+        color: #dbdbdb;
+        background-color: #191919;
+    }
+}

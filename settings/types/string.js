@@ -69,4 +69,16 @@ module.exports = class StringType {
 
 		return typeof values == "string";
 	}
+
+    static webRender(client, guild, val) {
+        return `${val}`;
+    }
+
+    static webInput(client, guild, val, name) {
+        return `<input class="input" type="text" id="${name}" name="${name}" value="${val.replace(/"/g, "\\\"")}">`;
+    }
+
+    static webSerialize(client, guild, val) {
+        return "" + val;
+    }
 }

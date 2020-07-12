@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <% var subtitle = "" %>
+    <% include ../../../partials/head %>
+    <% include ../../../partials/nav %>
+
+    <%
+        function getType(key) {
+            return types.filter(t => !!settingProps[key] && settingProps[key].type == t.id)[0];
+        }
+    %>
+    
+    <div class="container content">
+        <h1 class="title is-1 has-text-centered">Viewing Server configuration</h1>
+        <h3 class="subtitle is-3 has-text-centered">Server: <%= guild.name %></h3>
+
+        <div class="columns is-multiline">
+            <% for (let setting of Object.keys(settings).sort((a, b) => client.configOrder.indexOf(a) - client.configOrder.indexOf(b))) { %>
+                <% let type = getType(setting); %>
+                <% if (setting == "guildID") continue; %>
+                <div class="column is-6">
+                    <hr />
+                    <div class="field">
+                        <label class="label"><%= client.configTitles[setting] %></label>
+                        <div class="control">
+                            <% if (settingProps[setting].extendable) { %>
+                                <% settings[setting].forEach(set => { %>
+                                    <% let pretty = type.webRender ? type.webRender(client, guild, set, setting + "[]") : set %>
+                                    <%- pretty == type.nullValue ? "This value is empty." : pretty %>
+                                    <br />
+                                <% }); %>
+                            <% } else { %>
+                                <% let pretty = type.webRender ? type.webRender(client, guild, settings[setting], setting) : setting %>
+                                <%- pretty == type.nullValue ? "This value is empty." : pretty %>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+        <div class="buttons has-addons is-left">
+            <a href="javascript:history.go(-1);">
+                <span>← Back</span>
+            </a>
+        </div>
+    </div>
+      
+    <% include ../../../partials/footer %>
+</html>

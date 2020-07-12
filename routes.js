@@ -2,7 +2,7 @@
  * @param {import("express").Application} app 
  * @param {import("./classes/Client")} client
  */
-module.exports = function (app, client) {
+module.exports = function (app, client, passport, session) {
     app.get("/", (req, res) => {
         res.render("pages/index")
     })
@@ -23,6 +23,7 @@ module.exports = function (app, client) {
     app.get("/server", (req, res) => {
         res.redirect(client.options.invite);
     })
+
     // 404 route
     app.get("*", (req, res) => {
         res.status(404).render("pages/404")

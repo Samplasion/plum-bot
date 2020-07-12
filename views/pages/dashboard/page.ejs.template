@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+    <% var subtitle = "" %>
+    <% include ../../partials/head %>
+    <% include ../../partials/nav %>
+    
+    <!-- Content -->
+      
+    <% include ../../partials/footer %>
+</html>

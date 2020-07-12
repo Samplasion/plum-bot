@@ -44,4 +44,26 @@ module.exports = class ChannelType {
 
 		return false;
 	}
+
+    static webRender(client, guild, val) {
+		let chan = this.deserialize(client, { guild }, val);
+		return chan ? `#${chan.name}` : this.nullValue;
+    }
+
+    static webInput(client, guild, val, name) {
+		let chan = this.deserialize(client, { guild }, val);
+        let s = `<select class="select" id="${name}" name="${name}">
+        <option value="${this.nullValue}" ${!chan ? "selected" : ""}>None</option>`;
+        guild.channels.cache.filter(c => c.type == "text" && c.sendable).forEach(channel => {
+            s += `<option value="${channel.id}" ${chan && chan.id == channel.id ? "selected" : ""}>#${channel.name}</option>`;
+        });
+        s += "</select>";
+        return s;
+    }
+
+    static webSerialize(client, guild, val) {
+        if (guild.channels.cache.map(c => c.id).includes(val))
+            return val;
+        return this.nullValue;
+    }
 }

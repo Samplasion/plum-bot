@@ -43,41 +43,19 @@ module.exports = class ConfigCommand extends Command {
   }
 
   getTitles() {
-    return {
-      owners: "Server owners role",
-      admins: "Server admins role",
-      mods: "Server moderators role",
-      helpers: "Server helpers role",
-      logchan: "Log channel",
-      welcomechan: "Welcome channel",
-      welcomemessage: "Welcome messages",
-      leavemessage: "Leave message",
-      mutedrole: "Muted role",
-      ticketcategory: "Category for ticket channels",
-      serverinfo: "Server information channel names",
-      levelupmsgs: "Level up messages"
-    };
+    return this.client.configTitles;
   }
   
   get order() {
-      return [
-          'owners',
-          'admins',
-          'mods',
-          'helpers',
-          'logchan',
-          'welcomechan',
-          'welcomemessage',
-          'leavemessage',
-          'mutedrole',
-          'ticketcategory',
-          'serverinfo',
-          'levelupmsgs'
-      ];
+      return this.client.configOrder;
   }
 
   async run(msg, { action, key, value }) {
-		let data = msg.guild.config.data;
+    let data = msg.guild.config.data;
+
+    await msg.info("This command is deprecated, and it'll be " +
+        "removed in version 2.0.0. You can use the new " +
+        "Web Dashboard instead:\n\nhttps://plum-bot.xyz/dashboard/" + msg.guild.id);
 
     switch (action) {
       case "view":

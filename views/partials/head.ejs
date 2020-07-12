@@ -114,25 +114,6 @@
         function eraseCookie(name) {   
             document.cookie = name+'=; Max-Age=-99999999;';  
         }
-          if (!getCookie("darkmode")) {
-            setCookie("darkmode", window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches, 365 * 100); // 1 century
-          }
-          
-          var element = document.getElementById("body");
-          // element.classList.toggle("dark");
-          
-          window.check = function() {
-            var element = document.getElementById("body");
-            if (getCookie("darkmode") == "true") {
-              element.setAttribute("data-dark", "dark")
-            } else {
-              element.setAttribute("data-dark", "")
-            }
-            document.getElementById('dml').innerText = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? "Light theme" : "Dark theme"
-          }
-          setInterval(check, 200);
-    
-          document.getElementById('defaultCheck1').checked = (getCookie("darkmode") == "true");
-      </script>
+    </script>
 </head>
 <body id="body">

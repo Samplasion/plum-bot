@@ -111,6 +111,40 @@ module.exports = class PlumClient extends CommandoClient {
         ]
     }
 
+    get configTitles() {
+        return {
+            owners: "Server owners role",
+            admins: "Server admins role",
+            mods: "Server moderators role",
+            helpers: "Server helpers role",
+            logchan: "Log channel",
+            welcomechan: "Welcome channel",
+            welcomemessage: "Welcome messages",
+            leavemessage: "Leave message",
+            mutedrole: "Muted role",
+            ticketcategory: "Category for ticket channels",
+            serverinfo: "Server information channel names",
+            levelupmsgs: "Level up messages"
+        };
+    }
+
+    get configOrder() {
+        return [
+            'owners',
+            'admins',
+            'mods',
+            'helpers',
+            'logchan',
+            'welcomechan',
+            'welcomemessage',
+            'leavemessage',
+            'mutedrole',
+            'ticketcategory',
+            'serverinfo',
+            'levelupmsgs'
+        ];
+    }
+
     get invite() {
         let permissions = Array.from(this.registry.commands.values()).map(c => c.clientPermissions).flat().concat(this.usefulPerms).reduce((prev, this_) => {
             if (!this_) return prev;

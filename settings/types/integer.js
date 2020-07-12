@@ -34,4 +34,17 @@ module.exports = class IntType {
 	static validate(client, _, val) {
 		return !isNaN(val);
 	}
+
+    static webRender(client, guild, val) {
+		let n = this.deserialize(client, { guild }, val);
+		return n;
+    }
+
+    static webInput(_, __, ___, name) { // eslint-disable-line no-unused-vars
+        return `<input class="input" id="${name}" name="${name}" type="number">`
+    }
+
+    static webSerialize(_, __, val) { // eslint-disable-line no-unused-vars
+        return isNaN(val) ? this.nullValue : parseInt(val);
+    }
 }
