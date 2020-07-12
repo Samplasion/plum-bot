@@ -35,9 +35,7 @@ module.exports = class EvalCommand extends Command {
       .addFields(
         {
           name: "⚙️ Memory Usage",
-          value: `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(
-            2
-          )} MB`,
+          value: `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`,
           inline: true
         },
         { name: "⏱️ Uptime", value: duration, inline: true },

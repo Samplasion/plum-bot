@@ -23,9 +23,9 @@ module.exports = async (client, message) => {
       );
     }
   } else {
-    if (message.guild) {
+    if (message.guild && message.guild.id != "623600255987875870" && !message.author.bot) {
       let lvlup = message.member.points.award();
-      if (lvlup && message.guild.config.data.levelupmsgs) {
+      if (lvlup && message.guild.config.data.levelupmsgs == "true") {
         let embed = client.utils.embed()
           .setAuthor(message.member.displayName, message.author.displayAvatarURL())
           .setColor(message.member.displayHexColor)
