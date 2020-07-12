@@ -25,9 +25,11 @@ module.exports = class EvalCommand extends Command {
 	}
 
 	async run(msg, { script }) {
-    	let client = this.client;
+        /* eslint-disable no-unused-vars */
+        let client = this.client;
 		let channel = msg.channel;
 		let message = msg;
+        /* eslint-enable no-unused-vars */
 
 		try {
 			let result = await exec(script).catch((err) => { throw err; });

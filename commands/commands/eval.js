@@ -51,7 +51,7 @@ module.exports = class EvalCommand extends Command {
         let evaled = eval(script);
         if (evaled instanceof Promise) evaled = await evaled;
         if (typeof evaled !== "string") evaled = util.inspect(evaled, { depth: 0 });
-        const output = clean(evaled);
+        const output = this.clean(evaled);
         if (output.length > 1016) {
           return message.channel.send(new Attachment(Buffer.from(output), "output.txt"));
         }
@@ -73,7 +73,7 @@ module.exports = class EvalCommand extends Command {
           .setAuthor(message.author.username, message.author.avatarURL)
           .setTimestamp()
           .addField(":inbox_tray: **INPUT**", `\`\`\`js\n${code}\n\`\`\``)
-          .addField(":outbox_tray: **OUTPUT**", `\`\`\`js\n${clean(err)}\n\`\`\``)
+          .addField(":outbox_tray: **OUTPUT**", `\`\`\`js\n${this.clean(err)}\n\`\`\``)
           .setFooter(`${prefix}eval`)
         return message.channel.send(errorEmbed)
       }
@@ -85,7 +85,7 @@ module.exports = class EvalCommand extends Command {
         });
         if (evaled instanceof Promise) evaled = await evaled;
         if (typeof evaled !== "string") evaled = util.inspect(evaled, { depth: 0 });
-        const output = clean(evaled);
+        const output = this.clean(evaled);
         if (output.length > 1016) {
           return message.channel.send(new Attachment(Buffer.from(output), "output.txt"));
         }
@@ -106,17 +106,17 @@ module.exports = class EvalCommand extends Command {
           .setAuthor(message.author.username, message.author.avatarURL)
           .setTimestamp()
           .addField(":inbox_tray: **INPUT**", `\`\`\`js\n${code}\n\`\`\``)
-          .addField(":outbox_tray: **OUTPUT**", `\`\`\`js\n${clean(err)}\n\`\`\``)
+          .addField(":outbox_tray: **OUTPUT**", `\`\`\`js\n${this.clean(err)}\n\`\`\``)
           .setFooter(`${prefix}eval`)
         return message.channel.send(errorEmbed)
       }
     }
   }
-}
 
-const clean = text => {
-  if (typeof(text) === "string")
-    return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
-  else
-      return text;
+    clean(text) {
+    if (typeof(text) === "string")
+        return text.split(this.client.token).join("\"Well, yes but actually no.\"").replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
+    else
+        return text;
+    }
 }
