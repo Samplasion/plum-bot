@@ -48,7 +48,8 @@ module.exports = function (app, client) {
         return res.json({ good: true });
     })
     app.use("/wh/bfd", (req, res) => {
-        if (req.headers.authorization !== process.env.API_PW) {
+        console.log(req.headers.authorization, process.env.API_PW, req.headers.authorization != process.env.API_PW);
+        if (req.headers.authorization != process.env.API_PW) {
             res.status(401);
             return res.json({ invalidauth: true });
         }

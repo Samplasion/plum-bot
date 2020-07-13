@@ -10,7 +10,7 @@ module.exports = async client => {
     const m = await client.channels.cache.get(rebootMsgChan).messages.fetch(rebootMsgID);
     await m.edit(`Rebooted! It took ${((Date.now() - m.createdTimestamp) / 1000).toFixed(1)} seconds`);
     fs.unlink('./reboot.json', ()=>{});
-  } catch(O_o) {console.error(O_o)}
+  } catch(O_o) {(O_o)}
   
   // Set "Playing" status
   client.user.setActivity(`plum-bot.xyz | pl.help`);
@@ -19,7 +19,6 @@ module.exports = async client => {
   // Re-setup reminders
   Array.from(client.reminders.values()).forEach(user => {
     user.forEach(reminder => {
-      console.log(reminder.userID, reminder.id);
       (client.reminders.raw[reminder.userID] = client.reminders.raw[reminder.userID] || [])[reminder.id] = setTimeout(() => {
         client.utils.remindUser(client.users.cache.get(reminder.userID), reminder);
         client.users.fetch(reminder.userID).then(u => u.reminders.delete(reminder.id))
@@ -33,11 +32,13 @@ module.exports = async client => {
   if (process.env.BRANCH === "master") {
     const GBL = require('gblapi.js');
     client.apis = {};
-    client.apis.glenn = new GBL(client.user.id, process.env.GBLTOKEN, false)//, { webhookPort: 3001, webhookPath: "/GBLWebhook", webhookAuth: process.env.API_PW });
+    if (process.env.GBLTOKEN)
+        client.apis.glenn = new GBL(client.user.id, process.env.GBLTOKEN, false);
 
     // eslint-disable-next-line no-inner-declarations
     function updateAPIs() {
-      client.apis.glenn.updateStats(client.guilds.cache.size);
+        if (client.apis.glenn)
+            client.apis.glenn.updateStats(client.guilds.cache.size);
     }
     updateAPIs();
     setInterval(updateAPIs, 15 * 60000);
