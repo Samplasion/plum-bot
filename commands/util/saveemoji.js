@@ -8,7 +8,7 @@ module.exports = class SaveEmojiCommand extends Command {
             aliases: ["steal"],
 			group: 'util',
 			memberName: 'saveemoji',
-			description: "It ",
+			description: "Saves an url as an emoji.",
 			throttling: {
 				usages: 5,
 				duration: 10
