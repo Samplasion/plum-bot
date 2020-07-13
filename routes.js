@@ -37,7 +37,7 @@ module.exports = function (app, client) {
         res.status(200);
         return res.json({ good: true });
     })
-    app.use("/wh/gbl", (req, res) => {
+    app.use("/wh/blspace", (req, res) => {
         // if (req.body.auth !== process.env.API_PW) {
         //     res.status(401);
         //     delete req.body.auth;
