@@ -54,7 +54,7 @@ module.exports = class ChannelType {
 		let chan = this.deserialize(client, { guild }, val);
         let s = `<select class="select" id="${name}" name="${name}">
         <option value="${this.nullValue}" ${!chan ? "selected" : ""}>None</option>`;
-        guild.channels.cache.filter(c => c.type == "text" && c.sendable).forEach(channel => {
+        guild.channels.cache.filter(c => c.type == "text").forEach(channel => {
             s += `<option value="${channel.id}" ${chan && chan.id == channel.id ? "selected" : ""}>#${channel.name}</option>`;
         });
         s += "</select>";
