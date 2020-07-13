@@ -15,12 +15,12 @@ module.exports = Structures.extend("TextChannel", TextChannel => class extends T
 	}
 
 	get sendable() {
-		let me = this.guild.members.cache.get(this.client.user.id)
+		let me = this.guild.me;
 		return this.permissionsFor(me).has('SEND_MESSAGES');
 	}
 
 	get embedable() {
-		let me = this.guild.members.cache.get(this.client.user.id)
+		let me = this.guild.me;
 		return this.permissionsFor(me).has('EMBED_LINKS');
 	}
 });
