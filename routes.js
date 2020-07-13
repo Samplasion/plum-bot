@@ -48,13 +48,13 @@ module.exports = function (app, client) {
         return res.json({ good: true });
     })
     app.use("/wh/bfd", (req, res) => {
-        if (req.headers.authorization !== process.env.BLSPACE_AUTH) {
+        if (req.headers.authorization !== process.env.API_PW) {
             res.status(401);
             return res.json({ invalidauth: true });
         }
         // delete req.body.auth;
         // console.log(req.body, req.headers);
-        client.emit('botlistVote', { id: req.body.user.id, list: "botlist.space" });
+        client.emit('botlistVote', { id: req.body.user, list: "Bots for Discord" });
         res.status(200);
         return res.json({ good: true });
     })
