@@ -1,7 +1,5 @@
 // @ts-ignore
 const { Structures } = require('discord.js');
-const { findType } = require('../settings/index.js');
-const databaseModule = require('../utils/database.js');
 
 // This extends Discord's native GuildMember class with our own methods and properties
 // @ts-ignore
@@ -67,12 +65,10 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
                 return false;
             },
             award(points = 1) {
-                let curPoints = this.data.points;
                 client.points.math(`${user.id}-${guild.id}`, "+", points, "points");
                 return this.check();
             },
             detract(points = 1) {
-                let curPoints = this.data.points;
                 client.points.math(`${user.id}-${guild.id}`, "-", points, "points");
                 return this.check();
             },
@@ -96,7 +92,7 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
             // LIsten
             // @ts-ignore
             const filter = (reaction, user) => {
-                return (reaction.emoji.name === this.client.utils.emojis.ok || reaction.emoji.name == this.client.utils.emojis.error) &&
+                return (reaction.emoji.toString() === this.client.utils.emojis.ok || reaction.emoji.toString() == this.client.utils.emojis.error) &&
                     user.id === this.id;
             };
             
@@ -108,7 +104,7 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
                 });
 
                 // Return
-                return react.size && react.first().emoji.name == this.client.utils.emojis.ok;
+                return react.size && react.first().emoji.toString() == this.client.utils.emojis.ok;
             } catch (e) {
                 return false;
             }
@@ -123,7 +119,8 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
                 time: 60000,
                 errors: ["time"]
             });
-            return ["ok", "yes", "yeah", "y", "sure", "why not"].includes(collected.first().content.toLowerCase().trim());
+            return ["ok", "yes", "yeah", "y", "sure", "why not", "ya", "ye", "yay", "lets go", "let's go"]
+                .includes(collected.first().content.toLowerCase().trim());
         } catch (e) {
             return false;
         }

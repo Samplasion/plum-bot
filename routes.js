@@ -37,6 +37,19 @@ module.exports = function (app, client) {
         res.status(200);
         return res.json({ good: true });
     })
+    app.use("/wh/gbl", (req, res) => {
+        // if (req.body.auth !== process.env.API_PW) {
+        //     res.status(401);
+        //     delete req.body.auth;
+        //     // this.emit('error', `Unauthorized. You did not specify a correct token.`);
+        //     return res.json({ invalidauth: true });
+        // }
+        // delete req.body.auth;
+        console.log(req.body, req.auth);
+        client.emit('blspace-vote', req.body);
+        res.status(200);
+        return res.json({ good: true });
+    })
 
     // 404 route
     app.get("*", (req, res) => {

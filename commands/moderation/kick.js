@@ -30,15 +30,15 @@ module.exports = class KickCommand extends Command {
 
   async run(msg, { user, reason }) {
     if (msg.guild.members.has(user.id)) {
-			user = msg.guild.members.get(user.id);
+			user = await msg.guild.members.fetch(user.id);
 
-			if (msg.member.highestRole.position <= user.highestRole.position)
+			if (msg.member.roles.highest.position <= user.roles.highest.position)
 				return msg.reply("You can't kick someone who has a higher role position than you.");
 
 			if (this.client.permissions(user).level >= 2 && !this.client.permissions(msg.member).level >= 3)
 				return msg.reply("You need to have the `Administrator` permission in order to kick moderators");
 
-			if (this.client.permissions(user).level >= 3 && msg.guild.ownerId !== msg.member.id)
+			if (this.client.permissions(user).level >= 3 && msg.guild.ownerID !== msg.member.id)
 				return msg.reply("You need to be the server owner in order to kick Administrators")
 		} else return msg.reply("you can't kick someone who isn't here already")
     await user.kick(reason)
@@ -49,7 +49,7 @@ module.exports = class KickCommand extends Command {
       .setThumbnail(user.user.avatarURL())
       .setColor(0xF45C42)
       .addField(em.user + " User", `**${user.user ? user.user.tag : user.tag}** [${user.user ? user.user.id : user.id}]`)
-      .addField(`${this.client.utils.emojis.moderator}Moderator`, `**${msg.author.tag}** [${msg.author.id}]`)
+      .addField(`${this.client.utils.emojis.moderator} Moderator`, `**${msg.author.tag}** [${msg.author.id}]`)
       .addField(em.message + " Reason", `${reason}`);
     
     return msg.guild.log(e);

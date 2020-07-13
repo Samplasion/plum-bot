@@ -1,13 +1,4 @@
-const {
-    Structures, DMChannel
-} = require('discord.js');
-const {
-    findType
-} = require('../settings/index.js');
-const db = require('../utils/database.js');
-const PlumClient = require("./Client");
-const PlumTextChannel = require("./TextChannel");
-const PlumGuild = require("./Guild");
+const { Structures } = require('discord.js');
 
 // This extends Discord's native Guild class with our own methods and properties
 module.exports = Structures.extend("Message", Message => class PlumMessage extends Message {
@@ -53,6 +44,12 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
      */
     info(text) {
         return this.client.utils.sendInfoMsg(this, text);
+    }
+
+    react(string) {
+        if (typeof string == "string") {
+            return super.react(string.replace(">", ""));
+        } else return super.react(string);
     }
 
     

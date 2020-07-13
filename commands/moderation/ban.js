@@ -34,18 +34,18 @@ This permanently bans users.`,
 
   async run(msg, { user, reason }) {
     if (msg.guild.members.has(user)) {
-			user = msg.guild.members.get(user.id);
+			user = await msg.guild.members.fetch(user.id);
 
 			if (!user.bannable)
 				return msg.reply("I cannot ban this user");
 
-			if (msg.member.highestRole.position <= user.highestRole.position)
+			if (msg.member.roles.highest.position <= user.roles.highest.position)
 				return msg.reply("You can't ban someone who has a higher role position than you.");
 
 			if (this.client.permissions(user).level >= 2 && !this.client.permissions(msg.member).level >= 3)
 				return msg.reply("You need to have the `Administrator` permission in order to ban moderators");
 
-			if (this.client.permissions(user).level >= 3 && msg.guild.ownerId !== msg.member.id)
+			if (this.client.permissions(user).level >= 3 && msg.guild.ownerID !== msg.member.id)
 				return msg.reply("You need to be the server owner in order to ban Administrators")
 		}
     await msg.guild.ban(user.user ? user.user.id : user.id, reason);

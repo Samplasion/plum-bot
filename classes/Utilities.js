@@ -1,7 +1,7 @@
-const Commando = require("discord.js-commando");
-const {
-    oneLine
-} = require('common-tags'), PlumEmbed = require('./Embed'), CommandError = require("./CommandError")
+// eslint-disable-next-line no-unused-vars
+const { oneLine } = require('common-tags'), 
+    PlumEmbed = require('./Embed'),
+    CommandError = require("./CommandError")
 
 class Utilities {
     constructor(client) {
@@ -49,8 +49,8 @@ class Utilities {
             users: "👥",
             channel: "📑",
             server: "🌐",
-            ok: "✅",
-            error: "⛔",
+            ok: "<:ok:732101916904914964>",
+            error: "<:error:732102222867070986>",
             numbers: "🔢",
             id: "🆔",
             lock: "🔒",
@@ -76,13 +76,7 @@ class Utilities {
     }
 
     plural(num, item) {
-        var i = this.wordPlural(item)
-
-        return `${num} ${i}`
-    }
-
-    wordPlural(num, item) {
-        if (num == 1) return `${item}`
+        if (num == 1) return `${num} ${item}`
 
         var i = item;
 
@@ -92,7 +86,10 @@ class Utilities {
             i += "es"
         else i += "s"
 
-        return i
+        if (item == "day")
+            i = "days";
+
+        return `${num} ${i}`
     }
 
     // t      = Embed title
@@ -166,20 +163,6 @@ class Utilities {
         } catch (e) {
             return false;
         }
-    };
-
-    plural(num, item) {
-        if (num == 1) return `${num} ${item}`
-
-        var i = item;
-
-        if (item.substr(-1) == "y")
-            i = item.substr(0, item.length - 1) + "ies"
-        else if (item.substr(-3) == "tch")
-            i += "es"
-        else i += "s"
-
-        return `${num} ${i}`
     }
 
     clog(type, item) {
@@ -196,6 +179,7 @@ class Utilities {
     }
 
     trim(str, lgt) {
+        // eslint-disable-next-line no-useless-escape
         return str.replace(new RegExp(`/^(.{${lgt-1}}[^\s]*).*/`), "$1") + (lgt < str.length ? '…' : '')
     }
 

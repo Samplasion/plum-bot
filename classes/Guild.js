@@ -1,7 +1,5 @@
 const { Structures, Permissions } = require('discord.js');
 const { findType } = require('../settings/index.js');
-const db = require('../utils/database.js');
-const PlumClient = require("./Client");
 
 /**
  * @typedef SavedGuildQueueEntry
@@ -78,7 +76,7 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
 
 				let logchannel = scan ? channels.cache.find(channel => channel.name === "modlogs") : null;
 				let welcomechannel = scan ? channels.cache.find(channel => channel.name === "general") : null;
-				let starboardchannel = scan ? channels.cache.find(channel => channel.name === "starboard") : null;
+				// let starboardchannel = scan ? channels.cache.find(channel => channel.name === "starboard") : null;
 
 				let mutedrole = scan ? roles.find(role => role.name === "Muted") : null;
 				let owners = [guild.owner.id];

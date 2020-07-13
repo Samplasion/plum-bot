@@ -1,13 +1,11 @@
+/* eslint-disable no-case-declarations */
 // @ts-ignore
-const { Command, CommandoClient, CommandMessage, ArgumentCollectorResult } = require('discord.js-commando');
+const { Command } = require('discord.js-commando');
 // @ts-ignore
-const { Message } = require('discord.js');
 // @ts-ignore
 const CommandError = require("./CommandError");
 // @ts-ignore
 const Embed = require("./Embed");
-const PlumMessage = require('./Message');
-const PlumClient = require("./Client");
 
 module.exports = class PlumCommand extends Command {
     /**
@@ -105,11 +103,9 @@ module.exports = class PlumCommand extends Command {
 					.setTimestamp(new Date());
 
 				msg.channel.send(embed);
-				return null
-				break;
+				return null;
 			case 1:
 				return responces[0];
-				break;
 			case 2:
 			case 4:
 			case 6:
@@ -119,7 +115,7 @@ module.exports = class PlumCommand extends Command {
 					.setFullFooter(WaitMessage)
 					.setTimestamp(new Date());
 
-				for (var i in responces) {
+				for (let i in responces) {
 					if (isNaN(i)) continue;
 
                     // @ts-expect-error
@@ -132,7 +128,7 @@ module.exports = class PlumCommand extends Command {
 			default:
 				let resp = '';
 				let whattoadd;
-				for (var i in responces) {
+				for (let i in responces) {
 					if (isNaN(i)) continue;
 
                     // @ts-expect-error

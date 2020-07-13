@@ -1,5 +1,5 @@
 const { CommandoClient, SQLiteProvider } = require("discord.js-commando")
-const { GuildMember, Permissions } = require("discord.js")
+const { Permissions } = require("discord.js")
 const sqlite = require('sqlite')
 const Enmap = require("enmap");
 const path = require("path")
@@ -18,7 +18,9 @@ module.exports = class PlumClient extends CommandoClient {
 
         this.registry
             .registerDefaultTypes()
-            .registerDefaultGroups()
+            .registerDefaultGroups({
+                customEmoji: true
+            })
             .registerGroups([
                 ["audio", "Audio & Music"],
                 ["commands", "Botkeeping Utilities"],
@@ -38,7 +40,6 @@ module.exports = class PlumClient extends CommandoClient {
         });
 
         const perms = require("../perms");
-        const Permission = require("./Permission");
 
         /** @type {Permission[]} */
         this.permissionLevels = []
