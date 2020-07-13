@@ -50,7 +50,7 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
                 client.points.set(`${user.id}-${guild.id}`, currentSettings || defaultSettings);
                 return currentSettings || defaultSettings;
             },
-            check: () => {
+            check() {
                 this.ensure();
                 let data = this.points.data;
                 let curLevel = data.level;

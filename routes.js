@@ -47,6 +47,22 @@ module.exports = function (app, client) {
         res.status(200);
         return res.json({ good: true });
     })
+    app.use("/wh/bfd", (req, res) => {
+        if (req.headers.authorization !== process.env.BLSPACE_AUTH) {
+            res.status(401);
+            return res.json({ invalidauth: true });
+        }
+        // delete req.body.auth;
+        // console.log(req.body, req.headers);
+        client.emit('botlistVote', { id: req.body.user.id, list: "botlist.space" });
+        res.status(200);
+        return res.json({ good: true });
+    })
+    app.use("/wh/test", (req, res) => {
+        console.log(req.body, req.headers);
+        res.status(200);
+        return res.json({ good: true });
+    })
 
     // 404 route
     app.get("*", (req, res) => {
