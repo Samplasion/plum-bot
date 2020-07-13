@@ -29,7 +29,6 @@ module.exports = function (app, client) {
         if (req.body.auth !== process.env.API_PW) {
             res.status(401);
             delete req.body.auth;
-            // this.emit('error', `Unauthorized. You did not specify a correct token.`);
             return res.json({ invalidauth: true });
         }
         delete req.body.auth;
@@ -38,14 +37,12 @@ module.exports = function (app, client) {
         return res.json({ good: true });
     })
     app.use("/wh/blspace", (req, res) => {
-        // if (req.body.auth !== process.env.API_PW) {
-        //     res.status(401);
-        //     delete req.body.auth;
-        //     // this.emit('error', `Unauthorized. You did not specify a correct token.`);
-        //     return res.json({ invalidauth: true });
-        // }
+        if (req.headers.authorization !== process.env.BLSPACE_AUTH) {
+            res.status(401);
+            return res.json({ invalidauth: true });
+        }
         // delete req.body.auth;
-        console.log(req.body, req.headers);
+        // console.log(req.body, req.headers);
         client.emit('botlistVote', { id: req.body.user.id, list: "botlist.space" });
         res.status(200);
         return res.json({ good: true });

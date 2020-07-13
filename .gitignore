@@ -16,3 +16,4 @@ node_modules
 .cloud-locale-test.skip
 .gitconfig
 .profile
+.history

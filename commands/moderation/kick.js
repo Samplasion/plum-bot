@@ -29,7 +29,7 @@ module.exports = class KickCommand extends Command {
   }
 
   async run(msg, { user, reason }) {
-    if (msg.guild.members.has(user.id)) {
+    if (msg.guild.members.resolve(user.id)) {
 			user = await msg.guild.members.fetch(user.id);
 
 			if (msg.member.roles.highest.position <= user.roles.highest.position)

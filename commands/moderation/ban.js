@@ -33,7 +33,7 @@ This permanently bans users.`,
   }
 
   async run(msg, { user, reason }) {
-    if (msg.guild.members.has(user)) {
+    if (msg.guild.members.resolve(user)) {
 			user = await msg.guild.members.fetch(user.id);
 
 			if (!user.bannable)

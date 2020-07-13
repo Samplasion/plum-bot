@@ -1,6 +1,6 @@
 module.exports = async (client, { id, list }) => {
     if (client.owners.map(u => u.id).includes(id)) {
-        console.log(` [VOTE] Received test vote from ${list}:  ${id}`);
+        console.log(` [VOTE] Received test vote from ${list}: ${id}`);
         return;
     }
     let user = await client.users.fetch(id);
