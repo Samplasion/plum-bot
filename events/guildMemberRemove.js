@@ -16,20 +16,21 @@ module.exports = async (client, member) => {
         !guild.config.data.leavemessage.length)
         return;
     let channel = await client.channels.fetch(guild.config.data.welcomechan);
-    if (!channel || !channel.sendable)
-        return;
-    let messages = guild.config.data.leavemessage;
-    let message = messages[random(messages.length)];
-    channel.send(message
-        .split("{{server}}").join(guild.name)
-        .split("{{user}}").join(member.displayName)
-        .split("{{mention}}").join(`<@${member.user.id}>`));
+    if (channel && channel.permissionsFor(guild.me).has("SEND_MESSAGES")) {
+        let messages = guild.config.data.leavemessage;
+        let message = messages[random(messages.length)];
+        channel.send(message
+            .split("{{server}}").join(guild.name)
+            .split("{{user}}").join(member.displayName)
+            .split("{{mention}}").join(`<@${member.user.id}>`));
+    }
 
     // LOG
     if (member.guild.partial) await member.guild.fetch();
 
-    let memberRemoveLogEmbed = this.client.utils.embed()
-        .setThumbnail(member.guild.iconURL({format: 'png'}))
+    let memberRemoveLogEmbed = client.utils.embed()
+        .setTitle(client.utils.emojis.prev + " User Left")
+        .setThumbnail(member.user.displayAvatarURL({format: 'png'}))
         .setDescription(`This server now has ${member.guild.memberCount} members`)
         .setFooter(`${member.user.tag} [${member.id}]`, member.user.displayAvatarURL({format: 'png'}));
 
@@ -37,7 +38,7 @@ module.exports = async (client, member) => {
         memberRemoveLogEmbed.addField("Joined", member.joinedAt);
 
     if (member.roles) {
-        let roles = member.roles.filter(role => role.id != member.guild.roles.everyone.id).map(r => `<@${r.id}>`).join(", ");
+        let roles = member.roles.cache.filter(role => role.id != member.guild.id).map(r => `<@${r.id}>`).join(", ");
         if(!isEmpty(roles))
             memberRemoveLogEmbed.addField("Roles", roles);
     }
