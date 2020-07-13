@@ -33,7 +33,7 @@ module.exports = function (app, client) {
             return res.json({ invalidauth: true });
         }
         delete req.body.auth;
-        client.emit('gbl-vote', req.body);
+        client.emit('botlistVote', { id: req.body.id, list: "Glenn Bot List" });
         res.status(200);
         return res.json({ good: true });
     })
@@ -45,8 +45,8 @@ module.exports = function (app, client) {
         //     return res.json({ invalidauth: true });
         // }
         // delete req.body.auth;
-        console.log(req.body, req.auth);
-        client.emit('blspace-vote', req.body);
+        console.log(req.body, req.headers);
+        client.emit('botlistVote', { id: req.body.user.id, list: "botlist.space" });
         res.status(200);
         return res.json({ good: true });
     })

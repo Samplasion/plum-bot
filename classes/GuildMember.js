@@ -32,7 +32,6 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
                 })
             },
             setDefault: () => {
-
                 let defaultSettings = {
                     userID: user.id,
                     guildID: guild.id,
@@ -52,6 +51,7 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
                 return currentSettings || defaultSettings;
             },
             check: () => {
+                this.ensure();
                 let data = this.points.data;
                 let curLevel = data.level;
                 let newLevel = Math.floor(0.1 * Math.sqrt(data.points));
@@ -65,10 +65,12 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
                 return false;
             },
             award(points = 1) {
+                this.ensure();
                 client.points.math(`${user.id}-${guild.id}`, "+", points, "points");
                 return this.check();
             },
             detract(points = 1) {
+                this.ensure();
                 client.points.math(`${user.id}-${guild.id}`, "-", points, "points");
                 return this.check();
             },
