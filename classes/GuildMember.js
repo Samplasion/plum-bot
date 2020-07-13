@@ -52,7 +52,7 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
             },
             check() {
                 this.ensure();
-                let data = this.points.data;
+                let data = this.data;
                 let curLevel = data.level;
                 let newLevel = Math.floor(0.1 * Math.sqrt(data.points));
 
