@@ -30,7 +30,6 @@ module.exports = class HelpCommand extends Command {
 	}
 
 	async run(msg, args) {
-        // TODO: FIX pl.help 4
         let prefix = msg.guild ? msg.guild.commandPrefix : this.client.commandPrefix;
 
         let groups = this.client.registry.groups;

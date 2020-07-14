@@ -25,7 +25,7 @@ module.exports = class ConnectFourCommand extends Command {
             //   DELIMITER is one of the following symbols: \`.*x-_|&\`; and
             //   SYMBOL is optional and can be either \`?\` or \`!\`.
             //   There can be an arbitrary amount of space between each "token" of the format.`,
-            examples: ['minesweeper', "minesweeper 2x3", "minesweeper 4 - 1 !", "minesweeper 3 . 4?"],
+            examples: ['c4', "minesweeper 2x3", "minesweeper 4 - 1 !", "minesweeper 3 . 4?"],
             guildOnly: true,
             args: [{
                 key: 'colOrMem',
@@ -94,12 +94,12 @@ module.exports = class ConnectFourCommand extends Command {
             if (!game)
                 return this.client.utils.sendErrMsg(msg, `You have no ongoing games! Run \`${msg.prefix}connectfour @Someone\` to play with a friend.`);
 
-            if (column < 1 || column > game.size.width)
-                return msg.error(`The column must be a number between 1 and ${game.size.width}.`);
-          
-            if (!column) {
+            if (!column && column.toString() != "0") {
                 return msg.channel.send(this.gridEmbed(game));
             }
+
+            if (column < 1 || column > game.size.width)
+                return msg.error(`The column must be a number between 1 and ${game.size.width}.`);
           
             let thisPlayer = (game.lastPlayer == Connect4Player.RED ? game.players.yellow : game.players.red);
             if (msg.author.id != thisPlayer.id)
