@@ -55,7 +55,7 @@ module.exports = class ConfigCommand extends Command {
 
     await msg.info("This command is deprecated, and it'll be " +
         "removed in version 2.0.0. You can use the new " +
-        "Web Dashboard instead:\n\nhttps://plum-bot.xyz/dashboard/" + msg.guild.id);
+        "Web Dashboard instead:\n\n" + process.env.DOMAIN + "/dashboard/" + msg.guild.id);
 
     switch (action) {
       case "view":

@@ -80,7 +80,7 @@ module.exports = function server(client) {
     const strategy = new Strategy({
         clientID: process.env.CLIENT_ID,
         clientSecret: process.env.CLIENT_SECRET,
-        callbackURL: "https://plum-bot.xyz/dashboard/callback", // The url that will handle callbacks.
+        callbackURL: process.env.DOMAIN + "/dashboard/callback", // The url that will handle callbacks.
         scope: ["identify", "guilds"] // Get tag and profile picture + servers user is in.
     },
     (accessToken, refreshToken, profile, done) => {
