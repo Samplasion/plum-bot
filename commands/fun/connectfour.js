@@ -16,7 +16,7 @@ module.exports = class ConnectFourCommand extends Command {
         super(client, {
             name: 'connectfour',
             group: 'fun',
-            aliases: ["connectfour", "connectfour 4"],
+            aliases: ["c4"],
             memberName: 'connectfour',
             description: 'Play some "Connect 4" with someone else!',
             // details: oneLine`The format for the argument is the following:
@@ -25,7 +25,7 @@ module.exports = class ConnectFourCommand extends Command {
             //   DELIMITER is one of the following symbols: \`.*x-_|&\`; and
             //   SYMBOL is optional and can be either \`?\` or \`!\`.
             //   There can be an arbitrary amount of space between each "token" of the format.`,
-            examples: ['c4', "minesweeper 2x3", "minesweeper 4 - 1 !", "minesweeper 3 . 4?"],
+            examples: ["connectfour", "connectfour 4"],
             guildOnly: true,
             args: [{
                 key: 'colOrMem',
