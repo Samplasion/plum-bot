@@ -16,7 +16,7 @@ module.exports = class ConnectFourCommand extends Command {
         super(client, {
             name: 'connectfour',
             group: 'fun',
-            aliases: ["c4"],
+            aliases: ["connectfour", "connectfour 4"],
             memberName: 'connectfour',
             description: 'Play some "Connect 4" with someone else!',
             // details: oneLine`The format for the argument is the following:
