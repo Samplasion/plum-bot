@@ -25,7 +25,7 @@ module.exports = class PurgeCommand extends Command {
 		});
 	}
 
-	async run(msg, { amount }) {
+  async run(msg, { amount }) {
     await msg.delete();
     
     let msgs = await msg.channel.messages.fetch({ limit: amount });

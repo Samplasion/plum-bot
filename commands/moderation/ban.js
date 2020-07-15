@@ -37,16 +37,16 @@ This permanently bans users.`,
 			user = await msg.guild.members.fetch(user.id);
 
 			if (!user.bannable)
-				return msg.reply("I cannot ban this user");
+				return msg.error("I cannot ban this user");
 
 			if (msg.member.roles.highest.position <= user.roles.highest.position)
-				return msg.reply("You can't ban someone who has a higher role position than you.");
+				return msg.error("You can't ban someone who has a higher role position than you.");
 
 			if (this.client.permissions(user).level >= 2 && !this.client.permissions(msg.member).level >= 3)
-				return msg.reply("You need to have the `Administrator` permission in order to ban moderators");
+				return msg.error("You need to have the `Administrator` permission in order to ban moderators");
 
 			if (this.client.permissions(user).level >= 3 && msg.guild.ownerID !== msg.member.id)
-				return msg.reply("You need to be the server owner in order to ban Administrators")
+				return msg.error("You need to be the server owner in order to ban Administrators")
 		}
     await msg.guild.ban(user.user ? user.user.id : user.id, reason);
     msg.ok(`${user.user ? user.user.tag : user.tag} was banned`);

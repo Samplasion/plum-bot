@@ -53,10 +53,10 @@ module.exports = class UnMuteCommand extends Command {
             return msg.error(`You can't ${mute} someone who has a higher role position than you.`);
 
         if (this.client.permissions(user).level >= 2 && !this.client.permissions(msg.member).level >= 3)
-            return msg.reply(`You need to have the Administrator permission (level 3) in order to ${mute} moderators`);
+            return msg.error(`You need to have the Administrator permission (level 3) in order to ${mute} moderators`);
 
         if (this.client.permissions(user).level >= 3 || user.roles.cache.some(role => role.permissions.has("ADMINISTRATOR")))
-            return msg.reply('You can\'t mute Administrators');
+            return msg.error('You can\'t mute Administrators');
         
         if (mute == "mute")
             user.roles.add(role);

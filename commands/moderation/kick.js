@@ -33,16 +33,16 @@ module.exports = class KickCommand extends Command {
 			user = await msg.guild.members.fetch(user.id);
 
 			if (msg.member.roles.highest.position <= user.roles.highest.position)
-				return msg.reply("You can't kick someone who has a higher role position than you.");
+				return msg.error("You can't kick someone who has a higher role position than you.");
 
 			if (this.client.permissions(user).level >= 2 && !this.client.permissions(msg.member).level >= 3)
-				return msg.reply("You need to have the `Administrator` permission in order to kick moderators");
+				return msg.error("You need to have the `Administrator` permission in order to kick moderators");
 
 			if (this.client.permissions(user).level >= 3 && msg.guild.ownerID !== msg.member.id)
-				return msg.reply("You need to be the server owner in order to kick Administrators")
-		} else return msg.reply("you can't kick someone who isn't here already")
+				return msg.error("You need to be the server owner in order to kick Administrators")
+		} else return msg.error("you can't kick someone who isn't here already")
     await user.kick(reason)
-    this.client.utils.sendOkMsg(msg, `${user.user.tag} was kicked`)
+    msg.ok(`${user.user.tag} was kicked`)
     let em = this.client.utils.emojis;
     let e = this.client.utils.embed()
       .setTitle("User Kicked")
