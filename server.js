@@ -49,10 +49,7 @@ client.configs.getSet = (guild, path = null) => {
 
 client.login(process.env.TOKEN);
 
-// ======== REQUIRED
-if (process.env.BRANCH == "master") {
-    require("./site.js")(client);
-}
+require("./site.js")(client);
 
 /* LOGGERS
 process
