@@ -3,8 +3,8 @@
 }
 
 @media screen and (max-width: 1023px) {
-    .container {
-        /* margin: 0 16px; */
+    :not(.navbar) .container {
+        margin: 0 16px;
     }
 }
 
