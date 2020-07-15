@@ -5,7 +5,7 @@ module.exports = class BanCommand extends Command {
     constructor(client) {
         super(client, {
             name: 'bean',
-            group: 'fakemod',
+            group: 'fun',
             memberName: 'bean',
             description: 'Beans an user.',
             details: oneLine`You can also bean someone who isn't in your server.

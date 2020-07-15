@@ -49,7 +49,7 @@ This permanently bans users.`,
 				return msg.reply("You need to be the server owner in order to ban Administrators")
 		}
     await msg.guild.ban(user.user ? user.user.id : user.id, reason);
-    this.client.utils.sendOkMsg(msg, `${user.user ? user.user.tag : user.tag} was banned`);
+    msg.ok(`${user.user ? user.user.tag : user.tag} was banned`);
     let em = this.client.utils.emojis;
     let e = this.client.utils.embed()
       .setTitle("User Banned")
