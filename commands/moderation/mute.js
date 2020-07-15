@@ -25,11 +25,11 @@ module.exports = class UnMuteCommand extends Command {
                 {
                     key: 'user',
                     type: 'member',
-                    prompt: 'Please provide a user to mute.',
+                    prompt: 'Please provide a user to mute/unmute.',
                 },
                 {
                     key: 'reason',
-                    prompt: 'why do you want to ban him?',
+                    prompt: 'why do you want to mute/unmute them?',
                     default: 'No reason',
                     type: 'string',
                 },
