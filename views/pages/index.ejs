@@ -16,9 +16,11 @@
                     <%= client.user.username %> is a multipurpose bot with lots of games and utilities.
                 </h2>
                 <div style="justify-content: center;" class="field has-addons has-text-centered">
+                    <% if (process.env.BRANCH == "master") { %>
                     <p class="control">
                         <a class="button is-primary" href="<%- client.invite %>">Invite</a>
                     </p>
+                    <% } %>
                     <p class="control">
                         <a class="button is-primary" href="/server">Support</a>
                     </p>
