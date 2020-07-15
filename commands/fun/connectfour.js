@@ -62,29 +62,40 @@ module.exports = class ConnectFourCommand extends Command {
 
             if (Object.keys(this.games).some(k => (k.includes(msg.member.id)) && k.endsWith(msg.guild.id))) {
                 if (Date.now() - this.games[this.getID(msg)].startingTime > 10 * 60000) {
-                    let delet = await msg.member.ask(msg.channel, `You already have an ongoing game, but it's been going on for more than 10 minutes. Do you wanna delete it?`);
+                    let delet;
+                    try {
+                        delet = await msg.member.ask(msg.channel, `You already have an ongoing game, but it's been going on for more than 10 minutes. Do you wanna delete it?`);
+                    } catch (e) {
+                        return msg.error("You're already being asked something. Reply to that and retry.");
+                    }
                     if (delet) {
                         delete this.games[this.getID(msg)];
-                        msg.ok("I deleted your game.");
+                        msg.info("I deleted your game.");
                     } else {
-                        return msg.error("I won't delete the game.");
+                        return msg.info("I won't delete the game.");
                     }
                 } else {
-                    return this.client.utils.sendErrMsg(msg, "You already have an ongoing game.");
+                    return msg.error(msg, "You already have an ongoing game.");
                 }
             }
             if (Object.keys(this.games).some(k => (k.includes(member.id)) && k.endsWith(msg.guild.id)))
-                return this.client.utils.sendErrMsg(msg, `${member.displayName} already has an ongoing game.`);
+                return msg.error(msg, `${member.displayName} already has an ongoing game.`);
 
             let key = `${msg.member.id}-${member.id}-${msg.guild.id}`;
-            let agree = await member.ask(msg.channel, `<@${member.id}>, do you wanna play some Connect 4 with ${msg.member.displayName}?`);
+
+            let agree;
+            try {
+                agree = await member.ask(msg.channel, `<@${member.id}>, do you wanna play some Connect 4 with ${msg.member.displayName}?`);
+            } catch (e) {
+                return msg.error("You're already being asked something (probably another user asked you to play). Reply to that and retry.");
+            }
 
             if (agree) {
                 this.games[key] = new Connect4(msg.member, member);
                 return msg.channel.send(this.gridEmbed(this.games[key]));
             }
 
-            return this.client.utils.sendErrMsg(msg, `<@${msg.author.id}>, I'm sorry, ${member.displayName} refused to play with you.`);
+            return msg.error(`<@${msg.author.id}>, I'm sorry, ${member.displayName} refused to play with you.`);
         } else {
             /** @type {number} */
             let column = colOrMem;

@@ -8,6 +8,9 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
     constructor(...args) {
         super(...args);
         this.DBinit();
+
+        // Whether a member.ask(channel, text) is running;
+        this.questioning = false;
     }
 
     get level() {
@@ -82,6 +85,11 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
      * @param {string} question 
      */
     async ask(channel, question) {
+        if (this.questioning)
+            throw new Error("This member already has a question running.");
+        
+        this.questioning = true;
+        
         // SMERLIR Tactic
         if (this.guild.me.hasPermission("MANAGE_MESSAGES")) {
             // Send MEssage
@@ -105,9 +113,13 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
                     errors: ['time']
                 });
 
+                this.questioning = false;
+
                 // Return
                 return react.size && react.first().emoji.toString() == this.client.utils.emojis.ok;
             } catch (e) {
+                this.questioning = false;
+
                 return false;
             }
         }
@@ -121,9 +133,11 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
                 time: 60000,
                 errors: ["time"]
             });
+            this.questioning = false;
             return ["ok", "yes", "yeah", "y", "sure", "why not", "ya", "ye", "yay", "lets go", "let's go"]
                 .includes(collected.first().content.toLowerCase().trim());
         } catch (e) {
+            this.questioning = false;
             return false;
         }
     }
