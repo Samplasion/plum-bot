@@ -52,7 +52,7 @@ module.exports = class TagsCommand extends Command {
     }
 
     add(msg, rawStr) {
-        let tagsToAdd = rawStr.split(/(?<!,),\s*/g);
+        let tagsToAdd = rawStr.split(/(?:,(?<!,))\s+/g);
 
         let added = [],
             notAdded = [];
@@ -92,7 +92,7 @@ module.exports = class TagsCommand extends Command {
                 message: `The following ${notAdded.length > 1 ? "tags were" : "tag was"}n't deleted:\n${notAdded.map(obj => `- \`${obj.name}\`: ${obj.reason}`).join("\n")}`
             })
         }
-        
+
         return msg.combine(combined);
     }
 
