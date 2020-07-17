@@ -52,7 +52,7 @@ module.exports = class TagsCommand extends Command {
     }
 
     add(msg, rawStr) {
-        let tagsToAdd = rawStr.split(/(?:,(?<!,))\s+/g);
+        let tagsToAdd = rawStr.split(/(?<!,),(?!,)\s+/g);
 
         let added = [],
             notAdded = [];
