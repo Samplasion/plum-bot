@@ -51,6 +51,6 @@ module.exports = class PingCommand extends Command {
 	}
 
 	async run(msg, { name, group, desc }) {
-        return msg.channel.send("```" + template(name, group, desc) + "```");
+        return msg.channel.send("```js\n" + template(name, group, desc) + "\n```");
 	}
 };
