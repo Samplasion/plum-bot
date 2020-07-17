@@ -1,5 +1,6 @@
 const { Structures, Permissions } = require('discord.js');
 const { findType } = require('../settings/index.js');
+const { tags } = require("../utils/database");
 
 /**
  * @typedef SavedGuildQueueEntry
@@ -45,6 +46,30 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
                 guild.client.queues.set(guild.id, data);
                 return this;
             }
+		}
+
+		this.tags = {
+			get list() {
+				return customers.chain().find({ guild: guild.id });
+			},
+			add(name, text) {
+				let all = tags.data;
+				let thisTags = all.filter(tag => tag.guild == guild.id);
+				let packed = {
+					name,
+					text,
+					guild: guild.id
+				};
+
+				tags.insert(packed);
+				return this;
+			},
+			remove(name) {
+				let found = tags.chain().find({ name });
+				if (found)
+					found.remove();
+				return this;
+			}
 		}
     }
     
