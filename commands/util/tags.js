@@ -78,10 +78,10 @@ module.exports = class TagsCommand extends Command {
             kept = [];
 
         for (let tag of names) {
-            if (!msg.guild.tags.list.map(tag => tag.name).includes(name))
+            if (!msg.guild.tags.list.map(t => t.name).includes(tag))
                 kept.push(tag);
             else {
-                msg.guild.tags.remove(name);
+                msg.guild.tags.remove(tag);
                 deleted.push(tag);
             }
         }
