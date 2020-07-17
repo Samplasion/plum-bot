@@ -52,7 +52,7 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
                 return require("../utils/database.js").tags;
             },
 			get list() {
-				return this.tags.data.filter(tag => tag.guild == guild.id );
+				return this.tags.data.filter(tag => tag.guild == guild.id);
 			},
 			add(name, text) {
 				// let all = this.tags.data;
