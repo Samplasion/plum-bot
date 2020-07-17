@@ -1,6 +1,7 @@
 const { Structures, Permissions } = require('discord.js');
 const { findType } = require('../settings/index.js');
-const { tags } = require("../utils/database");
+const db = require("../utils/database.js");
+const tags = db.tags;
 
 /**
  * @typedef SavedGuildQueueEntry
