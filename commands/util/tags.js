@@ -47,9 +47,9 @@ module.exports = class TagsCommand extends Command {
     }
 
     add(msg, raw) {
-        let text = raw.split(/\s+/g);
+        let text = raw.split(" ");
         let name = text.shift();
-        text = text.join();
+        text = text.join(" ");
 
         if (msg.guild.tags.list.map(tag => tag.name).includes(name))
             return msg.error("A tag with that name already exists!");
@@ -65,7 +65,7 @@ module.exports = class TagsCommand extends Command {
         if (!msg.guild.tags.list.length)
             return msg.info("There are no tags.")
         
-        return msg.channel.send(this.client.util.fastEmbed(
+        return msg.channel.send(this.client.utils.fastEmbed(
             "Tags",
             msg.guild.tags.list.map(tag => `**${tag.name}**`).join(", ")
         ));
