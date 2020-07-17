@@ -50,7 +50,7 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
 
 		this.tags = {
 			get list() {
-				return customers.chain().find({ guild: guild.id });
+				return tags.chain().find({ guild: guild.id });
 			},
 			add(name, text) {
 				let all = tags.data;
