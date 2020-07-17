@@ -89,7 +89,7 @@ module.exports = class TagsCommand extends Command {
         if (notAdded.length) {
             combined.push({
                 type: "error",
-                message: `The following ${notAdded.length > 1 ? "tags were" : "tag was"}n't deleted:\n${notAdded.map(obj => `- \`${obj.name}\`: ${obj.reason}`).join("\n")}`
+                message: `The following ${notAdded.length > 1 ? "tags were" : "tag was"}n't added:\n${notAdded.map(obj => `- \`${obj.name}\`: ${obj.reason}`).join("\n")}`
             })
         }
 
