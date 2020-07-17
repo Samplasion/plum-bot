@@ -10,7 +10,12 @@ module.exports = class TagsCommand extends Command {
             memberName: 'tags',
             description: "See, list, create and remove the server's tags.",
             details: oneLine`Removing supports specifying multiple
-            tags at once (e.g. \`tags remove tag1 tag2 tag3\`).`,
+            tags at once (e.g. \`tags remove tag1 tag2 tag3\`).
+            Adding also supports specifying multiple tags at once
+            (e.g. \`tags add tag1 Text number 1, tag2 Text Number 2\`).
+            To avoid a comma getting confused for a multiple tag delimiter,
+            prepend it with another comma, like so: \`tags add test This
+            tag is one,, long tag with a comma,, maybe two.\``,
             guildOnly: true,
 
             args: [
@@ -46,19 +51,49 @@ module.exports = class TagsCommand extends Command {
         msg.channel.send(msg.guild.tags.list.filter(tag => tag.name == name)[0].text);
     }
 
-    add(msg, raw) {
-        let text = raw.split(" ");
-        let name = text.shift();
-        text = text.join(" ");
+    add(msg, rawStr) {
+        let tagsToAdd = rawStr.split(/(?<!,),\s*/g);
 
-        if (msg.guild.tags.list.map(tag => tag.name).includes(name))
-            return msg.error("A tag with that name already exists!");
+        let added = [],
+            notAdded = [];
+        
+        for (let raw of tagsToAdd) {
+            let text = raw.split(" ");
+            let name = text.shift();
+            text = text.join(" ");
 
-        if (!text)
-            return msg.error("There has to be some text to the tag.");
+            if (msg.guild.tags.list.map(tag => tag.name).includes(name)) {
+                notAdded.push({ name, reason: "A tag with that name already exists!" });
+                continue;
+            }
+        
+            if (!text) {
+                notAdded.push({ name, reason: "There has to be some text to the tag." });
+                continue;
+            }
 
-        msg.guild.tags.add(name, text);
-        msg.ok(`The tag was added. To see it, run \`${msg.prefix}tag ${name}\``);
+            msg.guild.tags.add(name, text);
+            added.push(name);
+        }
+
+        if (added.length == 1 && !notAdded.length)
+            return msg.ok(`The tag was added. To see it, run \`${msg.prefix}tag ${added[0]}\``);
+
+        let combined = []
+        if (added.length) {
+            combined.push({
+                type: "ok",
+                message: `The following ${added.length > 1 ? "tags were" : "tag was"} added: ${added.map(t => `\`${t}\``).join(", ")}`
+            })
+        }
+        if (notAdded.length) {
+            combined.push({
+                type: "error",
+                message: `The following ${notAdded.length > 1 ? "tags were" : "tag was"}n't deleted:\n${notAdded.map(obj => `- \`${obj.name}\`: ${obj.reason}`).join("\n")}`
+            })
+        }
+        
+        return msg.combine(combined);
     }
 
     list(msg) {
@@ -100,6 +135,6 @@ module.exports = class TagsCommand extends Command {
             })
         }
 
-        msg.combine(combined);
+        return msg.combine(combined);
     }
 };
