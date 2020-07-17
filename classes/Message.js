@@ -46,6 +46,16 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
         return this.client.utils.sendInfoMsg(this, text);
     }
 
+    combine(array) {
+        let str = "";
+        for (let obj of array) {
+            let emoji = this.client.utils.emojis[obj.type];
+            str += `${emoji} | ${obj.message}`;
+        }
+
+        return this.channel.send(str.trim());
+    }
+
     react(string) {
         if (typeof string == "string") {
             return super.react(string.replace(">", ""));

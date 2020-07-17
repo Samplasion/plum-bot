@@ -1,0 +1,105 @@
+const { oneLine } = require("common-tags");
+const Command = require('./../../classes/Command.js');
+
+module.exports = class TagsCommand extends Command {
+    constructor(client) {
+        super(client, {
+            name: 'tags',
+            aliases: ["tag"],
+            group: 'util',
+            memberName: 'tags',
+            description: "See, list, create and remove the server's tags.",
+            details: oneLine`Removing supports specifying multiple
+            tags at once (e.g. \`tags remove tag1 tag2 tag3\`).`,
+            guildOnly: true,
+
+            args: [
+                {
+                    key: "action",
+                    type: "string",
+                    prompt: "",
+                    // oneOf: ["list", "add", "remove"],
+                    default: "list"
+                },
+                {
+                    key: "arg",
+                    type: "string",
+                    default: "",
+                    prompt: ""
+                }
+            ]
+        });
+    }
+
+    run(msg, { action, arg }) {
+        let args = ["list", "add", "remove"];
+
+        if (!args.includes(action)) {
+            if (msg.guild.tags.list.map(tag => tag.name).includes(action))
+                return this.view(msg, action);
+            return msg.error(`This command accepts an argument that may be either ${args.map(a => `\`${a}\``).join(", ")} or a tag name.`);
+        }
+        return this[action](msg, arg);
+    }
+
+    view(msg, name) {
+        msg.channel.send(msg.guild.tags.list.filter(tag => tag.name == name)[0].text);
+    }
+
+    add(msg, raw) {
+        let text = raw.split(/\s+/g);
+        let name = text.shift();
+        text = text.join();
+
+        if (msg.guild.tags.list.map(tag => tag.name).includes(name))
+            return msg.error("A tag with that name already exists!");
+
+        if (!text)
+            return msg.error("There has to be some text to the tag.");
+
+        msg.guild.tags.add(name, text);
+        msg.ok(`The tag was added. To see it, run \`${msg.prefix}tag ${name}\``);
+    }
+
+    list(msg) {
+        if (!msg.guild.tags.list.length)
+            return msg.info("There are no tags.")
+        
+        return msg.channel.send(this.client.util.fastEmbed(
+            "Tags",
+            msg.guild.tags.list.map(tag => `**${tag.name}**`).join(", ")
+        ));
+    }
+
+    remove(msg, name) {
+        let names = name.split(/\s+/g);
+
+        let deleted = [],
+            kept = [];
+
+        for (let tag of names) {
+            if (!msg.guild.tags.list.map(tag => tag.name).includes(name))
+                kept.push(tag);
+            else {
+                msg.guild.tags.remove(name);
+                deleted.push(tag);
+            }
+        }
+
+        let combined = []
+        if (deleted.length) {
+            combined.push({
+                type: "ok",
+                message: `The following ${deleted.length > 1 ? "tags were" : "tag was"} deleted: ${deleted.map(t => `\`${t}\``).join(", ")}`
+            })
+        }
+        if (kept.length) {
+            combined.push({
+                type: "error",
+                message: `The following ${kept.length > 1 ? "tags were" : "tag was"}n't deleted because ${kept.length > 1 ? "they" : "it"} didn't exist: ${kept.map(t => `\`${t}\``).join(", ")}`
+            })
+        }
+
+        msg.combine(combined);
+    }
+};
