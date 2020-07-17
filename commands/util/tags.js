@@ -72,7 +72,7 @@ module.exports = class TagsCommand extends Command {
                 continue;
             }
 
-            msg.guild.tags.add(name, text);
+            msg.guild.tags.add(name.split(",,").join(","), text);
             added.push(name);
         }
 
