@@ -50,7 +50,7 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
         let str = "";
         for (let obj of array) {
             let emoji = this.client.utils.emojis[obj.type];
-            str += `${emoji} | ${obj.message}`;
+            str += `${emoji} | ${obj.message}\n`;
         }
 
         return this.channel.send(str.trim());
