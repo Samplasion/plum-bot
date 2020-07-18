@@ -126,11 +126,12 @@ module.exports = class PlumClient extends CommandoClient {
             logchan: "Log channel",
             welcomechan: "Welcome channel",
             welcomemessage: "Welcome messages",
-            leavemessage: "Leave message",
+            leavemessage: "Leave messages",
             mutedrole: "Muted role",
             ticketcategory: "Category for ticket channels",
             serverinfo: "Server information channel names",
-            levelupmsgs: "Level up messages"
+            levelupmsgs: "Level up messages",
+            unknowncommand: "Unknown command message"
         };
     }
 
@@ -147,7 +148,8 @@ module.exports = class PlumClient extends CommandoClient {
             'mutedrole',
             'ticketcategory',
             'serverinfo',
-            'levelupmsgs'
+            'levelupmsgs',
+            "unknowncommand"
         ];
     }
 

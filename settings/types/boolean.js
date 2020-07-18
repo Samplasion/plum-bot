@@ -13,9 +13,9 @@ module.exports = class BoolType {
 	}
 
 	static deserialize(client, _, val) {
-		if (val.toLowerCase() == "null") val = "false";
+		if (("" + val).toLowerCase() == "null") val = "false";
         console.log("des", val);
-		return val == "true" ? true : false;
+		return "" + val == "true" ? true : false;
 	}
 
 	static render(client, msg, val) {

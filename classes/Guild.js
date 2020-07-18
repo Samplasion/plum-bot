@@ -132,7 +132,9 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
 
                     serverinfo: [],
                     
-                    levelupmsgs: true
+                    levelupmsgs: true,
+
+                    unknowncommand: false,
 				};
 			},
 			setDefaultSettings: function(blank = false, scan = true) {
@@ -152,9 +154,14 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
                 return defaultSettings;
 			},
 			get data() {
+                // this.fix(serverconfig.get(guild.id));
 				let data = serverconfig.get(guild.id) || this.setDefaultSettings();
 				return data;
 			},
+            get(key) {
+                this.fix();
+                return findType(key).deserialize(guild.client, { guild }, this.data[key]);
+            },
 			set(key, newValue) {
 				let currentsettings = serverconfig.get(guild.id) || this.setDefaultSettings();
 				currentsettings[key] = newValue;
@@ -168,11 +175,11 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
 
 				return findType(key).deserialize(guild.client, { guild }, value);
 			},
-			fix: function() {
+			fix: function(data) {
 				let def = this.getDefaults();
 				if (!guild) return def;
 				let returns = {};
-				let overrides = this.data || {};
+				let overrides = data ? data : (this.data || {});
 				for (let key in def) {
 					if (key == "types") returns[key] = def[key] // replace the types, just to be sure it's up-to-date
 					else returns[key] = overrides[key] || def[key]; // For every key that's not there, use the default one
