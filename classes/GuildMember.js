@@ -43,16 +43,8 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
                     level: 1
                 };
 
-                let currentSettings = client.points.get();
-                if (currentSettings) {
-                    for (var key in defaultSettings) {
-                        // @ts-ignore
-                        currentSettings[key] = defaultSettings[key];
-                    }
-                }
-
-                this.db.insert(currentSettings || defaultSettings);
-                return currentSettings || defaultSettings;
+                this.db.insert(defaultSettings);
+                return defaultSettings;
             },
             check() {
                 this.ensure();
