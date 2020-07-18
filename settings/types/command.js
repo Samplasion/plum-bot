@@ -62,7 +62,7 @@ module.exports = class CommandType {
 
     static webRender(client, guild, val) {
 		let cmd = this.deserialize(client, { guild }, val);
-		return cmd ? `${client.commandPrefix}<strong>${cmd.name}</strong>` : this.nullValue;
+		return cmd ? `${client.commandPrefix}**${cmd.name}**` : this.nullValue;
     }
 
     static webInput(client, guild, val, name) {

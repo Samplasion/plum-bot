@@ -29,9 +29,9 @@ module.exports = class BoolType {
 
     static webRender(client, guild, val) {
         console.log("render", val, typeof val);
-        let checked = val.toString() == "true" ? "checked" : "";
+        let checked = val.toString() == "true" ? ":ballot_box_with_check:" : ":negative_squared_cross_mark:";
         let endis = val.toString() == "true" ? "En" : "Dis";
-        return `<input type="checkbox" disabled ${checked}> ${endis}abled`;
+        return `${checked} ${endis}abled`;
     }
 
     static webInput(client, guild, val, name) {

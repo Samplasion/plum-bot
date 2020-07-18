@@ -26,12 +26,11 @@
                             <% if (settingProps[setting].extendable) { %>
                                 <% settings[setting].forEach(set => { %>
                                     <% let pretty = type.webRender ? type.webRender(client, guild, set, setting + "[]") : set %>
-                                    <%- pretty == type.nullValue ? "This value is empty." : pretty %>
-                                    <br />
+                                    <%- pretty == type.nullValue ? "This value is empty." : render(guild, pretty).trim(); %>
                                 <% }); %>
                             <% } else { %>
                                 <% let pretty = type.webRender ? type.webRender(client, guild, settings[setting], setting) : setting %>
-                                <%- pretty == type.nullValue ? "This value is empty." : pretty %>
+                                <%- pretty == type.nullValue ? "This value is empty." : render(guild, pretty).trim(); %>
                             <% } %>
                         </div>
                     </div>

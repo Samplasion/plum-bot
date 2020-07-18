@@ -21,12 +21,20 @@
                     <code><%= guild.commandPrefix %></code>&nbsp;(<a onclick="$('.modal').toggleClass('is-active')">Edit</a>)
                 </p>
 
-                <br>
+                <hr>
 
                 <h5>Server configuration</h5>
                 <a href="/dashboard/<%= guild.id %>/config/view">View →</a>
                 |
                 <a href="/dashboard/<%= guild.id %>/config/edit">Edit →</a>
+
+                <hr>
+
+                <h5>Tags</h5>
+                <p><%= guild.tags.list.length || "No" %> tag<%= guild.tags.list.length == 1 ? "" : "s" %></p>
+                <a href="/dashboard/<%= guild.id %>/tags/view">View →</a>
+                |
+                <a href="/dashboard/<%= guild.id %>/tags/edit">Edit →</a>
             </div>
             <div class="column is-6">
                 <h5>Stats</h5>

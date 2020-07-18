@@ -17,4 +17,5 @@ node_modules
 .gitconfig
 .profile
 .history
+database.db
 *.db

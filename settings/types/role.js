@@ -43,7 +43,7 @@ module.exports = class RoleType {
 
     static webRender(client, guild, val) {
 		let role = this.deserialize(client, { guild }, val);
-		return role ? `<span style="padding: 0 2px;border-radius: 5px;background-color: #${role.color.toString(16)}11;color: #${role.color.toString(16)}">@${role.name}</span>` : this.nullValue;
+		return role ? `<@&${role.id}>` : this.nullValue;
     }
 
     static webInput(client, guild, val, name) {

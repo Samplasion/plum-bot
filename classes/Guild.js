@@ -301,10 +301,11 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
      * @returns {GuildMember[]}
      */
     get owners() {
-        if (!this.config.data.owners) return [];
-        return this.members.cache
+        let arr = [this.owner];
+        if (!this.config.data.owners) return arr;
+        return arr.concat(this.members.cache
             .filter(member => member.roles.cache.has(this.config.data.owners))
-            .array();
+            .array()).filter((el, index, arr) => arr.indexOf(el) == index);
     }
 
     get isPremium() {

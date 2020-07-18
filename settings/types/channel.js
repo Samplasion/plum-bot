@@ -47,7 +47,7 @@ module.exports = class ChannelType {
 
     static webRender(client, guild, val) {
 		let chan = this.deserialize(client, { guild }, val);
-		return chan ? `#${chan.name}` : this.nullValue;
+		return chan ? `<#${chan.id}>` : this.nullValue;
     }
 
     static webInput(client, guild, val, name) {

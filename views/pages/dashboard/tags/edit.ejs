@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+    <% var subtitle = "Editing Configuration: " + guild.name %>
+    <% include ../../../partials/head %>
+    <% include ../../../partials/nav %>
+    
+    <div class="container content">
+        <h1 class="title is-1 has-text-centered">Editing Server configuration</h1>
+        <h3 class="subtitle is-3 has-text-centered">Server: <%= guild.name %></h3>
+
+        <form id="tagsForm" onsubmit="form(this, event)" action="/dashboard/<%= guild.id %>/tags/save" method="post">
+            <div id="tagList">
+                <% for (let tag of guild.tags.list) { %>
+                    <span>
+                        <div class="field">
+                            <label class="label">Tag name</label>
+                            <input 
+                                class="input"
+                                type="text"
+                                name="tags[]"
+                                id="tags[]"
+                                value="<%= tag.name %>"
+                                placeholder="<%= tag.name %>"
+                            >
+                            <p style="display: none;" class="help is-danger">A tag with this name already exists.</p>
+                        </div>
+                        <div class="field">
+                            <label class="label">Tag text</label>
+                            <textarea
+                                class="textarea"
+                                name="bodies[]"
+                                placeholder="<%= tag.text %>"
+                            ><%= tag.text %></textarea>
+                            <p style="display: none;" class="help is-danger">The tag body must have a length between 1 and 1996.</p>
+                        </div>
+                        <span class="buttons is-right">
+                            <a class="button is-danger" onclick="$(this).parent().parent().remove()">
+                                Delete this tag
+                            </a>
+                        </span>
+                        <hr />
+                    </span>
+                <% } %>
+            </div>
+            <span class="buttons is-left">
+                <a class="button is-info" href="javascript:addFields()">
+                    + Add tag
+                </a>
+            </span>
+            <span class="buttons has-addons is-right">
+                <a href="/dashboard/<%= guild.id %>/home" class="button is-secondary">
+                    <span>Cancel</span>
+                </a>
+                <input type="submit" class="button is-primary">
+            </span>
+        </form>
+    </div>
+
+    <script>
+        let markup = `
+        <span>
+            <div class="field">
+                <label class="label">Tag name</label>
+                <input 
+                    class="input"
+                    type="text"
+                    name="tags[]"
+                    id="tags[]"
+                    value=""
+                    placeholder="Tag name"
+                >
+                <p style="display: none;" class="help is-danger">A tag with this name already exists.</p>
+            </div>
+            <div class="field">
+                <label class="label">Tag text</label>
+                <textarea
+                    class="textarea"
+                    name="bodies[]"
+                    placeholder="Tag text"
+                ></textarea>
+                <p style="display: none;" class="help is-danger">The tag body must have a length between 1 and 1996.</p>
+            </div>
+            <span class="buttons is-right">
+                <a class="button is-danger" onclick="$(this).parent().parent().remove()">
+                    Delete this tag
+                </a>
+            </span>
+            <hr />
+        </span>
+        `;
+        function addFields() {
+            $("#tagList").append(markup)
+        }
+
+        function form(form, event) {
+            let errors = false;
+            let tagNames = [];
+
+            // Check names
+            $("[name=\"tags[]\"]").each((i, e) => {
+                let $e = $(e);
+                let name = $e.val();
+
+                function err(str) {
+                    $e.addClass("is-danger");
+                    $e.next().text(str).show();
+
+                    event.preventDefault();
+                    errors = true;
+                }
+
+                if (name.trim().includes(" ")) {
+                    err("The name must not have spaces");
+                } else if (!name.trim()) {
+                    err("There must be a name");
+                } else if (tagNames.includes(name.trim())) {
+                    err("A tag with this name already exists.");
+                } else tagNames.push(name.trim());
+            });
+
+            // Check values
+            $("[name=\"bodies[]\"]").each((i, e) => {
+                let $e = $(e);
+                let body = $e.val().trim();
+
+                if (!body || body.length > 1996) {
+                    $e.addClass("is-danger");
+                    $e.next().show();
+
+                    event.preventDefault();
+                    errors = true;
+                }
+            });
+
+            return !errors;
+        }
+    </script>
+      
+    <% include ../../../partials/footer %>
+</html>

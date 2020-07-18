@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <% var subtitle = "Viewing Configuration: " + guild.name %>
+    <% include ../../../partials/head %>
+    <% include ../../../partials/nav %>
+
+    <div class="container content">
+        <h1 class="title is-1 has-text-centered">Viewing Tags</h1>
+        <h3 class="subtitle is-3 has-text-centered">Server: <%= guild.name %></h3>
+
+        <div class="columns is-multiline">
+            <% if (!guild.tags.list.length) { %>
+                <p>This server has no tags. <a href="/dashboard/<%= guild.id %>/tags/edit">Add some!</a></p>
+            <% } %>
+            <% for (let tag of guild.tags.list) { %>
+                <div class="column is-6">
+                    <h5><%= tag.name %></h5>
+                    <%- render(guild, tag.text) %>
+                </div>
+            <% } %>
+        </div>
+        <div class="buttons has-addons is-left">
+            <a href="/dashboard/<%= guild.id %>/home">
+                <span>← Back</span>
+            </a>
+        </div>
+    </div>
+      
+    <% include ../../../partials/footer %>
+</html>
