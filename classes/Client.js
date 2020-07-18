@@ -63,7 +63,7 @@ module.exports = class PlumClient extends CommandoClient {
 
         this.audio = require("../utils/audio");
 
-        this.points = new Enmap({ name: "points" })
+        // this.points = new Enmap({ name: "points" })
         this.configs = new Enmap({ name: "settings" })
 
         this.reminders = new Enmap({ name: "reminders" });

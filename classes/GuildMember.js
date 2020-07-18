@@ -22,19 +22,20 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
         let guild = this.guild;
         let client = this.client;
         this.points = {
+            get db() {
+                return require("../utils/database").levels;
+            },
             get data() {
                 this.ensure();
-                return client.points.get(`${user.id}-${guild.id}`) || this.setDefault();
+                return this.db.find({ guildID: guild.id, userID: user.id })[0];
             },
-            ensure: () => {
-                client.points.ensure(`${user.id}-${guild.id}`, {
-                    userID: user.id,
-                    guildID: guild.id,
-                    points: 0,
-                    level: 1
-                })
+            ensure() {
+                if (!this.db.data.map(o => `${o.userID}-${o.guildID}`).includes(`${user.id}-${guild.id}`)) {
+                    this.setDefault();
+                }
+                return this;
             },
-            setDefault: () => {
+            setDefault() {
                 let defaultSettings = {
                     userID: user.id,
                     guildID: guild.id,
@@ -50,7 +51,7 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
                     }
                 }
 
-                client.points.set(`${user.id}-${guild.id}`, currentSettings || defaultSettings);
+                this.db.insert(currentSettings || defaultSettings);
                 return currentSettings || defaultSettings;
             },
             check() {
@@ -58,23 +59,24 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
                 let data = this.data;
                 let curLevel = data.level;
                 let newLevel = Math.floor(0.1 * Math.sqrt(data.points));
+                data.level = newLevel;
 
-                client.points.set(`${user.id}-${guild.id}`, newLevel, "level");
+                this.db.update(data);
 
-                if (newLevel > curLevel) {
-                    return true
-                }
-
-                return false;
+                return newLevel > curLevel;
             },
             award(points = 1) {
                 this.ensure();
-                client.points.math(`${user.id}-${guild.id}`, "+", points, "points");
+                let data = this.data;
+                data.points += points;
+                this.db.update(data);
                 return this.check();
             },
             detract(points = 1) {
                 this.ensure();
-                client.points.math(`${user.id}-${guild.id}`, "-", points, "points");
+                let data = this.data;
+                data.points -= points;
+                this.db.update(data);
                 return this.check();
             },
         }

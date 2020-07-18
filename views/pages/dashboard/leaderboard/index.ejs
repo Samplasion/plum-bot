@@ -9,7 +9,7 @@
         <h3 class="subtitle is-3 has-text-centered">Server: <%= guild.name %></h3>
         <div class="columns is-multiline">
             <%
-                var filtered = client.points.array().filter(p => p.guildID === guild.id);
+                var filtered = require("./utils/database").levels.data.filter(p => p.guildID === guild.id);
                 var sorted = filtered.sort((a, b) => b.points - a.points);
             %>
             <% if (!sorted.length) { %>

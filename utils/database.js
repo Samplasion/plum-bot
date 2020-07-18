@@ -7,7 +7,7 @@ const db = new loki('database.db', {
 	autoloadCallback: loadCollections,
 })
 
-const collections = ['infractions', 'serverconfig', 'global', 'reminders', 'tags'];
+const collections = ['infractions', 'serverconfig', 'global', 'reminders', 'tags', 'levels'];
 function loadCollections () {
 	collections.forEach(x => {
 		let coll = db.addCollection(x)

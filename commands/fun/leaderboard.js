@@ -38,7 +38,7 @@ module.exports = class LeaderboardCommand extends Command {
       const top10 = sorted.splice(0, num);*/
       
       // thank NYoshi for this (I don't know why it didn't work before)
-      var filtered = this.client.points.array().filter(p => p.guildID === message.guild.id);
+      var filtered = require("../../utils/database").levels.data.filter(p => p.guildID === message.guild.id);
 			var sorted = filtered.sort((a, b) => b.points - a.points);
 			var top10 = sorted.splice(0, num);
       
