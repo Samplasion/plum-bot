@@ -4,7 +4,7 @@ module.exports = class PlumEmbed extends MessageEmbed {
   constructor(client, ...args) {
     super(...args);
     this.setFooter("");
-    this.setColor(0xC44040);
+    this.setColor(client.color);
     this.setAuthor(client.user.username, client.user.avatarURL());
   }
   

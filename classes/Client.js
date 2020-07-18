@@ -110,7 +110,11 @@ module.exports = class PlumClient extends CommandoClient {
             Permissions.FLAGS.MANAGE_EMOJIS,
             Permissions.FLAGS.MANAGE_CHANNELS,
             Permissions.FLAGS.MANAGE_WEBHOOKS
-        ]
+        ];
+    }
+
+    get color() {
+        return process.env.COLOR || 0xC44040;
     }
 
     get configTitles() {
