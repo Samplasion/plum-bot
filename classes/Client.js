@@ -114,7 +114,7 @@ module.exports = class PlumClient extends CommandoClient {
     }
 
     get color() {
-        return process.env.COLOR || 0xC44040;
+        return parseInt(process.env.COLOR) || 0xC44040;
     }
 
     get configTitles() {
