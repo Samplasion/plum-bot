@@ -1,4 +1,4 @@
-const Command = require('./../../classes/PremiumCommand.js');
+const Command = require('./../../classes/Command.js');
 const p = require("phin");
 
 module.exports = class LyricsCommand extends Command {
