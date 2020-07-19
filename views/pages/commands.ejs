@@ -11,7 +11,7 @@
     <div class="container">
       <% for (let category of client.registry.groups.filter(grp => grp.commands.some(c => !c.hidden && c.permLevel <= 4)).sort((a, b) => a.name.localeCompare(b.name)).values()) { %>
         <% 
-          var cmds = category.commands.filter(c => c.permLevel <= 4);
+          var cmds = category.commands.filter(c => !c.hidden && c.permLevel <= 4);
         %>
         <% if (!cmds.size) return; // skip empty %>
         <% let aliases = cmds.some(c => c.aliases && c.aliases.length) %>
