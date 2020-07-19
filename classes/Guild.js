@@ -103,7 +103,7 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
 
 				let logchannel = scan ? channels.cache.find(channel => channel.name === "modlogs") : null;
 				let welcomechannel = scan ? channels.cache.find(channel => channel.name === "general") : null;
-				// let starboardchannel = scan ? channels.cache.find(channel => channel.name === "starboard") : null;
+				let starboardchannel = scan ? channels.cache.find(channel => channel.name === "starboard") : null;
 
 				let mutedrole = scan ? roles.find(role => role.name === "Muted") : null;
 				let owners = [guild.owner.id];
@@ -133,8 +133,9 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
                     serverinfo: [],
                     
                     levelupmsgs: true,
-
                     unknowncommand: false,
+
+                    starboardchan: starboardchannel ? starboardchannel.id : null
 				};
 			},
 			setDefaultSettings: function(blank = false, scan = true) {

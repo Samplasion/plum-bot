@@ -131,7 +131,8 @@ module.exports = class PlumClient extends CommandoClient {
             ticketcategory: "Category for ticket channels",
             serverinfo: "Server information channel names",
             levelupmsgs: "Level up messages",
-            unknowncommand: "Unknown command message"
+            unknowncommand: "Unknown command message",
+            starboardchan: "Starboard channel",
         };
     }
 
@@ -149,7 +150,8 @@ module.exports = class PlumClient extends CommandoClient {
             'ticketcategory',
             'serverinfo',
             'levelupmsgs',
-            "unknowncommand"
+            "unknowncommand",
+            'starboardchan'
         ];
     }
 
