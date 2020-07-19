@@ -72,7 +72,6 @@ module.exports = class HelpCommand extends Command {
         } else {
             /** @type {PlumEmbed[]} */
             let embeds = [];
-            let index = 0;
 
             let cmdFilter = cmd => !cmd.hidden && (cmd.isUsable(msg) || cmd.premium) && (msg.guild ? msg.member : msg.author).level.level >= cmd.permLevel;
 
@@ -104,67 +103,10 @@ module.exports = class HelpCommand extends Command {
             });
 
             if (!embeds.length) {
-                return this.client.utils.sendErrMsg(msg, "You have no usable commands. Contact the owner for more info.");
+                return msg.error("You have no usable commands. Contact the owner for more info.");
             }
 
-            if (!msg.guild.me.hasPermission("MANAGE_MESSAGES")) {
-                let index = Math.max(0, (isNaN(args.command) ? 1 : parseInt(args.command)) - 1 % embeds.length);
-                let embed = embeds[index || 0];
-                if (!embed) return this.client.utils.sendErrMsg(msg, `There was an error finding page ${index+1}. Make sure ` +
-                    `the page is a number between 1 and ${embeds.length}.`);
-                embed.setDescription(`${embed.description} • Use \`${prefix}help [page]\` to choose another page.`);
-                msg.channel.send(embed);
-                return;
-            }
-
-            /* eslint-disable no-unused-vars */
-            const R = [
-                [this.client.utils.emojis.prev, (collector) => index--],
-                [this.client.utils.emojis.stop, (collector) => collector.stop("manual")],
-                [this.client.utils.emojis.next, (collector) => index++],
-            ];
-            /* eslint-enable no-unused-vars */
-
-            console.error(embeds);
-            let message = await msg.channel.send(embeds[0]);
-            // eslint-disable-next-line no-unused-vars
-            for (let [react, cb] of R) {
-                await message.react(react);
-            }
-
-            const filter = (reaction, user) => {
-                return R.map(r => r[0]).some(emoji => reaction.emoji.name === emoji) && user.id === msg.author.id;
-            };
-
-            const collector = message.createReactionCollector(filter, {
-                time: 120000
-            });
-
-            // eslint-disable-next-line no-unused-vars
-            collector.on('collect', async (reaction, user) => {
-                if (msg.guild.me.hasPermission("MANAGE_MESSAGES")) await reaction.users.remove(msg.author.id);
-
-                var matching = R.filter(r => r[0] == reaction.emoji.name);
-                if (!matching.length) return;
-
-                matching[0][1](collector);
-                if (index < 0) index = embeds.length - 1;
-                index %= embeds.length;
-
-                message.edit(embeds[index]);
-            });
-
-            collector.on('end', async (collected, reason) => {
-                msg.reactions.cache.forEach(r => r.remove());
-                let m;
-                if (reason === "manual") {
-                    m = await message.edit("Interactive menu ended successfully.");
-                } else {
-                    m = await message.edit("Interactive menu ended for inactivity.");
-                }
-                m;
-                // m.delete({ timeout: 10000 });
-            });
+            return this.pagination(msg, embeds);
         }
 	}
 };
