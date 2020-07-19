@@ -18,7 +18,7 @@ module.exports = class CreditCommand extends Command {
 	async run(msg) {
         let embed = this.client.utils.embed()
         .setTitle("Credits")
-        .setDescription(this.cluent.user.username + " was made by Samplasion.")
+        .setDescription(this.client.user.username + " was made by Samplasion.")
         .addInline("Audio commands", "Made by NightScript#5597")
 
         msg.channel.send(embed);
