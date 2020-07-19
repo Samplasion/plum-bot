@@ -40,6 +40,7 @@
     "passport-discord": "^0.1.4",
     "phin": "^3.5.0",
     "safe-eval": "^0.4.1",
+    "some-random-api": "^2.0.0",
     "sqlite": "^3.0.0",
     "systeminformation": "^4.26.9",
     "yt-search": "^2.1.1",

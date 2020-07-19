@@ -32,6 +32,7 @@ dependencies:
   passport-discord: 0.1.4
   phin: 3.5.0
   safe-eval: 0.4.1
+  some-random-api: 2.0.0
   sqlite: 3.0.6
   systeminformation: 4.26.9
   yt-search: 2.1.1
@@ -75,6 +76,17 @@ packages:
     dev: false
     resolution:
       integrity: sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==
+  /@types/node-fetch/2.5.7:
+    dependencies:
+      '@types/node': 12.12.50
+      form-data: 3.0.0
+    dev: false
+    resolution:
+      integrity: sha512-o2WVNf5UhWRkxlf6eq+jMZDu7kjgpgJfl4xVNlvryc95O/6F2ld8ztKX+qu+Rjyet93WAWm5LjeX9H5FGkODvw==
+  /@types/node/12.12.50:
+    dev: false
+    resolution:
+      integrity: sha512-5ImO01Fb8YsEOYpV+aeyGYztcYcjGsBvN4D7G5r1ef2cuQOpymjWNQi5V0rKHE6PC2ru3HkoUr/Br2/8GUA84w==
   /@types/node/14.0.20:
     dev: false
     resolution:
@@ -1076,6 +1088,16 @@ packages:
     dev: false
     resolution:
       integrity: sha512-r5wGx7YeOwNWNlCA0wQ86zKyDLMQr+/RB8xy74M4hTphfmjlijTSSXGuH8rnvKZnfT9i+75zmd8jcKdMR4O6jA==
+  /form-data/3.0.0:
+    dependencies:
+      asynckit: 0.4.0
+      combined-stream: 1.0.8
+      mime-types: 2.1.27
+    dev: false
+    engines:
+      node: '>= 6'
+    resolution:
+      integrity: sha512-CKMFDglpbMi6PyN+brwB9Q/GOw0eAnsrEZDgcsH5Krhz5Od/haKHAX0NmQfha2zPPz0JpWzA7GJHGSnvCRLWsg==
   /forwarded/0.1.2:
     dev: false
     engines:
@@ -2223,6 +2245,16 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-Qu+VC3EwYLldKa1fCxuuvULvSJOKEgk9pi8dZeCVK7TqBfUNTH4sFkk4joj8afVSfAYgJoSOetjx9QWOJ5mYoQ==
+  /some-random-api/2.0.0:
+    dependencies:
+      '@types/node': 12.12.50
+      '@types/node-fetch': 2.5.7
+      node-fetch: 2.6.0
+      typescript: 3.9.7
+    dev: false
+    requiresBuild: true
+    resolution:
+      integrity: sha512-U97+M9+GfAwHUOnx47EZaRsxMvRXmj2x6LAqxGz5wHs0etDdm6DebHEMBYHIAFcKl1+JMPlRGiqGuwXvEykSdg==
   /source-map/0.6.1:
     dev: false
     engines:
@@ -2527,6 +2559,13 @@ packages:
       node: '>= 6'
     resolution:
       integrity: sha512-RbN7MaTQBZLJYzDENHPA0nUmWT0Ex80KHItprrgbTPufYhIlTePvCXZxyQK7wgn19FW5bnuaBIKcBb5mRWjB1Q==
+  /typescript/3.9.7:
+    dev: false
+    engines:
+      node: '>=4.2.0'
+    hasBin: true
+    resolution:
+      integrity: sha512-BLbiRkiBzAwsjut4x/dsibSTB6yWpwT5qWmC2OfuCg3GgVQCSgMs4vEctYPhsaGtd0AeuuHMkjZ2h2WG8MSzRw==
   /uid-safe/2.1.5:
     dependencies:
       random-bytes: 1.0.0
@@ -2737,6 +2776,7 @@ specifiers:
   passport-discord: ^0.1.4
   phin: ^3.5.0
   safe-eval: ^0.4.1
+  some-random-api: ^2.0.0
   sqlite: ^3.0.0
   systeminformation: ^4.26.9
   yt-search: ^2.1.1

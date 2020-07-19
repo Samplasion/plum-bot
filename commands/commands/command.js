@@ -20,7 +20,7 @@ module.exports = class ${titleCase(command)}Command extends Command {
 };
 `.trim();
 
-module.exports = class PingCommand extends Command {
+module.exports = class CommandCommand extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'command',
