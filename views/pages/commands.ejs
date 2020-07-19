@@ -9,7 +9,7 @@
     <br>
     <h1 class="title is-1" style="text-align: center; min-width: 100% !important;" width="100%">Command list</h1>
     <div class="container">
-      <% for (let category of client.registry.groups.filter(grp => grp.commands.some(c => !command.hidden && c.permLevel <= 4)).sort((a, b) => a.name.localeCompare(b.name)).values()) { %>
+      <% for (let category of client.registry.groups.filter(grp => grp.commands.some(c => !c.hidden && c.permLevel <= 4)).sort((a, b) => a.name.localeCompare(b.name)).values()) { %>
         <% 
           var cmds = category.commands.filter(c => c.permLevel <= 4);
         %>
