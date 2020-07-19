@@ -32,7 +32,7 @@ module.exports = class RandTextCommand extends Command {
                     `${member.points.data.points} points`, 
                     [
                         ['Level', member.points.data.level],
-                        ['Next level', `Level ${next} at ${(next ** 2) * 100} points`]
+                        ['Next', `Level ${next} at ${(next ** 2) * 100} points`]
                     ]
                 )
                 .setAuthor(member.displayName, member.user.displayAvatarURL())
