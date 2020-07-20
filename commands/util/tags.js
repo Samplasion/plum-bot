@@ -52,6 +52,9 @@ module.exports = class TagsCommand extends Command {
     }
 
     add(msg, rawStr) {
+        if (msg.member.level.level < 3)
+            return msg.error("The minimum permission for adding tags is **Server admin** [3]");
+            
         let tagsToAdd = rawStr.split(/(?<!,),(?!,)\s+/g);
 
         let added = [],
@@ -107,6 +110,9 @@ module.exports = class TagsCommand extends Command {
     }
 
     remove(msg, name) {
+        if (msg.member.level.level < 3)
+            return msg.error("The minimum permission for removing tags is **Server admin** [3]");
+
         let names = name.split(/\s+/g);
 
         let deleted = [],
