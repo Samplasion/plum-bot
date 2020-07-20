@@ -42,6 +42,9 @@ module.exports = class TagsCommand extends Command {
         if (!args.includes(action)) {
             if (msg.guild.tags.list.map(tag => tag.name).includes(action))
                 return this.view(msg, action);
+            args = ["list"];
+            if (msg.member.level.level > 3)
+                args = ["list", "add", "remove"];
             return msg.error(`This command accepts an argument that may be either ${args.map(a => `\`${a}\``).join(", ")} or a tag name.`);
         }
         return this[action](msg, arg);
@@ -54,7 +57,7 @@ module.exports = class TagsCommand extends Command {
     add(msg, rawStr) {
         if (msg.member.level.level < 3)
             return msg.error("The minimum permission for adding tags is **Server admin** [3]");
-            
+
         let tagsToAdd = rawStr.split(/(?<!,),(?!,)\s+/g);
 
         let added = [],
