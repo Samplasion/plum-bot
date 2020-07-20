@@ -7,7 +7,7 @@ module.exports = class CreditCommand extends Command {
 			name: 'credit',
 			group: 'commands',
 			memberName: 'credit',
-			description: `See the amazing people behind ${client.user.username}!`,
+			description: `See the amazing people behind Plum!`,
 			throttling: {
 				usages: 5,
 				duration: 10
