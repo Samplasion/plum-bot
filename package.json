@@ -1,6 +1,6 @@
 {
   "name": "plum-bot",
-  "version": "1.6.0",
+  "version": "1.6.2",
   "description": "A simple Node app built on Express, instantly up and running.",
   "main": "server.js",
   "scripts": {
