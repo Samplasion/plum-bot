@@ -35,6 +35,19 @@ const Connect4Slot = Object.freeze({
     YELLOW: 2
 });
 
+const numbers = [
+    "1️⃣",
+    "2️⃣",
+    "3️⃣",
+    "4️⃣",
+    "5️⃣",
+    "6️⃣",
+    "7️⃣",
+    "8️⃣",
+    "9️⃣",
+    "🔟"
+]
+
 /**
  * Checks if `array` has `length` equal elements in a row.
  * @template T
@@ -195,6 +208,9 @@ class Connect4 {
               grid += cell;
             }
             grid += "\n";
+        }
+        for (let i = 0; i < this.size.width; i++) {
+            grid += numbers[i];
         }
         return grid.trim();
     }

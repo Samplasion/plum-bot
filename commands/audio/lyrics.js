@@ -26,7 +26,7 @@ module.exports = class LyricsCommand extends Command {
             name = msg.guild.queue[0].songTitle;
         } else return msg.error("This command requires that music be playing or that you enter a query.");
 
-        let body = await sra.api.other.lyrics(query);
+        let body = await sra.api.other.lyrics(name);
 
         if (body.error || !body.lyrics)
             return msg.error(`The lyrics haven't been found! Make sure the title is right and the song isn't unknown.`);
@@ -34,15 +34,18 @@ module.exports = class LyricsCommand extends Command {
             return msg.error("The lyrics are too long! Look for something shorter.")
 
         let split = body.lyrics.split("\n").reduce((prev, cur) => {
+            console.log(prev, (prev[prev.length-1] || "").length + "\n".length + cur.length);
             if (!prev || !prev.length)
                 return [ cur ];
-            else if (prev.length + "\n".length + cur.length < 1024) {
+            else if (prev[prev.length-1].length + "\n".length + cur.length < 1024) {
                 prev[prev.length-1] += "\n" + cur;
                 return prev;
             }
             prev.push(cur);
             return prev;
         }, []);
+
+        console.log(split.map(str => str.length));
 
         let embed = this.client.utils.embed()
             .setDescription(split[0])

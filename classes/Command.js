@@ -1,12 +1,13 @@
 /* eslint-disable no-case-declarations */
 // @ts-ignore
-const { Command } = require('discord.js-commando');
+const { Command, util: { permissions } } = require('discord.js-commando');
 const { stripIndents, oneLine } = require("common-tags");
 // @ts-ignore
 // @ts-ignore
 const CommandError = require("./CommandError");
 // @ts-ignore
 const Embed = require("./Embed");
+const ArgumentCollector = require("./ArgumentCollector");
 
 module.exports = class PlumCommand extends Command {
     /**
@@ -18,7 +19,12 @@ module.exports = class PlumCommand extends Command {
      * @param {*} options Any option for the command is defined here.
      */
     constructor(client, options) {
+        options.argsPromptLimit = 0;
         super(client, options);
+
+        // this.argsCollector = options.args && options.args.length ?
+        //     new ArgumentCollector(client, options.args) :
+        //     null;
 
         this.permLevel = options.permLevel || 1;
         if (this.ownerOnly) this.permLevel = 10;
@@ -170,33 +176,28 @@ module.exports = class PlumCommand extends Command {
         let info = false;
 
         let emojis = this.client.utils.emojis;
-        let infoEmbed = this.client.utils.fastEmbed(
-            emojis.info + " Pagination",
-            "This is the help page for the Pagination menu.\n" +
-            "The following is an explanation for the reaction emojis.",
-            [
-                [
-                    "Emojis",
-                    stripIndents`${emojis.first} Go to the first page.
+        let infoEmbed = this.client.utils.embed()
+            .setTitle(emojis.info + " Pagination")
+            .setDescription(
+                "This is the help page for the Pagination menu.\n" +
+                "The following is an explanation for the reaction emojis.")
+            .addField(
+                "Emojis",
+                stripIndents`${emojis.first} Go to the first page.
                     ${emojis.prev} Go back one page, or loop to the last page if at the first one.
                     ${emojis.stop} Stops the interactive menu.
                     ${emojis.next} Go forward one page, or loop to the first page if at the last one.
                     ${emojis.last} Go to the last page.
-                    ${emojis.info} Toggle this menu.`
-                ],
-                [
-                    "How can I go back?",
-                    `Simply react with ${emojis.info} again.`
-                ],
-                [
-                    "Useful Links",
-                    oneLine`
-                    [Official Website](${process.env.DOMAIN}) | 
-                    [All commands](${process.env.DOMAIN}/commands) |
-                    [Official Support Server](${process.env.DOMAIN}/server)`
-                ]
-            ]
-        )
+                    ${emojis.info} Toggle this menu.`)
+            .addField(
+                "How can I go back?",
+                `Simply react with ${emojis.info} again.`)
+            .addField(
+                "Useful Links",
+                oneLine`
+                [Official Website](${process.env.DOMAIN}) | 
+                [All commands](${process.env.DOMAIN}/commands) |
+                [Official Support Server](${process.env.DOMAIN}/server)`);
 
         /* eslint-disable no-unused-vars */
         const R = [
@@ -264,6 +265,37 @@ module.exports = class PlumCommand extends Command {
             // m.delete({ timeout: 10000 });
         });
     }
+
+    onBlock(message, reason, data) {
+		switch(reason) {
+			case 'guildOnly':
+				return message.error(`The \`${this.name}\` command must be used in a server channel.`);
+			case 'nsfw':
+				return message.error(`The \`${this.name}\` command can only be used in NSFW channels.`);
+			case 'permission': {
+				if(data.response) return message.reply(data.response);
+				return message.error(`You do not have permission to use the \`${this.name}\` command.`);
+			}
+			case 'clientPermissions': {
+				if(data.missing.length === 1) {
+					return message.error(
+						`I need the "${permissions[data.missing[0]]}" permission for the \`${this.name}\` command to work.`
+					);
+				}
+				return message.error(oneLine`
+					I need the following permissions for the \`${this.name}\` command to work:
+					${data.missing.map(perm => permissions[perm]).join(', ')}
+				`);
+			}
+			case 'throttling': {
+				return message.error(
+					`You may not use the \`${this.name}\` command again for another ${data.remaining.toFixed(1)} seconds.`
+				);
+			}
+			default:
+				return null;
+		}
+	}
 
     isGood(variable) {
 		return (variable && variable !== null && (variable.size || variable.length))

@@ -6,7 +6,7 @@ const {
     findType
 } = require('../settings/index.js');
 const db = require('../utils/database.js');
-const PlumClient = require("./Client");
+const PlumEmbed = require("./Embed");
 
 // This extends Discord's native Guild class with our own methods and properties
 module.exports = Structures.extend("TextChannel", TextChannel => class extends TextChannel {

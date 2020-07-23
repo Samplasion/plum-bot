@@ -26,12 +26,14 @@ module.exports = class PlumClient extends CommandoClient {
                 ["commands", "Botkeeping Utilities"],
                 ["moderation", "Moderation"],
                 ["fun", "Fun"],
+                ["imgman", "Image editing"],
             ])
             //.registerDefaultCommands({
             //  help: false,
             //  ping: false,
             //  reload: false
             //})
+            .registerTypesIn(path.join(__dirname, '..', 'types'))
             .registerCommandsIn(path.join(__dirname, '..', 'commands'));
 
         sqlite.open(path.join(__dirname, '..', "settings.sqlite3")).then((db) => {
@@ -111,6 +113,17 @@ module.exports = class PlumClient extends CommandoClient {
             Permissions.FLAGS.MANAGE_CHANNELS,
             Permissions.FLAGS.MANAGE_WEBHOOKS
         ];
+
+        let _sra = require("some-random-api");
+        let CanvasCategory = require("./SRACanvasCategory");
+        this.sra = {
+            ..._sra,
+            CanvasCategory,
+            api: {
+                canvas: new CanvasCategory(),
+                ..._sra.api
+            }
+        }
     }
 
     get color() {

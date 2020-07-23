@@ -7,32 +7,34 @@ module.exports = class ColorCommand extends Command {
             group: 'fun',
             memberName: 'color',
             description: "Displays a color from a hexadecimal notation",
+            format: "[--rgb] <color>",
+            examples: [
+                "color --rgb 192, 64, 64",
+                "color f6f414"
+            ],
 
+            // Why don't I declare the regex somewhere else?
+            // Because apparently, regex's in JS remember things
+            // so it switches between true and false continuously
             args: [{
                 key: "color",
-                validate: (arg) => {
-                    return /[#A-F0-9]/g.test(arg.toUpperCase()) && (
-                        arg.length == arg.startsWith("#") ? 7 : 6 || // "#FFFFFF" or "FFFFFF"
-                        arg.length == arg.startsWith("#") ? 4 : 3    // "#FFF" or "FFF"
-                    );
-                },
-                parse: (arg) => {
-                    if (arg.startsWith("#"))
-                        arg = arg.substr(1);
-                    return arg.toUpperCase();
-                },
+                type: "color",
                 prompt: "you must pass a valid hexadecimal string."
             }]
         });
     }
 
     async run(msg, { color }) {
-        let long = color;
-        if (color.length == 3)
-            long = long.split("").map(c => `${c}${c}`).join("");
-        let embed = this.client.utils.embed()
-            .setColor(long)
-            .setImage("https://some-random-api.ml/canvas/colorviewer?hex=" + color);
-        msg.channel.send("Here's your color.", { embed })
+        try {
+            let long = color;
+            if (color.length == 3)
+                long = long.split("").map(c => `${c}${c}`).join("");
+            let embed = this.client.utils.embed()
+                .setColor(long)
+                .setImage("https://some-random-api.ml/canvas/colorviewer?hex=" + color);
+            msg.channel.send("Here's your color.", { embed })
+        } catch {
+            return msg.error("The color isn't a valid hex (or RGB with the `--rgb` flag) color!");
+        }
     }
 };

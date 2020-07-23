@@ -1,7 +1,6 @@
 const Command = require('../../classes/Command.js');
 // @ts-expect-error
-const { GuildMember, Message } = require("discord.js");
-const { oneLine } = require('common-tags');
+const { GuildMember } = require("discord.js");
 const {
     Connect4,
     Connect4Player,
@@ -91,7 +90,8 @@ module.exports = class ConnectFourCommand extends Command {
             }
 
             if (agree) {
-                this.games[key] = new Connect4(msg.member, member);
+                let e = this.client.utils.emojis;
+                this.games[key] = new Connect4(msg.member, member, { empty: e.blank });
                 return msg.channel.send(this.gridEmbed(this.games[key]));
             }
 
@@ -158,7 +158,7 @@ module.exports = class ConnectFourCommand extends Command {
 
         return this.client.utils.fastEmbed(
             "Connect Four game",
-            "```" + game.grid + "```",
+            game.grid,
             fields
         )
     }

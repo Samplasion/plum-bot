@@ -20,7 +20,6 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
     DBinit() {
         let user = this;
         let guild = this.guild;
-        let client = this.client;
         this.points = {
             get db() {
                 return require("../utils/database").levels;
@@ -71,6 +70,68 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
                 this.db.update(data);
                 return this.check();
             },
+        }
+
+        this.warns = {
+            get db() {
+                return require("../utils/database").infractions;
+            },
+            get data() {
+                try {
+                    return this.db.find({ guild: guild.id, user: user.id }) || [];
+                } catch {
+                    return [];
+                }
+            },
+            add(reason, issuer) {
+                let index = 0;
+                if (this.data.length) {
+                    index = this.data[this.data.length-1].id + 1;
+                }
+
+                this.db.insert({
+                    guild: guild.id,
+                    user: user.id,
+                    reason,
+                    id: index,
+                    issueDate: new Date(),
+                    lastEditDate: null,
+                    issuer
+                });
+
+                return index;
+            },
+            edit(index, reason) {
+                let data = this.data.filter(obj => {
+                    return obj.guild == guild.id &&
+                           obj.user == user.id &&
+                           obj.id == index;
+                })[0];
+                data.reason = reason;
+                data.lastEditDate = new Date();
+
+                this.db.update(data);
+
+                return this;
+            },
+            delete(index) {
+                this.db.chain().find({ index, guild: guild.id, user: user.id }).remove();
+                return this;
+            },
+            clear() {
+                this.db.chain().find({ guild: guild.id, user: user.id }).remove();
+                return this;
+            },
+            get(index) {
+                return this.data.filter(obj => {
+                    return obj.guild == guild.id &&
+                           obj.user == user.id &&
+                           obj.id == index;
+                })[0];
+            },
+            has(index) {
+                return !!this.get(index);
+            }
         }
     }
 
@@ -134,5 +195,16 @@ module.exports = Structures.extend("GuildMember", GuildMember => class extends G
             this.questioning = false;
             return false;
         }
+    }
+
+    async question(channel, question) {
+        const filter = m => m.author.id == this.user.id;
+		await channel.send(question);
+		try {
+			const collected = await channel.awaitMessages(filter, { max: 1, time: 60000, errors: ["time"] });
+			return collected.first().content;
+		} catch (e) {
+			return null;
+		}
     }
 })

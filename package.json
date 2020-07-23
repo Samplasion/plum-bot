@@ -1,6 +1,6 @@
 {
   "name": "plum-bot",
-  "version": "1.6.2",
+  "version": "2.0.0",
   "description": "A simple Node app built on Express, instantly up and running.",
   "main": "server.js",
   "scripts": {
@@ -16,6 +16,7 @@
     "deep-object-diff": "^1.1.0",
     "discord.js": "^12",
     "discord.js-commando": "github:discordjs/Commando",
+    "domcolor": "^0.0.1",
     "dotenv": "^8.2.0",
     "ejs": "2.7.1",
     "enmap": "^5",
@@ -43,6 +44,7 @@
     "some-random-api": "^2.0.0",
     "sqlite": "^3.0.0",
     "systeminformation": "^4.26.9",
+    "validator": "^13.1.1",
     "yt-search": "^2.1.1",
     "ytdl-core-discord": "^1.2.1",
     "ytpl": "^0.1.22"

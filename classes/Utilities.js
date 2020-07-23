@@ -64,6 +64,21 @@ class Utilities {
             moderator: "👷",
             premium: "🔶",
             music: "🎵",
+            game: "🎮",
+            name: "📛",
+            calendar: "📆",
+            bot: "<:bot:734798211276865688>", // [BOT]
+            mobile: "📱",
+            online: "<:online:734801010811207840>", // o
+            idle: "<:idle:734801111147348051>", // o
+            dnd: "<:dnd:734801157716836482>", // o
+            offline: "<:offline:734801031841710210>", // o
+            invisible: "<:invisible:734801082949304472>", // o
+            streaming: "<:streaming:734801186829500437>", // o
+            boost: "<:boost:734804726566223892>",
+            audio: "🔈",
+            diamond: "💎",
+            blank: "<:blank:735179373011009536>" // Literally nothing
         }
     }
 
@@ -210,6 +225,7 @@ class Utilities {
     }
 
     remindUser(user, reminder) {
+        if (!user) return;
         return user.send(`:bulb: You asked me to remind you ${reminder.text}.`);
     }
 
