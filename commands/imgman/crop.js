@@ -50,7 +50,7 @@ module.exports = class CropCommand extends Command {
         img.crop(0, 0, width, height);
 
         let buf = await img.getBufferAsync(Jimp.MIME_PNG);
-        let att = new MessageAttachment(buf);
+        let att = new MessageAttachment(buf, "crop.png");
 
         return msg.channel.send("Here's your cropped image.", att);
     }
