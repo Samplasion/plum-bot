@@ -35,10 +35,12 @@ module.exports = class ImageType extends ArgumentType {
     }
 
     async parse(val, msg, arg) {
+        val && (val = val.trim());
+
         if (msg.attachments && hasImageAttachment(msg))
             return msg.attachments.first().proxyURL;
 
-        if (val && isURL(val, urlOpts) && /\.(png|jpe?g|gif)$/.test(new URL(val).pathname))
+        if (val && isURL(val, urlOpts) && /\.(png|jpe?g|gif)([?#][^]+)+$/.test(val))
             return val;
 
         let memberType = this.client.registry.types.get("member");

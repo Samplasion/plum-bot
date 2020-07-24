@@ -20,7 +20,7 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
         /** @type {PlumGuild?} */
         this.guild;
 
-        this.flags = {};
+        this.flags_ = {};
     }
 
     get prefix() {
@@ -131,7 +131,7 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
             return this.command.onBlock(this, 'throttling', data);
         }
 
-        if (this.flags.help) {
+        if (this.flags_.help) {
             return this.client.registry.commands.get("help").run(this, { command: this.command.name })
         }
 
@@ -251,7 +251,7 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
             else flags[name] = true;
             console.log(flags);
         });
-        this.flags = flags;
+        this.flags_ = flags;
     }
 
     makeEmbed() {
@@ -269,4 +269,10 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
     flag(...flags) {
         return flags.some(flag => this.flags[flag]);
     }
+
+    get flags() {
+        return this.flags_;
+    }
+
+    set flags(s) {}
 });

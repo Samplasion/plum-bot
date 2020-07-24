@@ -30,13 +30,17 @@ module.exports = class CropCommand extends Command {
     }
 
     async run(msg, { image }) {
+        if (!Math.clamp)
+            Math.clamp = (value, min, max) => Math.max(Math.min(value, max), min);
+        
+        console.log(image)
         let img = await Jimp.read(image);
         let width = img.bitmap.width;
         if (msg.flags.width) {
             let w = this.asNum(msg, "width");
             if (typeof w == "string")
                 return msg.error(w);
-            width = w;
+            width = Math.clamp(w, 1, width);
         }
 
         let height = img.bitmap.height;
@@ -44,10 +48,14 @@ module.exports = class CropCommand extends Command {
             let h = this.asNum(msg, "height");
             if (typeof h == "string")
                 return msg.error(h);
-            height = h;
+            height = Math.clamp(h, 1, height);
         }
         
-        img.crop(0, 0, width, height);
+        console.log(msg.flags, width, height);
+
+        await img.crop(0, 0, width, height);
+
+        console.log(img);
 
         let buf = await img.getBufferAsync(Jimp.MIME_PNG);
         let att = new MessageAttachment(buf, "crop.png");
