@@ -34,8 +34,8 @@ dependencies:
   passport-discord: 0.1.4
   phin: 3.5.0
   safe-eval: 0.4.1
-  some-random-api: 2.0.0
   sqlite: 3.0.6
+  sra-wrapper: 1.0.1
   systeminformation: 4.26.9
   validator: 13.1.1
   yt-search: 2.1.1
@@ -460,21 +460,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==
-  /@types/node-fetch/2.5.7:
-    dependencies:
-      '@types/node': 12.12.50
-      form-data: 3.0.0
-    dev: false
-    resolution:
-      integrity: sha512-o2WVNf5UhWRkxlf6eq+jMZDu7kjgpgJfl4xVNlvryc95O/6F2ld8ztKX+qu+Rjyet93WAWm5LjeX9H5FGkODvw==
-  /@types/node/12.12.50:
-    dev: false
-    resolution:
-      integrity: sha512-5ImO01Fb8YsEOYpV+aeyGYztcYcjGsBvN4D7G5r1ef2cuQOpymjWNQi5V0rKHE6PC2ru3HkoUr/Br2/8GUA84w==
   /@types/node/14.0.20:
     dev: false
     resolution:
       integrity: sha512-MRn/NP3dee8yL5QhbSA6riuwkS+UOcsPUMOIOG3KMUQpuor/2TopdRBu8QaaB4fGU+gz/bzyDWt0FtUbeJ8H1A==
+  /@types/node/14.0.26:
+    dev: false
+    resolution:
+      integrity: sha512-W+fpe5s91FBGE0pEa0lnqGLL4USgpLgs4nokw16SrBBco/gQxuua7KnArSEOd5iaMqbbSHV10vUDkJYJJqpXKA==
   /abbrev/1.1.1:
     dev: false
     resolution:
@@ -1532,16 +1525,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-BvCBFK2NZqerFTdMDgqfHBwxYWnxeCkwONsw6PvBMcUXqo8U/KDWwmXhqx1x2kLIg7DqIsJfOaJFOmlua3Lxuw==
-  /form-data/3.0.0:
-    dependencies:
-      asynckit: 0.4.0
-      combined-stream: 1.0.8
-      mime-types: 2.1.27
-    dev: false
-    engines:
-      node: '>= 6'
-    resolution:
-      integrity: sha512-CKMFDglpbMi6PyN+brwB9Q/GOw0eAnsrEZDgcsH5Krhz5Od/haKHAX0NmQfha2zPPz0JpWzA7GJHGSnvCRLWsg==
   /forwarded/0.1.2:
     dev: false
     engines:
@@ -2835,16 +2818,6 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-Qu+VC3EwYLldKa1fCxuuvULvSJOKEgk9pi8dZeCVK7TqBfUNTH4sFkk4joj8afVSfAYgJoSOetjx9QWOJ5mYoQ==
-  /some-random-api/2.0.0:
-    dependencies:
-      '@types/node': 12.12.50
-      '@types/node-fetch': 2.5.7
-      node-fetch: 2.6.0
-      typescript: 3.9.7
-    dev: false
-    requiresBuild: true
-    resolution:
-      integrity: sha512-U97+M9+GfAwHUOnx47EZaRsxMvRXmj2x6LAqxGz5wHs0etDdm6DebHEMBYHIAFcKl1+JMPlRGiqGuwXvEykSdg==
   /source-map/0.6.1:
     dev: false
     engines:
@@ -2879,6 +2852,13 @@ packages:
     requiresBuild: true
     resolution:
       integrity: sha512-roEOz41hxui2Q7uYnWsjMOTry6TcNUNmp8audCx18gF10P2NknwdpF+E+HKvz/F2NvPKGGBF4NGc+ZPQ+AABwg==
+  /sra-wrapper/1.0.1:
+    dependencies:
+      '@types/node': 14.0.26
+      phin: 3.5.0
+    dev: false
+    resolution:
+      integrity: sha512-BplpFGbfb3A0n9B5fwXRs8wEhtzyzKt7f2fbfmPZkWobx6+Fp55N117e9Qw8Q7CpxKNjPUHuX2Zp1U+KAK6xrA==
   /static-eval/2.0.2:
     dependencies:
       escodegen: 1.14.3
@@ -3172,13 +3152,6 @@ packages:
       node: '>= 6'
     resolution:
       integrity: sha512-RbN7MaTQBZLJYzDENHPA0nUmWT0Ex80KHItprrgbTPufYhIlTePvCXZxyQK7wgn19FW5bnuaBIKcBb5mRWjB1Q==
-  /typescript/3.9.7:
-    dev: false
-    engines:
-      node: '>=4.2.0'
-    hasBin: true
-    resolution:
-      integrity: sha512-BLbiRkiBzAwsjut4x/dsibSTB6yWpwT5qWmC2OfuCg3GgVQCSgMs4vEctYPhsaGtd0AeuuHMkjZ2h2WG8MSzRw==
   /uid-safe/2.1.5:
     dependencies:
       random-bytes: 1.0.0
@@ -3437,8 +3410,8 @@ specifiers:
   passport-discord: ^0.1.4
   phin: ^3.5.0
   safe-eval: ^0.4.1
-  some-random-api: ^2.0.0
   sqlite: ^3.0.0
+  sra-wrapper: ^1.0.1
   systeminformation: ^4.26.9
   validator: ^13.1.1
   yt-search: ^2.1.1

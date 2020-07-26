@@ -35,7 +35,11 @@ module.exports = class YoutubeCommand extends Command {
             }
         }
 
-        let buf = await this.client.sra.api.canvas.youtubeComment(member.user.displayAvatarURL({ format: "png", size: 1024 }), member.displayName, comment);
+        let buf = await this.client.sra.api.canvas.youtubeComment({
+            avatar: member.user.displayAvatarURL({ format: "png", size: 1024 }),
+            username: member.displayName,
+            comment
+        });
         let attachment = new MessageAttachment(buf);
 
         msg.channel.stopTyping(true);
