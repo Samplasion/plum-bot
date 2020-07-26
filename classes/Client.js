@@ -110,16 +110,8 @@ module.exports = class PlumClient extends CommandoClient {
             Permissions.FLAGS.MANAGE_WEBHOOKS
         ];
 
-        let _sra = require("some-random-api");
-        let CanvasCategory = require("./SRACanvasCategory");
-        this.sra = {
-            ..._sra,
-            CanvasCategory,
-            api: {
-                canvas: new CanvasCategory(),
-                ..._sra.api
-            }
-        }
+        let _sra = require("sra-wrapper");
+        this.sra = _sra;
     }
 
     get color() {

@@ -31,6 +31,7 @@ module.exports = class EvalCommand extends Command {
   // }
 
 	async run(message, { script }) {
+        let noreply = message.flag("no-reply", "nr");
 		let msg = message,
       guild = msg.guild,
       user = msg.author,
@@ -64,7 +65,9 @@ module.exports = class EvalCommand extends Command {
           .addField(":outbox_tray: **OUTPUT**", `\`\`\`js\n${output}\n\`\`\``)
           .setFooter(`${prefix}eval`)
         this.lastResult = output;
-        return message.channel.send(/*"js", output*/{ embed });
+        if (noreply)
+            return
+        else return message.channel.send(/*"js", output*/{ embed });
       } catch (err) {
         console.error(err)
         const errorEmbed = client.utils.embed()
@@ -75,7 +78,9 @@ module.exports = class EvalCommand extends Command {
           .addField(":inbox_tray: **INPUT**", `\`\`\`js\n${code}\n\`\`\``)
           .addField(":outbox_tray: **OUTPUT**", `\`\`\`js\n${this.clean(err)}\n\`\`\``)
           .setFooter(`${prefix}eval`)
-        return message.channel.send(errorEmbed)
+        if (noreply)
+            return
+        else return message.channel.send(errorEmbed)
       }
     } else {
       try {

@@ -1,5 +1,4 @@
 const Command = require('./../../classes/Command.js');
-const sra = require("some-random-api");
 
 module.exports = class LyricsCommand extends Command {
     constructor(client) {
@@ -26,7 +25,7 @@ module.exports = class LyricsCommand extends Command {
             name = msg.guild.queue[0].songTitle;
         } else return msg.error("This command requires that music be playing or that you enter a query.");
 
-        let body = await sra.api.other.lyrics(name);
+        let body = await this.client.sra.api.other.lyrics({ title: name });
 
         if (body.error || !body.lyrics)
             return msg.error(`The lyrics haven't been found! Make sure the title is right and the song isn't unknown.`);
