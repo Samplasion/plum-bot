@@ -243,7 +243,7 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
             r: ["|2", "P\\", "|?", "/2,|^", "lz", "®", ":registered:", "[z", "12", "Я", "2", "|>"],
             s: ["5", "2", "$", "z", "§", "ehs", "es"],
             t: ["7", "+", "-|-", "1", "']['", "|", "†"],
-            u: ["(_)", "|_|,|.|", "v", "ü Ü"],
+            u: ["(_)", "|_|", "|.|", "v", "ü Ü"],
             v: ["\\/", "\\_/", "\\./"],
             w: ["\\/\\/", "vv", "'//", "\\^/", "(n)", "\\V/", "\\//", "\\X/", "\\|/", "\\_|_/", "\\_:_/", "\\x/", "I_l_I", "Ш", "VV"],
             x: ["><", "Ж", "}{", ")(", "×"],
@@ -254,11 +254,9 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
         let text = input.split("").reduce((prev, cur) => {
             return `${prev}(?:${[cur, ...(letters[cur] || [])].map(letter => {
                 return letter.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
-            }).join("|")})`;
+            }).join("|")})\\s*`;
         }, "");
-        let regex = new RegExp(text, "g");
-    
-        console.log(regex);
+        let regex = new RegExp(`\\b${text}\\b`, "g");
         
         return regex;
     }
