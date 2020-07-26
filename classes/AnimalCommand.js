@@ -1,5 +1,4 @@
 const Command = require('./Command.js');
-const { api } = require("some-random-api");
 
 module.exports = class AnimalCommand extends Command {
     constructor(client, name, mem = name, api = name) {
@@ -18,10 +17,10 @@ module.exports = class AnimalCommand extends Command {
 
     async run(msg) {
         let nf = ["nf", "no-fact"].some(thing => msg.flags[thing]);
-        let { link } = await api.img[this.api]();
+        let { link } = await this.client.sra.api.img[this.api]();
         let fact;
         if (!nf) {
-            let body = await api.facts[this.api == "birb" ? "bird" : this.api]();
+            let body = await this.client.sra.api.facts[this.api == "birb" ? "bird" : this.api]();
             fact = body.fact;
         }
 
