@@ -145,7 +145,8 @@ module.exports = class PlumClient extends CommandoClient {
             hateblock: "Anti-swear",
             hatestrings: "Anti-swear triggers",
             hateresponse: "Anti-swear response",
-            hatemsgdel: "Swear message deletion"
+            hatemsgdel: "Swear message deletion",
+            hateresend: "Send filtered message"
         };
     }
 
@@ -168,7 +169,8 @@ module.exports = class PlumClient extends CommandoClient {
             'hateblock',
             'hatestrings',
             'hateresponse',
-            'hatemsgdel'
+            'hatemsgdel',
+            'hateresend'
         ];
     }
 

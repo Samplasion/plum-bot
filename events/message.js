@@ -27,7 +27,6 @@ module.exports = async (client, message) => {
     } else {
         let getsPoints = true;
 
-        // TODO: list the swears
         if (message.guild.config.get("hateblock") && !message.author.bot) {
             let arr = message.guild.swears;
             if (arr && arr.length) {
@@ -58,6 +57,26 @@ module.exports = async (client, message) => {
                     await message.guild.log(embed);
 
                     message.author.swears.add(message);
+
+                    if (message.guild.config.get("hateresend")) {
+                        let wh = await message.channel.getFirstWebhook();
+                        if (wh) {
+                            let content = message.content;
+                            for (let s of message.swear) {
+                                content = content.split(s).join("•".repeat(s.length))
+                            }
+                            wh.send(
+                                content,
+                                {
+                                    username: message.memebr.displayName,
+                                    avatarURL: message.author.displayAvatarURL(),
+                                    embeds: message.embed ? [
+                                        message.embed
+                                    ] : null
+                                }
+                            )
+                        }
+                    }
                 }
             }
         }

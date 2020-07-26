@@ -151,7 +151,8 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
                     also got no points for the message. So maybe next time, you'll think
                     twice before swearing.
                     `.trim(),
-                    hatemsgdel: true
+                    hatemsgdel: true,
+                    hateresend: false
 				};
 			},
 			setDefaultSettings: function(blank = false, scan = true) {
