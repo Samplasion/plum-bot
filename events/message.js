@@ -37,13 +37,30 @@ module.exports = async (client, message) => {
                         getsPoints = false;
                     }
                 })
+            
                 if (!getsPoints) {
                     message.isSwear = true;
                     message.swear = s.flat();
                     if (message.guild.config.get("hatemsgdel") && message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES"))
                         await message.delete();
                     getsPoints = false;
-                    if (message.guild.config.get("hateresponse"))
+                    if (message.guild.config.get("hateresend")) {
+                        let wh = await message.channel.getFirstWebhook();
+                        if (wh) {
+                            let content = message.content;
+                            for (let s of message.swear) {
+                                content = content.split(s).join("•".repeat(s.length))
+                            }
+                            wh.send(
+                                content,
+                                {
+                                    username: message.member.displayName,
+                                    avatarURL: message.author.displayAvatarURL(),
+                                    embeds: message.embeds
+                                }
+                            )
+                        }
+                    } else if (message.guild.config.get("hateresponse"))
                         message.channel.send(client.utils.render(message, message.guild.config.get("hateresponse")));
 
                     let e = client.utils.emojis;
@@ -57,26 +74,6 @@ module.exports = async (client, message) => {
                     await message.guild.log(embed);
 
                     message.author.swears.add(message);
-
-                    if (message.guild.config.get("hateresend")) {
-                        let wh = await message.channel.getFirstWebhook();
-                        if (wh) {
-                            let content = message.content;
-                            for (let s of message.swear) {
-                                content = content.split(s).join("•".repeat(s.length))
-                            }
-                            wh.send(
-                                content,
-                                {
-                                    username: message.memebr.displayName,
-                                    avatarURL: message.author.displayAvatarURL(),
-                                    embeds: message.embed ? [
-                                        message.embed
-                                    ] : null
-                                }
-                            )
-                        }
-                    }
                 }
             }
         }
