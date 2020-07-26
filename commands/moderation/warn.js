@@ -112,21 +112,13 @@ module.exports = class WarnCommand extends Command {
                     let user = await this.client.users.fetch(warn.issuer);
                     issuer = user.tag;
                 }
-                embed.addField(`\`${warn.id}\`. Added ${warn.issueDate ? this.fmtDate(new Date(warn.issueDate)) : "N/A"}` +  (warn.lastEditDate ? ` (edited ${this.fmtDate(new Date(warn.lastEditDate))})` : "") + ` by ${issuer}`, warn.reason);
+                embed.addField(`\`${warn.id}\`. Added ${warn.issueDate ? this.client.utils.fmtDate(new Date(warn.issueDate)) : "N/A"}` +  (warn.lastEditDate ? ` (edited ${this.client.utils.fmtDate(new Date(warn.lastEditDate))})` : "") + ` by ${issuer}`, warn.reason);
             }
 
             embeds.push(embed);
         }
         
         return this.pagination(msg, embeds);
-    }
-
-    pad(n) {
-        return n < 10 ? "0" + n : n;
-    }
-
-    fmtDate(date) {
-        return `${date.getFullYear()}/${this.pad(date.getMonth()+1)}/${this.pad(date.getDate())} ${this.pad(date.getHours())}:${this.pad(date.getMinutes())}:${this.pad(date.getSeconds())}`
     }
 
     async edit(msg, member, id) {

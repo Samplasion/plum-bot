@@ -15,10 +15,7 @@ module.exports = async (client, member) => {
     if (channel && channel.permissionsFor(guild.me).has("SEND_MESSAGES")) {
         let messages = guild.config.data.welcomemessage;
         let message = messages[random(messages.length)];
-        channel.send(message
-            .split("{{server}}").join(guild.name)
-            .split("{{user}}").join(member.displayName)
-            .split("{{mention}}").join(`<@${member.user.id}>`));
+        channel.send(client.utils.render({ guild, member }, message));
     }
 
     // LOG

@@ -1,2 +1,4 @@
-module.exports.type = "role";
-module.exports.extendable = false;
+module.exports = {
+    type: "role",
+    extendable: false,
+}

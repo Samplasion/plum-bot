@@ -42,13 +42,9 @@ module.exports = class PlumClient extends CommandoClient {
 
         const perms = require("../perms");
 
-        /** @type {Permission[]} */
         this.permissionLevels = []
         perms.forEach(Perm => this.permissionLevels.push(new Perm(this)));
 
-        /**
-         * @param {GuildMember} member 
-         */
         this.permissions = (member) => {
             var p = this.permissionLevels[0]
             this.permissionLevels.forEach(perm => {
@@ -146,6 +142,10 @@ module.exports = class PlumClient extends CommandoClient {
             levelupmsgs: "Level up messages",
             unknowncommand: "Unknown command message",
             starboardchan: "Starboard channel",
+            hateblock: "Anti-swear",
+            hatestrings: "Anti-swear triggers",
+            hateresponse: "Anti-swear response",
+            hatemsgdel: "Swear message deletion"
         };
     }
 
@@ -164,7 +164,11 @@ module.exports = class PlumClient extends CommandoClient {
             'serverinfo',
             'levelupmsgs',
             "unknowncommand",
-            'starboardchan'
+            'starboardchan',
+            'hateblock',
+            'hatestrings',
+            'hateresponse',
+            'hatemsgdel'
         ];
     }
 
@@ -172,7 +176,6 @@ module.exports = class PlumClient extends CommandoClient {
         let permissions = Array.from(this.registry.commands.values()).map(c => c.clientPermissions).flat().concat(this.usefulPerms).reduce((prev, this_) => {
             if (!this_) return prev;
             return new Permissions(prev).add(this_);
-            //@ts-expect-error
         }, new Permissions()).bitfield;
 		return `https://discordapp.com/oauth2/authorize?client_id=${this.user.id}&permissions=${permissions}&scope=bot`;
 	}

@@ -1,2 +1,4 @@
-module.exports.type = "bool";
-module.exports.extendable = false; 
+module.exports = {
+    type: "bool",
+    extendable: false,
+} 

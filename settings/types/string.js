@@ -74,7 +74,10 @@ module.exports = class StringType {
         return `${val}`;
     }
 
-    static webInput(client, guild, val, name) {
+    static webInput(client, guild, val, name, extended = {}) {
+        if (extended.long) {
+            return `<textarea class="textarea" type="text" id="${name}" name="${name}">${val}</textarea>`
+        }
         return `<input class="input" type="text" id="${name}" name="${name}" value="${val.replace(/"/g, "\\\"")}">`;
     }
 

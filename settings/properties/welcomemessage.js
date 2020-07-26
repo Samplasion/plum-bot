@@ -1,2 +1,4 @@
-module.exports.type = "string";
-module.exports.extendable = true;
+module.exports = {
+    type: "string",
+    extendable: true,
+}

@@ -21,6 +21,7 @@
                 <hr />
                 <div class="field">
                     <label class="label"><%= client.configTitles[setting] %></label>
+                    <p><%- render(guild, (settingProps[setting] || {}).description || "No description.") %></p>
                     <div class="control">
                         <% console.log(setting); %>
                         <% if (settingProps[setting].extendable) { %>
@@ -37,7 +38,7 @@
                             <% }); %>
                             <button style="margin-top: 1.5rem;" class="button is-info" onclick="this.outerHTML = `<div class='field has-addons'><div class='control is-expanded'><%- type.webInput(client, guild, "", setting + "[]").split('"').join("'") %></div><div class='control'><a onclick='document.getElementsByName('<%= setting %>[]')[${document.getElementsByName('<%= setting %>[]').length}].parentNode.parentNode.remove()' class='button is-danger' aria-label='delete'>&times;</a></div></div>${this.outerHTML}`">+</button>
                         <% } else { %>
-                            <% let pretty = type.webInput ? type.webInput(client, guild, settings[setting], setting) : setting %>
+                            <% let pretty = type.webInput ? type.webInput(client, guild, settings[setting], setting, settingProps[setting] || {}) : setting %>
                             <%- pretty == type.nullValue ? "This value is empty." : pretty %>
                         <% } %>
                     </div>

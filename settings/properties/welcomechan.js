@@ -1,2 +1,4 @@
-module.exports.type = "channel";
-module.exports.extendable = false;
+module.exports = {
+    type: "channel",
+    extendable: false,
+}

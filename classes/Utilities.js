@@ -82,6 +82,83 @@ class Utilities {
         }
     }
 
+    render({ guild, member }, text) {
+        return text
+            .split("{{server}}").join(guild.name)
+            .split("{{user}}").join(member.displayName)
+            .split("{{mention}}").join(`<@${member.user.id}>`)
+    }
+
+    leetify(input) {
+        input = input.toLowerCase();
+        let letters = {
+            a: ["4", "/\\", "@", "/-\\", "^", "ä", "ª", "aye", "∂", "Fl", "O"],
+            b: ["8", "6", "13", "|3", "ß", "P>", "|:", "!3", "(3", "/3", ")3"],
+            c: ["[", "¢", "<", "(", "©", ":copyright:"],
+            d: ["|)", "o|", "[)", "I>", "|>", "?", "T)", "/)"],
+            e: ["3", "&", "£", "ë", "[-", "€", "ê", "|=-"],
+            f: ["4", "|=", "ƒ", "|#", "i=", "ph", "/="],
+            g: ["6", "&", "(_+", "9", "C-", "gee", "(γ,"],
+            h: ["4", "#", "/-/", "[-]", "]-[", ")-(", "(-)", ":-:", "|~| {=}", "<~>", "|-|", "]~[", "}{ ", "]-[", "?", "}-{"],
+            i: ["1", "!", "|", "&", "eye", "3y3", "ï", "][", "[]"],
+            j: ["_|", ";", "_/", "</", "(/"],
+            k: ["X", "|<", "|{", "]{", "}<", "/< ", "|("],
+            l: ["2", "£", "7", "1_", "|", "|_", "#", "l", "i", "\\_"],
+            m: ["M", "m", "//.", "|v|", "[V]", "{V}", "|\\/|", "/\\/\\", "(u)", "[]V[]", "(V)", "(\\/)", "/|\\", "Μ", "М", "м", "/V\\,"],
+            n: ["//", "^/", "|\\|", "|/|", "/\\/", "[\\]", "", "<\\>", "{\\}", "[]\\[]", "И", "n,/V", "₪"],
+            o: ["0", "()", "?p", "[]", "*", "ö"],
+            p: ["|^", "|*", "|o", "|º", "|^(o)", "|>", "|", "9", "[]D", "|̊", "|7 |°"],
+            q: ["[,]", "(_,)", "()_", "0_", "<|", "O-"],
+            r: ["|2", "P\\", "|?", "/2,|^", "lz", "®", ":registered:", "[z", "12", "Я", "2", "|>"],
+            s: ["5", "2", "$", "z", "§", "ehs", "es"],
+            t: ["7", "+", "-|-", "1", "']['", "|", "†"],
+            u: ["(_)", "|_|,|.|", "v", "ü Ü"],
+            v: ["\\/", "\\_/", "\\./"],
+            w: ["\\/\\/", "vv", "'//", "\\^/", "(n)", "\\V/", "\\//", "\\X/", "\\|/", "\\_|_/", "\\_:_/", "\\x/", "I_l_I", "Ш", "VV"],
+            x: ["><", "Ж", "}{", ")(", "×"],
+            y: ["'-/", "j", "`/", "\\|", "Ý", "ÿ", "ý", "Ŷ", "ŷ", "Ÿ", "Ϋ", "Υ", "Ψ", "φ", "λ", "Ұ", "ұ", "ў", "ץ ,צ", "-)", "Ч", "¥"],
+            z: ["2", "~\\_", "~/_", "7_", "%"]
+        };
+    
+        let max = input.split("").reduce((prev, cur) => {
+            return prev * letters[cur].length;
+        }, 1);
+    
+        console.log(input, max);
+    
+        let n = input.length; 
+              
+        // Number of permutations is 2^n 
+        // let max = 1 << n; 
+            
+        // Converting string to lower case 
+        input = input.toLowerCase(); 
+    
+        let perms = [];
+            
+        // Using all subsequences and permuting them
+        let rep = {};
+        for(let i = 0; i < max; i++) {
+            let combination = input.split(""); 
+                
+            // If j-th bit is set, we convert it to upper case 
+            for(let j = 0; j < n; j++) {
+                // console.log(combination[j]);
+                rep[combination[j]] = rep[combination[j]] || 0;
+                rep[combination[j]]++;
+    
+                if(((i >> j) & 1) == 1) 
+                    combination[j] = letters[combination[j]][rep[combination[j]] % letters[combination[j]].length];
+            }
+    
+            perms.push(combination.join(""));
+        }
+    
+        console.log(perms);
+    
+        return perms;
+    }
+
     getErrStr(txt) {
         return `${this.emojis.error} | ${txt}`
     }
@@ -234,6 +311,10 @@ class Utilities {
         args.forEach(arg => url += `/${arg.id}`);
         return url;
     }
+
+    fmtDate(date) {
+        return `${date.getFullYear()}/${this.pad(date.getMonth()+1)}/${this.pad(date.getDate())} ${this.pad(date.getHours())}:${this.pad(date.getMinutes())}:${this.pad(date.getSeconds())}`
+    }
 }
 
 class Errors {
@@ -243,34 +324,34 @@ class Errors {
     }
 
     async unhandledRejection(err) {
-            let embed = this.utils.embed()
-                .setTitle("Unhandled Promise rejection in code")
-                .setColor("RED")
-                .setDescription(`${"```js"}\n${err.stack}${"```"}`)
+        let embed = this.utils.embed()
+            .setTitle("Unhandled Promise rejection in code")
+            .setColor("RED")
+            .setDescription(`${"```js"}\n${err.stack}${"```"}`)
     
-    if (err instanceof CommandError) {
-      embed.addFields(
-          [this.utils.emojis.message + "Message", err.msg.cleanContent],
-          [this.utils.emojis.user + "Author", err.msg.author.tag]
-      )
-    } 
+        if (err instanceof CommandError) {
+            embed.addFields(
+                [this.utils.emojis.message + "Message", err.msg.cleanContent],
+                [this.utils.emojis.user + "Author", err.msg.author.tag]
+            )
+        } 
     
-    this.utils.client.channels.cache.get(this.errorID).send(embed);
-  }
-    
-  async uncaughtException(err) {
-    let embed = this.utils.embed()
-    .setTitle("Uncaught exception in code")
-    .setColor("RED")
-    .setDescription(`${"```js"}${err.toString()}${"```"}`)
-    if (err instanceof CommandError) {
-      embed.addFields(
-        [this.utils.emojis.message + "Message", err.msg.cleanContent],
-        [this.utils.emojis.user + "Author", err.msg.author.tag]
-      )
+        this.utils.client.channels.cache.get(this.errorID).send(embed);
     }
-    this.utils.client.channels.cache.get(this.errorID).send(embed);
-  }
+    
+    async uncaughtException(err) {
+        let embed = this.utils.embed()
+        .setTitle("Uncaught exception in code")
+        .setColor("RED")
+        .setDescription(`${"```js"}${err.toString()}${"```"}`)
+        if (err instanceof CommandError) {
+        embed.addFields(
+            [this.utils.emojis.message + "Message", err.msg.cleanContent],
+            [this.utils.emojis.user + "Author", err.msg.author.tag]
+        )
+        }
+        this.utils.client.channels.cache.get(this.errorID).send(embed);
+    }
 }
 
 module.exports = Utilities

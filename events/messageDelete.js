@@ -1,7 +1,8 @@
 const { Permissions } = require("discord.js");
 
 module.exports = async (client, message) => {
-  if (!message.content.trim()) return
+  if (!message.content.trim()) return;
+  if (message.isSwear) return;
   var msg = message;
   let logs, modlogs;
   
