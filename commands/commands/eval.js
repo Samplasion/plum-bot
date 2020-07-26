@@ -31,7 +31,7 @@ module.exports = class EvalCommand extends Command {
   // }
 
 	async run(message, { script }) {
-        let noreply = msg.flag("no-reply", "nr");
+        let noreply = message.flag("no-reply", "nr");
 		let msg = message,
       guild = msg.guild,
       user = msg.author,
