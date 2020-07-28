@@ -9,7 +9,10 @@
             return types.filter(t => !!settingProps[key] && settingProps[key].type == t.id)[0];
         }
     %>
-    <% let arr = Object.keys(settings).filter(v => v != "guildID").map(v => settingProps[v].category || "Misc").filter((v, i, a) => a.indexOf(v) == i).sort((a, b) => {
+    <% let arr = Object.keys(settings).filter(v => v != "guildID").map(v => {
+        console.log(v);
+        return settingProps[v].category || "Misc"
+    }).filter((v, i, a) => a.indexOf(v) == i).sort((a, b) => {
         if (b == "Misc")
             return 1;
         if (a == "Misc")
