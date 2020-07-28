@@ -53,7 +53,7 @@
                         <% let arr2 = arr %>
                         <% for (let cat of arr2) { %>
                             <li<%= arr2.indexOf(cat) == 1 ? " class=is-active" : "" %>>
-                                <% let arr = Object.keys(settings).sort((a, b) => client.configOrder.indexOf(a) - client.configOrder.indexOf(b)).filter(v => v != "guildID" && (settingProps[v].category || "Misc") == cat) %>
+                                <% let arr = Object.keys(settings).sort((a, b) => client.configOrder.indexOf(a) - client.configOrder.indexOf(b)).filter(v => v != "guildID" && !!settingProps[v] && (settingProps[v].category || "Misc") == cat) %>
                                 <% for (let setting of arr) { %>
                                     <% let type = getType(setting); %>
                                     <% if (setting == "guildID") continue; %>
