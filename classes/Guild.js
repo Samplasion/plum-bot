@@ -258,10 +258,10 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
             z: ["2", "~\\_", "~/_", "7_", "%"]
         };
     
-        let text = input.split("").reduce((prev, cur) => {
+        let text = input.split("").reduce((prev, cur, idx, arr) => {
             return `${prev}(?:${[cur, ...(letters[cur] || [])].map(letter => {
                 return letter.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
-            }).join("|")})\\s*`;
+            }).join("|")})+` + (arr.length == idx + 1 ? "" : "\\s*");
         }, "");
         let regex = new RegExp(`\\b${text}\\b`, "g");
         
