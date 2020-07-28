@@ -41,7 +41,7 @@
                 <div class="tabs">
                     <ul>
                         <% for (let cat of arr) { %>
-                            <% let s = arr.indexOf(cat) == 1 ? " class=is-active" : "" %>
+                            <% let s = arr.indexOf(cat) == 0 ? " class=is-active" : "" %>
                             <li<%= s %>>
                                 <a><%= cat || "Misc" %></a>
                             </li>
@@ -52,8 +52,8 @@
                     <ul>
                         <% let arr2 = arr %>
                         <% for (let cat of arr2) { %>
-                            <li<%= arr2.indexOf(cat) == 1 ? " class=is-active" : "" %>>
-                                <% let arr = Object.keys(settings).sort((a, b) => client.configOrder.indexOf(a) - client.configOrder.indexOf(b)).filter(v => v != "guildID" && !!settingProps[v] && (settingProps[v].category || "Misc") == cat) %>
+                            <li<%= arr2.indexOf(cat) == 0 ? " class=is-active" : "" %>>
+                                <% let arr = Object.keys(settings).sort((a, b) => a.localeCompare(b)).filter(v => v != "guildID" && !!settingProps[v] && (settingProps[v].category || "Misc") == cat) %>
                                 <% for (let setting of arr) { %>
                                     <% let type = getType(setting); %>
                                     <% if (setting == "guildID") continue; %>
@@ -88,7 +88,7 @@
                 </div>
             </div>
             <div class="buttons has-addons is-right">
-                <a href="javascript:history.go(-1);" class="button is-secondary">
+                <a href="/dashboard/<%= guild.id %>/home" class="button is-secondary">
                     <span>Cancel</span>
                 </a>
                 <input type="submit" class="button is-primary">
