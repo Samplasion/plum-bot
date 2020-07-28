@@ -53,7 +53,7 @@ module.exports = async (client, message) => {
                         if (wh) {
                             let content = message.content;
                             for (let s of message.swear) {
-                                content = content.split(s.trim()).join("•".repeat(s.trim().length))
+                                content = content.split(new RegExp((String.raw`${s.trim()}`).replace("\\", "\\\\"), "i")).join("•".repeat(s.trim().length))
                             }
                             wh.send(
                                 content,
