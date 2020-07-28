@@ -1,2 +1,5 @@
-module.exports.type = "string";
-module.exports.extendable = false;
+module.exports = {
+    name: "Ticket category name",
+    type: "string",
+    extendable: false,
+}

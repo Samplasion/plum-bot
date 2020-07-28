@@ -171,9 +171,13 @@ module.exports = class PlumCommand extends Command {
 
     // msg = Message,
     // messages = an array of anything that can be sent
-    async pagination(msg, messages) {
+    async pagination(msg, messages, additionalPage = null) {
+        if (messages.length == 1)
+            return msg.channel.send(messages[0]);
+        
         let index = 0;
         let info = false;
+        let add = false;
 
         let emojis = this.client.utils.emojis;
         let infoEmbed = this.client.utils.embed()
@@ -188,7 +192,10 @@ module.exports = class PlumCommand extends Command {
                     ${emojis.stop} Stops the interactive menu.
                     ${emojis.next} Go forward one page, or loop to the first page if at the last one.
                     ${emojis.last} Go to the last page.
-                    ${emojis.info} Toggle this menu.`)
+                    ${emojis.info} Toggle this menu.` + (additionalPage ?
+                    `\n${additionalPage.emoji || emojis.asterisk} Shows an additional information page, relevant to the topic.` :
+                    "")
+            )
             .addField(
                 "How can I go back?",
                 `Simply react with ${emojis.info} again.`)
@@ -202,22 +209,41 @@ module.exports = class PlumCommand extends Command {
         /* eslint-disable no-unused-vars */
         const R = [
             [emojis.first, (collector) => {
-                info = false; index = 0
+                info = add = false;
+                index = 0
             }],
             [emojis.prev,  (collector) => {
-                info = false; index--
+                info = add = false;
+                index--
             }],
             [emojis.stop,  (collect__) => {
-                info = false; collect__.stop("manual")
+                info = add = false;
+                collect__.stop("manual")
             }],
             [emojis.next,  (collector) => {
-                info = false; index++
+                info = add = false;
+                index++
             }],
             [emojis.last,  (collector) => {
-                info = false; index = messages.length - 1
+                info = add = false;
+                index = messages.length - 1
             }],
-            [emojis.info,  (collector) => info = !info],
+            [emojis.info,  (collector) => {
+                if (add) {
+                    add = false;
+                    info = true;
+                } else 
+                    info = !info
+            }],
         ];
+
+        if (additionalPage) {
+            R.push([
+                additionalPage.emoji || emojis.asterisk, collector => {
+                    add = !add;
+                }
+            ])
+        }
         /* eslint-enable no-unused-vars */
 
         let message = await msg.channel.send(messages[0]);
@@ -246,7 +272,9 @@ module.exports = class PlumCommand extends Command {
             if (index < 0) index = messages.length - 1;
             index %= messages.length;
 
-            if (info)
+            if (add)
+                message.edit(additionalPage);
+            else if (info)
                 message.edit(infoEmbed);
             else
                 message.edit(messages[index]);

@@ -244,11 +244,17 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
 
             let match;
             // eslint-disable-next-line no-cond-assign
-            if (match = re.exec(arg))
-                flags[name] = match[2];
-            else if (arg.includes("="))
-                flags[name] = arg.split("=")[1];
-            else flags[name] = true;
+            if (match = re.exec(arg)) {
+                let f = match[2];
+                if (!isNaN(f))
+                    f = parseInt(f);
+                flags[name] = f;
+            } else if (arg.includes("=")) {
+                let f = arg.split("=")[1];
+                if (!isNaN(f))
+                    f = parseInt(f);
+                flags[name] = f;
+            } else flags[name] = true;
             console.log(flags);
         });
         this.flags_ = flags;

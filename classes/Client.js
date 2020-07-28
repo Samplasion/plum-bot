@@ -42,13 +42,9 @@ module.exports = class PlumClient extends CommandoClient {
 
         const perms = require("../perms");
 
-        /** @type {Permission[]} */
         this.permissionLevels = []
         perms.forEach(Perm => this.permissionLevels.push(new Perm(this)));
 
-        /**
-         * @param {GuildMember} member 
-         */
         this.permissions = (member) => {
             var p = this.permissionLevels[0]
             this.permissionLevels.forEach(perm => {
@@ -116,6 +112,53 @@ module.exports = class PlumClient extends CommandoClient {
 
         let _sra = require("sra-wrapper");
         this.sra = _sra;
+
+        this.partners = {
+            get db() {
+                return require("../utils/database").partners;
+            },
+            get data() {
+                return this.db.data;
+            },
+            add({ name, desc, link, author }) {
+                let index = 0;
+                if (this.data.length) {
+                    index = this.data[this.data.length-1].id + 1;
+                }
+
+                this.db.insert({
+                    name,
+                    desc,
+                    link,
+                    author,
+                    id: index
+                });
+
+                return this;
+            },
+            edit(id, { name, desc, link, author }) {
+                let data = this.get(id);
+
+                if (!data)
+                    return this;
+
+                if (name != data.name)
+                    data.name = name;
+                if (desc != data.desc)
+                    data.desc = desc;
+                if (link != data.link)
+                    data.link = link;
+                if (author != data.author)
+                    data.author = author;
+
+                this.db.update(data);
+
+                return this;
+            },
+            get(id) {
+                return this.data.filter(v => v.id == id)[0];
+            }
+        }
     }
 
     get color() {
@@ -138,6 +181,11 @@ module.exports = class PlumClient extends CommandoClient {
             levelupmsgs: "Level up messages",
             unknowncommand: "Unknown command message",
             starboardchan: "Starboard channel",
+            hateblock: "Anti-swear",
+            hatestrings: "Anti-swear triggers",
+            hateresponse: "Anti-swear response",
+            hatemsgdel: "Swear message deletion",
+            hateresend: "Send filtered message"
         };
     }
 
@@ -156,7 +204,12 @@ module.exports = class PlumClient extends CommandoClient {
             'serverinfo',
             'levelupmsgs',
             "unknowncommand",
-            'starboardchan'
+            'starboardchan',
+            'hateblock',
+            'hatestrings',
+            'hateresponse',
+            'hatemsgdel',
+            'hateresend'
         ];
     }
 
@@ -164,7 +217,6 @@ module.exports = class PlumClient extends CommandoClient {
         let permissions = Array.from(this.registry.commands.values()).map(c => c.clientPermissions).flat().concat(this.usefulPerms).reduce((prev, this_) => {
             if (!this_) return prev;
             return new Permissions(prev).add(this_);
-            //@ts-expect-error
         }, new Permissions()).bitfield;
 		return `https://discordapp.com/oauth2/authorize?client_id=${this.user.id}&permissions=${permissions}&scope=bot`;
 	}

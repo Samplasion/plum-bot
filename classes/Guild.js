@@ -1,5 +1,6 @@
 const { Structures, Permissions } = require('discord.js');
 const { findType } = require('../settings/index.js');
+const { stripIndents } = require("common-tags");
 
 /**
  * @typedef SavedGuildQueueEntry
@@ -72,7 +73,9 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
 					found.remove();
 				return this;
 			}
-		}
+        }
+        
+        this.cachedSwears = [];
     }
     
     /**
@@ -87,7 +90,8 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
      *      setDefaultSettings: (blank?: boolean, scan?: boolean) => GuildConfigData
      *      data: GuildConfigData
      *      set: (key: string, value: any) => GuildConfig
-     *      render: (key: string) => string
+     *      render: (key: string) => string,
+     *      get: (key: string) => unknown,
      *      fix: () => Object.<string, any>
      * }}
      */
@@ -135,7 +139,20 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
                     levelupmsgs: true,
                     unknowncommand: false,
 
-                    starboardchan: starboardchannel ? starboardchannel.id : null
+                    starboardchan: starboardchannel ? starboardchannel.id : null,
+
+                    hateblock: false,
+                    hatestrings: [],
+                    hateresponse: stripIndents`
+                    {{mention}}, you just said a word that can be identified as hate speech.
+                    Hate speech is not tolerated in this server.
+
+                    This event has been logged and noted to the server staff. And you
+                    also got no points for the message. So maybe next time, you'll think
+                    twice before swearing.
+                    `.trim(),
+                    hatemsgdel: true,
+                    hateresend: false
 				};
 			},
 			setDefaultSettings: function(blank = false, scan = true) {
@@ -190,6 +207,59 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
 			}
 		}
 	}
+
+    get swears() {
+        try {
+            if (this.config.get("hatestrings")) {
+                if (this.config.get("hatestrings").length) {
+                    return this.config.get("hatestrings").map(this.swearRegexify);
+                } else return []
+            } else return []
+        } catch {
+            return []
+        }
+    }
+
+    swearRegexify(input) {
+        input = input.toLowerCase();
+        let letters = {
+            a: ["4", "/\\", "@", "/-\\", "^", "ä", "ª", "aye", "∂", "Fl", "O"],
+            b: ["8", "6", "13", "|3", "ß", "P>", "|:", "!3", "(3", "/3", ")3"],
+            c: ["[", "¢", "<", "(", "©", ":copyright:"],
+            d: ["|)", "o|", "[)", "I>", "|>", "?", "T)", "/)"],
+            e: ["3", "&", "£", "ë", "[-", "€", "ê", "|=-"],
+            f: ["4", "|=", "ƒ", "|#", "i=", "ph", "/="],
+            g: ["6", "&", "(_+", "9", "C-", "gee", "(γ,"],
+            h: ["4", "#", "/-/", "[-]", "]-[", ")-(", "(-)", ":-:", "|~| {=}", "<~>", "|-|", "]~[", "}{ ", "]-[", "?", "}-{"],
+            i: ["1", "!", "|", "&", "eye", "3y3", "ï", "][", "[]"],
+            j: ["_|", ";", "_/", "</", "(/"],
+            k: ["X", "|<", "|{", "]{", "}<", "/< ", "|("],
+            l: ["2", "£", "7", "1_", "|", "|_", "#", "l", "i", "\\_"],
+            m: ["M", "m", "//.", "|v|", "[V]", "{V}", "|\\/|", "/\\/\\", "(u)", "[]V[]", "(V)", "(\\/)", "/|\\", "Μ", "М", "м", "/V\\,"],
+            n: ["//", "^/", "|\\|", "|/|", "/\\/", "[\\]", "", "<\\>", "{\\}", "[]\\[]", "И", "n", "/V", "₪"],
+            o: ["0", "()", "?p", "[]", "*", "ö"],
+            p: ["|^", "|*", "|o", "|º", "|^(o)", "|>", "|", "9", "[]D", "|̊", "|7 |°"],
+            q: ["[,]", "(_,)", "()_", "0_", "<|", "O-"],
+            r: ["|2", "P\\", "|?", "/2", "|^", "lz", "®", ":registered:", "[z", "12", "Я", "2", "|>"],
+            s: ["5", "2", "$", "z", "§", "ehs", "es"],
+            t: ["7", "+", "-|-", "1", "']['", "|", "†"],
+            u: ["(_)", "|_|", "|.|", "v", "ü Ü"],
+            v: ["\\/", "\\_/", "\\./"],
+            w: ["\\/\\/", "vv", "'//", "\\^/", "(n)", "\\V/", "\\//", "\\X/", "\\|/", "\\_|_/", "\\_:_/", "\\x/", "I_l_I", "Ш", "VV"],
+            x: ["><", "Ж", "}{", ")(", "×"],
+            y: ["'-/", "j", "`/", "\\|", "Ý", "ÿ", "ý", "Ŷ", "ŷ", "Ÿ", "Ϋ", "Υ", "Ψ", "φ", "λ", "Ұ", "ұ", "ў", "ץ ,צ", "-)", "Ч", "¥"],
+            z: ["2", "~\\_", "~/_", "7_", "%"]
+        };
+    
+        let text = input.split("").reduce((prev, cur) => {
+            return `${prev}(?:${[cur, ...(letters[cur] || [])].map(letter => {
+                return letter.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
+            }).join("|")})\\s*`;
+        }, "");
+        let regex = new RegExp(`\\b${text}\\b`, "g");
+        
+        return regex;
+    }
 
 	async updateInfo() {
 		if (!this.me.hasPermission("MANAGE_CHANNELS"))

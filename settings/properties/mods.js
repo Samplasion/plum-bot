@@ -1,2 +1,7 @@
-module.exports.type = "role";
-module.exports.extendable = false;
+module.exports = {
+    name: "Server moderators",
+    type: "role",
+    extendable: false,
+    description: "The role given to Moderators in your server.",
+    category: "Roles"
+}

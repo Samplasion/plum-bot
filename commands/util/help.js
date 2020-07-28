@@ -87,7 +87,7 @@ module.exports = class HelpCommand extends Command {
                     this.client.utils.embed()
                     .setTitle(`${this.client.utils.emojis.info} List of all commands`)
                     .setDescription(`Page ${embeds.length + 1}`)
-                    .addField(grp.name, fieldText.join("\n")));
+                    .addFields(this.client.utils.embedSplit(fieldText.join("\n"), grp.name)));
             });
 
             embeds.forEach(embed => {
@@ -102,11 +102,18 @@ module.exports = class HelpCommand extends Command {
                     [Official Support Server](${process.env.DOMAIN}/server)`);
             });
 
+            console.log(embeds.map(e => e.fields[0].name));
+
+            let e = this.client.utils.emojis;
+            let more = msg.makeEmbed()
+                .setTitle(`${e.info} More Info`)
+                .setDescription(`The command usage notation is the following: stub`)
+
             if (!embeds.length) {
                 return msg.error("You have no usable commands. Contact the owner for more info.");
             }
 
-            return this.pagination(msg, embeds);
+            return this.pagination(msg, embeds, more);
         }
 	}
 };

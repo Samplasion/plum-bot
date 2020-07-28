@@ -1,2 +1,5 @@
-module.exports.type = "string";
-module.exports.extendable = true;
+module.exports = {
+    name: "Welcome message list",
+    type: "string",
+    extendable: true,
+}

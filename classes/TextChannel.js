@@ -22,5 +22,14 @@ module.exports = Structures.extend("TextChannel", TextChannel => class extends T
 	get embedable() {
 		let me = this.guild.me;
 		return this.permissionsFor(me).has('EMBED_LINKS');
-	}
+    }
+    
+    async getFirstWebhook() {
+        let webhooks = await this.fetchWebhooks();
+        if (webhooks.size)
+            return webhooks.first();
+        if (!this.permissionsFor(this.guild.me).has("MANAGE_WEBHOOKS"))
+            return null;
+        return this.createWebhook("Webhook");
+    }
 });

@@ -1,2 +1,5 @@
-module.exports.type = "bool";
-module.exports.extendable = false; 
+module.exports = {
+    name: "Send \"This command doesn't exist\" messages?",
+    type: "bool",
+    extendable: false,
+} 

@@ -1,2 +1,5 @@
-module.exports.type = "string";
-module.exports.extendable = true;
+module.exports = {
+    name: "Server information channel names",
+    type: "string",
+    extendable: true,
+}

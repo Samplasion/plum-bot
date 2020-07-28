@@ -14,29 +14,40 @@
         <h1 class="title is-1 has-text-centered">Viewing Server configuration</h1>
         <h3 class="subtitle is-3 has-text-centered">Server: <%= guild.name %></h3>
 
-        <div class="columns is-multiline">
-            <% for (let setting of Object.keys(settings).sort((a, b) => client.configOrder.indexOf(a) - client.configOrder.indexOf(b))) { %>
-                <% let type = getType(setting); %>
-                <% if (setting == "guildID") continue; %>
-                <div class="column is-6">
-                    <hr />
-                    <div class="field">
-                        <label class="label"><%= client.configTitles[setting] %></label>
-                        <div class="control">
-                            <% if (settingProps[setting].extendable) { %>
-                                <% settings[setting].forEach(set => { %>
-                                    <% let pretty = type.webRender ? type.webRender(client, guild, set, setting + "[]") : set %>
+        <% for (let cat of Object.keys(settings).filter(v => v != "guildID").map(v => settingProps[v].category || "Misc").filter((v, i, a) => a.indexOf(v) == i).sort((a, b) => {
+            if (b == "Misc")
+                return 1;
+            return a.localeCompare(b);
+        })) { %>
+            <hr>
+            <h4 class="title is-4"><%= cat || "Misc" %></h4>
+            <div class="columns is-multiline">
+                <% let arr = Object.keys(settings).sort((a, b) => client.configOrder.indexOf(a) - client.configOrder.indexOf(b)).filter(v => v != "guildID" && (settingProps[v].category || "Misc") == cat) %>
+                <% console.log(arr, cat) %>
+                <% for (let setting of arr) { %>
+                    <% let type = getType(setting); %>
+                    <% if (setting == "guildID") continue; %>
+                    <div class="column is-6">
+                        <%- arr.indexOf(setting) > 1 ? "<hr />" : "" %>
+                        <div class="field">
+                            <label class="label"><%= settingProps[setting].name %></label>
+                            <p><%- render(guild, (settingProps[setting] || {}).description || "No description.") %></p>
+                            <div class="">
+                                <% if (settingProps[setting].extendable) { %>
+                                    <%- settings[setting].map(set => {
+                                        let pretty = type.webRender ? type.webRender(client, guild, set, setting + "[]") : set
+                                        return pretty == type.nullValue ? "This value is empty." : render(guild, pretty).trim().replace(/(^<p>|<\/p>$)/g, "");
+                                        }).join(settingProps[setting].short ? ", " : "<br>") || "This value is empty."; %>
+                                <% } else { %>
+                                    <% let pretty = type.webRender ? type.webRender(client, guild, settings[setting], setting) : setting %>
                                     <%- pretty == type.nullValue ? "This value is empty." : render(guild, pretty).trim(); %>
-                                <% }); %>
-                            <% } else { %>
-                                <% let pretty = type.webRender ? type.webRender(client, guild, settings[setting], setting) : setting %>
-                                <%- pretty == type.nullValue ? "This value is empty." : render(guild, pretty).trim(); %>
-                            <% } %>
+                                <% } %>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <% } %>
-        </div>
+                <% } %>
+            </div>
+        <% } %>
         <div class="buttons has-addons is-left">
             <a href="javascript:history.go(-1);">
                 <span>← Back</span>

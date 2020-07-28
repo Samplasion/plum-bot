@@ -1,2 +1,6 @@
-module.exports.type = "channel";
-module.exports.extendable = false;
+module.exports = {
+    name: "Welcome and leave messages channel",
+    type: "channel",
+    extendable: false,
+    category: "Channels"
+}

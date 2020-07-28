@@ -48,6 +48,54 @@ module.exports = Structures.extend( 'User', (User) =>
                     return false;
                 },
             };
+
+            this.swears = {
+                get db() {
+                    return require("../utils/database").swears;
+                },
+                get data() {
+                    try {
+                        return this.db.data.filter(d => {
+                            return d.user == user.id;
+                        });
+                    } catch {
+                        return [];
+                    }
+                },
+                add(msg) {
+                    let index = 0;
+                    if (this.data.length) {
+                        index = this.data[this.data.length-1].id + 1;
+                    }
+
+                    this.db.insert({
+                        user: user.id,
+                        content: msg.content,
+                        id: index,
+                        date: msg.createdTimestamp,
+                        forgiven: false,
+                        forgivenBy: null,
+                        matches: msg.swear || []
+                    });
+
+                    return this;
+                },
+                forgive(msg, id) {
+                    let data = this.data.filter(d => {
+                        return d.id == id
+                    })[0];
+
+                    if (!data)
+                        return this;
+
+                    data.forgiven = true;
+                    data.forgivenBy = msg.author.id;
+
+                    this.db.update(data);
+
+                    return this;
+                }
+            }
         }
 
         get level() {

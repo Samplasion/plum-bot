@@ -9,40 +9,80 @@
             return types.filter(t => !!settingProps[key] && settingProps[key].type == t.id)[0];
         }
     %>
+    <% let arr = Object.keys(settings).filter(v => v != "guildID").map(v => settingProps[v].category || "Misc").filter((v, i, a) => a.indexOf(v) == i).sort((a, b) => {
+        if (b == "Misc")
+            return 1;
+        if (a == "Misc")
+            return -1;
+        return a.localeCompare(b);
+    });%>
+
+    <style>
+        .tabs-content li {
+            display: none;
+            list-style: none;
+        }
+
+        .tabs-content li.is-active {
+            display: block;
+        }
+    </style>
     
     <div class="container content">
         <h1 class="title is-1 has-text-centered">Editing Server configuration</h1>
         <h3 class="subtitle is-3 has-text-centered">Server: <%= guild.name %></h3>
 
         <form action="/dashboard/<%= guild.id %>/config/save" method="post">
-            <% for (let setting of Object.keys(settings).sort((a, b) => client.configOrder.indexOf(a) - client.configOrder.indexOf(b))) { %>
-                <% let type = getType(setting); %>
-                <% if (setting == "guildID") continue; %>
-                <hr />
-                <div class="field">
-                    <label class="label"><%= client.configTitles[setting] %></label>
-                    <div class="control">
-                        <% console.log(setting); %>
-                        <% if (settingProps[setting].extendable) { %>
-                            <% settings[setting].forEach((set, index) => { %>
-                                <% let pretty = type.webInput ? type.webInput(client, guild, set, setting + "[]") : set %>
-                                <div class="field has-addons">
-                                    <div class="control is-expanded">
-                                        <%- pretty == type.nullValue ? "This value is empty." : pretty %>
-                                    </div>
-                                    <div class="control">
-                                        <a class="button is-danger" onclick="document.getElementsByName('<%= setting %>[]')[<%= index %>].parentNode.parentNode.remove()" aria-label="delete">&times;</a>
-                                    </div>
-                                </div>
-                            <% }); %>
-                            <button style="margin-top: 1.5rem;" class="button is-info" onclick="this.outerHTML = `<div class='field has-addons'><div class='control is-expanded'><%- type.webInput(client, guild, "", setting + "[]").split('"').join("'") %></div><div class='control'><a onclick='document.getElementsByName('<%= setting %>[]')[${document.getElementsByName('<%= setting %>[]').length}].parentNode.parentNode.remove()' class='button is-danger' aria-label='delete'>&times;</a></div></div>${this.outerHTML}`">+</button>
-                        <% } else { %>
-                            <% let pretty = type.webInput ? type.webInput(client, guild, settings[setting], setting) : setting %>
-                            <%- pretty == type.nullValue ? "This value is empty." : pretty %>
+            <div class="tabs-wrapper">
+                <div class="tabs">
+                    <ul>
+                        <% for (let cat of arr) { %>
+                            <% let s = arr.indexOf(cat) == 1 ? " class=is-active" : "" %>
+                            <li<%= s %>>
+                                <a><%= cat || "Misc" %></a>
+                            </li>
                         <% } %>
-                    </div>
+                    </ul>
                 </div>
-            <% } %>
+                <div class="tabs-content">
+                    <ul>
+                        <% let arr2 = arr %>
+                        <% for (let cat of arr2) { %>
+                            <li<%= arr2.indexOf(cat) == 1 ? " class=is-active" : "" %>>
+                                <% let arr = Object.keys(settings).sort((a, b) => client.configOrder.indexOf(a) - client.configOrder.indexOf(b)).filter(v => v != "guildID" && (settingProps[v].category || "Misc") == cat) %>
+                                <% for (let setting of arr) { %>
+                                    <% let type = getType(setting); %>
+                                    <% if (setting == "guildID") continue; %>
+                                    <%- arr.indexOf(setting) > 0 ? "<hr />" : "" %>
+                                    <div class="field">
+                                        <label class="label"><%= settingProps[setting].name %></label>
+                                        <p><%- render(guild, (settingProps[setting] || {}).description || "No description.") %></p>
+                                        <div class="control">
+                                            <% if (settingProps[setting].extendable) { %>
+                                                <% settings[setting].forEach((set, index) => { %>
+                                                    <% let pretty = type.webInput ? type.webInput(client, guild, set, setting + "[]") : set %>
+                                                    <div class="field has-addons">
+                                                        <div class="control is-expanded">
+                                                            <%- pretty == type.nullValue ? "This value is empty." : pretty %>
+                                                        </div>
+                                                        <div class="control">
+                                                            <a class="button is-danger" onclick="document.getElementsByName('<%= setting %>[]')[<%= index %>].parentNode.parentNode.remove()" aria-label="delete">&times;</a>
+                                                        </div>
+                                                    </div>
+                                                <% }); %>
+                                                <button style="margin-top: 1.5rem;" class="button is-info" onclick="this.outerHTML = `<div class='field has-addons'><div class='control is-expanded'><%- type.webInput(client, guild, "", setting + "[]").split('"').join("'") %></div><div class='control'><a onclick='document.getElementsByName(<%= `"${setting}[]"` %>)[${document.getElementsByName('<%= setting %>[]').length}].parentNode.parentNode.remove()' class='button is-danger' aria-label='delete'>&times;</a></div></div>${this.outerHTML}`">+</button>
+                                            <% } else { %>
+                                                <% let pretty = type.webInput ? type.webInput(client, guild, settings[setting], setting, settingProps[setting] || {}) : setting %>
+                                                <%- pretty == type.nullValue ? "This value is empty." : pretty %>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                <% } %>
+                            </li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
             <div class="buttons has-addons is-right">
                 <a href="javascript:history.go(-1);" class="button is-secondary">
                     <span>Cancel</span>
@@ -51,6 +91,6 @@
             </div>
         </form>
     </div>
-      
+
     <% include ../../../partials/footer %>
 </html>
