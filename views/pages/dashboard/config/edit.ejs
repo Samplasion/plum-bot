@@ -9,16 +9,17 @@
             return types.filter(t => !!settingProps[key] && settingProps[key].type == t.id)[0];
         }
     %>
-    <% let arr = Object.keys(settings).filter(v => v != "guildID").map(v => {
-        console.log(v);
-        return settingProps[v].category || "Misc"
-    }).filter((v, i, a) => a.indexOf(v) == i).sort((a, b) => {
-        if (b == "Misc")
-            return 1;
-        if (a == "Misc")
-            return -1;
-        return a.localeCompare(b);
-    });%>
+    <% 
+        let arr = Object.keys(settings).filter(v => v != "guildID" && !!settingProps[v]).map(v => {
+            return settingProps[v].category || "Misc"
+        }).filter((v, i, a) => a.indexOf(v) == i).sort((a, b) => {
+            if (b == "Misc")
+                return 1;
+            if (a == "Misc")
+                return -1;
+            return a.localeCompare(b);
+        });
+    %>
 
     <style>
         .tabs-content li {

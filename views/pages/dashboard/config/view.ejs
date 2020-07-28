@@ -9,16 +9,24 @@
             return types.filter(t => !!settingProps[key] && settingProps[key].type == t.id)[0];
         }
     %>
+
+    <%
+        let arr = Object.keys(settings).filter(v => v != "guildID" && !!settingProps[v]).map(v => {
+            return settingProps[v].category || "Misc"
+        }).filter((v, i, a) => a.indexOf(v) == i).sort((a, b) => {
+            if (b == "Misc")
+                return 1;
+            if (a == "Misc")
+                return -1;
+            return a.localeCompare(b);
+        });
+    %>
     
     <div class="container content">
         <h1 class="title is-1 has-text-centered">Viewing Server configuration</h1>
         <h3 class="subtitle is-3 has-text-centered">Server: <%= guild.name %></h3>
 
-        <% for (let cat of Object.keys(settings).filter(v => v != "guildID").map(v => settingProps[v].category || "Misc").filter((v, i, a) => a.indexOf(v) == i).sort((a, b) => {
-            if (b == "Misc")
-                return 1;
-            return a.localeCompare(b);
-        })) { %>
+        <% for (let cat of arr) { %>
             <hr>
             <h4 class="title is-4"><%= cat || "Misc" %></h4>
             <div class="columns is-multiline">
