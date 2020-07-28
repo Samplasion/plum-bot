@@ -67,12 +67,12 @@ module.exports = class CommandType {
 
     static webInput(client, guild, val, name) {
 		let c = this.deserialize(client, { guild }, val);
-        let s = `<select class="select" id="${name}" name="${name}">
+        let s = `<div class="select"><select id="${name}" name="${name}">
         <option value="${this.nullValue}" ${!c ? "selected" : ""}>None</option>`;
         client.registry.commands.filter(c => c.permLevel < 5).forEach(cmd => {
             s += `<option value="${cmd.name}" ${c && c.name == c.name ? "selected" : ""}>${cmd.name}</option>`;
         });
-        s += "</select>";
+        s += "</select></div>";
         return s;
     }
 

@@ -32,8 +32,12 @@ module.exports = async (client, message) => {
             if (arr && arr.length) {
                 let s = [];
                 arr.forEach(swear => {
-                    if (swear.test(message.content.toLowerCase())) {
-                        s.push(message.content.toLowerCase().match(swear));
+                    let c = message.content
+                        .normalize("NFD") // Splits "è" into "e" + "`" 
+                        .replace(/[\u0300-\u036f]/g, "") // Strips diacritics
+                        .toLowerCase()
+                    if (swear.test(c)) {
+                        s.push(c.match(swear));
                         getsPoints = false;
                     }
                 })
@@ -49,7 +53,7 @@ module.exports = async (client, message) => {
                         if (wh) {
                             let content = message.content;
                             for (let s of message.swear) {
-                                content = content.split(s).join("•".repeat(s.length))
+                                content = content.split(s.trim()).join("•".repeat(s.trim().length))
                             }
                             wh.send(
                                 content,

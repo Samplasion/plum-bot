@@ -48,12 +48,12 @@ module.exports = class RoleType {
 
     static webInput(client, guild, val, name) {
 		let role = this.deserialize(client, { guild }, val);
-        let s = `<select class="select" id="${name}" name="${name}">
+        let s = `<div class="select"><select id="${name}" name="${name}">
         <option value="${this.nullValue}" ${!role ? "selected" : ""}>None</option>`;
         guild.roles.cache.filter(r => r.id != guild.id).forEach(r => {
             s += `<option value="${r.id}" ${role && role.id == r.id ? "selected" : ""}>${r.name}</option>`;
         });
-        s += "</select>";
+        s += "</select></div>";
         return s;
     }
 

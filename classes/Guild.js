@@ -212,7 +212,14 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
         try {
             if (this.config.get("hatestrings")) {
                 if (this.config.get("hatestrings").length) {
-                    return this.config.get("hatestrings").map(this.swearRegexify);
+                    return this.config.get("hatestrings")
+                        .map(str => {
+                            return str
+                                .normalize("NFD") // Splits "è" into "e" + "`" 
+                                .replace(/[\u0300-\u036f]/g, "") // Strips diacritics
+                                .toLowerCase()
+                        })
+                        .map(this.swearRegexify);
                 } else return []
             } else return []
         } catch {
