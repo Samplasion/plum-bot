@@ -30,7 +30,7 @@
             <hr>
             <h4 class="title is-4"><%= cat || "Misc" %></h4>
             <div class="columns is-multiline">
-                <% let arr = Object.keys(settings).sort((a, b) => client.configOrder.indexOf(a) - client.configOrder.indexOf(b)).filter(v => v != "guildID" && (settingProps[v].category || "Misc") == cat) %>
+                <% let arr = Object.keys(settings).sort((a, b) => client.configOrder.indexOf(a) - client.configOrder.indexOf(b)).filter(v => v != "guildID" && !!settingProps[v] && (settingProps[v].category || "Misc") == cat) %>
                 <% console.log(arr, cat) %>
                 <% for (let setting of arr) { %>
                     <% let type = getType(setting); %>

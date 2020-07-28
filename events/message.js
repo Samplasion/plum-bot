@@ -41,7 +41,7 @@ module.exports = async (client, message) => {
                 if (!getsPoints) {
                     message.isSwear = true;
                     message.swear = s.flat();
-                    if (message.guild.config.get("hatemsgdel") && message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES"))
+                    if ((message.guild.config.get("hatemsgdel") || message.guild.config.get("hateresend")) && message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES"))
                         await message.delete();
                     getsPoints = false;
                     if (message.guild.config.get("hateresend")) {
