@@ -1,4 +1,5 @@
 module.exports = {
+    name: "Swear list",
     type: "string",
     extendable: true,
     short: true,

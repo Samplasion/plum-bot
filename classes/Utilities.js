@@ -78,8 +78,28 @@ class Utilities {
             boost: "<:boost:734804726566223892>",
             audio: "🔈",
             diamond: "💎",
-            blank: "<:blank:735179373011009536>" // Literally nothing
+            blank: "<:blank:735179373011009536>", // Literally nothing
+            asterisk: "*️⃣",
         }
+    }
+
+    embedSplit(text, name = "\u200b", descriptionIncluded = false) {
+        return text.split("\n").reduce((prev, cur) => {
+            console.log(prev, (prev[prev.length-1] || "").length + "\n".length + cur.length);
+            if (!prev || !prev.length)
+                return [ cur ];
+            else if (prev[prev.length-1].length + "\n".length + cur.length < 1024) {
+                prev[prev.length-1] += "\n" + cur;
+                return prev;
+            }
+            prev.push(cur);
+            return prev;
+        }, []).map((val, idx, arr) => {
+            return {
+                name: arr.length == 1 ? name : `${name} [${idx+1}/${arr.length}]`,
+                value: val
+            }
+        });
     }
 
     render({ guild, member }, text) {

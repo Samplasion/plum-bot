@@ -112,6 +112,53 @@ module.exports = class PlumClient extends CommandoClient {
 
         let _sra = require("sra-wrapper");
         this.sra = _sra;
+
+        this.partners = {
+            get db() {
+                return require("../utils/database").partners;
+            },
+            get data() {
+                return this.db.data;
+            },
+            add({ name, desc, link, author }) {
+                let index = 0;
+                if (this.data.length) {
+                    index = this.data[this.data.length-1].id + 1;
+                }
+
+                this.db.insert({
+                    name,
+                    desc,
+                    link,
+                    author,
+                    id: index
+                });
+
+                return this;
+            },
+            edit(id, { name, desc, link, author }) {
+                let data = this.get(id);
+
+                if (!data)
+                    return this;
+
+                if (name != data.name)
+                    data.name = name;
+                if (desc != data.desc)
+                    data.desc = desc;
+                if (link != data.link)
+                    data.link = link;
+                if (author != data.author)
+                    data.author = author;
+
+                this.db.update(data);
+
+                return this;
+            },
+            get(id) {
+                return this.data.filter(v => v.id == id)[0];
+            }
+        }
     }
 
     get color() {

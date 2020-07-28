@@ -30,7 +30,7 @@
                     <div class="column is-6">
                         <%- arr.indexOf(setting) > 1 ? "<hr />" : "" %>
                         <div class="field">
-                            <label class="label"><%= client.configTitles[setting] %></label>
+                            <label class="label"><%= settingProps[setting].name %></label>
                             <p><%- render(guild, (settingProps[setting] || {}).description || "No description.") %></p>
                             <div class="">
                                 <% if (settingProps[setting].extendable) { %>

@@ -9,12 +9,20 @@ module.exports = class SwearsCommand extends Command {
             group: 'moderation',
             memberName: 'swears',
             description: "See which words are prohibited.",
-            args: [{
-                key: "user",
-                type: "member",
-                prompt: "",
-                default: "all"
-            }],
+            args: [
+                {
+                    key: "user",
+                    type: "member",
+                    prompt: "",
+                    default: "all"
+                },
+                {
+                    key: "other",
+                    type: "string",
+                    prompt: "",
+                    default: ""
+                }
+            ],
             format: "[user|\"all\"]",
         });
     }
@@ -25,10 +33,26 @@ module.exports = class SwearsCommand extends Command {
         return super.hasPermission(msg);
     }
 
-    async run(msg, { user }) {
-        if (msg.member.level.level < 2 || user == "all")
+    async run(msg, { user, other }) {
+        if (msg.member.level.level < 2 || user == "all" || user == "list")
             return this.all(msg);
+        if (msg.flag("forgive")) {
+            if (isNaN(other) || parseInt(other) < 0)
+                return msg.error("The index should be a number greater than or equal to 0.");
+            return this.forgive(msg, user, parseInt(other));
+        }
         return this.list(msg, user);
+    }
+
+    async forgive(msg, member, index) {
+        let raw = member.user.swears.data;
+
+        if (!raw.map(s => s.id).includes(index))
+            return msg.error("That index isn't a valid swear!");
+
+        member.user.swears.forgive(msg, index);
+
+        return msg.ok(`The swear with index \`${index}\` was forgiven.`);
     }
 
     async list(msg, member) {
@@ -38,7 +62,7 @@ module.exports = class SwearsCommand extends Command {
             return msg.info(`${member.user.tag} hasn't sworn so far.`);
 
         let embeds = [];
-        let pages = Math.ceil(raw.length / 10);
+        let pages = Math.ceil(raw.length / 5);
         let e = this.client.utils.emojis;
         for (let i = 0; i < pages; i++) {
             let embed = this.client.utils.embed()
@@ -49,7 +73,7 @@ module.exports = class SwearsCommand extends Command {
                 let forgiven = "";
                 if (swear.forgiven) {
                     forgiven = "\n\n(forgiven";
-                    if (msg.guild.resolve(swear.forgivenBy)) {
+                    if (msg.guild.members.resolve(swear.forgivenBy)) {
                         let user = await this.client.users.fetch(swear.forgivenBy);
                         forgiven += ` by ${user.tag}`;
                     }

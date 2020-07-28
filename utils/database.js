@@ -14,7 +14,8 @@ const collections = [
     'reminders',
     'tags',
     'levels',
-    'swears'
+    'swears',
+    'partners'
 ];
 function loadCollections () {
 	collections.forEach(x => {

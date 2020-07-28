@@ -55,7 +55,9 @@ module.exports = Structures.extend( 'User', (User) =>
                 },
                 get data() {
                     try {
-                        return this.db.find(obj => obj.user == user.id ) || [];
+                        return this.db.data.filter(d => {
+                            return d.user == user.id;
+                        });
                     } catch {
                         return [];
                     }

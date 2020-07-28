@@ -1,4 +1,5 @@
 module.exports = {
+    name: "Re-send hateful message",
     type: "bool",
     extendable: false,
     description: "Whether the bot should send the message, without the swears. " + 
