@@ -111,9 +111,10 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
 
 				let mutedrole = scan ? roles.find(role => role.name === "Muted") : null;
 				let owners = [guild.owner.id];
-				let admins = scan ? roles.find(role => role.name === "Admin") : [];
-				let mods = scan ? roles.find(role => role.name === "Moderator") : [];
-				let helpers = scan ? roles.find(role => role.name === "Helper") : [];
+				let admins = scan ? roles.find(role => role.name === "Admin" || role.permissions.has("ADMINISTRATOR")) : null;
+				let mods = scan ? roles.find(role => role.name === "Moderator" || role.permissions.has("MANAGE_MESSAGES")) : null;
+				let helpers = scan ? roles.find(role => role.name === "Helper") : null;
+				let hatebypass = scan ? roles.find(role => role.name === "Anti-swear Bypass") : null; // This is so specific it's almost guaranteed it never matches
 
 				return {
 					guildID: guild.id,
@@ -152,7 +153,8 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
                     twice before swearing.
                     `.trim(),
                     hatemsgdel: true,
-                    hateresend: false
+                    hateresend: false,
+                    hatebypass
 				};
 			},
 			setDefaultSettings: function(blank = false, scan = true) {

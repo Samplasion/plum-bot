@@ -165,54 +165,6 @@ module.exports = class PlumClient extends CommandoClient {
         return parseInt(process.env.COLOR) || 0xC44040;
     }
 
-    get configTitles() {
-        return {
-            owners: "Server owners role",
-            admins: "Server admins role",
-            mods: "Server moderators role",
-            helpers: "Server helpers role",
-            logchan: "Log channel",
-            welcomechan: "Welcome channel",
-            welcomemessage: "Welcome messages",
-            leavemessage: "Leave messages",
-            mutedrole: "Muted role",
-            ticketcategory: "Category for ticket channels",
-            serverinfo: "Server information channel names",
-            levelupmsgs: "Level up messages",
-            unknowncommand: "Unknown command message",
-            starboardchan: "Starboard channel",
-            hateblock: "Anti-swear",
-            hatestrings: "Anti-swear triggers",
-            hateresponse: "Anti-swear response",
-            hatemsgdel: "Swear message deletion",
-            hateresend: "Send filtered message"
-        };
-    }
-
-    get configOrder() {
-        return [
-            'owners',
-            'admins',
-            'mods',
-            'helpers',
-            'logchan',
-            'welcomechan',
-            'welcomemessage',
-            'leavemessage',
-            'mutedrole',
-            'ticketcategory',
-            'serverinfo',
-            'levelupmsgs',
-            "unknowncommand",
-            'starboardchan',
-            'hateblock',
-            'hatestrings',
-            'hateresponse',
-            'hatemsgdel',
-            'hateresend'
-        ];
-    }
-
     get invite() {
         let permissions = Array.from(this.registry.commands.values()).map(c => c.clientPermissions).flat().concat(this.usefulPerms).reduce((prev, this_) => {
             if (!this_) return prev;

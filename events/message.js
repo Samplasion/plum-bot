@@ -28,6 +28,10 @@ module.exports = async (client, message) => {
         let getsPoints = true;
 
         if (message.guild.config.get("hateblock") && !message.author.bot) {
+            if (message.guild.config.get("hatebypass") &&
+                message.member.roles.cache.has(message.guild.config.get("hatebypass").id))
+                return;
+            
             let arr = message.guild.swears;
             if (arr && arr.length) {
                 let s = [];
