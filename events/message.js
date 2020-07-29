@@ -25,66 +25,7 @@ module.exports = async (client, message) => {
             );
         }
     } else {
-        let getsPoints = true;
-
-        if (message.guild.config.get("hateblock") && !message.author.bot) {
-            if (message.guild.config.get("hatebypass") &&
-                message.member.roles.cache.has(message.guild.config.get("hatebypass").id))
-                return;
-            
-            let arr = message.guild.swears;
-            if (arr && arr.length) {
-                let s = [];
-                arr.forEach(swear => {
-                    let c = message.content
-                        .normalize("NFD") // Splits "è" into "e" + "`" 
-                        .replace(/[\u0300-\u036f]/g, "") // Strips diacritics
-                        .toLowerCase()
-                    if (swear.test(c)) {
-                        s.push(c.match(swear));
-                        getsPoints = false;
-                    }
-                })
-            
-                if (!getsPoints) {
-                    message.isSwear = true;
-                    message.swear = s.flat();
-                    if ((message.guild.config.get("hatemsgdel") || message.guild.config.get("hateresend")) && message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES"))
-                        await message.delete();
-                    getsPoints = false;
-                    if (message.guild.config.get("hateresend")) {
-                        let wh = await message.channel.getFirstWebhook();
-                        if (wh) {
-                            let content = message.content;
-                            for (let s of message.swear) {
-                                content = content.split(new RegExp((String.raw`${s.trim()}`).replace("\\", "\\\\"), "i")).join("•".repeat(s.trim().length))
-                            }
-                            wh.send(
-                                content,
-                                {
-                                    username: message.member.displayName,
-                                    avatarURL: message.author.displayAvatarURL(),
-                                    embeds: message.embeds
-                                }
-                            )
-                        }
-                    } else if (message.guild.config.get("hateresponse"))
-                        message.channel.send(client.utils.render(message, message.guild.config.get("hateresponse")));
-
-                    let e = client.utils.emojis;
-                    let embed = client.utils.embed()
-                        .setAuthor(message.author.tag, message.author.displayAvatarURL())
-                        .setTitle(`${e.name} Swear`)
-                        .setDescription(`Content:\n\n||${message.cleanContent}||\n\nTriggering word(s): ||${message.swear.join("||, ||")}||`)
-                        .addField(`${e.channel} Channel`, `<#${message.channel.id}> (#${message.channel.name})`)
-                        .addField(`${e.calendar} Caught on`, client.utils.fmtDate(new Date(message.createdTimestamp)))
-                        .addField(`${e.id} Message ID`, message.id);
-                    await message.guild.log(embed);
-
-                    message.author.swears.add(message);
-                }
-            }
-        }
+        let getsPoints = true && (await message.checkSwears());
 
         if (message.guild && !message.author.bot && getsPoints) {
             let lvlup = message.member.points.award();

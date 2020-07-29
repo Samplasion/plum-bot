@@ -1,4 +1,9 @@
-module.exports = async (client, oldMessage, newMessage) => {
+module.exports = async (client, oM, nM) => {
+    await logEdit(client, oM, nM);
+    await nM.checkSwears();
+}
+
+async function logEdit(client, oldMessage, newMessage) {
 	if (oldMessage.content == newMessage.content) return;
 	if (oldMessage.content.length < 1) return;
 	if (oldMessage.content.length > 1000) return;
@@ -16,5 +21,5 @@ module.exports = async (client, oldMessage, newMessage) => {
 		.setTimestamp(new Date())
 		.setThumbnail(newMessage.author.displayAvatarURL());
 
-	newMessage.guild.log(embed);
+    newMessage.guild.log(embed);
 }
