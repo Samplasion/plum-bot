@@ -20,81 +20,67 @@
             return a.localeCompare(b);
         });
     %>
-
-    <style>
-        .tabs-content li {
-            display: none;
-            list-style: none;
-        }
-
-        .tabs-content li.is-active {
-            display: block;
-        }
-    </style>
     
-    <div class="container content">
+    <div class="container content page">
         <h1 class="title is-1 has-text-centered">Editing Server configuration</h1>
         <h3 class="subtitle is-3 has-text-centered">Server: <%= guild.name %></h3>
 
         <form action="/dashboard/<%= guild.id %>/config/save" method="post">
-            <div class="tabs-wrapper">
-                <div class="tabs">
-                    <ul>
-                        <% for (let cat of arr) { %>
-                            <% let s = arr.indexOf(cat) == 0 ? " class=is-active" : "" %>
-                            <li<%= s %>>
-                                <a><%= cat || "Misc" %></a>
-                            </li>
-                        <% } %>
-                    </ul>
-                </div>
-                <div class="tabs-content">
-                    <ul>
-                        <% let arr2 = arr %>
-                        <% for (let cat of arr2) { %>
-                            <li<%= arr2.indexOf(cat) == 0 ? " class=is-active" : "" %>>
-                                <% let arr = Object.keys(settings).sort((a, b) => a.localeCompare(b)).filter(v => v != "guildID" && !!settingProps[v] && (settingProps[v].category || "Misc") == cat) %>
-                                <% for (let setting of arr) { %>
-                                    <% let type = getType(setting); %>
-                                    <% if (setting == "guildID") continue; %>
-                                    <%- arr.indexOf(setting) > 0 ? "<hr />" : "" %>
-                                    <div class="field">
-                                        <label class="label"><%= settingProps[setting].name %></label>
-                                        <p><%- render(guild, (settingProps[setting] || {}).description || "No description.") %></p>
-                                        <div class="control">
-                                            <% if (settingProps[setting].extendable) { %>
-                                                <% settings[setting].forEach((set, index) => { %>
-                                                    <% let pretty = type.webInput ? type.webInput(client, guild, set, setting + "[]") : set %>
-                                                    <div class="field has-addons">
-                                                        <div class="control is-expanded">
-                                                            <%- pretty == type.nullValue ? "This value is empty." : pretty %>
-                                                        </div>
-                                                        <div class="control">
-                                                            <a class="button is-danger" onclick="document.getElementsByName('<%= setting %>[]')[<%= index %>].parentNode.parentNode.remove()" aria-label="delete">&times;</a>
-                                                        </div>
-                                                    </div>
-                                                <% }); %>
-                                                <button style="margin-top: 1.5rem;" class="button is-info" onclick="this.outerHTML = `<div class='field has-addons'><div class='control is-expanded'><%- type.webInput(client, guild, "", setting + "[]").split('"').join("'") %></div><div class='control'><a onclick='document.getElementsByName(<%= `"${setting}[]"` %>)[${document.getElementsByName('<%= setting %>[]').length}].parentNode.parentNode.remove()' class='button is-danger' aria-label='delete'>&times;</a></div></div>${this.outerHTML}`">+</button>
-                                            <% } else { %>
-                                                <% let pretty = type.webInput ? type.webInput(client, guild, settings[setting], setting, settingProps[setting] || {}) : setting %>
-                                                <%- pretty == type.nullValue ? "This value is empty." : pretty %>
-                                            <% } %>
-                                        </div>
-                                    </div>
-                                <% } %>
-                            </li>
-                        <% } %>
-                    </ul>
-                </div>
+            <div class="tabs">
+                <ul class="nav nav-tabs" id="tabs" role="tablist">
+                    <% for (let cat of arr) { %>
+                        <% let id = (cat || "Misc").toLowerCase().replace(/\s+/g, "-"); %>
+                        <% let s = arr.indexOf(cat) == 0 ? " active"  : "" %>
+                        <li class="nav-item">
+                            <a class="nav-link<%=s%>" id="<%= id %>-tab" data-toggle="tab" role="tab" aria-controls="<%= id %>" aria-selected="<%= s != "" %>" href="#<%= id %>"><%= cat || "Misc" %></a>
+                        </li>
+                    <% } %>
+                </ul>
             </div>
-            <div class="buttons has-addons is-right">
-                <a href="/dashboard/<%= guild.id %>/home" class="button is-secondary">
+            <div class="tabs-content">
+                <% let arr2 = arr %>
+                <% for (let cat of arr2) { %>
+                    <% let id = (cat || "Misc").toLowerCase().replace(/\s+/g, "-"); %>
+                    <% let s = arr2.indexOf(cat) == 0 ? " show active" : "" %>
+                    <div class="tab-pane fade<%= s %>" id="<%= id %>" role="tabpanel" aria-labelledby="<%= id %>-tab">
+                        <% let arr = Object.keys(settings).sort((a, b) => a.localeCompare(b)).filter(v => v != "guildID" && !!settingProps[v] && (settingProps[v].category || "Misc") == cat) %>
+                        <% for (let setting of arr) { %>
+                            <% let type = getType(setting); %>
+                            <% if (setting == "guildID") continue; %>
+                            <%- arr.indexOf(setting) > 0 ? "<hr />" : "" %>
+                            <div class="field">
+                                <label class="label h5"><%= settingProps[setting].name %></label>
+                                <p class="text-muted"><%- render(guild, (settingProps[setting] || {}).description || "No description.").replace(/<\/?p>/g, "") %></p>
+                                <div class="control">
+                                    <% if (settingProps[setting].extendable) { %>
+                                        <% settings[setting].forEach((set, index) => { %>
+                                            <% let pretty = type.webInput ? type.webInput(client, guild, set, setting + "[]") : set %>
+                                            <div class="input-group">
+                                                <%- pretty == type.nullValue ? "This value is empty." : pretty %>
+                                                <div class="input-group-prepend">
+                                                    <a class="btn btn-danger" onclick="this.parentNode.parentNode.remove()" aria-label="delete">&times;</a>
+                                                </div>
+                                            </div>
+                                        <% }); %>
+                                        <button style="margin-top: 1.5rem;" class="btn btn-outline-info" onclick="this.outerHTML = `<div class='input-group'><%- type.webInput(client, guild, "", setting + "[]").split('"').join("'") %><div class='input-group-prepend'><a onclick='this.parentNode.parentNode.remove()' class='btn btn-danger' aria-label='delete'>&times;</a></div></div>${this.outerHTML}`">+</button>
+                                    <% } else { %>
+                                        <% let pretty = type.webInput ? type.webInput(client, guild, settings[setting], setting, settingProps[setting] || {}) : setting %>
+                                        <%- pretty == type.nullValue ? "This value is empty." : pretty %>
+                                    <% } %>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                <% } %>
+            </div>
+            <div class="btn-group float-right">
+                <a href="/dashboard/<%= guild.id %>/home" class="btn btn-secondary">
                     <span>Cancel</span>
                 </a>
-                <input type="submit" class="button is-primary">
+                <input type="submit" class="btn btn-primary">
             </div>
         </form>
-    </div>
+    </div></div>
 
     <% include ../../../partials/footer %>
 </html>

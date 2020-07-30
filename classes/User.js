@@ -128,5 +128,15 @@ module.exports = Structures.extend( 'User', (User) =>
                     !!member.premiumSince)
             );
         }
+
+        get maxLevel() {
+            return this.client.guilds.cache.filter(g => {
+                return !!g.members.resolve(this.id);
+            }).map(g => {
+                return g.members.resolve(this.id).level;
+            }).sort((a, b) => {
+                return b.level - a.level
+            })[0];
+        }
     }
 );

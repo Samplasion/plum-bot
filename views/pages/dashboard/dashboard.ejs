@@ -10,15 +10,15 @@
         }
     %>
     
-    <div class="container content">
+    <div class="container content page">
         <h1 class="title is-1 has-text-centered">Server dashboard</h1>
         <h3 class="subtitle is-3 has-text-centered">Server: <%= guild.name %></h3>
         <br>
-        <div class="columns">
-            <div class="column is-6">
+        <div class="row">
+            <div class="col-6">
                 <h5>Prefix</h5>
                 <p>
-                    <code><%= guild.commandPrefix %></code>&nbsp;(<a onclick="$('.modal').toggleClass('is-active')">Edit</a>)
+                    <code><%= guild.commandPrefix %></code>&nbsp;(<a href="javascript:void(0)" data-toggle="modal" id="prefixBtn" data-target="#prefixModal">Edit</a>)
                 </p>
 
                 <hr>
@@ -36,7 +36,7 @@
                 |
                 <a href="/dashboard/<%= guild.id %>/tags/edit">Edit →</a>
             </div>
-            <div class="column is-6">
+            <div class="col-6">
                 <h5>Stats</h5>
                 <p>
                     <ul>
@@ -58,25 +58,28 @@
         </div>
     </div>
 
-    <div class="modal">
+    <div class="modal fade" id="prefixModal" tabindex="-1" role="dialog" aria-labelledby="prefixBtn" aria-hidden="true">
         <form action="/dashboard/<%= guild.id %>/config/prefix" method="post">
-            <div class="modal-background" onclick="$('.modal').removeClass('is-active')"></div>
-            <div class="modal-card">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Edit prefix</p>
-                    <button class="delete" onclick="$('.modal').removeClass('is-active')" aria-label="close"></button>
-                </header>
-                <section class="modal-card-body">
-                    Edit the prefix (the current one is <code><%= guild.commandPrefix %></code>):<br>
-                    <input type="text" name="prefix" id="prefix" class="input" value=<%= guild.commandPrefix %> placeholder=<%= guild.commandPrefix %>>
-                </section>
-                <footer class="modal-card-foot">
-                    <input type="submit" class="button is-success" value="Save changes"></input>
-                    <button class="button" onclick="$('.modal').removeClass('is-active')">Cancel</button>
-                </footer>
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit prefix</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                        Edit the prefix (the current one is <code><%= guild.commandPrefix %></code>):<br>
+                        <input type="text" name="prefix" id="prefix" class="form-control" value="<%= guild.commandPrefix %>"" placeholder="<%= guild.commandPrefix %>">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" value="Save changes">
+                    </div>
+                </div>
             </div>
         </form>
     </div>
-      
+
     <% include ../../partials/footer %>
 </html>

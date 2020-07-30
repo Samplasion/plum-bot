@@ -1,0 +1,31 @@
+<section class="hero is-small is-primary is-bold" style="margin: 0 0 1.5rem 0;">
+    <div class="hero-body has-text-centered" style="padding: 0;">
+        <div class="hero-head">
+            <nav class="navbar">
+                <div class="container">
+                    <div class="navbar-brand">
+                        <a class="navbar-item" href="/">
+                            <!--img src="https://bulma.io/images/bulma-type-white.png" alt="Logo"-->
+                            <%= client.user.username %>
+                        </a>
+                        <span class="navbar-burger burger" data-target="navbarMenuHeroA">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </div>
+                    <div id="navbarMenuHeroA" class="navbar-menu">
+                        <div class="navbar-end">
+                            <a href="/" class="navbar-item">Home</a>
+                            <a href="/commands" class="navbar-item">Commands&nbsp;&nbsp;<span class="tag is-light"><%= client.registry.commands.filter(c => c.permLevel <= 4).size %></span></a>
+                            <a href="/support" class="navbar-item">Support Us</a>
+                            <a href="/about" class="navbar-item">About</a>
+                            <a href="/dashboard" class="navbar-item">Web Dashboard</a>
+                            <a href="/server" class="navbar-item">Official Server</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</section>

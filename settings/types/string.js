@@ -76,9 +76,9 @@ module.exports = class StringType {
 
     static webInput(client, guild, val, name, extended = {}) {
         if (extended.long) {
-            return `<textarea class="textarea" type="text" id="${name}" name="${name}">${val}</textarea>`
+            return `<textarea class="form-control" type="text" id="${name}" name="${name}">${val}</textarea>`
         }
-        return `<input class="input" type="text" id="${name}" name="${name}" value="${val.replace(/"/g, "\\\"")}">`;
+        return `<input class="form-control" type="text" id="${name}" name="${name}" value="${val.replace(/"/g, "\\\"")}">`;
     }
 
     static webSerialize(client, guild, val) {

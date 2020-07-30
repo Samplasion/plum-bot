@@ -1,0 +1,117 @@
+<% include ../partials/head %>
+<% include ../partials/nav %>
+<div class="heading" style="display: flex;flex-direction: column;justify-content: center;">
+    <h1 class="display-5 title"> <%= client.user.username %> is the best gift you could make your server.</h1>
+    <p class="subtitle">
+        With features such as Music and Moderation (which are common), you also have
+        super useful ones like fully customizable server info channels (the ones that show
+        the member and channel count) and a built-in swear/hateful message blocker/filter.
+    </p>
+    <div>
+        <a class="btn btn-primary btn-lg" href="#features" role="button">Get started</a>
+        <a class="btn btn-secondary btn-lg" href="<%= client.invite %>" target="_blank" role="button">Add to a server</a>
+    </div>
+</div>
+<%
+    let features = [
+        {
+            icon: "level-up-alt",
+            name: "Levels",
+            text: ":arrow_up: Per server leveling system and leaderboard."
+        },
+        {
+            icon: "gamepad",
+            name: "Games",
+            text: ":video_game: A growing library of server games",
+            more: "You can also play some games (like <a href=\"/commands/connectfour\"><code>pl.connectfour</code></a>) with someone else!"
+        },
+        {
+            icon: "cogs",
+            name: "Moderation",
+            text: ":gear: Strong, permission based leveling system.",
+        },
+        {
+            icon: "globe",
+            name: "Settings",
+            text: ":globe_with_meridians: Per server settings, easy as 123."
+        },
+        {
+            icon: "music",
+            name: "Music",
+            text: ":musical_note: A powerful music system, with playlists."
+        },
+        {
+            icon: "info",
+            name: "Information",
+            text: ":information_source: Server stats always in your channel list.",
+            more: "Can be moved, usually sits on bottom of channel list when created."
+        }
+    ];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    shuffleArray(features);
+    features = features.slice(3);
+%>
+<div class="features">
+    <div class="title" id="features">Features of <%= client.user.username %></div>
+    <div class="subtitle"><%= client.user.username %> only features the best of the features!</div>
+    <div class="cards">
+        <% for (let f of features) { %>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title"><%= f.name %></h5>
+                    <p class="card-text"><%= f.text %></p>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</div>
+<% const stats = [
+    {
+        name: "servers",
+        stat: client.guilds.cache.size
+    },
+    {
+        name: "users",
+        stat: client.users.cache.size
+    },
+    {
+        name: "channels",
+        stat: client.channels.cache.size
+    }
+] %>
+<div class="statistics">
+    <div class="title">Other <%= client.user.username %> users</div>
+    <div class="subtitle">These people love using <%= client.user.username %>, just like you will!</div>
+    <div class="cards">
+        <% for (let stat of stats) { %>
+            <div class="card statistic" style="width: 18rem;">
+                <div class="card-body">
+                    <p class="card-title" style="font-size: 50px !important;line-height: 15px !important;letter-spacing: -0.06em !important;font-weight: bold !important;"><%= stat.stat %></h1>
+                    <p style="font-weight: bold !important;font-size: 20px !important;"><%= stat.name %></p>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</div>
+<div class="page_ending">
+    <div class="start">
+        <div class="card">
+            <div class="card-body gs-card">
+                <div class="title">Ready to try <%= client.user.username %>?</div>
+                <div class="subtitle">
+                    Invite <%= client.user.username %> now. It's the best gift you could make your server.
+                </div>
+                <br />
+                <a class="btn btn-primary btn-lg" href="<%= client.invite %>" role="button">Let's get started!</a>
+            </div><br />
+        </div>
+    </div>
+</div>
+<% include ../partials/footer %>

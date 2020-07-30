@@ -5,36 +5,37 @@
     <% include ../../../partials/nav %>
     
     <div class="container content">
-        <h1 class="title is-1 has-text-centered">Editing Server configuration</h1>
+        <h1 class="title is-1 has-text-centered">Editing tags</h1>
         <h3 class="subtitle is-3 has-text-centered">Server: <%= guild.name %></h3>
 
         <form id="tagsForm" onsubmit="form(this, event)" action="/dashboard/<%= guild.id %>/tags/save" method="post">
             <div id="tagList">
                 <% for (let tag of guild.tags.list) { %>
+                    <%- guild.tags.list.indexOf(tag) != 0 ? "<br><br>" : "" %>
                     <span>
-                        <div class="field">
-                            <label class="label">Tag name</label>
+                        <div class="form-group">
+                            <label for="tags[]" class="label">Tag name</label>
                             <input 
-                                class="input"
+                                class="form-control"
                                 type="text"
                                 name="tags[]"
                                 id="tags[]"
                                 value="<%= tag.name %>"
                                 placeholder="<%= tag.name %>"
                             >
-                            <p style="display: none;" class="help is-danger">A tag with this name already exists.</p>
+                            <p style="display: none;" class="invalid-feedback"></p>
                         </div>
                         <div class="field">
                             <label class="label">Tag text</label>
                             <textarea
-                                class="textarea"
+                                class="form-control"
                                 name="bodies[]"
-                                placeholder="<%= tag.text %>"
+                                placeholder="<%= tag.text.replace('\u201c', '&#39;') %>"
                             ><%= tag.text %></textarea>
-                            <p style="display: none;" class="help is-danger">The tag body must have a length between 1 and 1996.</p>
+                            <p style="display: none;" class="invalid-feedback">The tag body must have a length between 1 and 1996.</p>
                         </div>
-                        <span class="buttons is-right">
-                            <a class="button is-danger" onclick="$(this).parent().parent().remove()">
+                        <span class="float-right">
+                            <a class="btn btn-danger" onclick="$(this).parent().parent().remove()">
                                 Delete this tag
                             </a>
                         </span>
@@ -42,46 +43,46 @@
                     </span>
                 <% } %>
             </div>
-            <span class="buttons is-left">
-                <a class="button is-info" href="javascript:addFields()">
+            <div class="btn-group is-left">
+                <a class="btn btn-info" href="javascript:addFields()">
                     + Add tag
                 </a>
-            </span>
-            <span class="buttons has-addons is-right">
-                <a href="/dashboard/<%= guild.id %>/home" class="button is-secondary">
+            </div><br>
+            <div class="btn-group float-right">
+                <a href="/dashboard/<%= guild.id %>/home" class="btn btn-secondary">
                     <span>Cancel</span>
                 </a>
-                <input type="submit" class="button is-primary">
-            </span>
+                <input type="submit" class="btn btn-primary">
+            </div>
         </form>
     </div>
 
     <script>
-        let markup = `
+        let markup = `<br><br>
         <span>
-            <div class="field">
+            <div class="form-group">
                 <label class="label">Tag name</label>
                 <input 
-                    class="input"
+                    class="form-control"
                     type="text"
                     name="tags[]"
                     id="tags[]"
                     value=""
                     placeholder="Tag name"
                 >
-                <p style="display: none;" class="help is-danger">A tag with this name already exists.</p>
+                <p style="display: none;" class="invalid-feedback"></p>
             </div>
             <div class="field">
                 <label class="label">Tag text</label>
                 <textarea
-                    class="textarea"
+                    class="form-control"
                     name="bodies[]"
                     placeholder="Tag text"
                 ></textarea>
-                <p style="display: none;" class="help is-danger">The tag body must have a length between 1 and 1996.</p>
+                <p style="display: none;" class="invalid-feedback">The tag body must have a length between 1 and 1996.</p>
             </div>
-            <span class="buttons is-right">
-                <a class="button is-danger" onclick="$(this).parent().parent().remove()">
+            <span class="float-right">
+                <a class="btn btn-danger" onclick="$(this).parent().parent().remove()">
                     Delete this tag
                 </a>
             </span>
@@ -102,7 +103,7 @@
                 let name = $e.val();
 
                 function err(str) {
-                    $e.addClass("is-danger");
+                    $e.addClass("text-danger");
                     $e.next().text(str).show();
 
                     event.preventDefault();

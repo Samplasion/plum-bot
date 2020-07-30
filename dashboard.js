@@ -4,7 +4,8 @@ module.exports = (app, client, passport, session) => {
         const baseData = {
             bot: client,
             path: req.path,
-            user: req.isAuthenticated() ? req.user : null
+            user: req.isAuthenticated() ? req.user : null,
+            user_: req.isAuthenticated() && client.users.cache.has(req.user.id) ? client.users.cache.get(req.user.id) : null
         };
         // We render template using the absolute path of the template and the merged default data with the additional data provided.
         res.render(`pages/dashboard/${template}`, Object.assign(baseData, data));
@@ -16,7 +17,7 @@ module.exports = (app, client, passport, session) => {
             // eslint-disable-next-line no-self-assign
             req.session.backURL = req.session.backURL;
         } else { // If there is no return URL we simply set it to index page.
-            req.session.backURL = "/dashboard";
+            req.session.backURL = "/";
         }
         // Now that we have configured the returning URL, we can let passport redirect user to appropriate auth page.
         next();
@@ -189,8 +190,29 @@ module.exports = (app, client, passport, session) => {
     app.post("/dashboard/:guildID/config/prefix", authenticate, hasGuild, async (req, res) => {
         if (res.locals.member.level.level < 3) return res.redirect("/dashboard");
 
+        console.log(req.body);
         res.locals.guild.commandPrefix = !req.body.prefix || req.body.prefix.toLowerCase() == "none" ? client.commandPrefix : req.body.prefix;
 
         res.redirect(`/dashboard/${res.locals.guild.id}/home`);
+    })
+
+    // USER DASHBOARD
+    userDashboard(app, client, passport, session);
+}
+
+function userDashboard(app, client, passport, session) {
+    const r = (req, res, template, data = {}) => {
+        // Default base data which passed to the ejs template by default. 
+        const baseData = {
+            bot: client,
+            path: req.path,
+            user: req.isAuthenticated() && client.users.cache.has(req.user.id) ? client.users.cache.get(req.user.id) : null
+        };
+        // We render template using the absolute path of the template and the merged default data with the additional data provided.
+        res.render(`pages/dashboard/usersettings/${template}`, Object.assign(baseData, data));
+    };
+
+    app.get("/user/settings", (req, res) => {
+        r(req, res, "index");
     })
 }

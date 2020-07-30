@@ -4,33 +4,17 @@
     <% include ../partials/head %>
     <% include ../partials/nav %>
 
-    <div class="container">
+    <div class="container page">
         <h1 class="title">About</h1>
         <p class="subtitle">Plum is made by these people:</p>
 
         <div class="columns is-multiline">
             <% for (let owner of client.owners) { %>
-                <!--div class="column has-text-centered">
-                    <figure class="image is-128x128">
-                        <img class="is-rounded" src="<%- owner.displayAvatarURL({ size: 512 }) %>">
-                    </figure>
-                    <%= owner %>
-                </div-->
-                <div class="column is-<%= Math.max((12 / (client.owners.length - 1)), 6) %> has-text-centered">
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="media">
-                                <div class="media-left">
-                                    <figure class="image is-48x48">
-                                        <img class="is-rounded" src="<%- owner.displayAvatarURL({ size: 512 }) %>">
-                                    </figure>
-                                </div>
-                                <div class="media-content">
-                                    <p class="title is-4"><%= owner.username %></p>
-                                    <p class="subtitle is-6">@<%= owner.tag %></p>
-                                </div>
-                            </div>
-                        </div>
+                <div class="media">
+                    <img class="mr-3" width="64" height="auto" src="<%- owner.displayAvatarURL({ format: "png", size: 512 }) %>" alt="<%= owner.username %>'s avatar'">
+                    <div class="media-body">
+                        <h5 class="mt-0"><%= owner.username %></h5>
+                        <p>@<%= owner.tag %></p>
                     </div>
                 </div>
             <% } %>

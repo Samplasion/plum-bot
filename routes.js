@@ -3,22 +3,30 @@
  * @param {import("./classes/Client")} client
  */
 module.exports = function (app, client) {
+    function render(req, res, link, stuff) {
+        let d = {
+            user: client.users.cache.get(( req.user || { id: null } ).id) || null,
+            ...stuff
+        };
+        d.user_ = d.user;
+        return res.render(`pages/${link}`, d)
+    }
     app.get("/", (req, res) => {
-        res.render("pages/index")
+        render(req, res, "newindex")
     })
     app.get("/commands", (req, res) => {
-        res.render("pages/commands")
+        render(req, res, "commands")
     })
     app.get("/commands/:command", (req, res) => {
         let cmds = client.registry.findCommands(req.params.command, false, undefined);
         if (!cmds.length) return res.status(404).render("pages/404");
-        res.render("pages/command", { cmd: cmds[0] });
+        render(req, res, "command", { cmd: cmds[0] });
     })
     app.get("/support", (req, res) => {
-        res.render("pages/donate")
+        render(req, res, "donate")
     })
     app.get("/about", (req, res) => {
-        res.render("pages/about")
+        render(req, res, "about")
     })
     app.get("/server", (req, res) => {
         res.redirect(client.options.invite);
@@ -62,10 +70,16 @@ module.exports = function (app, client) {
         console.log(req.body, req.headers);
         res.status(200);
         return res.json({ good: true });
+    });
+
+    app.get("/login", (req, res) => {
+        res.redirect("/dashboard/login")
+    }).get("/logout", (req, res) => {
+        res.redirect("/dashboard/logout")
     })
 
     // 404 route
     app.get("*", (req, res) => {
-        res.status(404).render("pages/404")
-    })
+        render(req, res.status(404), "404");
+    });
 }

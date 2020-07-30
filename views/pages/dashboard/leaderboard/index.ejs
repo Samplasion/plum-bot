@@ -17,34 +17,25 @@
                     There are no board leaders. It's your time to shine!
                 </div>
             <% } %>
-            <% sorted.forEach((u, i) => { %>
+            <% let i = 1; %>
+            <% sorted.forEach((u) => { %>
                 <% let lb = guild.members.resolve(u.userID); %>
-                <% if (!lb) return; %>
-                <div class="column is-12 has-text-centered">
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="media">
-                                <div class="media-left">
-                                    <figure class="image is-48x48">
-                                        <img class="is-rounded" src="<%- lb.user.displayAvatarURL({ size: 512 }) %>">
-                                    </figure>
-                                </div>
-                                <div class="media-content">
-                                    <div class="columns">
-                                        <div class="column">
-                                            <p class="title is-4"><%= i + 1 %>. <%= lb.displayName %></p>
-                                            <p class="subtitle is-6">@<%= lb.user.tag %></p>
-                                        </div>
-                                        <div class="column column has-text-right">
-                                            <p class="title is-4"><%= client.utils.plural(lb.points.data.points, "point") %></p>
-                                            <p class="subtitle is-6">Level <%= lb.points.data.level %></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                <% if (!lb || lb.user.bot) return; %>
+                <% if (i > 1) { %><hr style="border-top-color: #aaaaaa;"><% } %>
+                <div class="media">
+                    <img class="mr-3" width="64" height="auto" src="<%- lb.user.displayAvatarURL({ format: "png", size: 512 }) %>" alt="<%= lb.username %>'s avatar'">
+                    <div class="media-body">
+                        <div class="float-right lead text-right">
+                            <%= client.utils.plural(lb.points.data.points, "point") %><br>
+                            Level <%= lb.points.data.level %>
+                        </div>
+                        <div>
+                            <h5 class="mt-0"><%= i %>. <%= lb.displayName %><% if (user && lb.id == user_.id) { %> <span class="badge">YOU</span><% } %></h5>
+                            <p>@<%= lb.user.tag %></p>
                         </div>
                     </div>
                 </div>
+                <% i++ %>
             <% }) %>
         </div>
     </div>

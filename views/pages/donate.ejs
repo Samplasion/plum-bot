@@ -4,36 +4,41 @@
     <% include ../partials/head %>
     <% include ../partials/nav %>
     
-    <div class="container content">
+    <div class="container content page">
         <h1 class="has-text-centered">Support</h1>
-        <div class="columns">
-            <div class="column">
-                <p>
-                    If you like <%= client.user.username %> and you want to show it, you
-                    can <a href="https://patreon.com/samplasion">pledge on Patreon</a>.
-                    You'll get the following perks:
-                </p>
-                <ul>
-                    <li>
-                        <%= client.user.username %> Premium, which includes:
-                        <ul>
-                            <li>All the premium commands.</li>
-                            <li>It'll be shown from within the <code>pl.premium</code> command.</li>
-                        </ul>
-                    </li>
-                    <li>Our appreciation and support :thumbsup:</li>
-                </ul>
-                <p>
-                    Alternatively, if you don't want to/don't have the means to pledge,
-                    you can <a href="server">Nitro boost the Official <%= client.user.username %>
-                    Server</a>.
-                    You'll get the same perks, but you'll also have a pink diamond next to your username.
-                </p>
+        <% if (user_ && user_.isPremium) { %>
+            <p class=lead>You're already a <strong>:large_orange_diamond: Premium</strong> user!</p>
+            <p>You don't need to do anything right now.</p>
+        <% } else { %>
+            <div class="row">
+                <div class="col">
+                    <p>
+                        If you like <%= client.user.username %> and you want to show it, you
+                        can <a href="https://patreon.com/samplasion">pledge on Patreon</a>.
+                        You'll get the following perks:
+                    </p>
+                    <ul>
+                        <li>
+                            <%= client.user.username %> Premium, which includes:
+                            <ul>
+                                <li>All the premium commands.</li>
+                                <li>It'll be shown from within the <code>pl.premium</code> command.</li>
+                            </ul>
+                        </li>
+                        <li>Our appreciation and support :thumbsup:</li>
+                    </ul>
+                    <p>
+                        Alternatively, if you don't want to/don't have the means to pledge,
+                        you can <a href="server">Nitro boost the Official <%= client.user.username %>
+                        Server</a>.
+                        You'll get the same perks, but you'll also have a pink diamond next to your username.
+                    </p>
+                </div>
+                <div class="col">
+                    <img src="/public/resources/images/premium.png" />
+                </div>
             </div>
-            <div class="column">
-                <img src="/public/resources/images/premium.png" />
-            </div>
-        </div>
+        <% } %>
     </div>
       
     <% include ../partials/footer %>

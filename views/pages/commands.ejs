@@ -9,16 +9,17 @@
     <br>
     <h1 class="title is-1" style="text-align: center; min-width: 100% !important;" width="100%">Command list</h1>
     <div class="container">
-      <% for (let category of client.registry.groups.filter(grp => grp.commands.some(c => !c.hidden && c.permLevel <= 4)).sort((a, b) => a.name.localeCompare(b.name)).values()) { %>
+        <% let maxpl = user ? user.maxLevel.level : 4 %>
+      <% for (let category of client.registry.groups.filter(grp => grp.commands.some(c => !c.hidden && c.permLevel <= maxpl)).sort((a, b) => a.name.localeCompare(b.name)).values()) { %>
         <% 
-          var cmds = category.commands.filter(c => !c.hidden && c.permLevel <= 4);
+          var cmds = category.commands.filter(c => !c.hidden && c.permLevel <= maxpl);
         %>
         <% if (!cmds.size) return; // skip empty %>
         <% let aliases = cmds.some(c => c.aliases && c.aliases.length) %>
         <h3 class="title"><%= category.name %> [<%= cmds.size %>]</h3>
-        <div class="table-container">
-            <table style="width:100%;" class="table is-hoverable is-bordered table-commands table-responsive">
-                <tbody>
+        <div class="table-responsive">
+            <table style="width:100%;" class="table table-hover table-commands">
+                <thead class="thead-dark">
                 <tr>
                     <th scope="col">Name</th>
                     <% if (aliases) { %>
@@ -26,10 +27,13 @@
                     <% } %>
                     <th scope="col">Description</th>
                     <th scope="col">Permissions</th>
+                    <th scope="col" style="min-width: 9.375rem;">Permission Level</th>
                 </tr>
-                </tbody><tbody>
+                </thead>
+                <tbody>
                 
                 <% for (let cmd of cmds.values()) { %>
+                    <% let p = client.permissionLevels.filter(l => l.level == cmd.permLevel)[0] %>
     
                 <tr>
                     <th scope="row"><a href="/commands/<%= cmd.name %>"><%= cmd.name %></a></th>
@@ -38,7 +42,7 @@
                     <% } %>
                     <td><%- md(cmd.description) || "No description" %></td>
                     <td><%= cmd.clientPermissions && cmd.clientPermissions.length ? cmd.clientPermissions.map(p => perm(p)) : "None" %></td>
-                    
+                    <td><span data-tippy-content="Level <%= p.level %>" class="tippy"><%= p.name %></span></td>
                 </tr>
                 <% } %>
             </tbody>

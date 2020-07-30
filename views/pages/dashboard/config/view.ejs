@@ -21,67 +21,59 @@
             return a.localeCompare(b);
         });
     %>
-
-    <style>
-        .tabs-content li {
-            display: none;
-            list-style: none;
-        }
-
-        .tabs-content li.is-active {
-            display: block;
-        }
-    </style>
     
-    <div class="container content">
+    <div class="container content page">
         <h1 class="title is-1 has-text-centered">Viewing Server configuration</h1>
         <h3 class="subtitle is-3 has-text-centered">Server: <%= guild.name %></h3>
 
         <div class="tabs-wrapper">
             <div class="tabs">
-                <ul>
+                <ul class="nav nav-tabs" id="tabs" role="tablist">
                     <% for (let cat of arr) { %>
-                        <% let s = arr.indexOf(cat) == 0 ? " class=is-active" : "" %>
-                        <li<%= s %>>
-                            <a><%= cat || "Misc" %></a>
+                        <% let id = (cat || "Misc").toLowerCase().replace(/\s+/g, "-"); %>
+                        <% let s = arr.indexOf(cat) == 0 ? " active"  : "" %>
+                        <li class="nav-item">
+                            <a class="nav-link<%=s%>" id="<%= id %>-tab" data-toggle="tab" role="tab" aria-controls="<%= id %>" aria-selected="<%= s != "" %>" href="#<%= id %>"><%= cat || "Misc" %></a>
                         </li>
                     <% } %>
                 </ul>
             </div>
             <div class="tabs-content">
-                <ul>
-                    <% let arr2 = arr %>
-                    <% for (let cat of arr2) { %>
-                        <li<%= arr2.indexOf(cat) == 0 ? " class=is-active" : "" %>>
-                            <div class="columns is-multiline">
-                                <% let arr = Object.keys(settings).sort((a, b) => client.configOrder.indexOf(a) - client.configOrder.indexOf(b)).filter(v => v != "guildID" && !!settingProps[v] && (settingProps[v].category || "Misc") == cat) %>
-                                <% console.log(arr, cat) %>
-                                <% for (let setting of arr) { %>
-                                    <% let type = getType(setting); %>
-                                    <% if (setting == "guildID") continue; %>
-                                    <div class="column is-6">
-                                        <%- arr.indexOf(setting) > 1 ? "<hr />" : "" %>
-                                        <div class="field">
-                                            <label class="label"><%= settingProps[setting].name %></label>
-                                            <p><%- render(guild, (settingProps[setting] || {}).description || "No description.") %></p>
-                                            <div class="">
-                                                <% if (settingProps[setting].extendable) { %>
+                <% let arr2 = arr %>
+                <% for (let cat of arr2) { %>
+                    <% let id = (cat || "Misc").toLowerCase().replace(/\s+/g, "-"); %>
+                    <% let s = arr2.indexOf(cat) == 0 ? " show active" : "" %>
+                    <div class="tab-pane fade<%= s %>" id="<%= id %>" role="tabpanel" aria-labelledby="<%= id %>-tab">
+                        <div class="row is-multiline">
+                            <% let arr = Object.keys(settings).sort((a, b) => a.localeCompare(b)).filter(v => v != "guildID" && !!settingProps[v] && (settingProps[v].category || "Misc") == cat) %>
+                            <% console.log(arr, cat) %>
+                            <% for (let setting of arr) { %>
+                                <% let type = getType(setting); %>
+                                <% if (setting == "guildID") continue; %>
+                                <div class="col-6">
+                                    <%- arr.indexOf(setting) > 1 ? "<hr />" : "" %>
+                                    <div class="field">
+                                        <label class="label h5"><%= settingProps[setting].name %></label>
+                                        <p class="text-muted"><%- render(guild, (settingProps[setting] || {}).description || "No description.").replace(/<\/?p>/g, "") %></p>
+                                        <div class="">
+                                            <% if (settingProps[setting].extendable) { %>
+                                                <p>
                                                     <%- settings[setting].map(set => {
-                                                        let pretty = type.webRender ? type.webRender(client, guild, set, setting + "[]") : set
-                                                        return pretty == type.nullValue ? "This value is empty." : render(guild, pretty).trim().replace(/(^<p>|<\/p>$)/g, "");
-                                                        }).join(settingProps[setting].short ? ", " : "<br>") || "This value is empty."; %>
-                                                <% } else { %>
-                                                    <% let pretty = type.webRender ? type.webRender(client, guild, settings[setting], setting) : setting %>
-                                                    <%- pretty == type.nullValue ? "This value is empty." : render(guild, pretty).trim(); %>
-                                                <% } %>
-                                            </div>
+                                                    let pretty = type.webRender ? type.webRender(client, guild, set, setting + "[]") : set
+                                                    return pretty == type.nullValue ? "This value is empty." : render(guild, pretty).trim().replace(/(^<p>|<\/p>$)/g, "");
+                                                    }).join(settingProps[setting].short ? ", " : "<br>") || "This value is empty."; %>
+                                                </p>
+                                            <% } else { %>
+                                                <% let pretty = type.webRender ? type.webRender(client, guild, settings[setting], setting) : setting %>
+                                                <%- pretty == type.nullValue ? "This value is empty." : render(guild, pretty).trim(); %>
+                                            <% } %>
                                         </div>
                                     </div>
-                                <% } %>
-                            </div>
-                        </li>
-                    <% } %>
-                </ul>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                <% } %>
             </div>
         </div>
         <br>

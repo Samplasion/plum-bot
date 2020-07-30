@@ -4,17 +4,20 @@
     <% include ../partials/head %>
     <% include ../partials/nav %>
     
-    <section class="hero">
-        <div class="hero-body has-text-centered">
-            <div class="container">
-                <h1 class="title">
-                    Oh, snap!
-                </h1>
-                <h2 class="subtitle">
-                    The page you were looking for wasn't found.
-                </h2>
-                <a class="button is-primary" href="/">Home</a>
+    <section class="hero container page" style="display: flex;flex-direction: column;justify-content: center;">
+        <div class="row">
+            <div class="col-6">
+                <div class="hero-body has-text-centered">
+                    <h1 class="title">
+                        Oh, snap!
+                    </h1>
+                    <h2 class="subtitle">
+                        The page you were looking for wasn't found.
+                    </h2>
+                    <a class="button is-primary" href="/">Home</a>
+                </div>
             </div>
+            <div class="col-6 float-right" style="background-image: url('<%- client.user.displayAvatarURL({ format: "png", size: 512 }) %>');background-size: contain;background-position: center;background-repeat: no-repeat;"></div>
         </div>
     </section>
       
