@@ -1,6 +1,6 @@
 const Command = require('./../../classes/Command.js');
 const { MessageAttachment } = require("discord.js");
-const Jimp = require("jimp");
+const { createCanvas, loadImage } = require('canvas')
 
 module.exports = class CropCommand extends Command {
     constructor(client) {
@@ -20,13 +20,13 @@ module.exports = class CropCommand extends Command {
 
     asNum(msg, flag) {
         let val = msg.flags[flag];
-        if (typeof val != "string")
+        if (typeof val != "string" && typeof val != "number")
             return "The `" + flag + "` flag requires a value."
         
-        if (isNaN(val) || val.includes("."))
+        if (typeof val != "number" && (isNaN(val) || val.includes(".")))
             return `The \`${flag}\` flag requires an integer value.`;
 
-        return parseInt(val);
+        return typeof val == "number" ? val : parseInt(val);
     }
 
     async run(msg, { image }) {
@@ -34,8 +34,9 @@ module.exports = class CropCommand extends Command {
             Math.clamp = (value, min, max) => Math.max(Math.min(value, max), min);
         
         console.log(image)
-        let img = await Jimp.read(image);
-        let width = img.bitmap.width;
+        let img = await loadImage(image);
+
+        let width = img.width;
         if (msg.flags.width) {
             let w = this.asNum(msg, "width");
             if (typeof w == "string")
@@ -43,7 +44,7 @@ module.exports = class CropCommand extends Command {
             width = Math.clamp(w, 1, width);
         }
 
-        let height = img.bitmap.height;
+        let height = img.height;
         if (msg.flags.height) {
             let h = this.asNum(msg, "height");
             if (typeof h == "string")
@@ -53,11 +54,12 @@ module.exports = class CropCommand extends Command {
         
         console.log(msg.flags, width, height);
 
-        await img.crop(0, 0, width, height);
+        const canvas = createCanvas(width, height);
+        const ctx = canvas.getContext("2d");
 
-        console.log(img);
+        ctx.drawImage(img, 0, 0);
 
-        let buf = await img.getBufferAsync(Jimp.MIME_PNG);
+        let buf = canvas.toBuffer('image/png');
         let att = new MessageAttachment(buf, "crop.png");
 
         return msg.channel.send("Here's your cropped image.", att);
