@@ -11,7 +11,7 @@
             <p>You don't need to do anything right now.</p>
         <% } else { %>
             <div class="row">
-                <div class="col">
+                <div class="col-md-6">
                     <p>
                         If you like <%= client.user.username %> and you want to show it, you
                         can <a href="https://patreon.com/samplasion">pledge on Patreon</a>.
@@ -34,8 +34,10 @@
                         You'll get the same perks, but you'll also have a pink diamond next to your username.
                     </p>
                 </div>
-                <div class="col">
-                    <img src="/public/resources/images/premium.png" />
+                <div class="col-md-6">
+                    <video autoplay muted disablePictureInPicture playsinline loop style="width: 100%;pointer-events: none;border-radius: 5px;" src="/public/resources/assets/premium.mp4">
+                        Your browser doesn't support the reproduction of this video.
+                    </video>
                 </div>
             </div>
         <% } %>
