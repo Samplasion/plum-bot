@@ -111,10 +111,8 @@ module.exports = Structures.extend( 'User', (User) =>
                         let r = this.db.data.filter(d => {
                             return d.user == user.id;
                         })[0] || this.setDefaultSettings();
-                        console.log(r);
                         return r[0] || r;
                     } catch (e) {
-                        console.log(e)
                         return this.setDefaultSettings();
                     }
                 },
@@ -151,8 +149,6 @@ module.exports = Structures.extend( 'User', (User) =>
                 set(key, newValue) {
                     let currentsettings = this.data;
                     currentsettings[key] = newValue;
-
-                    console.log(currentsettings);
     
                     this.db.update(currentsettings);
                     return this;
