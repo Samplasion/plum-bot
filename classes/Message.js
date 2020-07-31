@@ -238,6 +238,7 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
     parseFlags(argString) {
         let split = argString.match(/(?:^|\s)--[^\s=]+(?:=(?<!(?:--))(?:"([^"]*)"|[^\s]*))?/g);
         console.log(split);
+        /** @type {Object.<string, string | boolean | number | Array<string | boolean | number>>} */
         let flags = {};
         // Shorthand for "if (split) { split.forEach(...); }".
         split && split.forEach(arg => {
@@ -250,19 +251,29 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
                 return;
             name = name.split("=")[0].toLowerCase();
 
+            function addFlag(n, c) {
+                if (flags[n] && !Array.isArray(flags[n])) {
+                    flags[n] = [
+                        flags[n], c
+                    ]
+                } else if (Array.isArray(flags[n]))
+                    flags[n].push(c)
+                else flags[n] = c;
+            }
+
             let match;
             // eslint-disable-next-line no-cond-assign
             if (match = re.exec(arg)) {
                 let f = match[2];
                 if (!isNaN(f))
                     f = parseInt(f);
-                flags[name] = f;
+                addFlag(name, f);
             } else if (arg.includes("=")) {
                 let f = arg.split("=")[1];
                 if (!isNaN(f))
                     f = parseInt(f);
-                flags[name] = f;
-            } else flags[name] = true;
+                addFlag(name, f);
+            } else addFlag(name, true);
             console.log(flags);
         });
         this.flags_ = flags;

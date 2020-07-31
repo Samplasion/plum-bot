@@ -55,7 +55,16 @@ module.exports = class HoroscopeCommand extends Command {
         let { body } = await phin(url);
         let $ = cheerio.load(body);
 
-        let horoscope = $(`body > section > section > div.horoscope-main.grid.grid-right-sidebar.primis-rr > main > p:nth-child(7)`)
-        msg.info("Your horoscope: " + horoscope.text())
+        let raw = $(`body > section > section > div.horoscope-main.grid.grid-right-sidebar.primis-rr > main > p:nth-child(7)`).text();
+        let split = raw.split(":");
+        let [date, text] = [split[0], split.slice(1).join(":").trim()]
+
+        let e = msg.makeEmbed()
+            .setDescription(text)
+            .setTitle(`${this.client.utils.emojis.zodiac[zodiac]} ${this.client.utils.titleCase(zodiac)}`)
+            .setFullFooter("Horoscope of")
+            .setTimestamp(new Date(date).toISOString())
+
+        msg.channel.send(e)
     }
 };

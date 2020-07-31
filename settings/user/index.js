@@ -9,7 +9,6 @@ let types = [];
 let propertyFileNames = readdirSync(join(dirname, 'properties'))
 for (var propertyFileName of propertyFileNames) {
 	settingProps[propertyFileName.split('.').slice(0, -1).join('.')] = require(join(dirname, 'properties', propertyFileName))
-    console.log(settingProps);
 }
 
 let typesFileNames = readdirSync(join(dirname, '..', 'types'))
@@ -24,8 +23,6 @@ let getKey = (client, msg, key) => {
 	let value = data[key];
 	return findType(key).deserialize(client, msg, value);
 }
-
-console.log(settingProps);
 
 module.exports = {
 	types, findType, getKey, settingProps

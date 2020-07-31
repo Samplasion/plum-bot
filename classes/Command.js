@@ -51,8 +51,13 @@ module.exports = class PlumCommand extends Command {
             ...expl, 
             ...options.formatExplanation
         };
-        if (Object.values(this.formatExplanation).some(s => s == "No explanation"))
-            console.log(this.name, require("util").inspect(this.formatExplanation))
+        
+        /** @type {["plum"?, "plum beta"?, "plum testing"?]} */
+        this.flavors = options.flavors || [
+            "plum", // Stable
+            "plum beta",
+            "plum testing"
+        ]
     }
 
     /**
@@ -64,6 +69,11 @@ module.exports = class PlumCommand extends Command {
      * @param {Message} msg The message that called this command.
      */
     hasPermission(msg) {
+        if (!this.flavors.map(fl => {
+            return new RegExp(`${fl}$`, "gi")
+        }).some(regex => regex.test(this.client.user.username)) || false)
+            return "The command isn't available in this version of the bot. Try again later.";
+
         let perm = msg.guild ?
             msg.member.level :
             msg.author.level
@@ -217,7 +227,7 @@ module.exports = class PlumCommand extends Command {
                     ${emojis.next} Go forward one page, or loop to the first page if at the last one.
                     ${emojis.last} Go to the last page.
                     ${emojis.info} Toggle this menu.` + (additionalPage ?
-                    `\n${additionalPage.emoji || emojis.asterisk} Shows an additional information page, relevant to the topic.` :
+                    `\n${additionalPage.emoji || emojis.asterisk} Shows an additional information page that is relevant to the topic.` :
                     "")
             )
             .addField(

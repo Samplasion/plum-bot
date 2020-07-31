@@ -4,26 +4,22 @@
     <h1 class="title is-1 has-text-centered">User dashboard</h1>
     <h3 class="subtitle is-3 has-text-centered"><%= user.tag %></h3>
     <% let ch = client.channels.cache.filter(c => c.guild.members.resolve(user.id) && c.sendable) %>
-    <br>
     <div class="row">
-        <div class="col-6">
+        <div class="col-6-md">
+            <hr>
             <h5>User configuration</h5>
             <a href="/user/config/view">View →</a>
             |
             <a href="/user/config/edit">Edit →</a>
         </div>
-        <div class="col-6">
+        <div class="col-6-md">
+            <hr>
             <h5>Stats</h5>
             <p>
                 <ul>
                     <li>Servers we share: <%= client.guilds.cache.filter(g => g.members.resolve(user.id)).size %></li>
                     <li>
                         Channels I can see you in: <%= ch.size || "None" %>
-                        <ul>
-                            <li>Text: <%= ch.filter(c => c.type == "text").size || "None" %></li>
-                            <li>Voice: <%= ch.filter(c => c.type == "voice").size || "None" %></li>
-                            <li>Category: <%= ch.filter(c => c.type == "category").size || "None" %></li>
-                        </ul>
                     </li>
                 </ul>
             </p>

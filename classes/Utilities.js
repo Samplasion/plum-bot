@@ -4,6 +4,7 @@ const { oneLine } = require('common-tags'),
     CommandError = require("./CommandError"),
     canvas = require("canvas");
 const { re } = require('mathjs');
+const phin = require("phin");
 
 class Utilities {
     constructor(client) {
@@ -68,7 +69,34 @@ class Utilities {
             diamond: "💎",
             blank: "<:blank:735179373011009536>", // Literally nothing
             asterisk: "*️⃣",
+            zodiac: {
+                aries: "♈",
+                taurus: "♉",
+                gemini: "♊",
+                cancer: "♋",
+                leo: "♌",
+                virgo: "♍",
+                libra: "♎",
+                scorpio: "♏️",
+                sagittarius: "♐",
+                capricorn: "♑",
+                aquarius: "♒",
+                pisces: "♓",
+            }
         }
+    }
+
+    async hastebin(text) {
+        let query = new URLSearchParams();
+        query.append("data", text);
+        
+        const { body } = await phin({
+            url: `https://hastebin.com/documents`,
+            method: "POST",
+            data: text,
+            parse: "json"
+        });
+        return `https://hastebin.com/${body.key}`;
     }
 
     embedSplit(text, name = "\u200b", descriptionIncluded = false) {

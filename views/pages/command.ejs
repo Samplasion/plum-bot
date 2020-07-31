@@ -26,32 +26,32 @@
                 lims.push(`:large_orange_diamond: Premium users only`);
         %>
         <% if (lims.length) { %>
-        <div class="col-4">
+        <div class="col-4-md">
             <h3 class="title">Limitations</h3>
             <ul>
                 <%- lims.map(l => `<li>${l}</li>`).join("") %>
             </ul>
         </div>
         <% } %>
-        <div class="col-4">
+        <div class="col-4-md">
             <h3 class="title">Permission Level</h3>
             <% let p = client.permissions.get(command.permLevel); %>
             <strong><%= p.name %></strong> [<%= p.level %>]
         </div>
         <% if (cmd.examples && cmd.examples.length) { %>
-        <div class="col-4">
+        <div class="col-4-md">
             <h3 class="title">Examples</h3>
             <ul>
                 <%- cmd.examples.map(l => `<li><code>${l}</code></li>`).join("") %>
             </ul>
         </div>
         <% } %>
-        <div class="col-4">
+        <div class="col-4-md">
             <h3 class="title">Usage</h3>
             <code><%= client.commandPrefix %><%= cmd.name %> <%= cmd.format %></code>
         </div>
         <% if (cmd.aliases && cmd.aliases.length) { %>
-        <div class="col-4">
+        <div class="col-4-md">
             <h3 class="title">Alias<% if (cmd.aliases.length > 1) { %>es<% } %></h3>
             <ul>
                 <%- cmd.aliases.map(l => `<li><code>${l}</code></li>`).join("") %>
@@ -59,12 +59,12 @@
         </div>
         <% } %>
         <% if (!!Object.keys(cmd.formatExplanation).length) { %>
-        <div class="col-4">
+        <div class="col-4-md">
             <h3 class="title">Arguments</h3>
             <%- Object.keys(cmd.formatExplanation).map(k => render(null, `\`${k}\`: ${cmd.formatExplanation[k]}`)).join("<br>").replace(/&amp;/g, "&").replace(/<\/?p>/g, "") %>
         </div>
         <% } %>
-        <div class="col-4">
+        <div class="col-4-md">
             <h3 class="title">Category</h3>
             <%= cmd.group.name %>
         </div>

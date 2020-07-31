@@ -2,7 +2,7 @@
 <% include ../partials/nav %>
 <div class="">
     <div class="heading" style="display: flex;flex-direction: column;justify-content: center;">
-        <h1 class="display-5 title"> <%= client.user.username %> is the best gift you could make your server.</h1>
+        <h1 class="display-5 title"> <%= client.user.username %> - It's the best thing that will happen to your server.</h1>
         <p class="subtitle">
             With features such as Music and Moderation (which are common), you also have
             super useful ones like fully customizable server info channels (the ones that show
@@ -87,7 +87,7 @@
             stat: client.channels.cache.size
         }
     ] %>
-    <div class="statistics">
+    <div class="statistics container">
         <div class="title">Other <%= client.user.username %> users</div>
         <div class="subtitle">These people love using <%= client.user.username %>, just like you will!</div>
         <div class="cards">
@@ -107,7 +107,7 @@
                 <div class="card-body gs-card">
                     <div class="title">Ready to try <%= client.user.username %>?</div>
                     <div class="subtitle">
-                        Invite <%= client.user.username %> now. It's the best gift you could make your server.
+                        Invite <%= client.user.username %> now. It's the best thing that will happen to your server.
                     </div>
                     <br />
                     <a class="btn btn-primary btn-lg" href="<%= client.invite %>" role="button">Let's get started!</a>

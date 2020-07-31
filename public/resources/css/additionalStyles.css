@@ -36,3 +36,8 @@ b, strong {
 .modal-content {
     background-color: #1D1E28;
 }
+
+.row {
+    margin-right: unset !important;
+    margin-left: unset !important;
+}

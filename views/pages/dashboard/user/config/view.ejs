@@ -47,7 +47,7 @@
                         <% for (let setting of arr) { %>
                             <% let type = getType(setting); %>
                             <% if (setting == "guildID") continue; %>
-                            <div class="col-6">
+                            <div class="col-6-md">
                                 <%- arr.indexOf(setting) > 1 ? "<hr />" : "" %>
                                 <div class="field">
                                     <label class="label h5"><%= settingProps[setting].name %></label>

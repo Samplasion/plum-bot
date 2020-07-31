@@ -117,7 +117,9 @@ module.exports = class HelpCommand extends Command {
                 \`[argument]\`: Denotes an optional argument
                 \`(argument)\`: Denotes an argument that, based on the other arguments, may be required or optional
                 `)
-                .addField("Exclusive arguments", stripIndents`Some
+                .addField("Exclusive arguments", oneLine`Some arguments are in the
+                notation \`argument1|argument2\`. In those cases, you may only have
+                either \`argument1\` or \`argument2\`, but not both.
                 `)
 
             if (!embeds.length) {

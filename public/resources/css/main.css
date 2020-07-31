@@ -208,8 +208,7 @@ body {
     font-family: 'Montserrat' !important;
     font-style: normal !important;
     font-weight: 600 !important;
-    font-size: 16px !important;
-    line-height: 5px !important;
+    font-size: .75rem !important;
     letter-spacing: 0.15em !important;
     font-variant: small-caps !important;
 }
