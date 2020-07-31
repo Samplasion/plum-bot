@@ -12,6 +12,10 @@ module.exports = class ServerInfoCommand extends Command {
             description: "Shows information about this server.",
             details: `With the \`plain-roles\` flag, the roles will be shown as names, not as mentions.`,
             args: [],
+            formatExplanation: {
+                "[--advanced|--adv]": "If this flag is present, it shows more advanced information.",
+                "[--plain-roles|--plainroles|--pr]": "If present, shows roles as their names, instead of mentioning them."
+            },
             format: "[--advanced|--adv] [--plain-roles|--plainroles|--pr]"
         });
     }
