@@ -13,7 +13,7 @@
                 <p>This server has no tags. <a href="/dashboard/<%= guild.id %>/tags/edit">Add some!</a></p>
             <% } %>
             <% for (let tag of guild.tags.list) { %>
-                <div class="col-6-md">
+                <div class="col-md-6">
                     <h5><%= tag.name %></h5>
                     <%- render(guild, tag.text) %>
                 </div>

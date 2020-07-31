@@ -5,14 +5,14 @@
     <h3 class="subtitle is-3 has-text-centered"><%= user.tag %></h3>
     <% let ch = client.channels.cache.filter(c => c.guild.members.resolve(user.id) && c.sendable) %>
     <div class="row">
-        <div class="col-6-md" style="width: 50%;">
+        <div class="col-md-6" style="width: 50%;">
             <hr>
             <h5>User configuration</h5>
             <a href="/user/config/view">View →</a>
             |
             <a href="/user/config/edit">Edit →</a>
         </div>
-        <div class="col-6-md">
+        <div class="col-md-6">
             <hr>
             <h5>Stats</h5>
             <p>
