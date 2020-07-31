@@ -16,6 +16,9 @@ module.exports = class PlumClient extends CommandoClient {
             disableEveryone: true,
         });
 
+        var Utilities = require("../classes/Utilities");
+        this.utils = new Utilities(this);
+
         this.registry
             .registerDefaultTypes()
             .registerDefaultGroups({
@@ -27,6 +30,7 @@ module.exports = class PlumClient extends CommandoClient {
                 ["moderation", "Moderation"],
                 ["fun", "Fun"],
                 ["imgman", "Image editing"],
+                ["entertainment", "Entertainment"]
             ])
             //.registerDefaultCommands({
             //  help: false,
@@ -95,9 +99,6 @@ module.exports = class PlumClient extends CommandoClient {
         this.queues = new Enmap({ name: "queues" });
 
         this.money = new Enmap({ name: "money" });
-
-        var Utilities = require("../classes/Utilities");
-        this.utils = new Utilities(this);
 
         this.version = require("../version");
 

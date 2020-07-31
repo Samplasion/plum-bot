@@ -26,14 +26,14 @@ module.exports = class ConnectFourCommand extends Command {
             //   There can be an arbitrary amount of space between each "token" of the format.`,
             examples: ["connectfour", "connectfour 4"],
             formatExplanation: {
-                "[column or member]": "Must be a member of your server if you don't have a started " +
+                "[column|member]": "Must be a member of your server if you don't have a started " +
                     "game, or a column number if you do (or if you don't enter this argument, it shows" +
                     "the current state of the game."
             },
             guildOnly: true,
             args: [{
                 key: 'colOrMem',
-                label: "column or member",
+                label: "column|member",
                 prompt: 'what cell do you wanna click on (or, if the game isn\'t started yet, how big should the grid be)?',
                 type: 'integer|member',
                 default: ""

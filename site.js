@@ -45,12 +45,14 @@ module.exports = function server(client) {
             return `<span class="user mention">${fancy}</span>`
         })
 
-        string = string.replace(/&lt;@&amp;(\d+)&gt;/g, (match, id) => {
-            let role = guild.roles.resolve(id);
-            let fancy = role ? "@" + role.name : `<@${id}>`;
+        if (guild) {
+            string = string.replace(/&lt;@&amp;(\d+)&gt;/g, (match, id) => {
+                let role = guild.roles.resolve(id);
+                let fancy = role ? "@" + role.name : `<@${id}>`;
 
-            return `<span class="role mention" data-color="${role.hexColor}">${fancy}</span>`
-        })
+                return `<span class="role mention" data-color="${role.hexColor}">${fancy}</span>`
+            })
+        }
 
         string = string.replace(/&lt;#(\d+)&gt;/g, (match, id) => {
             let chan = client.channels.resolve(id);

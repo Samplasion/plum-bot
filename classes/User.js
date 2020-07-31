@@ -1,4 +1,4 @@
-// @ts-expect-error
+const { findType } = require('../settings/user/index.js');
 const { Structures } = require('discord.js');
 
 // This extends Discord's native Guild class with our own methods and properties
@@ -94,6 +94,89 @@ module.exports = Structures.extend( 'User', (User) =>
                     this.db.update(data);
 
                     return this;
+                }
+            }
+
+            this.DBinit();
+        }
+
+        DBinit() {
+            let user = this;
+            this.config = {
+                get db() {
+                    return require("../utils/database").usersettings
+                },
+                get data() {
+                    try {
+                        let r = this.db.data.filter(d => {
+                            return d.user == user.id;
+                        })[0] || this.setDefaultSettings();
+                        console.log(r);
+                        return r[0] || r;
+                    } catch (e) {
+                        console.log(e)
+                        return this.setDefaultSettings();
+                    }
+                },
+                getDefaults() {
+                    let zodiac = "";
+    
+                    return {
+                        user: user.id,
+                        zodiac
+                    };
+                },
+                setDefaultSettings() {
+                    let defaultSettings = this.getDefaults();
+    
+                    let currentsettings = this.db.data.filter(d => {
+                        return d.user == user.id;
+                    })[0];
+                    if (currentsettings) {
+                        for (var key in defaultSettings) {
+                            currentsettings[key] = defaultSettings[key];
+                        }
+    
+                        this.db.update(currentsettings);
+                        return currentsettings;
+                    }
+    
+                    this.db.insert(defaultSettings);
+                    return defaultSettings;
+                },
+                get(key) {
+                    this.fix();
+                    return findType(key).deserialize(user.client, { guild: user }, this.data[key]);
+                },
+                set(key, newValue) {
+                    let currentsettings = this.data;
+                    currentsettings[key] = newValue;
+
+                    console.log(currentsettings);
+    
+                    this.db.update(currentsettings);
+                    return this;
+                },
+                render(key) {
+                    let data = this.data;
+                    let value = data[key];
+    
+                    return findType(key).deserialize(user.client, { guild: user }, value);
+                },
+                fix(data) {
+                    let def = this.getDefaults();
+                    if (!user) return def;
+                    let returns = {};
+                    let overrides = data ? data : (this.data || {});
+                    for (let key in def) {
+                        returns[key] = overrides[key] || def[key]; // For every key that's not there, use the default one
+                    }
+                    returns.$loki = overrides.$loki;
+                    returns.meta = overrides.meta;
+                    console.log(def, overrides, returns);
+                    if (returns.$loki)
+                        this.db.update(returns);
+                    return returns;
                 }
             }
         }

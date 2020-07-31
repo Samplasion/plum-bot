@@ -15,7 +15,7 @@ module.exports = class ReloadCmdCommand extends Command {
 				Only the bot owner(s) may use this command.
 			`,
             formatExplanation: {
-                "<command/group>": "The command/group to reload (the group takes precedence)"
+                "<command|group>": "The command/group to reload (the group takes precedence)"
             },
 			examples: ['reload some-command'],
 			ownerOnly: true,
@@ -24,7 +24,7 @@ module.exports = class ReloadCmdCommand extends Command {
 			args: [
 				{
 					key: 'cmdOrGrp',
-					label: 'command/group',
+					label: 'command|group',
 					prompt: 'Which command or group would you like to reload?',
 					type: 'group|command'
 				}

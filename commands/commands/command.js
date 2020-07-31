@@ -3,7 +3,8 @@ const Command = require('./../../classes/Command.js');
 let titleCase = str => str[0].toUpperCase() + str.substr(1).toLowerCase();
 let template = (command, group, desc, args, argNames = [], aliases = [], ) => `
 const Command = require('./../../classes/Command.js');
-
+const { oneLine } = require("common-tags");
+ 
 module.exports = class ${titleCase(command)}Command extends Command {
 	constructor(client) {
 		super(client, {
@@ -14,7 +15,7 @@ module.exports = class ${titleCase(command)}Command extends Command {
             args: [${args}]
 		});
 	}
-
+ 
 	async run(msg${argNames.length ? ", { " + argNames.join(", ") + " }": ""}) {
         // Code
 	}

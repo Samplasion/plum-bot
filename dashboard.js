@@ -201,6 +201,15 @@ module.exports = (app, client, passport, session) => {
 }
 
 function userDashboard(app, client, passport, session) {
+    function authenticate(req, res, next) {
+        if (req.isAuthenticated()) {
+            res.locals.user = req.isAuthenticated() && client.users.cache.has(req.user.id) ? client.users.cache.get(req.user.id) : null;
+            return next(); // If the user is logged in, we skip execution of the rest of the code in this function and let the code for te route run.
+        }
+        req.session.backURL = req.url; // If execution reached this point, means that user is not logged in and we can set the return url to the current url.
+        res.redirect("/dashboard/login"); // And we redirect it to our login handler that will do the job.
+    }
+
     const r = (req, res, template, data = {}) => {
         // Default base data which passed to the ejs template by default. 
         const baseData = {
@@ -208,11 +217,79 @@ function userDashboard(app, client, passport, session) {
             path: req.path,
             user: req.isAuthenticated() && client.users.cache.has(req.user.id) ? client.users.cache.get(req.user.id) : null
         };
+        baseData.user_ = baseData.user;
         // We render template using the absolute path of the template and the merged default data with the additional data provided.
-        res.render(`pages/dashboard/usersettings/${template}`, Object.assign(baseData, data));
+        res.render(`pages/dashboard/user/${template}`, Object.assign(baseData, data));
     };
 
-    app.get("/user/settings", (req, res) => {
+    app.get("/user", authenticate, (req, res) => {
         r(req, res, "index");
+    });
+
+    app.get("/user/config/edit", authenticate, async (req, res) => {
+        // We retrive the settings stored for this guild.
+        var storedSettings = res.locals.user.config.fix();
+        if (!storedSettings) {
+        // If there are no settings stored for this guild, we create them and try to retrieve them again.
+            storedSettings = res.locals.user.config.data;
+        }
+
+        let { types, settingProps } = require("./settings/user");
+        r(req, res, "config/edit.ejs", {
+            user: res.locals.user,
+            settings: storedSettings, 
+            types,
+            settingProps,
+            alert: null
+        });
+    });
+    
+    app.get("/user/config/view", authenticate, async (req, res) => {
+        // We retrive the settings stored for this guild.
+        var storedSettings = res.locals.user.config.fix();
+        if (!storedSettings) {
+        // If there are no settings stored for this guild, we create them and try to retrive them again.
+            storedSettings = res.locals.user.config.data;
+        }
+
+        let { types, settingProps } = require("./settings/user");
+        r(req, res, "config/view.ejs", {
+            user: res.locals.user,
+            settings: storedSettings, 
+            types,
+            settingProps,
+            alert: null
+        });
+    });
+
+    app.post("/user/config/save", authenticate, async (req, res) => {
+        let { types, settingProps } = require("./settings/user");
+
+        function getType(key) {
+            return types.filter(t => !!settingProps[key] && settingProps[key].type == t.id)[0];
+        }
+
+        let settings = req.body;
+        console.log(settings, settings.levelupmsgs);
+        for (let setting of Object.keys(settingProps)) {
+            let type = getType(setting);
+            if (settingProps[setting].extendable) {
+                let arr = [];
+                if (settings[setting]) {
+                    settings[setting].forEach(set => {
+                        arr.push(type.webSerialize(client, null, set));
+                    });
+                }
+                res.locals.user.config.set(setting, arr);
+            } else {
+                console.log(type.id);
+                if (type.id == "bool" && !settings[setting]) {
+                    console.log("ayy");
+                    res.locals.user.config.set(setting, type.webSerialize(client, null, undefined));
+                } else res.locals.user.config.set(setting, type.webSerialize(client, null, settings[setting]));
+            }
+        }
+
+        res.redirect(`/user`);
     })
 }

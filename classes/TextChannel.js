@@ -11,7 +11,10 @@ const PlumEmbed = require("./Embed");
 // This extends Discord's native Guild class with our own methods and properties
 module.exports = Structures.extend("TextChannel", TextChannel => class extends TextChannel {
 	constructor(...args) {
-		super(...args);
+        super(...args);
+        
+        /** @type {Set<string>} */
+        this.paginations = new Set();
 	}
 
 	get sendable() {

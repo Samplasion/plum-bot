@@ -70,11 +70,21 @@ module.exports = class StringType {
 		return typeof values == "string";
 	}
 
-    static webRender(client, guild, val) {
-        return `${val}`;
+    static webRender(client, guild, val, name, extended) {
+        console.log(val, extended);
+        return `${extended && extended.render ? extended.render(`${val}`) : val}`;
     }
 
     static webInput(client, guild, val, name, extended = {}) {
+        if (extended.oneOf) {
+            let s = `<div class="select"><select class="form-control" id="${name}" name="${name}">
+            <option value="${this.nullValue}" ${!val ? "selected" : ""}>None</option>`;
+            extended.oneOf.forEach(string => {
+                s += `<option value="${string}" ${string == val ? "selected" : ""}>${extended.render ? extended.render(string) : string}</option>`;
+            });
+            s += "</select></div>";
+            return s;
+        }
         if (extended.long) {
             return `<textarea class="form-control" type="text" id="${name}" name="${name}">${val}</textarea>`
         }

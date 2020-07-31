@@ -1,6 +1,8 @@
 const PlumClient = require("./classes/Client")
 const sqlite = require('sqlite')
 const fs = require("fs")
+const { join } = require("path");
+const dirname = __dirname;
 
 // Extensions
 if (!Math.clamp)
@@ -9,6 +11,9 @@ if (!Number.prototype.clamp) {
     Number.prototype.clamp = function(min, max) {
         return Math.clamp(this, min, max);
     }
+}
+global.asset = (...names) => {
+    return require(join(dirname, "assets", ...names));
 }
 
 // Import env variables

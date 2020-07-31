@@ -59,12 +59,12 @@
                                             <% if (settingProps[setting].extendable) { %>
                                                 <p>
                                                     <%- settings[setting].map(set => {
-                                                    let pretty = type.webRender ? type.webRender(client, guild, set, setting + "[]") : set
+                                                    let pretty = type.webRender ? type.webRender(client, guild, set, setting + "[]", settingProps[setting]) : set
                                                     return pretty == type.nullValue ? "This value is empty." : render(guild, pretty).trim().replace(/(^<p>|<\/p>$)/g, "");
                                                     }).join(settingProps[setting].short ? ", " : "<br>") || "This value is empty."; %>
                                                 </p>
                                             <% } else { %>
-                                                <% let pretty = type.webRender ? type.webRender(client, guild, settings[setting], setting) : setting %>
+                                                <% let pretty = type.webRender ? type.webRender(client, guild, settings[setting], setting, settingProps[setting]) : setting %>
                                                 <%- pretty == type.nullValue ? "This value is empty." : render(guild, pretty).trim(); %>
                                             <% } %>
                                         </div>

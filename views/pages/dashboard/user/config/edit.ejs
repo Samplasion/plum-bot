@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <% include ../../../../partials/head %>
+    <% include ../../../../partials/nav %>
+
+    <%
+        function getType(key) {
+            return types.filter(t => !!settingProps[key] && settingProps[key].type == t.id)[0];
+        }
+    %>
+    <% 
+        let arr = Object.keys(settings).filter(v => v != "user" && !!settingProps[v]).map(v => {
+            return settingProps[v].category || "Misc"
+        }).filter((v, i, a) => a.indexOf(v) == i).sort((a, b) => {
+            if (b == "Misc")
+                return 1;
+            if (a == "Misc")
+                return -1;
+            return a.localeCompare(b);
+        });
+    %>
+    
+    <div class="container content page">
+        <h1 class="title is-1 has-text-centered">Editing user configuration</h1>
+        <h3 class="subtitle is-3 has-text-centered"><%= user.tag %></h3>
+
+        <form action="/user/config/save" method="post">
+            <div class="tabs">
+                <ul class="nav nav-tabs" id="tabs" role="tablist">
+                    <% for (let cat of arr) { %>
+                        <% let id = (cat || "Misc").toLowerCase().replace(/\s+/g, "-"); %>
+                        <% let s = arr.indexOf(cat) == 0 ? " active"  : "" %>
+                        <li class="nav-item">
+                            <a class="nav-link<%=s%>" id="<%= id %>-tab" data-toggle="tab" role="tab" aria-controls="<%= id %>" aria-selected="<%= s != "" %>" href="#<%= id %>"><%= cat || "Misc" %></a>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+            <div class="tabs-content">
+                <% let arr2 = arr %>
+                <% for (let cat of arr2) { %>
+                    <% let id = (cat || "Misc").toLowerCase().replace(/\s+/g, "-"); %>
+                    <% let s = arr2.indexOf(cat) == 0 ? " show active" : "" %>
+                    <div class="tab-pane fade<%= s %>" id="<%= id %>" role="tabpanel" aria-labelledby="<%= id %>-tab">
+                        <% let arr = Object.keys(settings).filter(v => v != "user" && !!settingProps[v] && (settingProps[v].category || "Misc") == cat) %>
+                        <% for (let setting of arr) { %>
+                            <% let type = getType(setting); %>
+                            <% if (setting == "user") continue; %>
+                            <%- arr.indexOf(setting) > 0 ? "<hr />" : "" %>
+                            <div class="field">
+                                <label class="label h5"><%= settingProps[setting].name %></label>
+                                <p class="text-muted"><%- render(null, (settingProps[setting] || {}).description || "No description.").replace(/<\/?p>/g, "") %></p>
+                                <div class="control">
+                                    <% if (settingProps[setting].extendable) { %>
+                                        <% settings[setting].forEach((set, index) => { %>
+                                            <% let pretty = type.webInput ? type.webInput(client, null, set, setting + "[]") : set %>
+                                            <div class="input-group">
+                                                <%- pretty == type.nullValue ? "This value is empty." : pretty %>
+                                                <div class="input-group-append">
+                                                    <a class="btn btn-danger" onclick="this.parentNode.parentNode.remove()" aria-label="delete">&times;</a>
+                                                </div>
+                                            </div>
+                                        <% }); %>
+                                        <button style="margin-top: 1.5rem;" class="btn btn-outline-info" onclick="this.outerHTML = `<div class='input-group'><%- type.webInput(client, guild, "", setting + "[]").split('"').join("'") %><div class='input-group-prepend'><a onclick='this.parentNode.parentNode.remove()' class='btn btn-danger' aria-label='delete'>&times;</a></div></div>${this.outerHTML}`">+</button>
+                                    <% } else { %>
+                                        <% let pretty = type.webInput ? type.webInput(client, null, settings[setting], setting, settingProps[setting] || {}) : setting %>
+                                        <%- pretty == type.nullValue ? "This value is empty." : pretty %>
+                                    <% } %>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                <% } %>
+            </div>
+            <div class="btn-group float-right">
+                <a href="/user" class="btn btn-secondary">
+                    <span>Cancel</span>
+                </a>
+                <input type="submit" class="btn btn-primary">
+            </div>
+        </form>
+    </div></div>
+
+    <% include ../../../../partials/footer %>
+</html>

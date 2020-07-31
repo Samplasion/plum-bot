@@ -15,7 +15,8 @@ const collections = [
     'tags',
     'levels',
     'swears',
-    'partners'
+    'partners',
+    'usersettings'
 ];
 function loadCollections () {
 	collections.forEach(x => {

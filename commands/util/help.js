@@ -111,7 +111,14 @@ module.exports = class HelpCommand extends Command {
             let e = this.client.utils.emojis;
             let more = msg.makeEmbed()
                 .setTitle(`${e.info} More Info`)
-                .setDescription(`The command usage notation is the following: stub`)
+                .setDescription(stripIndents`The command usage notation is the following:
+                
+                \`<argument>\`: Denotes a required argument
+                \`[argument]\`: Denotes an optional argument
+                \`(argument)\`: Denotes an argument that, based on the other arguments, may be required or optional
+                `)
+                .addField("Exclusive arguments", stripIndents`Some
+                `)
 
             if (!embeds.length) {
                 return msg.error("You have no usable commands. Contact the owner for more info.");

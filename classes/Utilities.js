@@ -3,26 +3,13 @@ const { oneLine } = require('common-tags'),
     PlumEmbed = require('./Embed'),
     CommandError = require("./CommandError"),
     canvas = require("canvas");
+const { re } = require('mathjs');
 
 class Utilities {
     constructor(client) {
         this.client = client
 
-        this.errors = new Errors(this);
-
-        this.getGuildSettings = (guild) => {
-            const def = client.defaultSettings;
-            if (!guild) return def;
-            const returns = {};
-            const overrides = client.configs.get(guild.id) || {};
-            for (const key in def) {
-                if (key == "types") returns[key] = def[key] // replace the types, just to be sure it's up-to-date
-                else returns[key] = overrides[key] || def[key]; // For every key that's not there, use the default one
-            }
-            return returns;
-        };
-        this.getSettings = this.getGuildSettings
-        client.configs.ensureSets = (guild) => client.configs.set(guild.id, this.getGuildSettings(guild));
+        this.errors = new Errors(this);(guild) => client.configs.set(guild.id, this.getGuildSettings(guild));
     }
 
     sendOkMsg(msg, txt) {
@@ -361,7 +348,13 @@ class Utilities {
 		}
 
 		return { width, height };
-	}
+    }
+    
+    titleCase(string) {
+        return string.split(" ").map(str => {
+            return str[0].toUpperCase() + str.substr(1);
+        }).join(" ");
+    }
 }
 
 class Errors {

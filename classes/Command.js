@@ -8,6 +8,9 @@ const CommandError = require("./CommandError");
 // @ts-ignore
 const Embed = require("./Embed");
 const ArgumentCollector = require("./ArgumentCollector");
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 module.exports = class PlumCommand extends Command {
     /**
@@ -190,6 +193,11 @@ module.exports = class PlumCommand extends Command {
     async pagination(msg, messages, additionalPage = null) {
         if (messages.length == 1)
             return msg.channel.send(messages[0]);
+
+        if (msg.channel.paginations.has(msg.author.id))
+            return msg.error("You already have a pagination menu open! Close it or wait for it to expire and retry.");
+        
+        msg.channel.paginations.add(msg.author.id);
         
         let index = 0;
         let info = false;
@@ -265,7 +273,7 @@ module.exports = class PlumCommand extends Command {
         let message = await msg.channel.send(messages[0]);
         // eslint-disable-next-line no-unused-vars
         for (let [react, cb] of R) {
-            await message.react(react);
+            message.react(react);
         }
 
         const filter = (reaction, user) => {
@@ -297,13 +305,14 @@ module.exports = class PlumCommand extends Command {
         });
 
         collector.on('end', async (collected, reason) => {
+            msg.channel.paginations.delete(msg.author.id);
             if (msg.guild.me.hasPermission("MANAGE_MESSAGES"))
                 msg.reactions.cache.forEach(r => r.remove());
             let m;
             if (reason === "manual") {
                 m = await message.edit("Interactive menu ended successfully.");
             } else {
-                m = await message.edit("Interactive menu ended for inactivity.");
+                m = await message.edit("Interactive menu expired.");
             }
             m;
             // m.delete({ timeout: 10000 });
