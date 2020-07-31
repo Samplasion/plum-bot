@@ -5,12 +5,12 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    border-top: 6px ##COLOR## solid !important;
+    border-top: 6px "##COLOR##" solid !important;
     font-size: 16px;
 }
 
 .page a:not(.btn):not(.nav-link) {
-    color: ##COLOR## !important;
+    color: "##COLOR##" !important;
 }
 
 .fade:not(.show) {
@@ -18,24 +18,26 @@ body {
 }
 
 .nav-link {
-     font-size: 14px !important;
-     background: transparent !important;
-     font-family: Lato, sans-serif !important;
-     text-transform: capitalize !important;
- }
- .nav-link:hover {
-     background: transparent !important;
-     color: ##COLOR## !important;
-     font-weight: bold !important;
- }
+    font-size: 14px !important;
+    background: transparent !important;
+    font-family: Lato, sans-serif !important;
+    text-transform: capitalize !important;
+}
 
- .login-btn {
-     border: 2px solid ##COLOR## !important;
-     font-size: 10px !important;
- }
- .login-btn:hover {
-     background: ##COLOR## !important;
- }
+.nav-link:hover {
+    background: transparent !important;
+    color: "##COLOR##" !important;
+}
+
+.login-btn {
+    border: 2px solid "##COLOR##" !important;
+    font-size: 10px !important;
+}
+
+.login-btn:hover {
+    background: "##COLOR##" !important;
+}
+
 .navbar {
     box-shadow: none !important
 }
@@ -56,11 +58,13 @@ body {
 }
 
 .btn-primary {
-    background-color: ##COLOR##!important
+    background-color: "##COLOR##" !important
 }
+
 .btn-secondary {
     background-color: #2C2F33 !important
 }
+
 .heading {
     padding: 160px 50px !important;
     color: #fff !important;
@@ -86,13 +90,14 @@ body {
 
 .features {
     text-align: center !important;
-    background: ##COLOR## !important;
+    background: "##COLOR##" !important;
     padding: 60px 50px !important;
     background-image: url("../assets/wavy-dark-by-nouridio.svg") !important;
     background-position: bottom !important;
     background-size: 200% !important;
     background-repeat: no-repeat !important;
 }
+
 .features .title {
     font-size: 40px !important;
     color: #ffffff !important;
@@ -111,6 +116,7 @@ body {
 .features .card-title {
     margin: 0 0 -3px !important;
 }
+
 .cards {
     margin-top: 30px !important;
 }
@@ -123,7 +129,7 @@ body {
 .card-title {
     font-size: 28px !important;
     font-weight: 600 !important;
-    color: ##COLOR## !important;
+    color: "##COLOR##" !important;
 }
 
 .statistics {
@@ -131,7 +137,7 @@ body {
     padding-top: 100px !important;
 }
 
-.statistics .card-body{
+.statistics .card-body {
     padding: 0 !important;
     height: 280 !important;
     width: 332 !important;
@@ -163,6 +169,7 @@ body {
     background-size: 200% !important;
     background-repeat: no-repeat !important;
 }
+
 .start {
     padding: 60px 50px !important
 }
@@ -175,10 +182,11 @@ body {
 .features .card {
     background: #1D1E28;
     border-radius: 22px !important;
-    border: 4px solid ##COLOR##;
+    border: 4px solid "##COLOR##";
 }
+
 .features .card-text {
-color: rgba(255, 255, 255, 0.46) !important
+    color: rgba(255, 255, 255, 0.46) !important
 }
 
 .features .card-body {
@@ -188,6 +196,7 @@ color: rgba(255, 255, 255, 0.46) !important
 .navbar-toggler-icon {
     color: #fff !important
 }
+
 .footer {
     text-align: center !important;
     padding: 5px 6px !important;
@@ -206,7 +215,7 @@ color: rgba(255, 255, 255, 0.46) !important
 }
 
 .footer .nouridio a {
-    color: ##COLOR## !important;
+    color: "##COLOR##" !important;
     text-decoration: none !important;
 }
 
@@ -215,6 +224,6 @@ color: rgba(255, 255, 255, 0.46) !important
     color: #a2a8bd !important
 }
 
-.input-group-append > * {
+.input-group-append>* {
     border-radius: 0 30px 30px 0 !important;
 }

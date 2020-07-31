@@ -84,7 +84,7 @@ module.exports = function (app, client) {
     app.get("/public/resources/css/style.css", (req, res) => {
         let color = `#${client.color.toString(16).toUpperCase()}`;
         let file = readFileSync("./public/resources/css/main.css").toString();
-        file = file.split("##COLOR##").join(color);
+        file = file.split('"##COLOR##"').join(color);
         res.header("content-type", "text/css").send(file);
     });
     app.get("/public/resources/assets/wave.svg", (req, res) => {
