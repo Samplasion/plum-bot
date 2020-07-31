@@ -17,6 +17,11 @@ module.exports = class SaveEmojiCommand extends Command {
             clientPermissions: ["MANAGE_EMOJIS"],
             userPermissions: ["MANAGE_EMOJIS"],
 
+            formatExplanation: {
+                "<name>": "The name of the emoji to save",
+                "[url]": "The URL of the image to save, or an attachment."
+            },
+
             args: [
                 {
                     key: "name",
@@ -37,7 +42,7 @@ module.exports = class SaveEmojiCommand extends Command {
         if (!url) {
             if (msg.attachments.size) {
                 url = msg.attachments.first().url;
-            } else return msg.error("The emoji must be an emoji from another server");
+            } else return msg.error("The emoji must be an attachment.");
         }
 
         try {

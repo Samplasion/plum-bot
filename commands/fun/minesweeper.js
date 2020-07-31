@@ -25,6 +25,11 @@ module.exports = class HangmanCommand extends Command {
         SYMBOL is optional and can be either \`?\` or \`!\`.
         There can be an arbitrary amount of space between each "token" of the format.`,
       examples: ['minesweeper', "minesweeper 2x3", "minesweeper 4 - 1 !", "minesweeper 3 . 4?"],
+      formatExplanation: {
+        "[guess]": "The coordinate of the cell you want to open if a game is started, or the size of " +
+            "the grid you want to play on. (If you don't enter anything, it shows you the current state " +
+            "of the game, or starts a new game with the default size)"
+      },
       args: [{
         key: 'guess',
         prompt: 'what cell do you wanna click on (or, if the game isn\'t started yet, how big should the grid be)?',

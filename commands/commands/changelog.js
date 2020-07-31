@@ -12,6 +12,10 @@ module.exports = class ChangelogCommand extends Command {
         "Logs a new change to the #changelog channel in the support server.",
       details: "Further improvements™ to overall system stability™ and other minor™ adjustments™ have been made to enhance™ the user experience™",
       ownerOnly: true,
+      formatExplanation: {
+          "<log>": "The changelog text.",
+          "<version>": "The version of the changelog.",
+      },
 
       args: [
         {

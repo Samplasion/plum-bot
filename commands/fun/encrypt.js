@@ -14,6 +14,9 @@ module.exports = class ScrambleCommand extends Command {
         It uses the so-called Caesar's Algorithm.
 			`,
       examples: ['encrypt this is very hard to understand'],
+      formatExplanation: {
+        "[text to encrypt]": "The string you want to encrypt."
+      },
       args: [{
         key: 'toEncrypt',
         label: 'text to encrypt',

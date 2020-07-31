@@ -16,6 +16,10 @@ module.exports = class ReminderCommand extends Command {
         "reminders view",
         "reminders delete 1",
       ],
+      formatExplanation: {
+        "[action]": "Either `view` or `delete`. Defaults to `view`",
+        "[reminder id]": "If `action` is `delete`, the ID of the reminder to delete."
+      },
       args: [
         {
           key: "action",

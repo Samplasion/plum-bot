@@ -1,7 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 const { oneLine } = require('common-tags'), 
     PlumEmbed = require('./Embed'),
-    CommandError = require("./CommandError")
+    CommandError = require("./CommandError"),
+    canvas = require("canvas");
 
 class Utilities {
     constructor(client) {
@@ -335,6 +336,32 @@ class Utilities {
     fmtDate(date) {
         return `${date.getFullYear()}/${this.pad(date.getMonth()+1)}/${this.pad(date.getDate())} ${this.pad(date.getHours())}:${this.pad(date.getMinutes())}:${this.pad(date.getSeconds())}`
     }
+
+    async largestSize(images) {
+		let currentimage;
+
+		let height = 0;
+		let width = 0;
+
+		if (Array.isArray(images))
+			for (var image of images) {
+				currentimage = await canvas.loadImage(image);
+
+				if (height < currentimage.height)
+					height = currentimage.height;
+
+				if (width < currentimage.width)
+					width = currentimage.width;
+			}
+		else {
+			currentimage = await canvas.loadImage(images);
+
+			height = currentimage.height;
+			width = currentimage.width;
+		}
+
+		return { width, height };
+	}
 }
 
 class Errors {

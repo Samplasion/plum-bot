@@ -33,7 +33,7 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
 
 		let nowPlaying = fetched.queue[0];
 
-		let messagereply = `__**<:music:494355292948004874> Now playing: ${nowPlaying.songTitle}**__: <${nowPlaying.url}>`
+		let messagereply = `${this.client.utils.emojis.music} Now playing: ${nowPlaying.songTitle}**__: <${nowPlaying.url}>`
 
 		let embed;
 		if (message.channel.embedable) {
@@ -57,8 +57,8 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
 				relatedvidlist += `**[${relatedvideo.title}](${YT}watch?v=${relatedvideo.id})** by [${relatedvideo.author}](${YT}channel/${relatedvideo.ucid})\n`;
 			}
 
-			relatedvidlist += `\nType \`${message.prefix}play related\` to play a related video`;
-			embed.addField("Related Videos", relatedvidlist);
+			// relatedvidlist += `\nType \`${message.prefix}play related\` to play a related video`;
+			// embed.addField("Related Videos", relatedvidlist);
     	} else {
       		let messagenoembed = `\n ${nowPlaying.description} \n\n Requested by ${nowPlaying.requester}`;
       		if ((messagereply + messagenoembed).length <= 2000) messagereply = messagereply + messagenoembed

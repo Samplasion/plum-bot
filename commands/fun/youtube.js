@@ -16,7 +16,11 @@ module.exports = class YoutubeCommand extends Command {
                    prompt: "",
                },
             ],
-            format: '<comment> [--user="user name or ID"]'
+            format: '<comment> [--user="user name or ID"]',
+            formatExplanation: {
+                "<comment>": "The text of your comment",
+                '[user="user name or ID"]': "If specified, pose as someone else"
+            },
         });
     }
 

@@ -15,6 +15,9 @@ module.exports = class SayCommand extends Command {
                    prompt: "",
                },
             ],
+            formatExplanation: {
+                "<text>": "The text to repeat."
+            },
             guildOnly: true
         });
     }

@@ -10,6 +10,11 @@ module.exports = class CropCommand extends Command {
             group: 'imgman',
             memberName: 'crop',
             description: "Crops an image to the specified size",
+            formatExplanation: {
+                "<image>": "An attachment, URL, username/mention, one of the last messages' attachments or your avatar, if anything else fails.",
+                "[--width=number]": "The width to crop at, capped at 1 and the original image's width",
+                "[--height=number]": "The height to crop at, capped at 1 and the original image's height"
+            },
             args: [{
                 key: "image",
                 type: "image",
@@ -30,10 +35,6 @@ module.exports = class CropCommand extends Command {
     }
 
     async run(msg, { image }) {
-        if (!Math.clamp)
-            Math.clamp = (value, min, max) => Math.max(Math.min(value, max), min);
-        
-        console.log(image)
         let img = await loadImage(image);
 
         let width = img.width;

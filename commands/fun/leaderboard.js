@@ -11,6 +11,9 @@ module.exports = class LeaderboardCommand extends Command {
             description: 'Know your way (to dem max points)',
             examples: ['leaderboard'],
             guildOnly: true,
+            formatExplanation: {
+                "[num]": "The number of users the leaderboard should contemplate (between 3 and 10 inclusive)."
+            },
             args: [
               {
                 key: "num",

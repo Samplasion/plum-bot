@@ -7,7 +7,9 @@ module.exports = class LyricsCommand extends Command {
             group: 'audio',
             memberName: 'lyrics',
             description: "Searches for lyrics for the current song, if any, or for a query.",
-
+            formatExplanation: {
+                "[query]": "The song to look up the lyrics for."
+            },
             args: [{
                 key: "query",
                 type: "string",

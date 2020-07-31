@@ -15,12 +15,16 @@ module.exports = class HelpCommand extends Command {
 				The command may be part of a command name or a whole command name.
 				If it isn't specified, all available commands will be listed.
 			`,
+            formatExplanation: {
+                "[command]": "If specified, gets a command which name is most similar to this."
+            },
 			examples: ['help', 'help prefix'],
 			guarded: true,
 
 			args: [
 				{
-					key: 'command',
+                    key: 'command',
+                    label: "command",
 					prompt: 'Which command would you like to view the help for?',
 					type: 'string',
 					default: ''

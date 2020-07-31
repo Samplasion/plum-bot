@@ -13,6 +13,10 @@ module.exports = class ReminderCommand extends Command {
       description: "Sets a reminder so that you don't forget something _really_ important.",
       examples: ["remindme to go buy groceries in 30 minutes"],
       format: '<text> in <duration>',
+      formatExplanation: {
+        "<text>": "The name of your reminder",
+        "in <duration>": "In how much time to remind you of `text`."
+      },
       args: [
         {
           key: "text",

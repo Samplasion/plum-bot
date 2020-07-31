@@ -18,6 +18,10 @@ module.exports = class UserInfoCommand extends Command {
                    default: msg => msg.member
                },
             ],
+            formatExplanation: {
+                "[member]": "Another user (or you)",
+                "[--advanced|--adv]": "If this flag is present, it shows more advanced information."
+            },
             format: "[--advanced|--adv]"
         });
     }

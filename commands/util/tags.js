@@ -17,6 +17,10 @@ module.exports = class TagsCommand extends Command {
             prepend it with another comma, like so: \`tags add test This
             tag is one,, long tag with a comma,, maybe two.\``,
             guildOnly: true,
+            formatExplanation: {
+                "[action]": "Either `list`, `add` or `remove`, or a tag name. Defaults to `list`.",
+                "[arg]": "Any argument the `action` may require."
+            },
 
             args: [
                 {

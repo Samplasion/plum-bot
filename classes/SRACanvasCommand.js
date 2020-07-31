@@ -19,9 +19,12 @@ module.exports = class SRACanvasCommand extends Command {
             description: desc,
             format: '[user|url]',
             details: oneLine`This command gets the image
-            from an URL, a user mention, one of the last
+            from a URL, a user mention, one of the last
             messages' attachments and, if anything else didn't
             work, falls back to the your profile picture.`,
+            formatExplanation: {
+                "<image>": "An attachment, URL, username/mention, one of the last messages' attachments or your avatar, if anything else fails."
+            },
             examples: [
                 `${name}`,
                 `${name} @User`,

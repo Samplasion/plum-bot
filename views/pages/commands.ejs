@@ -8,7 +8,7 @@
     
     <br>
     <h1 class="title is-1" style="text-align: center; min-width: 100% !important;" width="100%">Command list</h1>
-    <div class="container">
+    <div class="container page">
         <% let maxpl = user ? user.maxLevel.level : 4 %>
       <% for (let category of client.registry.groups.filter(grp => grp.commands.some(c => !c.hidden && c.permLevel <= maxpl)).sort((a, b) => a.name.localeCompare(b.name)).values()) { %>
         <% 

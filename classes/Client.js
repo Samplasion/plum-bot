@@ -162,7 +162,7 @@ module.exports = class PlumClient extends CommandoClient {
     }
 
     get color() {
-        return parseInt(process.env.COLOR) || 0xC44040;
+        return (parseInt(process.env.COLOR) || 0xC44040).toString(16).padStart(6, "0");
     }
 
     get invite() {

@@ -7,12 +7,15 @@ module.exports = class EvalCommand extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'eval',
-      aliases: ["ev", "js"],
+            aliases: ["ev", "js"],
 			group: 'commands',
 			memberName: 'eval',
 			description: 'Executes JavaScript code.',
 			details: 'Only the bot owner(s) may use this command.',
-      permLevel: 10,
+            permLevel: 10,
+            formatExplanation: {
+                "<script>": "The JavaScript snippet to run."
+            },
 			args: [
 				{
 					key: 'script',

@@ -11,6 +11,9 @@ module.exports = class EvalCommand extends Command {
 			description: 'Executes bash scripts.',
 			details: 'Only the bot owner(s) may use this command.',
 			ownerOnly: true,
+            formatExplanation: {
+                "<script>": "The bash snippet to run."
+            },
       
 			args: [
 				{

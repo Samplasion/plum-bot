@@ -9,6 +9,9 @@ module.exports = class AnimalCommand extends Command {
             description: `Sends a cute image of a ${name}.`,
             details: "Doesn't display a fun fact if either the `--nf` or the `--no-fact` flags are present.",
             format: "[--nf|--no-fact]",
+            formatExplanation: {
+                "[--nf|--no-fact]": 'If present, hides the "Did you know?" fact on the bottom.'
+            },
         });
 
         this.name = name;

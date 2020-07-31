@@ -10,6 +10,9 @@ module.exports = class RandTextCommand extends Command {
             description: 'Lets you see how many points you have.',
             examples: ['perms'],
             guildOnly: true,
+            formatExplanation: {
+                "[user]": "The user to see the points of (defaults to you)"
+            },
             args: [
                 {
                     key: 'user',

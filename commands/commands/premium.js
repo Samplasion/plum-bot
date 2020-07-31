@@ -9,6 +9,9 @@ module.exports = class PremiumStatusCommand extends Command {
 			group: 'commands',
 			memberName: 'premium',
 			description: "Check your premium status and what you can do to obtain it.",
+            formatExplanation: {
+                "[user]": "The user you want to see the premium status of (defaults to you)"
+            },
 
             args: [{
                 key: "user",

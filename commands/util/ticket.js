@@ -9,6 +9,11 @@ module.exports = class RandTextCommand extends Command {
       description: 'Creates a ticket channel for support.',
       examples: ['ticket', 'ticket delete 0'],
       guildOnly: true,
+      formatExplanation: {
+        "[action]": "Either `create`, `add`, `delete` or `remove` (where `create` and `add` " +
+            "are aliases, and `remove` and `delete` are aliases). Defaults to `create`.",
+        "[args]": "Any arguments the `action` may require."
+      },
       args: [
         {
           key: "action",

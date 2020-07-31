@@ -14,6 +14,10 @@ module.exports = class QueueAudioCommand extends PremiumCommand {
 			group: 'audio',
             description: 'Shows the song play queue.',
             guildOnly: true,
+            formatExplanation: {
+                "[action]": 'Either `current`, `list` or a Playlist ID.',
+                "[args]": "Any arguments the `action` may require."
+            },
 
             args: [
                 {

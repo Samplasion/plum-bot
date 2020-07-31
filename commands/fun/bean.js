@@ -12,6 +12,10 @@ module.exports = class BanCommand extends Command {
                 To do so, just use the ID instead of the tag, name or ping.
                 This permanently beans users.`,
             examples: ['bean @Someone#12234 obviously spamming'],
+            formatExplanation: {
+                "<user>": "The user to bean.",
+                "[reason]": "The reason you're banning them."
+            },
             guildOnly: true,
             args: [
                 {

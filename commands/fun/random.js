@@ -15,6 +15,9 @@ module.exports = class RandTextCommand extends Command {
         to the length you specify.
 			`,
       examples: ['random 15'],
+      formatExplanation: {
+        "[random text length]": "The length of the text you want to generate (capped at 3 and 2000)"
+      },
       args: [{
         key: 'toRand',
         label: 'random text length',

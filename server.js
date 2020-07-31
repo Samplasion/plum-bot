@@ -2,6 +2,15 @@ const PlumClient = require("./classes/Client")
 const sqlite = require('sqlite')
 const fs = require("fs")
 
+// Extensions
+if (!Math.clamp)
+    Math.clamp = (value, min, max) => Math.max(Math.min(value, max), min);
+if (!Number.prototype.clamp) {
+    Number.prototype.clamp = function(min, max) {
+        return Math.clamp(this, min, max);
+    }
+}
+
 // Import env variables
 require('dotenv').config()
 

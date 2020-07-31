@@ -12,6 +12,13 @@ module.exports = class ColorCommand extends Command {
                 "color --rgb 192, 64, 64",
                 "color f6f414"
             ],
+            formatExplanation: {
+                "[--rgb]": "If present, lets you input a color triplet for `color`.",
+                "<color>": "Must be a string in the format `RRGGBB` or `RGB`, where each letter " + 
+                    "must be a hexadecimal number between 0 and F. (If the `--rgb` flag is " +
+                    "present, the color must be in the format `R G B`, where each letter is " +
+                    "a number between 0 and 255 inclusive)"
+            },
 
             // Why don't I declare the regex somewhere else?
             // Because apparently, regex's in JS remember things

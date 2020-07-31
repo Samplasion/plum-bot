@@ -9,6 +9,7 @@ module.exports = class SwearsCommand extends Command {
             group: 'moderation',
             memberName: 'swears',
             description: "See which words are prohibited.",
+            details: "Usage of the arguments is restricted to those with permission level greater than or equal to 2",
             args: [
                 {
                     key: "user",
@@ -23,8 +24,13 @@ module.exports = class SwearsCommand extends Command {
                     default: ""
                 }
             ],
-            format: "[user|\"all\"]",
+            format: "[user|\"all\"] [--forgive=\"swear id\"]",
         });
+
+        this.formatExplanation = {
+            '[user|"all"]': "The user to see the swears of (get a list of the swears if \"all\")",
+            '[--forgive="swear id"]': "If it's present and it's a number, forgives the swear with ID `swear id`"
+        }
     }
 
     hasPermission(msg) {

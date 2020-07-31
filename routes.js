@@ -1,3 +1,5 @@
+const { readFileSync } = require("fs");
+
 /**
  * @param {import("express").Application} app 
  * @param {import("./classes/Client")} client
@@ -76,6 +78,20 @@ module.exports = function (app, client) {
         res.redirect("/dashboard/login")
     }).get("/logout", (req, res) => {
         res.redirect("/dashboard/logout")
+    })
+
+    // Custom CSS
+    app.get("/public/resources/css/style.css", (req, res) => {
+        let color = `#${client.color.toString(16).toUpperCase()}`;
+        let file = readFileSync("./public/resources/css/main.css").toString();
+        file = file.split("##COLOR##").join(color);
+        res.header("content-type", "text/css").send(file);
+    });
+    app.get("/public/resources/assets/wave.svg", (req, res) => {
+        let color = `#${client.color.toString(16).toUpperCase()}`;
+        let file = readFileSync("./public/resources/assets/wavy-color-by-nouridio.svg").toString();
+        file = file.split("##COLOR##").join(color);
+        res.header("content-type", "image/svg+xml").send(file);
     })
 
     // 404 route

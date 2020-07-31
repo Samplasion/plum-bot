@@ -8,6 +8,7 @@ module.exports = class WarnCommand extends Command {
             group: 'moderation',
             memberName: 'warn',
             description: "Adds an infraction to the user's list.",
+            details: '"Warn" and "Infraction" are synonymous.\nThe arguments within `()` are mutually exclusive.',
             examples: [
                 "warn @User stop spamming",
                 "warn @User --list",
@@ -31,6 +32,16 @@ module.exports = class WarnCommand extends Command {
             format: "<user> (reason|--list|--edit <infraction ID>|--delete <infraction ID>|--clear) [--no-dm-user|--nodm]",
             permLevel: 2
         });
+
+        this.formatExplanation = {
+            "<user>": "The user to warn",
+            "(reason)": "The reason why you're warning the user",
+            "(--list)": "If present, returns a list of the warns for `user`",
+            "(--edit <infraction ID>)": "If present, lets you edit a warn you've already issued",
+            "(--delete <infraction ID>)": "If present, lets you delete an infraction you've already issued",
+            "(--clear)": "If present, deletes all the warns you've issued to `user`",
+            "[--no-dm-user|--nodm]": "If present, doesn't DM the user they've been warned (shadow-warn)"
+        };
     }
 
     async run(msg, { user: user_, text }) {

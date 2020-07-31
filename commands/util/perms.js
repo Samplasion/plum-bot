@@ -9,6 +9,9 @@ module.exports = class RandTextCommand extends Command {
       memberName: 'perms',
       description: 'Lets you see your permission level.',
       examples: ['perms'],
+      formatExplanation: {
+        "[user]": "The user you wat to see the permissions of (defaults to you)"
+      },
       args: [
         {
           key: "user",

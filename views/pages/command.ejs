@@ -58,6 +58,12 @@
             </ul>
         </div>
         <% } %>
+        <% if (!!Object.keys(cmd.formatExplanation).length) { %>
+        <div class="col-4">
+            <h3 class="title">Arguments</h3>
+            <%- Object.keys(cmd.formatExplanation).map(k => render(null, `\`${k}\`: ${cmd.formatExplanation[k]}`)).join("<br>").replace(/&amp;/g, "&").replace(/<\/?p>/g, "") %>
+        </div>
+        <% } %>
         <div class="col-4">
             <h3 class="title">Category</h3>
             <%= cmd.group.name %>

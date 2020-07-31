@@ -26,6 +26,9 @@ module.exports = class HangmanCommand extends Command {
       memberName: 'hangman',
       description: 'Play some "Hangman" with a bot!',
       examples: ['hman', "hman g"],
+      formatExplanation: {
+        "[guess]": "Nothing if you want to start a game or the letter you want to guess in the currently running one."
+      },
       args: [{
         key: 'guess',
         prompt: 'what letter do you wanna guess?',

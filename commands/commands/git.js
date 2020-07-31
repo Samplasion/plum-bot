@@ -10,6 +10,10 @@ module.exports = class GitCommand extends Command {
             description: 'Manages the mirroring of the repo to the bot\'s code and viceversa.',
             details: 'Only the bot owner(s) may use this command.',
             permLevel: 10,
+            formatExplanation: {
+                "[argument]": "Either `pull`, `push` or `latest` (defaults to `latest`)",
+                "[args]": "Any arguments the `argument` may require."
+            },
             args: [{
                     key: 'argument',
                     prompt: 'what would you like to do?',

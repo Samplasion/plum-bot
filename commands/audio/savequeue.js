@@ -27,6 +27,9 @@ module.exports = class PlayAudioCommand extends PremiumCommand {
 			group: 'audio',
             description: 'Saves the current queue into a playlist.',
             guildOnly: true,
+            formatExplanation: {
+                "<name>": "The name to save the playlist under."
+            },
 
             args: [{
                 key: "name",

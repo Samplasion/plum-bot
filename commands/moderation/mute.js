@@ -18,6 +18,10 @@ module.exports = class UnMuteCommand extends Command {
                 'mute @Mr®#6060 SHUT UP',
                 "unmute @Mr®#6060 OK you've been quiet for long enough",
             ],
+            formatExplanation: {
+                "[reason]": "The reason why you're banning the user",
+                "<user>": "The user to ban"
+            },
             permLevel: 2,
             guildOnly: true,
             clientPermissions: ['MANAGE_ROLES'],

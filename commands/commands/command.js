@@ -29,6 +29,11 @@ module.exports = class CommandCommand extends Command {
 			memberName: 'command',
 			description: "Returns a valid command boilerplate code.",
 			permLevel: 10,
+            formatExplanation: {
+                "<name>": "The command's name",
+                "[group]": "The command's group (defaults to `commands`)",
+                "[desc]": "The command's description (defaults to a stub)"
+            },
             args: [
                 {
                     key: "name",

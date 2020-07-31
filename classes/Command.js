@@ -34,6 +34,22 @@ module.exports = class PlumCommand extends Command {
 
         /** @type {PlumClient} */
         this.client;
+
+        let expl = (options.args ? Object.values(options.args).map(o => {
+            let [op, c] = o.default != null && o.default != undefined ? ["[", "]"] : ["<", ">"];
+            return `${op}${o.label || o.key}${c}`;
+        }).reverse().reduce((prev, k) => {
+            return {
+                [k]: "No explanation",
+                ...prev};
+        }, {}) : {});
+        /** @type {Object.<string, string>} */
+        this.formatExplanation = {
+            ...expl, 
+            ...options.formatExplanation
+        };
+        if (Object.values(this.formatExplanation).some(s => s == "No explanation"))
+            console.log(this.name, require("util").inspect(this.formatExplanation))
     }
 
     /**

@@ -57,7 +57,7 @@
                                             <% let pretty = type.webInput ? type.webInput(client, guild, set, setting + "[]") : set %>
                                             <div class="input-group">
                                                 <%- pretty == type.nullValue ? "This value is empty." : pretty %>
-                                                <div class="input-group-prepend">
+                                                <div class="input-group-append">
                                                     <a class="btn btn-danger" onclick="this.parentNode.parentNode.remove()" aria-label="delete">&times;</a>
                                                 </div>
                                             </div>

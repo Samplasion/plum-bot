@@ -15,6 +15,9 @@ module.exports = class PrefixCommand extends Command {
 				If the prefix is "none", the prefix will be removed entirely, only allowing mentions to run commands.
 				Only administrators may change the prefix.
 			`,
+            formatExplanation: {
+                "[prefix]": "If present, and the user's level is ≥ 3, the prefix will be changed. Otherwise, it'll be simply shown"
+            },
 			examples: ['prefix', 'prefix -', 'prefix omg!', 'prefix default', 'prefix none'],
 			args: [
 				{
@@ -37,17 +40,17 @@ module.exports = class PrefixCommand extends Command {
 				this.client.utils.embed()
 					.setTitle(this.client.utils.emojis.info + " Prefix")
 					.setDescription(stripIndents`
-						${prefix ? `the command prefix is \`\`${prefix}\`\`.` : 'there is no command prefix.'}
+						${prefix ? `The command prefix is \`\`${prefix}\`\`.` : 'There is no command prefix.'}
 						To run commands, use ${msg.anyUsage('command')}.`)
 			);
 		}
 
 		// Check the user's permission before changing anything
 		if(msg.guild) {
-			if(!msg.member.hasPermission('ADMINISTRATOR') && !this.client.isOwner(msg.author)) {
+			if(msg.member.level.level < 3) {
 				return this.client.utils.sendErrMsg(msg, 'Only administrators may change the command prefix.');
 			}
-		} else if(!this.client.isOwner(msg.author)) {
+		} else if(msg.author.level.level < 9) {
 			return this.client.utils.sendErrMsg(msg, 'Only the bot owner(s) may change the global command prefix.');
 		}
 
@@ -58,13 +61,13 @@ module.exports = class PrefixCommand extends Command {
 		if(lowercase === 'default') {
 			if(msg.guild) msg.guild.commandPrefix = null; else this.client.commandPrefix = null;
 			const current = this.client.commandPrefix ? `\`\`${this.client.commandPrefix}\`\`` : 'no prefix';
-			response = `successfully reset the command prefix to the default (currently ${current}).`;
+			response = `Successfully reset the command prefix to the default (currently ${current}).`;
 		} else {
 			if(msg.guild) msg.guild.commandPrefix = prefix; else this.client.commandPrefix = prefix;
-			response = prefix ? `successfully set the command prefix to \`\`${args.prefix}\`\`.` : 'successfully removed the command prefix entirely.';
+			response = prefix ? `Successfully set the command prefix to \`\`${args.prefix}\`\`.` : 'successfully removed the command prefix entirely.';
 		}
 
-		await msg.reply(`${response} To run commands, use ${msg.anyUsage('command')}.`);
+		await msg.info(`${response} To run commands, use ${msg.anyUsage('command')}.`);
 		return null;
 	}
 };

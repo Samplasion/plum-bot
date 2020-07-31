@@ -25,6 +25,11 @@ module.exports = class ConnectFourCommand extends Command {
             //   SYMBOL is optional and can be either \`?\` or \`!\`.
             //   There can be an arbitrary amount of space between each "token" of the format.`,
             examples: ["connectfour", "connectfour 4"],
+            formatExplanation: {
+                "[column or member]": "Must be a member of your server if you don't have a started " +
+                    "game, or a column number if you do (or if you don't enter this argument, it shows" +
+                    "the current state of the game."
+            },
             guildOnly: true,
             args: [{
                 key: 'colOrMem',

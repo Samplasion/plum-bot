@@ -5,11 +5,14 @@ module.exports = class MoneyCommand extends Command {
     constructor(client) {
         super(client, {
             name: 'money',
-            aliases: ['mymoney'],
+            aliases: ['mymoney', 'balance', 'bal'],
             group: 'commands',
             memberName: 'money',
             description: 'Lets you see how much money you have.',
             examples: ['money', "money someone else"],
+            formatExplanation: {
+                "[user]": "The user you want to see the balance of (defaults to you)"
+            },
             args: [
                 {
                     key: "user",

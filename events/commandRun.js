@@ -43,21 +43,21 @@ module.exports = async (client, command, promise /* <Message> */ , message /* <p
     guild.updateInfo();
 
     // Show the "Donate" embed
-    if (!client.commandsRan.has(message.author.id)) {
-        client.commandsRan.set(message.author.id, 0);
-    }
-    // @ts-expect-error
-    if (client.commandsRan.get(message.author.id) > 40) {
-        message.channel.send(client.utils.fastEmbed(
-            "You seem to love Plum Bot",
-            "But unfortunately, hosting isn't free. " +
-            "You can give me a hand by [donating](https://www.patreon.com/samplasion). " +
-            "You'll also get some awesome perks! You can know more about it using " +
-            "the `premium` command."
-        ));
-        client.commandsRan.set(message.author.id, 0);
-    } else {
-        //@ts-expect-error
-        client.commandsRan.set(message.author.id, client.commandsRan.get(message.author.id) + 1);
+    if (!message.author.isPremium) {
+        if (!client.commandsRan.has(message.author.id)) {
+            client.commandsRan.set(message.author.id, 0);
+        }
+        if (client.commandsRan.get(message.author.id) > 40) {
+            message.channel.send(client.utils.fastEmbed(
+                "You seem to love Plum Bot",
+                "But unfortunately, hosting isn't free. " +
+                "You can give me a hand by [donating](https://www.patreon.com/samplasion). " +
+                "You'll also get some awesome perks! You can know more about it using " +
+                "the `premium` command."
+            ));
+            client.commandsRan.set(message.author.id, 0);
+        } else {
+            client.commandsRan.set(message.author.id, client.commandsRan.get(message.author.id) + 1);
+        }
     }
 }

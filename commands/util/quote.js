@@ -8,6 +8,9 @@ module.exports = class QuoteCommand extends Command {
       group: "util",
       memberName: "quote",
       description: "Quotes a message, with a \"Jump to...\" link",
+      formatExplanation: {
+        "<message>": "The ID of the message to quote."
+      },
       args: [
 	      {
 	  			key: "message",

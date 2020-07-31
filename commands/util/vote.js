@@ -10,6 +10,11 @@ module.exports = class VoteCommand extends Command {
             description: "Starts a yes/no/don't care vote.",
             details: "Note that :shrug: is \"Don't care\"",
             examples: ['vote "Do you like to vote?" "I mean who doesn\'t right?!" 5'],
+            formatExplanation: {
+                "<question>": "The question itself",
+                "[desc]": "The description of the question",
+                "[time]": "The time, **in minutes**, of the vote"
+            },
             args: [
                 {
                     key: 'question',

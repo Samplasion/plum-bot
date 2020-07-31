@@ -1,23 +1,21 @@
 const Image = require('../../classes/ImageCommand.js');
 const { oneLine } = require("common-tags");
 
-module.exports = class SepiaCommand extends Image {
+module.exports = class DistortCommand extends Image {
     constructor(client) {
         super(client, {
-            name: "sepia",
+            name: "distort",
             group: "imgman",
-            memberName: "sepia",
-            description: "Generates a sepia version of your image.",
-            format: '[...user|...url]',
-            formatExplanation: {
-                "[...user|...url]": oneLine`A space separated list of
-                links or usernames. If nothing is specified, then the last
-                image will be used instead.`
-            },
+            memberName: "distort",
+            description: "Generates a distorted version of your image.",
+            format: '[...user|...url] [--threshold=1-255]',
             examples: [
                 `distort`,
                 `distort @User`,
             ],
+            formatExplanation: {
+                "[--threshold=1-255]": "The threshold (when the pixels are to be considered black or white). Capped at 1 and 255."
+            },
             args: [],
             line: "Here's your distorted image."
         })

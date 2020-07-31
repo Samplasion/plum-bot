@@ -8,6 +8,10 @@ module.exports = class MoneyCommand extends Command {
             memberName: 'shop',
             description: 'Lets you spend your money.',
             examples: ['shop list', "shop buy 1"],
+            formatExplanation: {
+                "[action]": "Either `list` or `buy` (defaults to `list`)",
+                "[index]": "The index for the `buy` action."
+            },
 
             args: [
                 {

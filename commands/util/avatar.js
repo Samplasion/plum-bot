@@ -8,6 +8,9 @@ module.exports = class AvatarCommand extends Command {
             group: 'util',
             memberName: 'avatar',
             description: "Displays someone's avatar.",
+            formatExplanation: {
+                "[user]": "The user you want to see the avatar of (defaults to you)"
+            },
             args: [
                {
                    key: "user",
