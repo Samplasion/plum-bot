@@ -2,7 +2,8 @@ const { CommandoClient, SQLiteProvider } = require("discord.js-commando")
 const { Permissions } = require("discord.js")
 const sqlite = require('sqlite')
 const Enmap = require("enmap");
-const path = require("path")
+const path = require("path");
+const GiveawayManager = require("./GiveawayManager");
 
 module.exports = class PlumClient extends CommandoClient {
     constructor() {
@@ -160,6 +161,8 @@ module.exports = class PlumClient extends CommandoClient {
                 return this.data.filter(v => v.id == id)[0];
             }
         }
+
+        this.giveaways = new GiveawayManager(this);
     }
 
     get color() {

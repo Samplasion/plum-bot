@@ -7,6 +7,7 @@ dependencies:
   cheerio: 0.22.0
   common-tags: 1.8.0
   deep-object-diff: 1.1.0
+  discord-giveaways: 4.2.1
   discord.js: 12.2.0
   discord.js-commando: github.com/discordjs/Commando/bdbd84e2a978322f3af12c21e729eb7b7cd4a3dc_00400a32f27d1b501167c07bf28bfe15
   domcolor: 0.0.1
@@ -621,6 +622,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-b+QLs5vHgS+IoSNcUE4n9HP2NwcHj7aqnJWsjPtuG75Rh5TOaGt0OjAYInh77d5T16V5cRDC+Pw/6ZZZiETBGw==
+  /deepmerge/4.2.2:
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha512-FJ3UgI4gIl+PHZm53knsuSFpE+nESMr7M4v9QcgB7S63Kj/6WqMiFQJpBBYz1Pt+66bZpP3Q7Lye0Oo9MPKEdg==
   /delayed-stream/1.0.0:
     dev: false
     engines:
@@ -654,6 +661,12 @@ packages:
     hasBin: true
     resolution:
       integrity: sha1-+hN8S9aY7fVc1c0CrFWfkaTEups=
+  /discord-giveaways/4.2.1:
+    dependencies:
+      deepmerge: 4.2.2
+    dev: false
+    resolution:
+      integrity: sha512-nYXAsEgbRiWIyipmkKFyh5G+Ivhtswdbb8pv8Vd6sTZ5g9LWA6cWyt39zT1Hnmf1u+UKg95hITp4fW1kcZEeyg==
   /discord.js/12.2.0:
     dependencies:
       '@discordjs/collection': 0.1.5
@@ -2850,6 +2863,7 @@ specifiers:
   cheerio: ^0.22.0
   common-tags: ^1.8.0
   deep-object-diff: ^1.1.0
+  discord-giveaways: ^4.2.1
   discord.js: ^12
   discord.js-commando: 'github:discordjs/Commando'
   domcolor: ^0.0.1

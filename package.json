@@ -1,6 +1,6 @@
 {
   "name": "plum-bot",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "A simple Node app built on Express, instantly up and running.",
   "main": "server.js",
   "scripts": {
@@ -15,6 +15,7 @@
     "cheerio": "^0.22.0",
     "common-tags": "^1.8.0",
     "deep-object-diff": "^1.1.0",
+    "discord-giveaways": "^4.2.1",
     "discord.js": "^12",
     "discord.js-commando": "github:discordjs/Commando",
     "domcolor": "^0.0.1",

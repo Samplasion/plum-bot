@@ -16,7 +16,8 @@ const collections = [
     'levels',
     'swears',
     'partners',
-    'usersettings'
+    'usersettings',
+    'giveaways'
 ];
 function loadCollections () {
 	collections.forEach(x => {

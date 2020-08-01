@@ -15,7 +15,12 @@ module.exports = Structures.extend("TextChannel", TextChannel => class extends T
         
         /** @type {Set<string>} */
         this.paginations = new Set();
-	}
+    }
+    
+    get readable() {
+        let me = this.guild.me;
+        return this.permissionsFor(me).has("READ_MESSAGE_HISTORY");
+    }
 
 	get sendable() {
 		let me = this.guild.me;

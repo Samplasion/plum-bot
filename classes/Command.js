@@ -7,7 +7,7 @@ const { stripIndents, oneLine } = require("common-tags");
 const CommandError = require("./CommandError");
 // @ts-ignore
 const Embed = require("./Embed");
-const ArgumentCollector = require("./ArgumentCollector");
+const PlumClient = require("./Client");
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -59,10 +59,6 @@ module.exports = class PlumCommand extends Command {
             "plum testing"
         ]
     }
-
-    /**
-     * @property {PlumClient} client 
-     */
 
     /**
      * Returns a string or `false` if the user doesn't have permission to run this command.
