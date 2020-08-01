@@ -59,8 +59,8 @@ module.exports = class ServerInfoCommand extends Command {
   • ${e.message} | Text: **${guild.channels.cache.filter(c => c.type == "text").size}**
   • ${e.audio} | Voice: **${guild.channels.cache.filter(c => c.type == "voice").size}**
   • ${e.category} | Categories: **${guild.channels.cache.filter(c => c.type == "category").size}**`)
-            .addField(`${e.diamond} Emojis`, guild.emojis.cache.map(e => `${e}`).join(" ") || "No emojis")
-            .addField(`${e.users} Roles`, guild.roles.cache.filter(r => r.id != r.guild.id).sort((r1, r2) => r2.comparePositionTo(r1)).map(r => ext || ["plainroles", "pr"].some(f => msg.flags[f]) ? r.name : `<@&${r.id}>`).join(", ") || "No roles")
+            .addFields(this.client.utils.embedSplit(guild.emojis.cache.map(e => `${e}`).join(" ") || "No emojis", `${e.diamond} Emojis`))
+            .addFields(this.client.utils.embedSplit(guild.roles.cache.filter(r => r.id != r.guild.id).sort((r1, r2) => r2.comparePositionTo(r1)).map(r => ext || ["plainroles", "pr"].some(f => msg.flags[f]) ? r.name : `<@&${r.id}>`).join(", ") || "No roles"))
             .addField(`${e.boost} Server Level`, `${guild.premiumTier ? `Level ${guild.premiumTier}` : "Base level"} (${this.client.utils.plural(b, "boost")})`)
             .setFullFooter("ID: " + guild.id)
             .setColor(color);
