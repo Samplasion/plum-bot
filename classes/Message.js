@@ -265,12 +265,12 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
             // eslint-disable-next-line no-cond-assign
             if (match = re.exec(arg)) {
                 let f = match[2];
-                if (!isNaN(f))
+                if (!isNaN(f) && parseInt(f) < Number.MAX_SAFE_INTEGER)
                     f = parseInt(f);
                 addFlag(name, f);
             } else if (arg.includes("=")) {
                 let f = arg.split("=")[1];
-                if (!isNaN(f))
+                if (!isNaN(f) && parseInt(f) < Number.MAX_SAFE_INTEGER)
                     f = parseInt(f);
                 addFlag(name, f);
             } else addFlag(name, true);

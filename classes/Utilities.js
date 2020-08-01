@@ -99,13 +99,12 @@ class Utilities {
         return `https://hastebin.com/${body.key}`;
     }
 
-    embedSplit(text, name = "\u200b", descriptionIncluded = false) {
-        return text.split("\n").reduce((prev, cur) => {
-            console.log(prev, (prev[prev.length-1] || "").length + "\n".length + cur.length);
+    embedSplit(text, name = "\u200b", joiner = "\n", descriptionIncluded = false) {
+        return text.split(joiner).reduce((prev, cur) => {
             if (!prev || !prev.length)
                 return [ cur ];
-            else if (prev[prev.length-1].length + "\n".length + cur.length < 1024) {
-                prev[prev.length-1] += "\n" + cur;
+            else if (prev[prev.length-1].length + joiner.length + cur.length < 1024) {
+                prev[prev.length-1] += joiner + cur;
                 return prev;
             }
             prev.push(cur);
