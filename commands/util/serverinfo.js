@@ -33,10 +33,10 @@ module.exports = class ServerInfoCommand extends Command {
         let guild = msg.guild;
 
         let ext = false;
-        if (msg.flags.guild && typeof msg.flags.guild == "string" && msg.author.level.level >= 9) {
-            if (this.client.guilds.cache.get(msg.flags.guild)) {
+        if (msg.flags.guild && typeof msg.flags.guild == "number" && msg.author.level.level >= 9) {
+            if (this.client.guilds.cache.get(msg.flags.guild.toString())) {
                 ext = true;
-                guild = this.client.guilds.cache.get(msg.flags.guild);
+                guild = this.client.guilds.cache.get(msg.flags.guild.toString());
             } else return msg.error("That guild doesn't exist in my cache.");
         }
         
