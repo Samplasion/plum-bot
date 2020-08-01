@@ -30,7 +30,7 @@ module.exports = class QuoteCommand extends Command {
         .setAuthor(message.author.tag, message.author.displayAvatarURL({ format: "png", dynamic: true }))
         .setDescription(desc)
         .setTimestamp(message.createdAt)
-        .setFooter(`ID: ${message.id}`);
+        .setFullFooter(`ID: ${message.id}`);
         
     if (text)
         embed.addFields(text);

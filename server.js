@@ -13,7 +13,9 @@ if (!Number.prototype.clamp) {
     }
 }
 global.asset = (...names) => {
-    return require(join(dirname, "assets", ...names));
+    if (/\.js(on)?$/gi.test(names[names.length-1]))
+        return require(join(dirname, "assets", ...names));
+    return fs.readFileSync(join(dirname, "assets", ...names));
 }
 
 // Import env variables
