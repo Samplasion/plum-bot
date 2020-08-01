@@ -22,9 +22,10 @@ module.exports = class FirstMessageCommand extends Command {
 	}
 
 	async run(msg, { channel }) {
+        let message;
         try {
             const messages = await channel.messages.fetch({ after: 1, limit: 1 });
-            const message = messages.first();
+            message = messages.first();
         } catch {
             return msg.error(`I don't have permission to read ${channel}.`);
         }
