@@ -24,6 +24,29 @@ module.exports = function server(client) {
     app.use('/public', express.static(process.cwd() + '/public'));
     app.set('view engine', 'ejs');
     // ================================================================
+    // error handlers
+    // ================================================================
+    function errorHandler(err, req, res, next) {
+        if (res.headersSent) {
+          return next(err);
+        }
+        res.status(500);
+        // res.render('error', { error: err });
+    }
+    
+    function logoutAndError(err, req, res, next) {
+        if (req.isAuthenticated()) {
+            req.session.destroy(() => { // We destroy session
+                req.logout(); // Inside callback we logout user
+                res.redirect("/"); // And to make sure he isn't on any pages that require authorization, we redirect it to main page.
+            });
+        }
+        res.render("pages/500", { user: null, error: "An unexpected error happened. You've been automatically logged out." });
+    }
+
+    app.use(errorHandler);
+    app.use(logoutAndError);
+    // ================================================================
     // set up modules
     // ================================================================
     app.locals.client = client;
