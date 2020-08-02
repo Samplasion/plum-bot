@@ -23,7 +23,10 @@ module.exports = class PlumCommand extends Command {
      */
     constructor(client, options) {
         options.argsPromptLimit = 0;
-        super(client, options);
+        super(client, {
+            guildOnly: true,
+            ...options
+        });
 
         // this.argsCollector = options.args && options.args.length ?
         //     new ArgumentCollector(client, options.args) :
