@@ -70,18 +70,34 @@ class Utilities {
             blank: "<:blank:735179373011009536>", // Literally nothing
             asterisk: "*️⃣",
             zodiac: {
-                aries: "♈",
-                taurus: "♉",
-                gemini: "♊",
-                cancer: "♋",
-                leo: "♌",
-                virgo: "♍",
-                libra: "♎",
-                scorpio: "♏️",
-                sagittarius: "♐",
-                capricorn: "♑",
-                aquarius: "♒",
-                pisces: "♓",
+                western: {
+                    aries: "♈",
+                    taurus: "♉",
+                    gemini: "♊",
+                    cancer: "♋",
+                    leo: "♌",
+                    virgo: "♍",
+                    libra: "♎",
+                    scorpio: "♏️",
+                    sagittarius: "♐",
+                    capricorn: "♑",
+                    aquarius: "♒",
+                    pisces: "♓",
+                },
+                chinese: {
+                    rat: "🐀",
+                    ox: "🐂",
+                    tiger: "🐯",
+                    rabbit: "🐰",
+                    dragon: "🐉",
+                    snake: "🐍",
+                    horse: "🐴",
+                    goat: "🐐",
+                    monkey: "🐒",
+                    rooster: "🐓",
+                    dog: "🐶",
+                    pig: "🐷"
+                }
             }
         }
     }

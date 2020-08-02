@@ -1,0 +1,31 @@
+<% include ../../../partials/head %>
+<% include ../../../partials/nav %>
+
+<% function section({ name, command }) { %>
+<div class="row">
+    <div class="col-md-6">
+        <p><b><%= name %></b></p>
+    </div>
+    <div class="col-md-1">
+        <p style="text-align: center;">=></p>
+    </div>
+    <div class="col-md-5">
+        <p><b><%= command %></b></p>
+    </div>
+</div>
+<% } %>
+
+<div class="container page">
+    <div id="list">
+        <% for (let data of guild.customAliases.data) { %>
+            <% section(data) %>
+        <% } %>
+    </div><br>
+    <div class="btn-group is-left">
+        <a href="/dashboard/<%= guild.id %>/home">
+            <span>← Back</span>
+        </a>
+    </div>
+</div>
+
+<% include ../../../partials/footer %>

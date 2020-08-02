@@ -24,6 +24,8 @@ module.exports = class CoinCommand extends Command {
     }
 
     async run(msg, { max }) {
+        msg.channel.startTyping();
+
         let n = Math.floor(Math.random() * max) + 1;
 
         let img = await loadImage(asset("images", "icosahedron.jpg"));
@@ -43,6 +45,8 @@ module.exports = class CoinCommand extends Command {
             .setDescription(`It landed on ${n}`)
             .attachFiles([new MessageAttachment(canvas.toBuffer(), "dice.png")])
             .setImage("attachment://dice.png");
+
+        msg.channel.stopTyping();
 
         return msg.channel.send(embed);
     }

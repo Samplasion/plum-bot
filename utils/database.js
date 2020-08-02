@@ -17,7 +17,8 @@ const collections = [
     'swears',
     'partners',
     'usersettings',
-    'giveaways'
+    'giveaways',
+    'customAliases'
 ];
 function loadCollections () {
 	collections.forEach(x => {

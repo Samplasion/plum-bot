@@ -2,8 +2,8 @@ const { ArgumentType } = require("discord.js-commando");
 
 module.exports = class ZodiacSignType extends ArgumentType {
     constructor(client) {
-        super(client, "zodiac");
-        this.signs = asset("json", "zodiac.json");
+        super(client, "ch-zodiac");
+        this.signs = asset("json", "ch-zodiac.json");
     }
 
     isEmpty(val, msg, arg) {

@@ -35,6 +35,14 @@
                 <a href="/dashboard/<%= guild.id %>/tags/view">View →</a>
                 |
                 <a href="/dashboard/<%= guild.id %>/tags/edit">Edit →</a>
+
+                <hr>
+
+                <h5>Custom aliases</h5>
+                <p><%= guild.customAliases.data.length || "No" %> custom alias<%= guild.customAliases.data.length == 1 ? "" : "es" %></p>
+                <a href="/dashboard/<%= guild.id %>/aliases/view">View →</a>
+                |
+                <a href="/dashboard/<%= guild.id %>/aliases/edit">Edit →</a>
             </div>
             <div class="col-md-6">
                 <h5>Stats</h5>

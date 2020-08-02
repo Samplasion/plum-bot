@@ -4,7 +4,7 @@
     <% include ../../../partials/head %>
     <% include ../../../partials/nav %>
 
-    <div class="container content">
+    <div class="container content page">
         <h1 class="title is-1 has-text-centered">Viewing Tags</h1>
         <h3 class="subtitle is-3 has-text-centered">Server: <%= guild.name %></h3>
 
@@ -15,7 +15,7 @@
             <% for (let tag of guild.tags.list) { %>
                 <div class="col-md-6">
                     <h5><%= tag.name %></h5>
-                    <%- render(guild, tag.text) %>
+                    <%- render(guild, tag.text || "") %>
                 </div>
             <% } %>
         </div>

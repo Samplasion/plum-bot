@@ -121,7 +121,8 @@ module.exports = Structures.extend( 'User', (User) =>
     
                     return {
                         user: user.id,
-                        zodiac
+                        zodiac,
+                        'ch-zodiac': zodiac
                     };
                 },
                 setDefaultSettings() {

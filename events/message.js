@@ -17,12 +17,12 @@ module.exports = async (client, message) => {
             let channel = await client.channels.fetch(client.global.get("log-channel"));
             channel.send(`[${new Date()}] ${message.author.tag} ran the ${message.command.name} command in #${message.channel.name}: ${message.cleanContent}`);
         } else {
-            console.log(
-                `${message.author.tag} ran the ${message.command.name} command in ${message.channel ? "#" + message.channel.name : "DMs"}: ${message.cleanContent}`
-                .split("\n")
-                .map(row => `  [CMD] ${row}`)
-                .join("\n")
-            );
+            // console.log(
+            //     `${message.author.tag} ran the ${message.command.name} command in ${message.channel ? "#" + message.channel.name : "DMs"}: ${message.cleanContent}`
+            //     .split("\n")
+            //     .map(row => `  [CMD] ${row}`)
+            //     .join("\n")
+            // );
         }
     } else {
         let getsPoints = true && (await message.checkSwears());

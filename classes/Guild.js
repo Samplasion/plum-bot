@@ -207,7 +207,61 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
 				serverconfig.set(guild.id, returns);
 				return returns;
 			}
-		}
+        }
+
+        /*
+        
+        {
+            name: "alias",
+            command: "commandID",
+            guild: "01234567890123456"
+        }
+
+        */
+        
+        this.customAliases = {
+            get db() {
+                return require("../utils/database.js").customAliases;
+            },
+			get data() {
+				return this.db.data.filter(alias => alias.guild == guild.id);
+			},
+			add(name, command) {
+				// let all = this.tags.data;
+				// let thisTags = all.filter(tag => tag.guild == guild.id);
+				let packed = {
+					name,
+					command,
+					guild: guild.id
+				};
+
+				this.db.insert(packed);
+				return this;
+			},
+			remove(name) {
+				let found = this.db.chain().find({ name });
+				if (found)
+					found.remove();
+				return this;
+            },
+            setAll(packedList) {
+                if (!packedList.every(packed => {
+                    return packed.name != undefined &&
+                        packed.command != undefined &&
+                        packed.guild != undefined &&
+                        packed.guild == guild.id
+                }))
+                    throw new Error("Type mismatch");
+
+                this.db.removeWhere(a => a.guild == guild.id);
+
+                packedList.forEach(packed => {
+                    this.db.insert(packed);
+                });
+
+                return this;
+            }
+        }
 	}
 
     get swears() {

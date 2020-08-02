@@ -1,0 +1,121 @@
+<% include ../../../partials/head %>
+<% include ../../../partials/nav %>
+
+<% let maxpl = user_ && user_.maxLevel ? user_.maxLevel.level : 4 %>
+<% let cmdFilter = c => !c.hidden && c.permLevel <= maxpl; %>
+
+<% function section(data) { %>
+<div class="row">
+    <div class="col-md-5">
+        <div class="field">
+            <input type="text" name="names[]" id="names[]" class="form-control"<% if (data && data.name) { %> value="<%= data.name %>"<% } %>>
+            <p style="display: none;" class="invalid-feedback"></p>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <p style="text-align: center;">=></p>
+    </div>
+    <div class="col-md-5">
+        <div class="field">
+            <select name="commands[]" id="commands[]" class="form-control">
+                <option <% if (!data || !data.command) { %>selected<% } %> disabled>None</option>
+                <% client.registry.groups.filter(grp => grp.commands.some(cmdFilter)).sort((g1, g2) => g1.name.localeCompare(g2.name)).forEach(grp => { %>
+                    <optgroup label="<%= grp.name %>">
+                        <% grp.commands.filter(cmdFilter).forEach(cmd => { %>
+                            <option <% if (data && data.command && data.command == cmd.name) { %>selected<% } %> value="<%= cmd.name %>"><%= cmd.name %></option>
+                        <% }) %>
+                    </optgroup>
+                <% }) %>
+            </select>
+            <p style="display: none;" class="invalid-feedback"></p>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <a href="#" onclick="$(this).parent().parent().remove()" style="margin-top: auto" class="btn btn-danger">
+            <span>&times;</span>
+        </a>
+    </div>
+</div>
+<% } %>
+
+<div class="container page">
+    <h1 class="title">Custom Aliases</h1>
+    <br>
+    <form action="/dashboard/<%= guild.id %>/aliases/save" onsubmit="form(this, event)" method="POST">
+        <div id="list">
+            <% for (let data of guild.customAliases.data) { %>
+                <% section(data) %>
+            <% } %>
+        </div><br>
+        <div class="btn-group is-left">
+            <a class="btn btn-info" href="javascript:addFields()">
+                + Add alias
+            </a>
+        </div>
+        <div class="btn-group float-right">
+            <a href="/dashboard/<%= guild.id %>/home" class="btn btn-secondary">
+                <span>Cancel</span>
+            </a>
+            <input type="submit" class="btn btn-primary">
+        </div>
+    </form>
+</div>
+
+<script>
+    let markup = `
+    <% section() %>
+    <hr>
+    `;
+    function addFields() {
+        $("#list").append(markup)
+    }
+
+    function form(form, event) {
+        let errors = false;
+        let names = [];
+        let defaults = [<%- [...client.registry.commands.map(c => [c.name, ...(c.aliases || [])])].flat().map(s => `"${s}"`).join(", ") %>];
+
+        // Check names
+        $("[name=\"names[]\"]").each((i, e) => {
+            let $e = $(e);
+            let name = $e.val().toLowerCase();
+
+            function err(str) {
+                $e.addClass("text-danger");
+                $e.next().text(str).show();
+
+                event.preventDefault();
+                errors = true;
+            }
+
+            if (name.trim().includes(" ")) {
+                err("The name must not have spaces");
+            } else if (!name.trim()) {
+                err("There must be a name");
+            } else if (names.includes(name.trim()) || defaults.includes(name.trim())) {
+                err("A command/alias with this name already exists.");
+            } else names.push(name.trim());
+        });
+
+        $("[name=\"commands[]\"]").each((i, e) => {
+            let $e = $(e);
+            let v = $e.val();
+
+            function err(str) {
+                $e.addClass("text-danger");
+                $e.next().text(str).show();
+
+                event.preventDefault();
+                errors = true;
+            }
+
+            if (!val) {
+                err("You must select a command");
+            }
+        });
+
+        return !errors;
+    }
+</script>
+
+<% include ../../../partials/footer %>

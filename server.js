@@ -24,6 +24,7 @@ require('dotenv').config()
 require("./classes/Guild.js");
 require("./classes/GuildMember.js");
 require("./classes/Message.js");
+require("./classes/NewsChannel.js");
 require("./classes/TextChannel.js");
 require("./classes/User.js");
 

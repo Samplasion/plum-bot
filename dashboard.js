@@ -186,6 +186,46 @@ module.exports = (app, client, passport, session) => {
 
         res.redirect(`/dashboard/${res.locals.guild.id}/home`);
     })
+    
+    app.get("/dashboard/:guildID/aliases/view", authenticate, hasGuild, async (req, res) => {
+        if (res.locals.member.level.level < 3) return res.redirect("/dashboard");
+
+        dash(req, res, "aliases/view.ejs", {
+            guild: res.locals.guild,
+            alert: null
+        });
+    });
+    
+    app.get("/dashboard/:guildID/aliases/edit", authenticate, hasGuild, async (req, res) => {
+        if (res.locals.member.level.level < 3) return res.redirect("/dashboard");
+
+        dash(req, res, "aliases/edit.ejs", {
+            guild: res.locals.guild,
+            alert: null
+        });
+    });
+
+    app.post("/dashboard/:guildID/aliases/save", authenticate, hasGuild, async (req, res) => {
+        if (res.locals.member.level.level < 3) return res.redirect("/dashboard");
+
+        let b = req.body;
+
+        if (b.names && b.commands) {
+            let packed = [];
+
+            for (let i = 0; i < b.names.length; i++) {
+                packed.push({
+                    guild: res.locals.guild.id,
+                    name: b.names[i],
+                    command: b.commands[i]
+                });
+            }
+
+            res.locals.guild.customAliases.setAll(packed);
+        }
+
+        res.redirect(`/dashboard/${res.locals.guild.id}/home`);
+    })
 
     app.post("/dashboard/:guildID/config/prefix", authenticate, hasGuild, async (req, res) => {
         if (res.locals.member.level.level < 3) return res.redirect("/dashboard");

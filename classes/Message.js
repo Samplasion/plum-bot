@@ -75,8 +75,9 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
         } else return super.react(string);
     }
 
-    async run() { // eslint-disable-line complexity
+    async run() {
         this.parseFlags(this.argString);
+
         // Obtain the member if we don't have it
         if(this.channel.type === 'text' && !this.guild.members.cache.has(this.author.id) && !this.webhookID) {
             this.member = await this.guild.members.fetch(this.author);
@@ -225,18 +226,12 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
 
     static parseArgs(argString, argCount, allowSingleQuote = true) {
         let result = super.parseArgs(argString.replace(/(?:^|\s)--[^\s=]+(?:=(?<!(?:--))(?:"([^"]*)"|[^\s]*))?/g, ""), argCount, allowSingleQuote);
-        // result = result.map(r => {
-        //     console.log(r);
-        //     let res = r.replace(/(?:^|\s)--[^\s=]+(?:=(?<!(?:--))(?:"([^"]*)"|[^\s]*))?/g, "").trim();
-        //     console.log(res);
-        //     return res;
-        // })//.map(res => res.filter(r => !(.test(r) && r.length > 2))).map(res => res.join(" "));
-        console.log(result);
         return result;
     }
 
     parseFlags(argString) {
-        let split = argString.match(/(?:^|\s)--[^\s=]+(?:=(?<!(?:--))(?:"([^"]*)"|[^\s]*))?/g);
+        let re = () => /(?:^|\s)--[^\s=]+(?:=(?<!(?:--))(?:"([^"]*)"|[^\s]*))?/g;
+        let split = argString.match(re());
         console.log(split);
         /** @type {Object.<string, string | boolean | number | Array<string | boolean | number>>} */
         let flags = {};
@@ -277,6 +272,7 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
             console.log(flags);
         });
         this.flags_ = flags;
+        this.argString = this.argString.replace(re(), "");
     }
 
     makeEmbed() {

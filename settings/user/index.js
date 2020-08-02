@@ -8,7 +8,7 @@ let types = [];
 
 let propertyFileNames = readdirSync(join(dirname, 'properties'))
 for (var propertyFileName of propertyFileNames) {
-	settingProps[propertyFileName.split('.').slice(0, -1).join('.')] = require(join(dirname, 'properties', propertyFileName))
+    settingProps[propertyFileName.split('.').slice(0, -1).join('.')] = require(join(dirname, 'properties', propertyFileName));
 }
 
 let typesFileNames = readdirSync(join(dirname, '..', 'types'))

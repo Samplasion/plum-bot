@@ -84,6 +84,13 @@ module.exports = class PlumCommand extends Command {
         return "Command"
     }
 
+    getAllAliases(guild) {
+        if (!guild) {
+            return this.aliases;
+        }
+        return this.aliases.concat(guild.customAliases.data.filter(d => d.command == this.name).map(d => d.name));
+    }
+
     /**
      * Called when the command produces an error while running
      * @param {Error} err - Error that was thrown

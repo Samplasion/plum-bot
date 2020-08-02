@@ -7,21 +7,39 @@ module.exports = class UnknownCommandCommand extends Command {
             name: 'unknown-command',
             group: 'commands',
             memberName: 'unknown-command',
-            description: "This is not a real command. It's called whenever a nonexistent command is called.",
+            description: "This is not a real command. It's called whenever a nonexistent command is called, and manages the calling of custom aliases and tags.",
             hidden: true,
-            unknown: true
+            unknown: true,
+            guarded: true
         });
     }
 
     async run(msg) {
-        let split = msg.content.split(/\s+/);
+        console.log("b", msg.argString);
+        let split = `${msg.content}`.split(/\s+/);
         let name;
-        if (split[0] == msg.argString) {
+        if (split[0] == msg.prefix) {
             name = split[1];
         } else {
-            name = split[0].substr(msg.argString.length);
+            name = split[0].substr(msg.prefix.length).trim();
         }
+        msg.argString = `${msg.content}`.replace(name, "").replace(msg.prefix, "").trim();
         // let name = console.log([0].substr(msg.argString.length));
+
+        // Check for custom aliases
+        let aliases = msg.guild.customAliases.data;
+        if (aliases.map(d => d.name).includes(name)) {
+            let data = aliases.filter(d => d.name == name)[0];
+            
+            let cmd = this.client.registry.commands.get(data.command);
+            // console.log(msg.command, msg.command = cmd, msg.command);
+            if (cmd && cmd.name != "unknown-command" && cmd.isUsable(msg)) {
+                // return cmd.run(msg, { });
+                console.log(msg.argString);
+                msg.command = cmd;
+                return msg.run();
+            }
+        }
 
         // TODO: check for custom commands
 

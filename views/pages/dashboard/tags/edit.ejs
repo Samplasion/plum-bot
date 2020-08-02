@@ -30,7 +30,7 @@
                             <textarea
                                 class="form-control"
                                 name="bodies[]"
-                                placeholder="<%= tag.text.replace('\u201c', '&#39;') %>"
+                                placeholder="<%= (tag.text || '').replace('\u201c', '&#39;') %>"
                             ><%= tag.text %></textarea>
                             <p style="display: none;" class="invalid-feedback">The tag body must have a length between 1 and 1996.</p>
                         </div>
