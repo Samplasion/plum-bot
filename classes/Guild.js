@@ -76,6 +76,9 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
         }
         
         this.cachedSwears = [];
+        
+        /** @type {GuildConfig!} */
+		this.config;
     }
     
     /**
@@ -99,7 +102,7 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
 	DBinit() {
         const serverconfig = this.client.configs;
         let guild = this;
-        /** @type GuildConfig */
+        /** @type {GuildConfig!} */
 		this.config = {
 			getDefaults: function(blank = false, scan = true) {
 				let channels = guild.channels;
@@ -154,7 +157,9 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
                     `.trim(),
                     hatemsgdel: true,
                     hateresend: false,
-                    hatebypass
+                    hatebypass,
+
+                    networkchan: null
 				};
 			},
 			setDefaultSettings: function(blank = false, scan = true) {

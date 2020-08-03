@@ -11,7 +11,7 @@ const collections = [
     'infractions',
     'serverconfig',
     'global',
-    'reminders',
+    'reminds',
     'tags',
     'levels',
     'swears',

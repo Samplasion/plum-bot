@@ -1,4 +1,5 @@
 dependencies:
+  '@standards/duration': 1.1.3
   array-flat-polyfill: 1.0.1
   better-sqlite3: 7.1.0
   body-parser: 1.19.0
@@ -20,6 +21,7 @@ dependencies:
   fast-levenshtein: 2.0.6
   gblapi.js: 2.0.5
   hangman-game-engine: 1.1.3
+  humanize-duration: 3.23.1
   jsdiscordperms: github.com/PgBiel/jsdiscordperms/61a7bc02536bf2381f2e41cdb39e672c35428986
   lokijs: 1.5.9
   marked: 1.1.0
@@ -77,6 +79,12 @@ packages:
       node: '>= 6'
     resolution:
       integrity: sha512-ZfFsbgEXW71Rw/6EtBdrP5VxBJy4dthyC0tpQKGKmYFImlmmrykO14Za+BiIVduwjte0jXEBlhSKf0MWbFp9Eg==
+  /@standards/duration/1.1.3:
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-T4ZpFqH7Lf0gIMBsh+D8FkEnlMC8sJ/H/8YkA97KByKJIgucTpUebCgjjenuMKgNxPuVgmkEVfpOd/rIjSdYfg==
   /@types/color-name/1.1.1:
     dev: false
     resolution:
@@ -1306,6 +1314,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-sbYI90YhYmstslPTb70BLGjy6mdESa0lxL7uDR4fIVAx9Iobz8fLEqi7FqF4Q/6vblrzZALg//MsYJlIPBU8SA==
+  /humanize-duration/3.23.1:
+    dev: false
+    resolution:
+      integrity: sha512-aoOEkomAETmVuQyBx4E7/LfPlC9s8pAA/USl7vFRQpDjepo3aiyvFfOhtXSDqPowdBVPFUZ7onG/KyuolX0qPg==
   /iconv-lite/0.4.24:
     dependencies:
       safer-buffer: 2.1.2
@@ -2888,6 +2900,7 @@ packages:
       tarball: 'https://codeload.github.com/discordjs/Commando/tar.gz/bdbd84e2a978322f3af12c21e729eb7b7cd4a3dc'
     version: 0.11.0-dev
 specifiers:
+  '@standards/duration': ^1.1.3
   array-flat-polyfill: ^1.0.1
   better-sqlite3: '*'
   body-parser: ^1.19.0
@@ -2909,6 +2922,7 @@ specifiers:
   fast-levenshtein: ^2.0.6
   gblapi.js: ^2.0.5
   hangman-game-engine: ^1.1.3
+  humanize-duration: ^3.23.1
   jsdiscordperms: 'github:PgBiel/jsdiscordperms'
   lokijs: ^1.5.8
   marked: ^1.1.0

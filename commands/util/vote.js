@@ -19,31 +19,19 @@ module.exports = class VoteCommand extends Command {
                 {
                     key: 'question',
                     prompt: 'What is the vote question?',
-                    type: 'string',
-                    validate: question => {
-                        if (question.length < 101 && question.length > 9) return true;
-                        return 'Polling questions must be between 10 and 100 characters in length.';
-                    }
+                    type: 'string'
                 },
                 {
                     key: 'desc',
                     prompt: '(Optional) Do you have more details?',
                     type: 'string',
-                    default: ' ',
-                    validate: desc => {
-                        if (desc.length < 201 && desc.length > 9) return true;
-                        return 'Polling questions must be between 10 and 200 characters in length.';
-                    }
+                    default: ' '
                 },
                 {
                     key: 'time',
                     prompt: '(Optional) How long should the vote last in minutes?',
                     type: 'integer',
-                    default: 0,
-                    validate: time => {
-                        if (time >= 0 && time <= 60) return true;
-                        return 'Polling time must be between 0 and 60.';
-                    }
+                    default: 0
                 }
             ]
         });

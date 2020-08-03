@@ -2,8 +2,8 @@ const Command = require("../../classes/Command");
 const {
     oneLine
 } = require("common-tags");
-const parse = require("parse-duration");
-const prettyms = require("parse-ms");
+const parse = require("@standards/duration");
+const prettyms = require("humanize-duration");
 const Timer = require("../../classes/Timer");
 
 module.exports = class ReminderCommand extends Command {
@@ -53,14 +53,10 @@ To enter a duration, type \`in <duration>\` after the reminder, in a new message
         if (!reminder.length)
             return msg.error(`You have to enter something to remind you of.`);
 
-        let prettyDuration = [];
-        var rawObj = prettyms(duration);
-        for (let prop of ["days", "hours", "minutes", "seconds"]) {
-            if (rawObj[prop]) prettyDuration.push(this.client.utils.plural(rawObj[prop], prop.substr(0, prop.length - 1)));
-        }
+        let prettyDuration = prettyms(duration);
 
         msg.ok(
-            `Alright! I'll remind you ${reminder.trim()} in ${this.client.utils.oxford(prettyDuration)}.`
+            `Alright! I'll remind you ${reminder.trim()} in ${prettyDuration}.`
         );
 
         let remObj = {

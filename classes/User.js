@@ -9,6 +9,7 @@ module.exports = Structures.extend( 'User', (User) =>
         constructor(...args) {
             super(...args);
 
+            /** @type {import("./Client")} */
             let client = this.client;
             let user = this;
 

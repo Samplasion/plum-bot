@@ -9,7 +9,7 @@ const db = require('../utils/database.js');
 const PlumEmbed = require("./Embed");
 
 // This extends Discord's native Guild class with our own methods and properties
-module.exports = Structures.extend("TextChannel", TextChannel => class extends TextChannel {
+module.exports = Structures.extend("TextChannel", TextChannel => class PlumTextChannel extends TextChannel {
 	constructor(...args) {
         super(...args);
         
@@ -23,15 +23,21 @@ module.exports = Structures.extend("TextChannel", TextChannel => class extends T
     }
 
 	get sendable() {
-		let me = this.guild.me;
-		return this.permissionsFor(me).has('SEND_MESSAGES');
-	}
+        let me = this.guild.me;
+        return this.permissionsFor(me).has('SEND_MESSAGES');
+    }
 
 	get embedable() {
-		let me = this.guild.me;
-		return this.permissionsFor(me).has('EMBED_LINKS');
+        let me = this.guild.me;
+        return this.permissionsFor(me).has('EMBED_LINKS');
+    }
+
+	get webhookPerm() {
+        let me = this.guild.me;
+        return this.permissionsFor(me).has('MANAGE_WEBHOOKS');
     }
     
+    /** @return {Promise<import("discord.js").Webhook>} */
     async getFirstWebhook() {
         let webhooks = await this.fetchWebhooks();
         if (webhooks.size)

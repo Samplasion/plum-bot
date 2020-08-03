@@ -3,6 +3,7 @@ const { Permissions } = require("discord.js")
 const sqlite = require('sqlite')
 const Enmap = require("enmap");
 const path = require("path");
+const PlumGuildManager = require("./GuildManager");
 
 module.exports = class PlumClient extends CommandoClient {
     constructor() {
@@ -108,7 +109,8 @@ module.exports = class PlumClient extends CommandoClient {
         this.usefulPerms = [
             Permissions.FLAGS.MANAGE_EMOJIS,
             Permissions.FLAGS.MANAGE_CHANNELS,
-            Permissions.FLAGS.MANAGE_WEBHOOKS
+            Permissions.FLAGS.MANAGE_WEBHOOKS,
+            Permissions.FLAGS.EMBED_LINKS
         ];
 
         let _sra = require("sra-wrapper");
@@ -160,6 +162,9 @@ module.exports = class PlumClient extends CommandoClient {
                 return this.data.filter(v => v.id == id)[0];
             }
         }
+
+        /** @type {import("./GiveawayManager")} */
+        this.giveaways;
     }
 
     get color() {

@@ -24,13 +24,15 @@ module.exports = async client => {
     console.log(`  [LOG] Set activity to: plum-bot.xyz | pl.help`);
 
     // Re-setup reminders
-    Array.from(client.reminders.values()).forEach(user => {
-        user.forEach(reminder => {
-            (client.reminders.raw[reminder.userID] = client.reminders.raw[reminder.userID] || [])[reminder.id] = new Timer(reminder.date, () => {
-                client.utils.remindUser(client.users.cache.get(reminder.userID), reminder);
-                client.users.fetch(reminder.userID).then(u => u.reminders.delete(reminder.id));
-            });
+    Array.from(client.reminders.data).forEach(reminder => {
+        console.log("user", reminder);
+        // user.forEach(reminder => {
+            // console.log(reminder.text, reminder.date - Date.now());
+        (client.reminders.raw[reminder.userID] = client.reminders.raw[reminder.userID] || [])[reminder.id] = new Timer(reminder.date, () => {
+            client.utils.remindUser(client.users.cache.get(reminder.userID), reminder);
+            client.users.fetch(reminder.userID).then(u => u.reminders.delete(reminder.id));
         });
+        // });
     });
     // Flushing reminders *after* triggering current ones so that the bot can catch up
     client.reminders.flush();

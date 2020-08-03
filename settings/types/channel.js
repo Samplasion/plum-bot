@@ -50,11 +50,12 @@ module.exports = class ChannelType {
 		return chan ? `<#${chan.id}>` : this.nullValue;
     }
 
-    static webInput(client, guild, val, name) {
+    static webInput(client, guild, val, name, ext) {
+        let filter = ext.filter || ((any) => true);
 		let chan = this.deserialize(client, { guild }, val);
         let s = `<div class="select"><select class="form-control" id="${name}" name="${name}">
         <option value="${this.nullValue}" ${!chan ? "selected" : ""}>None</option>`;
-        guild.channels.cache.filter(c => c.type == "text" && c.sendable).forEach(channel => {
+        guild.channels.cache.filter(c => c.type == "text" && c.sendable && filter(c)).forEach(channel => {
             s += `<option value="${channel.id}" ${chan && chan.id == channel.id ? "selected" : ""}>#${channel.name}</option>`;
         });
         s += "</select></div>";

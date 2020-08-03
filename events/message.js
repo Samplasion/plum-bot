@@ -1,14 +1,17 @@
-const { combinations } = require("mathjs");
-
+/**
+ * @param {import("../classes/Client")} client 
+ * @param {*} message 
+ */
 module.exports = async (client, message) => {
     if (message.author.bot) return;
 
     const prefixMention = new RegExp(`^<@!?${client.user.id}>( |)$`);
     if (message.content.match(prefixMention) && message.guild) {
-        let e = client.utils.embed()
-            .setTitle("Welcome to " + client.user.username + "!")
-            .setDescription("I hope you'll like this new bot, which I've put hours into making as polished as it can be. Oh, and the prefix is `" + message.guild.commandPrefix + "`")
-        return message.channel.send(e)
+        // let e = client.utils.embed()
+        //     .setTitle("Welcome to " + client.user.username + "!")
+        //     .setDescription("I hope you'll like this new bot, which I've put hours into making as polished as it can be. Oh, and the prefix is `" + message.guild.commandPrefix + "`")
+        // return message.channel.send(e)
+        return client.registry.commands.get("prefix").run(message, { prefix: null }, false);
     }
 
     if (message.command) {
@@ -40,5 +43,24 @@ module.exports = async (client, message) => {
                 await message.channel.send(embed)
             }
         }
+    }
+
+    // PLUM NETWORK
+    /** @type {import("../classes/TextChannel")[]} */
+    // @ts-expect-error
+    let channels = client.guilds.cache
+        .map(g => g.config.get("networkchan"))
+        .filter(c => !!c);
+
+    if (channels.map(c => c.id).includes(message.channel.id) && message.content) {
+        channels.filter(c => c.guild.id != message.guild.id).forEach(async chan => {
+            /** @type {import("discord.js").Webhook} */
+            // @ts-expect-error
+            let webhook = await chan.getFirstWebhook();
+            webhook.send(message.content, {
+                avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
+                username: `${message.author.tag} | ${message.guild.name} #${message.channel.name}`
+            });
+        });
     }
 }

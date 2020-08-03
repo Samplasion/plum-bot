@@ -7,9 +7,11 @@ module.exports = class GiveawayManager extends GiveawaysManager {
             updateCountdownEvery: 10000,
             default: {
                 botsCanWin: false,
-                embedColor: "#FF0000",
-                reaction: "🎉"
-            }
+                reaction: "🎉",
+
+                embedColor: client.color,
+                embedColorEnd: client.color
+            },
         });
     }
 
@@ -19,7 +21,6 @@ module.exports = class GiveawayManager extends GiveawaysManager {
  
     async getAllGiveaways() {
         // Get all the giveaway in the database
-        console.log(this.db);
         return this.db.data;
     }
  

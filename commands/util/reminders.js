@@ -2,8 +2,8 @@ const Command = require("../../classes/Command");
 const {
     oneLine
 } = require("common-tags");
-const parse = require("parse-duration");
-const prettyms = require("parse-ms");
+const parse = require("@standards/duration");
+const prettyms = require("humanize-duration");
 
 module.exports = class ReminderCommand extends Command {
     constructor(client) {
@@ -64,12 +64,8 @@ module.exports = class ReminderCommand extends Command {
         for (let rem of msg.author.reminders.list) {
             let time;
             if (msg.flag("relative", "rel")) {
-                let prettyDuration = [];
-                var rawObj = prettyms(rem.date - Date.now());
-                for (let prop of ["days", "hours", "minutes", "seconds"]) {
-                    if (rawObj[prop]) prettyDuration.push(this.client.utils.plural(rawObj[prop], prop.substr(0, prop.length - 1)));
-                }
-                prettyDuration = this.client.utils.oxford(prettyDuration);
+                let prettyDuration = prettyms(rem.date - Date.now());
+
                 time = `in ${prettyDuration}`
             } else {
                 let date = new Date(rem.date);
