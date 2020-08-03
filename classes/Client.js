@@ -17,6 +17,11 @@ module.exports = class PlumClient extends CommandoClient {
             disableEveryone: true,
         });
 
+        /**
+         * @type {PlumGuildManager}
+         */
+        this.guilds = new PlumGuildManager(this);
+
         var Utilities = require("../classes/Utilities");
         this.utils = new Utilities(this);
 
