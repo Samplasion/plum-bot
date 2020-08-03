@@ -46,10 +46,6 @@
             </ul>
         </div>
         <% } %>
-        <div class="col-md-4">
-            <h3 class="title">Usage</h3>
-            <code><%= client.commandPrefix %><%= cmd.name %> <%= cmd.format %></code>
-        </div>
         <% if (cmd.aliases && cmd.aliases.length) { %>
         <div class="col-md-4">
             <h3 class="title">Alias<% if (cmd.aliases.length > 1) { %>es<% } %></h3>
@@ -58,6 +54,10 @@
             </ul>
         </div>
         <% } %>
+        <div class="col-md-4">
+            <h3 class="title">Usage</h3>
+            <code><%= client.commandPrefix %><%= cmd.name %> <%= cmd.format %></code>
+        </div>
         <% if (!!Object.keys(cmd.formatExplanation).length) { %>
         <div class="col-md-4">
             <h3 class="title">Arguments</h3>

@@ -1,5 +1,6 @@
 const fs = require("fs");
 const GiveawayManager = require("../classes/GiveawayManager");
+const Timer = require("../classes/Timer");
 
 module.exports = async client => {
     console.log(`[START] ${new Date().toLocaleString()}`);
@@ -25,10 +26,10 @@ module.exports = async client => {
     // Re-setup reminders
     Array.from(client.reminders.values()).forEach(user => {
         user.forEach(reminder => {
-            (client.reminders.raw[reminder.userID] = client.reminders.raw[reminder.userID] || [])[reminder.id] = setTimeout(() => {
+            (client.reminders.raw[reminder.userID] = client.reminders.raw[reminder.userID] || [])[reminder.id] = new Timer(reminder.date, () => {
                 client.utils.remindUser(client.users.cache.get(reminder.userID), reminder);
-                client.users.fetch(reminder.userID).then(u => u.reminders.delete(reminder.id))
-            }, reminder.date - Date.now());
+                client.users.fetch(reminder.userID).then(u => u.reminders.delete(reminder.id));
+            });
         });
     });
     // Flushing reminders *after* triggering current ones so that the bot can catch up

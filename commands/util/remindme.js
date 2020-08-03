@@ -4,6 +4,7 @@ const {
 } = require("common-tags");
 const parse = require("parse-duration");
 const prettyms = require("parse-ms");
+const Timer = require("../../classes/Timer");
 
 module.exports = class ReminderCommand extends Command {
     constructor(client) {
@@ -74,9 +75,9 @@ To enter a duration, type \`in <duration>\` after the reminder, in a new message
         msg.author.reminders.add(remObj);
 
         this.client.reminders.raw[msg.author.id] = (this.client.reminders.raw[msg.author.id] || []);
-        this.client.reminders.raw[msg.author.id][remObj.id] = setTimeout(() => {
+        this.client.reminders.raw[msg.author.id][remObj.id] = new Timer(Date.now() + duration, () => {
             this.client.utils.remindUser(msg.author, remObj);
             msg.author.reminders.flush();
-        }, duration);
+        });
     }
 };
