@@ -24,7 +24,7 @@ module.exports = async client => {
     console.log(`  [LOG] Set activity to: plum-bot.xyz | pl.help`);
 
     // Re-setup reminders
-    Array.from(client.reminders.data).forEach(reminder => {
+    Array.from(client.reminders.values()).forEach(reminder => {
         console.log("user", reminder);
         // user.forEach(reminder => {
             // console.log(reminder.text, reminder.date - Date.now());
