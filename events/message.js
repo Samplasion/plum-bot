@@ -43,7 +43,7 @@ module.exports = async (client, message) => {
                 }
             }
         }
-    } else await message.checkSwears();
+    } else return (await message.checkSwears());
 
     // PLUM NETWORK
     /** @type {import("../classes/TextChannel")[]} */
