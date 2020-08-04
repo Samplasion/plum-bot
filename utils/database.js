@@ -10,7 +10,7 @@ const db = new loki('database.db', {
 const collections = [
     'infractions',
     'serverconfig',
-    'global',
+    'globals',
     'reminds',
     'tags',
     'levels',

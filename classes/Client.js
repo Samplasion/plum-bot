@@ -101,6 +101,14 @@ module.exports = class PlumClient extends CommandoClient {
         this.reminders.raw = {}
 
         this.global = new Enmap({ name: "global" });
+        this.globals = {
+            get db() {
+                return require("../utils/database").globals
+            },
+            get data() {
+                return this.db.data;
+            }
+        }
 
         this.queues = new Enmap({ name: "queues" });
 

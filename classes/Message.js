@@ -283,16 +283,18 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
         return e;
     }
 
-    async checkSwears() {
+    async checkSwears(dry = false) {
         const message = this;
         if (!message.guild)
             return // No DMs
+
+        var cnt = message.content;
         
         const client = this.client;
         
         let getsPoints = true;
 
-        if (message.guild.config.get("hateblock") && !message.author.bot) {
+        if (message.guild.config.get("hateblock") && (!message.author.bot || dry)) {
             if (message.guild.config.get("hatebypass") &&
                 message.member.roles.cache.has(message.guild.config.get("hatebypass").id))
                 return;
@@ -314,24 +316,27 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
                 if (!getsPoints) {
                     message.isSwear = true;
                     message.swear = s.flat();
+                    let content = message.content;
+                    for (let s of message.swear) {
+                        content = content.split(new RegExp((String.raw`${s.trim()}`).replace("\\", "\\\\"), "i")).join("•".repeat(s.trim().length))
+                    }
+                    cnt = content;
                     if ((message.guild.config.get("hatemsgdel") || message.guild.config.get("hateresend")) && message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES"))
                         await message.delete();
                     getsPoints = false;
                     if (message.guild.config.get("hateresend")) {
                         let wh = await message.channel.getFirstWebhook();
                         if (wh) {
-                            let content = message.content;
-                            for (let s of message.swear) {
-                                content = content.split(new RegExp((String.raw`${s.trim()}`).replace("\\", "\\\\"), "i")).join("•".repeat(s.trim().length))
+                            if (!dry) {
+                                wh.send(
+                                    content,
+                                    {
+                                        username: message.member.displayName,
+                                        avatarURL: message.author.displayAvatarURL(),
+                                        embeds: message.embeds
+                                    }
+                                )
                             }
-                            wh.send(
-                                content,
-                                {
-                                    username: message.member.displayName,
-                                    avatarURL: message.author.displayAvatarURL(),
-                                    embeds: message.embeds
-                                }
-                            )
                         }
                     } else if (message.guild.config.get("hateresponse"))
                         message.channel.send(client.utils.render(message, message.guild.config.get("hateresponse")));
@@ -350,6 +355,9 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
                 }
             }
         }
+
+        if (dry)
+            return cnt;
     }
 
     get noEmbed() {
