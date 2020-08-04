@@ -35,7 +35,12 @@ module.exports = class BoolType {
     }
 
     static webInput(client, guild, val, name) {
-        return `<input id="${name}" name="${name}" type="checkbox" ${val.toString() == "true" ? "checked" : ""}>`
+        return `
+        <div class="mt-android"> 
+            <input id="${name}" name="${name}" type="checkbox" ${val.toString() == "true" ? "checked " : ""}/>
+            <label for="${name}"></label>
+        </div>`;
+        // return `<input id="${name}" name="${name}" type="checkbox" ${val.toString() == "true" ? "checked" : ""}>`
     }
 
     static webSerialize(client, guild, val) {

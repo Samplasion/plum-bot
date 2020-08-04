@@ -80,17 +80,22 @@ module.exports = function (app, client) {
         res.redirect("/dashboard/logout")
     })
 
+    let color = `#${client.color.toString(16).toUpperCase()}`;
+    let constant = '"##COLOR##"';
     // Custom CSS
     app.get("/public/resources/css/style.css", (req, res) => {
-        let color = `#${client.color.toString(16).toUpperCase()}`;
         let file = readFileSync("./public/resources/css/main.css").toString();
-        file = file.split('"##COLOR##"').join(color);
+        file = file.split(constant).join(color);
+        res.header("content-type", "text/css").send(file);
+    }).get("/public/resources/css/switch.css", (req, res) => {
+        let file = readFileSync("./public/resources/css/switch.raw.css").toString();
+        file = file.split(constant).join(color);
         res.header("content-type", "text/css").send(file);
     });
     app.get("/public/resources/assets/wave.svg", (req, res) => {
         let color = `#${client.color.toString(16).toUpperCase()}`;
         let file = readFileSync("./public/resources/assets/wavy-color-by-nouridio.svg").toString();
-        file = file.split("##COLOR##").join(color);
+        file = file.split(constant.replace('"', "")).join(color);
         res.header("content-type", "image/svg+xml").send(file);
     })
 
