@@ -87,7 +87,8 @@ module.exports = function (app, client) {
         let file = readFileSync("./public/resources/css/main.css").toString();
         file = file.split(constant).join(color);
         res.header("content-type", "text/css").send(file);
-    }).get("/public/resources/css/switch.css", (req, res) => {
+    });
+    app.get("/public/resources/css/switch.css", (req, res) => {
         let file = readFileSync("./public/resources/css/switch.raw.css").toString();
         file = file.split(constant).join(color);
         res.header("content-type", "text/css").send(file);
@@ -95,7 +96,7 @@ module.exports = function (app, client) {
     app.get("/public/resources/assets/wave.svg", (req, res) => {
         let color = `#${client.color.toString(16).toUpperCase()}`;
         let file = readFileSync("./public/resources/assets/wavy-color-by-nouridio.svg").toString();
-        file = file.split(constant.replace('"', "")).join(color);
+        file = file.split(constant.replace(/"/g, "")).join(color);
         res.header("content-type", "image/svg+xml").send(file);
     })
 
