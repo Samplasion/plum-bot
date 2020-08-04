@@ -47,7 +47,6 @@ module.exports = async (client, message) => {
 
     // PLUM NETWORK
     /** @type {import("../classes/TextChannel")[]} */
-    // @ts-expect-error
     let channels = client.guilds.cache
         .map(g => g.config.get("networkchan"))
         .filter(c => !!c);
@@ -55,7 +54,6 @@ module.exports = async (client, message) => {
     if (!client.globals.data.filter(d => d.type == "net-user-bl").map(d => d.id).includes(message.author.id) && channels.map(c => c.id).includes(message.channel.id) && message.cleanContent) {
         channels.filter(c => c.guild.id != message.guild.id).forEach(async chan => {
             /** @type {import("discord.js").Webhook} */
-            // @ts-expect-error
             let webhook = await chan.getFirstWebhook();
             if (webhook && (!message.author.bot || message.webhookID)) {
                 webhook.send(message.cleanContent.replace(/@/g, "@\u200b"), {

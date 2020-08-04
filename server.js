@@ -3,6 +3,7 @@ const sqlite = require('sqlite')
 const fs = require("fs")
 const { join } = require("path");
 const dirname = __dirname;
+const humanizeDuration = require("humanize-duration");
 
 // Extensions
 if (!Math.clamp)
@@ -17,6 +18,12 @@ global.asset = (...names) => {
         return require(join(dirname, "assets", ...names));
     return fs.readFileSync(join(dirname, "assets", ...names));
 }
+/** @type {(ms: number) => string} */
+global.humanize = humanizeDuration.humanizer({
+    round: true,
+    conjunction: " and ",
+    serialComma: false
+});
 
 // Import env variables
 require('dotenv').config()

@@ -38,7 +38,7 @@ module.exports = class EvalCommand extends Command {
           value: `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`,
           inline: true
         },
-        { name: "⏱️ Uptime", value: duration, inline: true },
+        { name: "⏱️ Uptime", value: humanize(this.client.uptime), inline: true },
         { name: "\u200b", value: "\u200b", inline: true },
         {
           name: "🌍 Users",
@@ -55,7 +55,7 @@ module.exports = class EvalCommand extends Command {
   **• Node.js**:    ${process.version}`,
           inline: true
         },
-        { name: "🎂 Creation date", value: elapsed, inline: false }
+        { name: "🎂 Creation date", value: humanize(Date.now() - this.client.user.createdAt) + " ago", inline: false }
       );
 
     message.channel.send(embed);

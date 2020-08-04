@@ -3,7 +3,6 @@ const {
     oneLine
 } = require("common-tags");
 const parse = require("@standards/duration");
-const prettyms = require("humanize-duration");
 
 module.exports = class ReminderCommand extends Command {
     constructor(client) {
@@ -64,7 +63,7 @@ module.exports = class ReminderCommand extends Command {
         for (let rem of msg.author.reminders.list) {
             let time;
             if (msg.flag("relative", "rel")) {
-                let prettyDuration = prettyms(rem.date - Date.now());
+                let prettyDuration = humanize(rem.date - Date.now());
 
                 time = `in ${prettyDuration}`
             } else {

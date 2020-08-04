@@ -3,7 +3,6 @@ const {
     oneLine
 } = require("common-tags");
 const parse = require("@standards/duration");
-const prettyms = require("humanize-duration");
 const Timer = require("../../classes/Timer");
 
 module.exports = class ReminderCommand extends Command {
@@ -53,7 +52,7 @@ To enter a duration, type \`in <duration>\` after the reminder, in a new message
         if (!reminder.length)
             return msg.error(`You have to enter something to remind you of.`);
 
-        let prettyDuration = prettyms(duration);
+        let prettyDuration = humanize(duration);
 
         msg.ok(
             `Alright! I'll remind you ${reminder.trim()} in ${prettyDuration}.`
