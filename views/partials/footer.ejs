@@ -18,6 +18,13 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="/public/resources/js/now-ui-kit.min.js"></script>
 <script src="https://unpkg.com/tippy.js@3/dist/tippy.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js"></script>
+<script>
+    anchors.options = {
+        visible: "always"
+    };
+    anchors.add(".page h1, .page h2, .page h3, .page h4, .page h5, .page h6");
+</script>
 <script>
 $("body").find("*").each((item, element) => {
   var ogtext = $(element).text()
@@ -73,6 +80,32 @@ $(".mention").each((index, element) => {
             .css("color", color)
     })
 })
+// $('.page h1, .page h2, .page h3, .page h4').each(function () {
+//     let el = $(this);
+
+//     //create id from heading text
+//     var id = el.attr('id') || el.text().toLowerCase().replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '').replace(/ +/g, '-');
+
+//     //add id to heading
+//     el.attr('id', id);
+
+//     //append parent class to heading
+//     el.addClass('anchor-heading');
+
+//     //create anchor
+//     var anchor = $('<a class="anchor-link" href="#' + id + '">#</a>');
+
+//     //append anchor link after heading text
+//     el.append(anchor);
+// });
+$(document).ready(function () {
+    //navigate to anchor if available
+    setTimeout(() => {
+        if (window.location.hash.length > 0) {
+            $("html").scrollTop($(window.location.hash).position().top)
+        }
+    }, 150);
+});
 tippy(document.querySelectorAll('.twa'), { delay: [ 400, 20 ], /*arrow: true, arrowType: "round"/**/ })
 tippy(document.querySelectorAll('[data-tippy-content]'), { delay: [ 400, 20 ] });
 </script>

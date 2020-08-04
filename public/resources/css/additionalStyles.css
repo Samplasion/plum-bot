@@ -41,3 +41,24 @@ b, strong {
     margin-right: unset !important;
     margin-left: unset !important;
 }
+
+h2 {
+    font-size: 1.875em;
+}
+
+/* Anchors */
+.anchor-heading .anchor-link {
+    display: inline-block;
+    padding-left: .25rem;
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity ease-in-out .25s;
+}
+
+.anchor-heading .anchor-link:hover {
+    opacity: 1 !important;
+}
+
+.anchor-heading:hover .anchor-link {
+    opacity: .5;
+}
