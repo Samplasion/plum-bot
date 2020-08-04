@@ -58,7 +58,7 @@ module.exports = async (client, message) => {
             // @ts-expect-error
             let webhook = await chan.getFirstWebhook();
             if (webhook && (!message.author.bot || message.webhookID)) {
-                webhook.send(message.cleanContent, {
+                webhook.send(message.cleanContent.replace(/@/g, "@\u200b"), {
                     avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
                     username: `${message.author.tag} | ${message.guild.name} #${message.channel.name}`
                 });
