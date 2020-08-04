@@ -51,9 +51,8 @@ module.exports = async (client, message) => {
     let channels = client.guilds.cache
         .map(g => g.config.get("networkchan"))
         .filter(c => !!c);
-
-    let cwh = await message.channel.getFirstWebhook();
-    if (!client.globals.data.filter(d => d.type == "net-user-bl").map(d => d.id).includes(message.author.id) && channels.map(c => c.id).includes(message.channel.id) && message.cleanContent && (!message.author.bot || (cwh && message.webhookID == cwh.id))) {
+    
+    if (!client.globals.data.filter(d => d.type == "net-user-bl").map(d => d.id).includes(message.author.id) && channels.map(c => c.id).includes(message.channel.id) && message.cleanContent) {
         channels.filter(c => c.guild.id != message.guild.id).forEach(async chan => {
             /** @type {import("discord.js").Webhook} */
             // @ts-expect-error
