@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-    <% var subtitle = "" %>
-    <% include ../partials/head %>
-    <% include ../partials/nav %>
-    
+<% include ../partials/head %>
+<% include ../partials/nav %>
+
+<div class="container page">
     <!-- Content -->
+</div>
       
-    <% include ../partials/footer %>
-</html>
+<% include ../partials/footer %>

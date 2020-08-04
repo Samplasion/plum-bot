@@ -30,6 +30,13 @@ module.exports = function (app, client) {
     app.get("/about", (req, res) => {
         render(req, res, "about")
     })
+    app.get("/terms", (req, res) => {
+        render(req, res, "tos");
+    })
+    app.get("/privacy", (req, res) => {
+        render(req, res, "privacypolicy");
+    })
+
     app.get("/server", (req, res) => {
         res.redirect(client.options.invite);
     })
