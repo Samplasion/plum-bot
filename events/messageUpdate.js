@@ -1,6 +1,12 @@
-module.exports = async (client, oM, nM) => {
-    await logEdit(client, oM, nM);
-    await nM.checkSwears();
+/**
+ * 
+ * @param {import("../classes/Client")} client 
+ * @param {import("../classes/Message")} oldMessage 
+ * @param {import("../classes/Message")} newMessage 
+ */
+module.exports = async (client, oldMessage, newMessage) => {
+    await logEdit(client, oldMessage, newMessage);
+    await newMessage.checkSwears();
 }
 
 async function logEdit(client, oldMessage, newMessage) {

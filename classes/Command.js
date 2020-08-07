@@ -160,7 +160,6 @@ module.exports = class PlumCommand extends Command {
 				for (let i in responces) {
 					if (isNaN(i)) continue;
 
-                    // @ts-expect-error
                     // This is implemented in the subclasses that call this method
 					embed = await this.handleSelector(responces, i, await embed, msg.author.lang)
 				}
@@ -173,7 +172,6 @@ module.exports = class PlumCommand extends Command {
 				for (let i in responces) {
 					if (isNaN(i)) continue;
 
-                    // @ts-expect-error
                     // This is implemented in the subclasses that call this method
 					whattoadd = await this.handleSelector(responces, i, null, msg.author.lang)
 					console.log(whattoadd)

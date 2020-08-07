@@ -211,6 +211,8 @@ module.exports = class GiveawayCommand extends Command {
         }
 
         await this.client.giveaways.delete(id, true);
+
+        return msg.ok("The giveaway has been cancelled.")
     }
 
     async postpone(msg, id) {
@@ -234,5 +236,7 @@ module.exports = class GiveawayCommand extends Command {
         await this.client.giveaways.edit(id, {
             addTime: time
         });
+
+        return msg.ok("The giveaway has been postponed. You'll see the changes in the next update.");
     }
 };

@@ -3,7 +3,6 @@ const { oneLine } = require('common-tags'),
     PlumEmbed = require('./Embed'),
     CommandError = require("./CommandError"),
     canvas = require("canvas");
-const { re } = require('mathjs');
 const phin = require("phin");
 
 class Utilities {
@@ -64,7 +63,7 @@ class Utilities {
             offline: "<:offline:734801031841710210>", // o
             invisible: "<:invisible:734801082949304472>", // o
             streaming: "<:streaming:734801186829500437>", // o
-            boost: "<:boost:734804726566223892>",
+            boost: "<:boost:734804726566223892>", // <=>
             audio: "🔈",
             diamond: "💎",
             blank: "<:blank:735179373011009536>", // Literally nothing
@@ -98,7 +97,10 @@ class Utilities {
                     dog: "🐶",
                     pig: "🐷"
                 }
-            }
+            },
+            dm: "📨",
+            loading: "<a:loading:741045897751691405>", // wandering cubes
+            flag: "🚩",
         }
     }
 
@@ -106,12 +108,18 @@ class Utilities {
         let query = new URLSearchParams();
         query.append("data", text);
         
-        const { body } = await phin({
+        /** @type {{ key: string? } & { message: string? }} */
+        const body = (await phin({
             url: `https://hastebin.com/documents`,
             method: "POST",
             data: text,
             parse: "json"
-        });
+        })).body;
+
+        if (!body.key) {
+            throw new RangeError(body.message);
+        }
+
         return `https://hastebin.com/${body.key}`;
     }
 
@@ -288,9 +296,13 @@ class Utilities {
     }
 
     async log(...args) {
-        var channel = await this.client.channels.fetch(process.env.LOG_ID);
-        let embed = this.fastEmbed(...args);
-        return channel.send(embed);
+        try {
+            var channel = await this.client.channels.fetch(process.env.LOG_ID);
+            let embed = this.fastEmbed(...args);
+            return channel.send(embed);
+        } catch {
+            return;
+        }
     }
 
     async awaitReply(msg, question, limit = 60000) {

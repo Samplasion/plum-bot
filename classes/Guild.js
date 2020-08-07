@@ -78,7 +78,42 @@ module.exports = Structures.extend("Guild", Guild => class PlumGuild extends Gui
         this.cachedSwears = [];
         
         /** @type {GuildConfig!} */
-		this.config;
+        this.config;
+        
+        this.clientFlags = {
+            /** @type {import("./Client")} */
+            get client() {
+                return guild.client;
+            },
+            get db() {
+                return this.client.globals.db
+            },
+            /**
+             * @type {{ type: "guild-flag", guild: string, key: string }[]}
+             */
+            get data() {
+                return this.db.data.filter(data => data.type == "guild-flag" && data.guild == guild.id);
+            },
+            /** @param {string} key @returns {boolean} */
+            has(key) {
+                return this.data.map(d => d.key).includes(key);
+            },
+            /** @param {string} key */
+            add(key) {
+                let data = {
+                    type: "guild-flag",
+                    guild: guild.id,
+                    key
+                }
+                this.db.insert(data);
+                return this;
+            },
+            /** @param {string} key */
+            remove(key) {
+                this.db.removeWhere(data => data.type == "guild-flag" && data.guild == guild.id && data.key == key);
+                return this;
+            }
+        }
     }
     
     /**

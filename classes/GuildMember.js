@@ -3,7 +3,7 @@ const { Structures } = require('discord.js');
 
 // This extends Discord's native GuildMember class with our own methods and properties
 // @ts-ignore
-module.exports = Structures.extend("GuildMember", GuildMember => class extends GuildMember {
+module.exports = Structures.extend("GuildMember", GuildMember => class PlumGuildMember extends GuildMember {
     // @ts-ignore
     constructor(...args) {
         super(...args);

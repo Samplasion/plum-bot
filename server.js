@@ -1,5 +1,4 @@
 const PlumClient = require("./classes/Client")
-const sqlite = require('sqlite')
 const fs = require("fs")
 const { join } = require("path");
 const dirname = __dirname;
@@ -11,6 +10,11 @@ if (!Math.clamp)
 if (!Number.prototype.clamp) {
     Number.prototype.clamp = function(min, max) {
         return Math.clamp(this, min, max);
+    }
+}
+if (!String.prototype.slugify) {
+    String.prototype.slugify = function() {
+        return this.toLowerCase().replace(/\s+/g, "-").replace(/[^\w\s-]+/g, "");
     }
 }
 global.asset = (...names) => {
@@ -47,7 +51,6 @@ fs.readdir('./events/', (err, files) => {
     client.on(eventName, event.bind(null, client));
     delete require.cache[require.resolve(`./events/${file}`)];
 
-    // @ts-expect-error
     client.emit("eventLoaded", eventName)
   });
 });

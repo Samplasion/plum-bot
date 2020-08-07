@@ -5,7 +5,6 @@ const { Structures } = require('discord.js');
 // @ts-ignore
 module.exports = Structures.extend( 'User', (User) =>
     class PlumUser extends User {
-        // @ts-expect-error
         constructor(...args) {
             super(...args);
 
@@ -29,20 +28,18 @@ module.exports = Structures.extend( 'User', (User) =>
                 },
                 /** @param {number} index */
                 delete: function (index) {
-                    // @ts-expect-error
                     if (
                         index >= 0 &&
                         this.list.map((rem) => rem.id).includes(index)
                     ) {
                         var old = this.list;
-                        // @ts-expect-error
                         let spliced = old.splice(
                             this.list.map((rem) => rem.id).indexOf(index),
                             1
                         );
                         console.log(spliced);
                         let id = spliced[0].id;
-                        clearTimeout(client.reminders.raw[user.id][id]);
+                        client.reminders.raw[user.id][id].stop();
                         client.reminders.set(user.id, old);
                         return true;
                     }
@@ -94,6 +91,41 @@ module.exports = Structures.extend( 'User', (User) =>
 
                     this.db.update(data);
 
+                    return this;
+                }
+            }
+
+            this.clientFlags = {
+                /** @type {import("./Client")} */
+                get client() {
+                    return user.client;
+                },
+                get db() {
+                    return this.client.globals.db
+                },
+                /**
+                 * @type {{ type: "flag", user: string, key: string }[]}
+                 */
+                get data() {
+                    return this.db.data.filter(data => data.type == "flag" && data.user == user.id);
+                },
+                /** @param {string} key @returns {boolean} */
+                has(key) {
+                    return this.data.map(d => d.key).includes(key);
+                },
+                /** @param {string} key */
+                add(key) {
+                    let data = {
+                        type: "flag",
+                        user: user.id,
+                        key
+                    }
+                    this.db.insert(data);
+                    return this;
+                },
+                /** @param {string} key */
+                remove(key) {
+                    this.db.removeWhere(data => data.type == "flag" && data.user == user.id && data.key == key);
                     return this;
                 }
             }

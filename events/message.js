@@ -51,12 +51,12 @@ module.exports = async (client, message) => {
         .map(g => g.config.get("networkchan"))
         .filter(c => !!c);
     
-    if (!client.globals.data.filter(d => d.type == "net-user-bl").map(d => d.id).includes(message.author.id) && channels.map(c => c.id).includes(message.channel.id) && message.cleanContent) {
+    if (!message.author.clientFlags.has("net-bl") && channels.map(c => c.id).includes(message.channel.id) && message.cleanContent) {
         channels.filter(c => c.guild.id != message.guild.id).forEach(async chan => {
             /** @type {import("discord.js").Webhook} */
             let webhook = await chan.getFirstWebhook();
             if (webhook && (!message.author.bot || message.webhookID)) {
-                webhook.send(message.cleanContent.replace(/@/g, "@\u200b"), {
+                webhook.send(message.author.clientFlags.has("net-pings") ? message.content : message.cleanContent.replace(/@/g, "@\u200b"), {
                     avatarURL: message.author.displayAvatarURL({ format: "png", dynamic: true }),
                     username: `${message.author.tag} | ${message.guild.name} #${message.channel.name}`
                 });

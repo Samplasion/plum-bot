@@ -4,6 +4,7 @@ const { oneLine } = require("common-tags");
 const { FriendlyError } = require("discord.js-commando");
 const { PlumClient } = require('./Client');
 const { PlumUser } = require('./User');
+const PlumEmbed = require('./Embed');
 
 // This extends Discord's native Guild class with our own methods and properties
 module.exports = Structures.extend("Message", Message => class PlumMessage extends Message {
@@ -23,6 +24,8 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
         this.guild;
         /** @type {PlumUser} */
         this.author;
+        /** @type {import("./Embed")[]} */
+        this.embeds;
 
         this.flags_ = {};
 
@@ -39,34 +42,111 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
      * Sends an error message in the current channel.
      * @param {string} text The text to send
      */
-    error(text) {
-        return this.client.utils.sendErrMsg(this, text);
+    error(text, options) {
+        return this.combine([{
+            type: "error",
+            message: text
+        }], options);
     }
 
     /**
      * Sends an OK message in the current channel.
      * @param {string} text The text to send
      */
-    ok(text) {
-        return this.client.utils.sendOkMsg(this, text);
+    ok(text, options) {
+        return this.combine([{
+            type: "ok",
+            message: text
+        }], options);
     }
 
     /**
      * Sends an info message in the current channel.
      * @param {string} text The text to send
      */
-    info(text) {
-        return this.client.utils.sendInfoMsg(this, text);
+    info(text, options) {
+        return this.combine([{
+            type: "info",
+            message: text
+        }], options);
     }
 
-    combine(array) {
+    /**
+     * Sends a loading message in the current channel.
+     * @param {string} text The text to send
+     */
+    loading(text, options) {
+        return this.combine([{
+            type: "loading",
+            message: text
+        }], options);
+    }
+
+    /**
+     * Edits this message to an error message in the current channel.
+     * @param {string} text The text to send
+     */
+    editError(text, options) {
+        return this.editCombine([{
+            type: "error",
+            message: text
+        }], options);
+    }
+
+    /**
+     * Edits this message to an OK message in the current channel.
+     * @param {string} text The text to send
+     */
+    editOk(text, options) {
+        return this.editCombine([{
+            type: "ok",
+            message: text
+        }], options);
+    }
+
+    /**
+     * Edits this message to an info message in the current channel.
+     * @param {string} text The text to send
+     */
+    editInfo(text, options) {
+        return this.editCombine([{
+            type: "info",
+            message: text
+        }], options);
+    }
+
+    /**
+     * Edits this message to  a loading message in the current channel.
+     * @param {string} text The text to send
+     */
+    editLoading(text, options) {
+        return this.combine([{
+            type: "loading",
+            message: text
+        }], options);
+    }
+
+    combine(array, options) {
         let str = "";
         for (let obj of array) {
             let emoji = this.client.utils.emojis[obj.type];
-            str += `${emoji} | ${obj.message}\n`;
+            str += `${emoji} | ${obj.message || obj.value || obj.text}\n`;
         }
 
-        return this.channel.send(str.trim());
+        return this.channel.send(str.trim(), options);
+    }
+
+    /**
+     * @param {({ type: string } & ({ message: string? } | { value: string? } | { text: string? }))[]} array 
+     */
+    editCombine(array, options) {
+        let str = "";
+        for (let obj of array) {
+            let emoji = this.client.utils.emojis[obj.type];
+            str += `${emoji} | ${obj.message || obj.value || obj.text}\n`;
+        }
+
+        return this.edit(str.trim(), options);
     }
 
     react(string) {
@@ -373,4 +453,15 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
     }
 
     set flags(s) {}
+
+    // Doesn't regard for the 2000 char limit
+    get text() {
+        let content = this.content;
+        for (let embed of this.embeds) {
+            content += `${content ? "\n\n" : ""}[EMBED]\n${PlumEmbed.textRepresentation(embed, this.client)}`
+        }
+        content += `${content ? "\n\n" : ""}on ${this.client.utils.fmtDate(new Date(this.createdAt))}`
+
+        return content;
+    }
 });

@@ -6,6 +6,9 @@ module.exports = class PlumEmbed extends MessageEmbed {
         this.setFooter("");
         this.setColor(client.color);
         this.setAuthor(client.user.username, client.user.avatarURL());
+
+        /** @type {import("./Client")} */
+        this.client = client;
     }
 
     addInline(name, body) {
@@ -31,35 +34,42 @@ module.exports = class PlumEmbed extends MessageEmbed {
     }
 
     textRepresentation() {
+        return PlumEmbed.textRepresentation(this, this.client);
+    }
+
+    /** @type {PlumEmbed} */
+    static textRepresentation(embed, client) {
         let string = "";
 
-        if (this.title)
-            string += `__**${this.title}**__\n\n`;
+        if (embed.title)
+            string += `__**${embed.title}**__\n\n`;
 
-        if (this.description)
-            string += `${this.description}\n\n`;
+        if (embed.description)
+            string += `${embed.description}\n\n`;
 
-        for (let field of this.fields) {
+        for (let field of embed.fields) {
             string += `**${field.name}**\n${field.value}\n\n`
         }
 
-        if (this.footer && this.footer.text)
-            string += `_${this.footer.text}_`;
-            if (this.timestamp)
+        if (embed.footer && embed.footer.text)
+            string += `_${embed.footer.text}_`;
+            if (embed.timestamp)
                 string += " • ";
 
-        if (this.timestamp)
-            string += this.fmtDate(new Date(this.timestamp));
+        if (embed.timestamp)
+            string += client.utils.fmtDate(new Date(embed.timestamp));
 
-        
         return string;
     }
 
-    pad(n) {
-        return n < 10 ? "0" + n : n;
+    addFieldE(emojiName, name, description, inline = false) {
+        return this.addField(`${this.client.utils.emojis[emojiName]} ${name}`, description, inline);
     }
 
-    fmtDate(date) {
-        return `${date.getFullYear()}/${this.pad(date.getMonth()+1)}/${this.pad(date.getDate())} ${this.pad(date.getHours())}:${this.pad(date.getMinutes())}:${this.pad(date.getSeconds())}`
+    addFieldsE(emojiName, fields) {
+        return this.addFields(fields.map(f => {
+            f.name = `${this.client.utils.emojis[emojiName]} ${f.name}`;
+            return f;
+        }))
     }
 }

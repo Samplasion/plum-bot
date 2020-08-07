@@ -9,7 +9,6 @@ module.exports = class PlumClient extends CommandoClient {
     constructor() {
         super({
             commandPrefix: "pl.",
-            // @ts-expect-error
             unknownCommandResponse: false,
             owner: ["280399026749440000"],
             invite: "https://discord.gg/MDtgmEM",
@@ -32,7 +31,7 @@ module.exports = class PlumClient extends CommandoClient {
             })
             .registerGroups([
                 ["audio", "Audio & Music"],
-                ["commands", "Botkeeping Utilities"],
+                ["commands", "Bot-keeping Utilities"],
                 ["moderation", "Moderation"],
                 ["fun", "Fun"],
                 ["imgman", "Image editing"],
@@ -57,12 +56,14 @@ module.exports = class PlumClient extends CommandoClient {
 
         this.permissions = (member) => {
             var p = this.permissionLevels[0]
-            this.permissionLevels.forEach(perm => {
-                if (perm.validate(member)) p = perm
-            })
+            for (let perm of this.permissionLevels) {
+                if (perm.validate(member)) {
+                    p = perm
+                    if (p.sticky) break;
+                }
+            }
             return p;
         }
-        // @ts-expect-error
         this.permissions.get = number => {
             return this.permissionLevels.filter(l => l.level == number)[0];
         };
@@ -75,29 +76,23 @@ module.exports = class PlumClient extends CommandoClient {
         this.configs = new Enmap({ name: "settings" })
 
         this.reminders = new Enmap({ name: "reminders" });
-        // @ts-expect-error
         this.reminders.add = (user, reminder) => {
             var old = this.reminders.has(user.id) ? this.reminders.get(user.id) : [];
             old.push(reminder);
             this.reminders.set(user.id, old);
         }
-        // @ts-expect-error
         this.reminders.flush = () => {
             for (let [key, old] of this.reminders.entries()) {
-                // @ts-expect-error
                 old = old.filter(r => r.date > Date.now());
                 this.reminders.set(key, old);
             }
         }
-        // @ts-expect-error
         this.reminders.reset = (user) => {
             this.reminders.set(user.id, []);
         }
-        // @ts-expect-error
         this.reminders.list = (user) => {
             return this.reminders.get(user.id);
         }
-        // @ts-expect-error
         this.reminders.raw = {}
 
         this.global = new Enmap({ name: "global" });
