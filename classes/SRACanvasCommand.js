@@ -9,7 +9,8 @@ module.exports = class SRACanvasCommand extends Command {
         desc = `Applies a ${name} filter on your (or someone else's) avatar.`,
         api = name,
         punchline = `Here's your ${name} avatar.`,
-        format = "png"
+        format = "png",
+        key = "avatar"
     } = {}) {
         super(client, {
             name,
@@ -39,12 +40,15 @@ module.exports = class SRACanvasCommand extends Command {
         this.api = api;
         this.punchline = punchline;
         this.format = format;
+        this.keyv = key;
     }
 
     async run(msg, { image }) {
         msg.channel.startTyping();
 
-        let buf = await this.client.sra.api.canvas[this.api](image);
+        let buf = await this.client.sra.api.canvas[this.api]({
+            [this.keyv]: image
+        });
         let attachment = new MessageAttachment(buf, `${this.name}.${this.format}`);
 
         msg.channel.stopTyping(true);

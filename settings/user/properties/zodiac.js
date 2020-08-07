@@ -5,5 +5,9 @@ module.exports = {
     oneOf: signs,
     type: "string",
     extendable: false,
-    render: str => str[0].toUpperCase() + str.substr(1)
+    render: str => {
+        if (!str)
+            return "None";
+        return str[0].toUpperCase() + str.substr(1)
+    }
 }
