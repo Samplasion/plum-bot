@@ -16,6 +16,7 @@
     "case": "^1.6.3",
     "cheerio": "^0.22.0",
     "common-tags": "^1.8.0",
+    "date.js": "^0.3.3",
     "deep-object-diff": "^1.1.0",
     "discord-giveaways": "^4.2.1",
     "discord.js": "^12",

@@ -32,7 +32,7 @@ module.exports = class MarkovCommand extends Command {
 
         let channel = msg.flags.channel && typeof msg.flags.channel == "string" && msg.guild.channels.cache.has(msg.flags.channel) ? msg.guild.channels.cache.get(msg.flags.channel) : msg.channel;
         
-        const source = (await channel.fetchMessages(1000)).filter(m => {
+        const source = (await channel.fetchMessages({ limit: 1000 })).filter(m => {
             let res = (user ? m.author.id == user.id : true) && !!msg.cleanContent.trim() && !m.author.bot;
             return res;
         }).map(m => m.cleanContent.split(/\b/g).filter(s => !!s.trim())).reverse().flat().join("\n");        

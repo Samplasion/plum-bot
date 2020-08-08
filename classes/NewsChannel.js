@@ -2,6 +2,7 @@
 const { Structures } = require('discord.js');
 const db = require('../utils/database.js');
 const PlumEmbed = require("./Embed");
+const TextChannel = require('./TextChannel.js');
 
 // This extends Discord's native Guild class with our own methods and properties
 module.exports = Structures.extend("NewsChannel", NewsChannel => class extends NewsChannel {
@@ -10,6 +11,8 @@ module.exports = Structures.extend("NewsChannel", NewsChannel => class extends N
         
         /** @type {Set<string>} */
         this.paginations = new Set();
+
+        this.fetchMessages = TextChannel.prototype.fetchMessages;
     }
     
     get readable() {
@@ -25,31 +28,5 @@ module.exports = Structures.extend("NewsChannel", NewsChannel => class extends N
 	get embedable() {
 		let me = this.guild.me;
 		return this.permissionsFor(me).has('EMBED_LINKS');
-    }
-
-    async fetchMessages(limit = 500) {
-        const sum_messages = [];
-        let last_id;
-    
-        while (true) {
-            const options = { limit: 100 };
-            if (last_id) {
-                options.before = last_id;
-            }
-    
-            const messages = await this.messages.fetch(options);
-            sum_messages.push(...messages.array());
-            
-            if (!messages.last())
-                break;
-            
-            last_id = messages.last().id;
-    
-            if (messages.size != 100 || sum_messages.length >= limit) {
-                break;
-            }
-        }
-    
-        return sum_messages;
     }
 });

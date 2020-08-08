@@ -386,9 +386,11 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
                     let c = message.content
                         .normalize("NFD") // Splits "è" into "e" + "`" 
                         .replace(/[\u0300-\u036f]/g, "") // Strips diacritics
+                        .replace(/[^\w\s\d]/g, " ")
                         .toLowerCase()
                     if (swear.test(c)) {
-                        s.push(c.match(swear));
+                        let match = c.match(swear)[0];
+                        s.push(message.content.substr(c.indexOf(match), match.length));
                         getsPoints = false;
                     }
                 })
@@ -396,11 +398,13 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
                 if (!getsPoints) {
                     message.isSwear = true;
                     message.swear = s.flat();
-                    let content = message.content;
+                    
+                    let content = message.content// .normalize("NFD").replace(/[\u0300-\u036f]/g, "");
                     for (let s of message.swear) {
-                        content = content.split(new RegExp((String.raw`${s.trim()}`).replace("\\", "\\\\"), "i")).join("•".repeat(s.trim().length))
+                        let s_ = String.raw`${s.trim()}`;
+                        content = content.split(new RegExp((s_).replace("\\", "\\\\"), "i")).join("•".repeat(s.trim().length))
                     }
-                    cnt = content;
+                    
                     if ((message.guild.config.get("hatemsgdel") || message.guild.config.get("hateresend")) && message.channel.permissionsFor(message.guild.me).has("MANAGE_MESSAGES"))
                         await message.delete();
                     getsPoints = false;
@@ -408,6 +412,10 @@ module.exports = Structures.extend("Message", Message => class PlumMessage exten
                         let wh = await message.channel.getFirstWebhook();
                         if (wh) {
                             if (!dry) {
+                                let content = message.content;
+                                for (let s of message.swear) {
+                                    content = content.split(new RegExp((String.raw`${s.trim()}`).replace("\\", "\\\\"), "i")).join("•".repeat(s.trim().length))
+                                }
                                 wh.send(
                                     content,
                                     {
