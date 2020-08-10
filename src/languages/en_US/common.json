@@ -1,0 +1,51 @@
+{
+    "PAGINATION": "Page {{page}} of {{pages}}",
+    "EXPIRATION": "This menu will expire in {{minutes}} minutes.",
+
+    "PERM_MANAGE_EMOJIS": "Manage emojis",
+    "PERM_KICK_MEMBERS": "Kick members",
+    "PERM_BAN_MEMBERS": "Ban members",
+    "PERM_MANAGE_ROLES": "Manage roles",
+    "PERM_MANAGE_MESSAGES": "Manage messages",
+    "PERM_EMBED_LINKS": "Embed links",
+
+    "PERMS": {
+        "-1": {
+            "NAME": "Blacklisted User",
+            "DESC": "These users violated the [Terms of Service]({{domain}}/terms) and got blacklisted."
+        },
+        "0": {
+            "NAME": "Bot",
+            "DESC": "Bots are pieces of code that execute actions when triggered."
+        },
+        "1": {
+            "NAME": "User",
+            "DESC": "Everyone who's not a bot is a user."
+        },
+        "2": {
+            "NAME": "Server moderator",
+            "DESC": "Server moderators moderate the server and keep it clean."
+        },
+        "3": {
+            "NAME": "Server administrator",
+            "DESC": "Server administrators help the owner administer the server."
+        },
+        "4": {
+            "NAME": "Server owner",
+            "DESC": "Server owners are who created the server or who got it inherited."
+        },
+        "9": {
+            "NAME": "Bot helper",
+            "DESC": "Bot helpers help the Bot owner administer the bot."
+        },
+        "10": {
+            "NAME": "Bot owner",
+            "DESC": "The Bot owner, or the Developer, is who made the bot."
+        }
+    },
+
+    "USEFUL_LINKS": "Useful links",
+    "USEFUL_LINKS_TEXT": "[Official Website]({{domain}}) |  [All commands]({{domain}}/commands) | [Official Support Server]({{domain}}/server)",
+
+    "EMBED_CREDIT": "{{name}} is made by {{author}}"
+}

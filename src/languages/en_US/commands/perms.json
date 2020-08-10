@@ -1,0 +1,6 @@
+{
+    "DESCRIPTION": "Lets you see your permission level.",
+
+    "TITLE": "Permission level",
+    "OK": "Here's **{{tag}}**'s permission level."
+}

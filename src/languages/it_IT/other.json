@@ -1,0 +1,30 @@
+{
+    "PAGINATION_MENU": {
+        "TITLE": "Paginazione",
+        "DESCRIPTION": "Questa è la pagina di aiuto del menu di paginazione.\nLa seguente è una spiegazione delle emoji di reazione.",
+
+        "FIELD_EMOJIS": "Emoji",
+        "FIELD_EMOJIS_TEXT_B": "{{first}} Vai alla prima pagina.\n{{prev}} Vai indietro di una pagina, o torna all'ultima.\n{{stop}} Ferma il menu interattivo.\n{{next}} Vai avanti di una pagina, o torna alla prima.\n{{last}} Vai all'ultima pagina.\n{{info}} Attiva/Disattiva questo menu.\n{{additional}} Mostra una pagina di informazioni aggiuntiva rilevante all'argomento..",
+        "FIELD_EMOJIS_TEXT_A": "{{first}} Vai alla prima pagina.\n{{prev}} Vai indietro di una pagina, o torna all'ultima.\n{{stop}} Ferma il menu interattivo.\n{{next}} Vai avanti di una pagina, o torna alla prima.\n{{last}} Vai all'ultima pagina.\n{{info}} Attiva/Disattiva questo menu.",
+
+        "FIELD_BACK": "Come torno indietro?",
+        "FIELD_BACK_TEXT": "Reagisci con {{info}} di nuovo.",
+
+        "EXPIRED_TIME": "Il menu interattivo è scaduto.",
+        "EXPIRED_MANUAL": "Il menu interattivo è stato fermato."
+    },
+
+    "ERRORS": {
+        "GUILD": "Il comando `{{command}}` deve essere usato in un server.",
+        "NSFW": "Il comando `{{command}}` deve essere usato in un canale NSFW.",
+        "PERMISSION": "Non hai il permesso di usare il comando `{{command}}`.",
+        "MISSING_PERM_ONE": "Ho bisogno del permesso **{{perm}}** per eseguire il comando `{{command}}`.",
+        "MISSING_PERM_MORE": "Ho bisogno dei seguenti permessi per eseguire il comando `{{command}}`:\n\n{{list}}",
+        "THROTTLING": "Non potrai usare il comando `{{command}}` ancora per {{seconds}}s",
+        "PERM_LEVEL": "Non hai il permesso di usare questo comando. Il livello minimo è: **{{name}}** [{{level}}]",
+
+        "PAGINATION": "Hai già un menu di paginazione aperto. Chiudilo, o aspetta che scada, e poi riprova.",
+
+        "UNAVAILABLE_FLAVOR": "Questo comando non è ancora disponibile in questa versione del bot. Contatta lo sviluppatore per saperne di più."
+    }
+}

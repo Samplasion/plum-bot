@@ -1,0 +1,11 @@
+{
+    "DESCRIPTION": "Encrypts what you say.",
+    "DETAILS": "This command takes what you say and encrypts it. It uses the so-called Caesar's Algorithm.",
+
+    "EXAMPLES": [
+        "encrypt this is really hard to understand"
+    ],
+
+    "OK": "Here's your encrypted text.",
+    "TITLE": "Encrypt"
+}

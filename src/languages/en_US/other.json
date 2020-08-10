@@ -1,0 +1,30 @@
+{
+    "PAGINATION_MENU": {
+        "TITLE": "Pagination",
+        "DESCRIPTION": "This is the help page for the Pagination menu.\nThe following is an explanation for the reaction emojis.",
+
+        "FIELD_EMOJIS": "Emojis",
+        "FIELD_EMOJIS_TEXT_A": "{{first}} Go to the first page.\n{{prev}} Go back one page, or loop to the last page if at the first one.\n{{stop}} Stops the interactive menu.\n{{next}} Go forward one page, or loop to the first page if at the last one.\n{{last}} Go to the last page.\n{{info}} Toggle this menu.",
+        "FIELD_EMOJIS_TEXT_B": "{{first}} Go to the first page.\n{{prev}} Go back one page, or loop to the last page if at the first one.\n{{stop}} Stops the interactive menu.\n{{next}} Go forward one page, or loop to the first page if at the last one.\n{{last}} Go to the last page.\n{{info}} Toggle this menu.\n{{additional}} Shows an additional information page that is relevant to the topic.",
+
+        "FIELD_BACK": "How can I go back?",
+        "FIELD_BACK_TEXT": "Simply react with {{info}} again.",
+
+        "EXPIRED_TIME": "The interactive menu has expired.",
+        "EXPIRED_MANUAL": "The interactive menu has been successfully terminated."
+    },
+
+    "ERRORS": {
+        "GUILD": "The `{{command}}` command must be used in a server channel.",
+        "NSFW": "The `{{command}}` command must be used in a server channel.",
+        "PERMISSION": "You don't have the permission to use the `{{command}}` command.",
+        "MISSING_PERM_ONE": "I need the **{{perm}}** permission to run the `{{command}}` command.",
+        "MISSING_PERM_MORE": "I need the following permissions to run the `{{command}}` command:\n\n{{list}}",
+        "THROTTLING": "You may not use the `{{command}}` command again for another {{seconds}}s",
+        "PERM_LEVEL": "You don't have the permission to run this command. The minumim permission is: **{{name}}** [{{level}}]",
+
+        "PAGINATION": "You already have a pagination menu open! Close it or wait for it to expire and retry.",
+
+        "UNAVAILABLE_FLAVOR": "This command isn't available in this version of the bot. Contact the Developer to know more."
+    }
+}

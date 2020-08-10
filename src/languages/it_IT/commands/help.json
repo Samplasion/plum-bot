@@ -1,0 +1,46 @@
+{
+    "DESCRIPTION": "Mostra una lista di comandi disponibili o informazioni dettagliate su uno in particolare.",
+    "DETAILS": "Il comando può essere un nome parziale o completo. Se non è specificato, tutti i comandi verranno mostrati.",
+
+    "EXAMPLES": [
+        "help",
+        "help ping"
+    ],
+
+    "CMD_LIST": "Lista di comandi",
+
+    "MORE_HELP": {
+        "TITLE": "{{info}} Altre informazioni",
+        "DESC": "La notazione dei comandi è la seguente:\n\n`<argomento>`: Indica un argomento richiesto\n`[argomento]`: Indica un argomento opzionale\n`(argomento)`: Indica un argomento che, in base agli altri argomenti, può essere o richiesto o opzionale",
+
+        "FIELD": {
+            "TITLE": "Argomenti esclusivi",
+            "DESC": "Alcuni argomenti sono nella notazione `argomento1|argomento2`. In quei casi, puoi usare `argomento1` o `argomento2`, ma non entrambi."
+        }
+    },
+
+    "PREFIX": "Il prefisso di questo server è: {{prefix}}",
+
+    "COMMAND": {
+        "TITLE": "{{info}} Aiuto per il comando: {{command}}",
+        
+        "MORE_INFO": "[Aiuto aggiuntivo per questo comando]({{domain}}/commands/{{command}})"
+    },
+
+    "LIMITATIONS": {
+        "TITLE": "{{lock}} Limitazioni",
+
+        "GUILD": "{{server}} Solo server",
+        "OWNER": "{{user}} Solo sviluppatore",
+        "NSFW": "{{channel}} Solo canali NSFW",
+        "PREMIUM": "{{premium}} Solo utenti Premium"
+    },
+
+    "LEVEL": "{{numbers}} Livello",
+    "EXAMPLES_KEY": "{{paper}} Esempi",
+    "USAGE": "{{message}} Uso",
+    "ALIAS": "{{alias}} Alias",
+    "ALIAS_PLURAL": "{{alias}} Alias",
+
+    "NO_CMDS": "Non ci sono comandi che tu possa usare. Contatta lo sviluppatore per saperne di più."
+}

@@ -1,0 +1,11 @@
+{
+    "DESCRIPTION": "Decrypts what you say.",
+    "DETAILS": "This command takes what you say and decrypts it. It uses the so-called Caesar's Algorithm.",
+
+    "EXAMPLES": [
+        "decrypt wklv#lv#uhdoo|#kdug#wr#xqghuvwdqg"
+    ],
+
+    "OK": "Here's your decrypted text.",
+    "TITLE": "Decrypt"
+}

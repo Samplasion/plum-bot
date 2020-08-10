@@ -1,0 +1,12 @@
+{
+    "TITLE": "STATISTICS",
+    "DESCRIPTION": "{{name}} version {{version}}",
+    "MEMORY_USAGE": "⚙️ Memory Usage",
+    "MEMORY_USAGE_DESC": "{{mb}} MB",
+    "UPTIME": "⏱️ Uptime",
+    "USERS": "🌍 Users",
+    "USERS_DESC": "**• Users**: {{users}}\n**• Channels**: {{channels}}\n**• Servers**: {{servers}}",
+    "VERSIONS": "🔢 Versions",
+    "VERSIONS_DESC": "**• Discord.js**: v{{discord}}\n**• Node.js**: {{node}}",
+    "CREATION_DATE": "🎂 Creation date"
+}

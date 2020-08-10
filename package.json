@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server.js"
   },
+  "types": "./src/typings/main.d.ts",
   "dependencies": {
     "@standards/duration": "^1.1.3",
     "adm-zip": "^0.4.16",
@@ -32,6 +33,8 @@
     "gblapi.js": "^2.0.5",
     "hangman-game-engine": "^1.1.3",
     "humanize-duration": "^3.23.1",
+    "i18next": "^19.6.3",
+    "i18next-fs-backend": "^1.0.7",
     "jsdiscordperms": "github:PgBiel/jsdiscordperms",
     "lokijs": "^1.5.8",
     "marked": "^1.1.0",

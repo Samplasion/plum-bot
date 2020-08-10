@@ -1,0 +1,12 @@
+{
+    "en_US": {
+        "name": "American English",
+        "localizedName": "American English",
+        "flag": "🇺🇸"
+    },
+    "it_IT": {
+        "name": "Italian",
+        "localizedName": "Italiano",
+        "flag": "🇮🇹"
+    }
+}

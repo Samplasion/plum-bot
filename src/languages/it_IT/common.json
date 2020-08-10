@@ -1,0 +1,51 @@
+{
+    "PAGINATION": "Pagina {{page}} di {{pages}}",
+    "EXPIRATION": "Questo menu sarà valido per i prossimi {{minutes}} minuti.",
+
+    "PERM_MANAGE_EMOJIS": "Gestire le emoji",
+    "PERM_KICK_MEMBERS": "Espellere i membri",
+    "PERM_BAN_MEMBERS": "Bannare i membri",
+    "PERM_MANAGE_ROLES": "Gestire i ruoli",
+    "PERM_MANAGE_MESSAGES": "Gestire i messaggi",
+    "PERM_EMBED_LINKS": "Incorporare link",
+
+    "PERMS": {
+        "-1": {
+            "NAME": "Utente bannato",
+            "DESC": "Questi utenti hanno violato i [Termini di Servizio]({{domain}}/terms) e sono stati bannati dal bot."
+        },
+        "0": {
+            "NAME": "Bot",
+            "DESC": "I bot sono dei programmi che eseguono delle azioni quando eseguiti."
+        },
+        "1": {
+            "NAME": "Utente",
+            "DESC": "Chiunque non è un bot è un utente."
+        },
+        "2": {
+            "NAME": "Moderatore",
+            "DESC": "I moderatori moderano il server e lo tengono pulito."
+        },
+        "3": {
+            "NAME": "Amministratore",
+            "DESC": "Gli amministratori amministrano il bot, insieme al proprietario."
+        },
+        "4": {
+            "NAME": "Proprietario",
+            "DESC": "I proprietari del server sono chi l'ha creato o ricevuto in dono."
+        },
+        "9": {
+            "NAME": "Aiutante del Bot",
+            "DESC": "Gli aiutanti del Bot aiutano lo Sviluppatore a gestire il Bot."
+        },
+        "10": {
+            "NAME": "Sviluppatore",
+            "DESC": "Lo Sviluppatore è chi ha creato il Bot."
+        }
+    },
+
+    "USEFUL_LINKS": "Collegamenti utili",
+    "USEFUL_LINKS_TEXT": "[Sito Web ufficiale]({{domain}}) |  [Tutti i comandi]({{domain}}/commands) | [Server di Supporto ufficiale]({{domain}}/server)",
+
+    "EMBED_CREDIT": "{{name}} è fatto da {{author}}"
+}

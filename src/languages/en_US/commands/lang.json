@@ -1,0 +1,16 @@
+{
+    "DESCRIPTION": "Get a list of supported languages, or set the one for this server.",
+
+    "EXAMPLES": [
+        "lang",
+        "lang list",
+        "lang it_IT"
+    ],
+
+    "LIST": "**Language selection**\n\n{{list}}\nTo select a language, type `{{prefix}} lang <code>`.",
+    "LANG_SET": "The language for this server was set to {{flag}} **{{localized}}** ({{name}}).",
+
+    "ERR_NO_LANG_ERR": "\"`{{input}}`\" isn't a language we support currently.",
+    "ERR_NO_LANG_INFO": "To check a list of languages we support, run this command again with no arguments.",
+    "ERR_INVALID_CODE": "\"`{{input}}`\" isn't a valid language identifier. A valid language identifier looks like this: `en_US`."
+}

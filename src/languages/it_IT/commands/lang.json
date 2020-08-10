@@ -1,0 +1,16 @@
+{
+    "DESCRIPTION": "Mostra una lista di lingue disponibili o imposta quella di questo server.",
+
+    "EXAMPLES": [
+        "lang",
+        "lang list",
+        "lang en_US"
+    ],
+
+    "LIST": "**Selezione lingua**\n\n{{list}}\nPer scegliere una lingua, scrivi `{{prefix}} lang <code>`.",
+    "LANG_SET": "La lingua di questo server è stata impostata a {{flag}} **{{localized}}** ({{name}}).",
+
+    "ERR_NO_LANG_ERR": "\"`{{input}}`\" non è una lingua attualmente supportata.",
+    "ERR_NO_LANG_INFO": "Per un elenco di lingue supportate, esegui questo comando senza argomenti.",
+    "ERR_INVALID_CODE": "\"`{{input}}`\" non è un identificativo di lingua valido. Un identificativo di lingua valido è simile a questo: `en_US`."
+}
