@@ -80,7 +80,7 @@ module.exports = class PlumCommand extends Command {
             msg.author.level
         let hasPerm = perm.level >= this.permLevel;
         // @ts-ignore
-        let min = this.client.permissionLevels.get(this.permLevel);
+        let min = this.client.permissionLevels.filter(i => i.level == this.permLevel)[0];
         if (!hasPerm) return msg.t("other:ERRORS.PERM_LEVEL", {
             name: msg.t(min.name),
             level: min.level
