@@ -3,7 +3,7 @@ const { MessageAttachment: Attachment } = require('discord.js');
 const Command = require('./../../classes/Command.js');
 const safeEval = require('safe-eval')
 
-module.exports = class EvalCommand extends Command {
+module.exports = class FixdbCommand extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'fixdb',
