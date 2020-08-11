@@ -4,7 +4,7 @@ const moment = require("moment");
 const Embed = require("../../classes/Embed");
 require("moment-duration-format");
 
-module.exports = class EvalCommand extends Command {
+module.exports = class StatsCommand extends Command {
   constructor(client) {
     super(client, {
       name: "stats",
