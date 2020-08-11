@@ -2,7 +2,7 @@ const Command = require('../../classes/Command');
 const exec = require("util").promisify(require("child_process").exec);
 const { MessageAttachment } = require("discord.js");
 
-module.exports = class EvalCommand extends Command {
+module.exports = class ExecCommand extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'exec',
