@@ -1,7 +1,7 @@
 const Command = require("../../classes/Command");
 const write = require("util").promisify(require("fs").writeFile);
 
-module.exports = class EvalCommand extends Command {
+module.exports = class RebootCommand extends Command {
   constructor(client) {
     super(client, {
       name: "reboot",
