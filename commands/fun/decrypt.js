@@ -45,7 +45,7 @@ module.exports = class ScrambleCommand extends Command {
       return m
     };
 	  
-    let e = msg.makeEmbed()
+    let e = message.makeEmbed()
     	.setDescription(decrypt(args.toDecrypt))
     message.channel.send(e)
   }
