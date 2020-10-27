@@ -44,7 +44,7 @@
     "safe-eval": "^0.4.1",
     "sqlite": "^3.0.0",
     "sra-wrapper": "^1.0.1",
-    "systeminformation": "^4.26.9",
+    "systeminformation": "^4.27.11",
     "validator": "^13.1.1",
     "yt-search": "^2.1.1",
     "ytdl-core-discord": "^1.2.1",
