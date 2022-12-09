@@ -22,7 +22,7 @@
     "ejs": "2.7.1",
     "enmap": "^5",
     "eslint": "^7.4.0",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "express-session": "^1.17.1",
     "fast-levenshtein": "^2.0.6",
     "gblapi.js": "^2.0.5",
